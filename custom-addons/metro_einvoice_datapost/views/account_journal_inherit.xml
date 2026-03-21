@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_inherit_account_journal_kanban" model="ir.ui.view">
+            <field name="name">account.journal.kanban</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@t-if='dashboard.number_waiting']" position="after">
+                    <div class="row" t-if="dashboard.peppol_ready_count">
+                        <div class="col overflow-hidden text-left">
+                            <a type="object" name="open_action" context="{'search_default_peppol_ready': True}">
+                                <t t-esc="dashboard.peppol_ready_count"/> Peppol Ready
+                            </a>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

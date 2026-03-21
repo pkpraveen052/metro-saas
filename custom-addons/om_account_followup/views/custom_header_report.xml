@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+        <template id="custom_external_partner_overdue_layout">
+			<!-- Multicompany -->
+			<t t-if="not o and doc">
+				<t t-set="o" t-value="doc"/>
+			</t>
+			<t t-if="o and 'company_id' in o">
+				<t t-set="company" t-value="o.company_id"/>
+			</t>
+			<t t-if="not o or not 'company_id' in o">
+				<t t-set="company" t-value="res_company"/>
+			</t>
+			<t t-call="om_account_followup.custom_external_partner_overdue_layout_standard">
+			   <t t-raw="0"/>
+			</t>
+		</template>
+
+		<template id="custom_external_partner_overdue_layout_standard">
+			<div class="header">
+				<div class="o_boxed_header" style="font-family: sans-serif;color: #495057;font-size:10.0pt;">
+					<div class="row">
+						<div class="col-6 text-left" style="display: flex;justify-content: flex-start;align-items: center;" >
+							<t t-if="o.company_id.logo">
+								<img style="max-width: 100%;" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>
+							</t>
+							<t t-else="">
+								<span>No logo available</span>
+							</t>
+						</div>
+
+						<div class="col-1"/>
+						<div class="col-5 text-left">
+							<table>
+								<tr>
+									<div>
+										<b>
+											<span style="font-size: 125%;color:black;" t-field="o.company_id.name"/>
+										</b>
+										<br/>
+									</div>
+									<div>
+										<t t-if="o.company_id.street">
+											<span t-field="o.company_id.street"/>,
+										</t>
+										<t t-if="o.company_id.street2">
+											<span t-field="o.company_id.street2"/>,
+										</t>
+									</div>
+									<div>
+										<t t-if="o.company_id.city">
+											<span t-field="o.company_id.city"/>,
+										</t>
+										<t t-if="o.company_id.state_id">
+											<span t-field="o.company_id.state_id.name"/>,
+										</t>
+										<t t-if="o.company_id.zip">
+											<span t-field="o.company_id.zip"/>,
+										</t>
+										<t t-if="o.company_id.country_id">
+											<span>
+												<t t-esc="o.company_id.country_id.name"/>
+												<br/>
+											</span>
+										</t>
+									</div>
+								</tr>
+								<tr>
+									<t t-if="o.company_id.l10n_sg_unique_entity_number">
+										<td>UEN: <span t-field="o.company_id.l10n_sg_unique_entity_number"/>, <span t-if="o.company_id.vat" style="display: inline-block;">GST Reg No: </span><span t-field="o.company_id.vat"/>
+										</td>
+									</t>
+									<t t-if="not o.company_id.l10n_sg_unique_entity_number and o.company_id.company_registry">
+										<td>UEN: <span t-field="o.company_id.company_registry"/>, <span t-if="o.company_id.vat" style="display: inline-block;">GST Reg No: </span><span t-field="o.company_id.vat"/>
+										</td>
+									</t>
+								</tr>
+								<tr>
+									<t t-if="o.company_id.phone or o.company_id.email">
+										<td>
+											<span t-if="o.company_id.phone">Phone: <span t-field="o.company_id.phone"/>, </span>
+											<span t-if="o.company_id.email" style="display: inline-block;">Email: <span t-field="o.company_id.email"/></span>
+										</td>
+									</t>
+								</tr>
+							</table>
+							<br/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="article o_report_layout_boxed" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+				<t t-call="web.address_layout"/>
+				<t t-raw="0"/>
+        	</div>
+<!--			<div>-->
+<!--				<t t-if="company.external_report_layout_id" t-call="{{company.external_report_layout_id.sudo().key}}"><t t-raw="0"/></t>-->
+<!--			    <t t-else="else" t-call="web.external_layout_standard"><t t-raw="0"/></t>-->
+<!--			</div>-->
+			<div t-attf-class="footer" style="page-break-inside:avoid; border-top: 1px solid black; font-size:16px;">
+				<div class="row" style="display: flex; justify-content: space-between; align-items: center; margin-top:15px;">
+					<div class="col-4" style="text-align: left;">
+						Copyright ©
+						<t t-esc="obj.company_id.name if obj and obj.company_id else (env.company.name if env and env.company else 'Your Company Name')"/>
+					</div>
+					<div class="col-4" style="text-align: center;">
+						Page: <span class="page"/> / <span class="topage"/>
+					</div>
+					<div class="col-4" style="text-align:right;">
+						<span style="margin-right:5px;margin-top:2px;">Powered by </span>
+						<a target="_blank" href="https://www.metrogroup.solutions/solutions/accounting-system" style="color: #007bff; text-decoration: none; font-weight: bold;">
+							<img src="/om_account_followup/static/description/metrologo.png" alt="Metro Logo" style="height: 10px;"/>
+						</a>
+					</div>
+				</div>
+			</div>
+		</template>
+    </data>
+</odoo>

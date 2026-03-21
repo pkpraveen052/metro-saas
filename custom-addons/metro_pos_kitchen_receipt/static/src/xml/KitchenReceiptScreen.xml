@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="KitchenReceiptScreen" owl="1">
+        <div class="receipt-screen screen" style="background: azure;">
+            <div class="screen-content">
+                <div class="top-content">
+                    <span class="button back" t-on-click="confirm">
+                        <i class="fa fa-angle-double-left"></i>
+                        <span> </span>
+                        <span>Back</span>
+                    </span>
+                    <div class="top-content-center">
+                        <h1>Kitchen Receipt Printing</h1>
+                    </div>
+                    <span class="button next highlight" t-on-click="confirm">
+                        <span>Ok</span>
+                        <span> </span>
+                        <i class="fa fa-angle-double-right"></i>
+                    </span>
+                </div>
+                <div class="centered-content">
+                    <div class="button print" t-on-click="printReceipt">
+                        <i class="fa fa-print"></i>
+                        <span> </span>
+                        <span>Print</span>
+                    </div>
+                    <div class="pos-receipt-container">
+                        <!-- <OrderReceipt order="currentOrder" isBill="true" t-ref="order-receipt"/> -->
+                        <div class="pos-receipt">
+                            <div class="pos-receipt-center-align">
+                                <t t-raw="props.order.name" />
+                            </div>
+                            <div class="pos-receipt-center-align">
+                                <t t-raw="props.order.table.floor.name" />/<t t-raw="props.order.table.name" />
+                            </div>
+                            <div class="pos-receipt-center-align">
+                                <t t-raw="props.order.formatted_validation_date"/>
+                            </div>
+
+                            <!-- Orderlines -->
+                            <div style="padding-top: 20px;">
+                                <table style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: left;">Product</th>
+                                            <th style="text-align: right;">Qty</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="props.order.get_orderlines()" t-as="line">
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="line.get_product().display_name"/>
+                                                    <br/>
+                                                    <t t-if="line.note">
+                                                        <i class="fa fa-tag" role="img" aria-label="Note" title="Note" style="padding-left:12px;font-size:13px;"/>
+                                                        <span style="font-size:14px;"><t t-esc="line.note"/></span>
+                                                    </t>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <t t-esc="line.get_quantity()"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

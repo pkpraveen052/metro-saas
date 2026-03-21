@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="progressive_invoice_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('out_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-set="print_with_payments" t-value="True"/>
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config" t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'progressive_invoice'), ('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <t t-if="res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.progressive_invoice_document_layout"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <template id="ks_progressive_invoice_report">
+            <t t-if="docs and docs[0].move_type in ['out_invoice','in_invoice','out_refund', 'in_refund']">
+                <t t-call="ks_custom_report_layouts.progressive_invoice_report"/>
+            </t>
+        </template>
+
+        <record id="action_progressive_invoice_report" model="ir.actions.report">
+            <field name="name">Progressive Invoice</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_progressive_invoice_report</field>
+            <field name="report_file">ks_custom_report_layouts.ks_progressive_invoice_report</field>
+            <field name="print_report_name">(object._get_report_base_filename())</field>
+            <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')
+            </field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="groups_id"
+                   eval="[(4, ref('account.group_account_invoice')),(4, ref('account.group_account_readonly'))]"/>
+            <field name="paperformat_id" ref="paperformat_progressive_invoice"/>
+        </record>
+    </data>
+</odoo>

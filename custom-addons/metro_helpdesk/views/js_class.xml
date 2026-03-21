@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+       <record id="user_guide_tree_view" model="ir.ui.view">
+           <field name="name">user.guide.url.view.tree.inherit</field>
+           <field name="model">user.guide.url</field>
+           <field name="inherit_id" ref="metroerp_userguide.users_guide_url_list_view"/>
+           <field name="arch" type="xml">
+               <xpath expr="//tree" position="attributes">
+                   <attribute name="js_class">button_in_tree</attribute>
+               </xpath>
+           </field>
+       </record>
+   </data>
+</odoo>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="whatsapp_log_tree_view" model="ir.ui.view">
+            <field name="name">whatsapp.log.tree</field>
+            <field name="model">whatsapp.log</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false" decoration-danger="status == 'fail'"
+                decoration-success="status == 'success'">
+                    <field name="company_id"/>
+                    <field name="name"/>
+                    <field name="create_date"/>
+                    <field name="message"/>
+                    <field name="status"/>
+                    <field name="status_code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="whatsapp_log_form_view" model="ir.ui.view">
+            <field name="name">whatsapp.log.form</field>
+            <field name="model">whatsapp.log</field>
+            <field name="arch" type="xml">
+                <form create="false" delete="false" edit="false">
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="success,fail" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                       <group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="name"/>
+                                <field name="create_date"/>
+                                <field name="status_code"/>
+                            </group>
+                            <group string="Description">
+                                <field name="json_data"/>
+                                 <field name="message"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="whatsapp_log_search_view" model="ir.ui.view">
+            <field name="name">whatsapp.log.search.view</field>
+            <field name="model">whatsapp.log</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="company_id" filter_domain="[('company_id','ilike',self)]"/>
+                    <filter name="filter_success" string="Success" domain="[('status','=','success')]" />
+                    <filter name="filter_fail" string="Fail" domain="[('status','=','fail')]" />
+                    <separator/>
+                    <group expand="0" string="Group By">
+                    <filter string="Status" name="group_by_status" context="{'group_by':'status'}" />
+                    <filter string="Company" name="group_by_company_id" context="{'group_by':'company_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="whatsapp_log_action_window" model="ir.actions.act_window">
+            <field name="name">Whatsapp Logs</field>
+            <field name="res_model">whatsapp.log</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                      Create new tags for your opportunities
+                </p>
+            </field>
+        </record>
+        
+
+       <menuitem id="whatsapp_logs_menu_root"
+                  name="Whatsapp Logs"
+                  parent="base.menu_custom"
+                  sequence="200"/>
+        
+        <menuitem id="whatsapp_logs_menu"
+                name="Whatsapp Logs"
+                parent="whatsapp_logs_menu_root"
+                action="whatsapp_log_action_window"
+                groups="base.group_system"/>
+
+       
+</data>
+</odoo>

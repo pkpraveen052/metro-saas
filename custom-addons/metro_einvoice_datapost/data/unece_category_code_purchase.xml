@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="tax_categ_tx" model="unece.code.list">
+            <field name="code">TX</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Standard-rated taxable purchases</field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_im" model="unece.code.list">
+            <field name="code">IM</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Import of goods (9% GST paid to Singapore Customs on the import
+                of goods into Singapore)
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_me" model="unece.code.list">
+            <field name="code">ME</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Import of goods under the Major Exporter Scheme (“MES”), A3PL
+                Scheme or other approved schemes
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_igds" model="unece.code.list">
+            <field name="code">IGDS</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Import of goods under the Import GST Deferment Scheme (“IGDS”)</field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_txca" model="unece.code.list">
+            <field name="code">TXCA</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Standard-rated purchases of prescribed
+                goods subject to customer accounting
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_txna" model="unece.code.list">
+            <field name="code">TXNA</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Purchases made under specific GST schemes where no
+                        GST is charged, such as Gross Margin Scheme (“GMS”),
+                        Approved Marine Fuel Trader (“AMFT”) Scheme,
+                        Approved 3rd Party Logistics (“A3PL”) Scheme.
+                        Please refer to the e-Tax guides on the specific GST
+                        schemes for the GST invoicing and reporting requirements.
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_txrc_ts" model="unece.code.list">
+            <field name="code">TXRC-TS</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Imported services and LVG claimable by the
+                GST-registered customer under reverse charge
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_tx_ess" model="unece.code.list">
+            <field name="code">TX-ESS</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Standard-rated purchases directly attributable to
+                Regulation 33 exempt supplies
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_txrc_ess" model="unece.code.list">
+            <field name="code">TXRC-ESS</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Imported services and LVG claimable by the
+                GST-registered customer under reverse charge that are
+                directly attributable to Regulation 33 exempt supplies
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_im_ess" model="unece.code.list">
+            <field name="code">IM-ESS</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Import of goods with GST paid to Singapore Customs
+                that are directly attributable to Regulation 33 exempt supplies
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_tx_n33" model="unece.code.list">
+            <field name="code">TX-N33</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Standard-rated purchases directly attributable to
+                non-Regulation 33 exempt supplies
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_txrc_n33" model="unece.code.list">
+            <field name="code">TXRC-N33</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Imported services and LVG claimable by the
+                GST-registered customer under reverse charge that are
+                directly attributable to non-Regulation 33 exempt supplies
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_im_n33" model="unece.code.list">
+            <field name="code">IM-N33</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Import of goods with GST paid to Singapore Customs
+                that are directly attributable to non-Regulation 33 exempt supplies
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_tx_re" model="unece.code.list">
+            <field name="code">TX-RE</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Residual input tax – purchases from GST-registered
+                suppliers that are subject to GST at 9% and are either:
+                - Attributable to the making of both taxable and exempt supplies; or
+                - Incurred for the overall running of the business
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_txrc_re" model="unece.code.list">
+            <field name="code">TXRC-RE</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Imported services and LVG claimable by the
+                GST-registered customer under reverse charge that are residual
+            </field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_im_re" model="unece.code.list">
+            <field name="code">IM-RE</field>
+            <field name="name">Standard rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Import of goods with GST paid to Singapore Customs that are residual</field>
+            <field name="technical_value">standard</field>
+        </record>
+
+        <record id="tax_categ_zp" model="unece.code.list">
+            <field name="code">ZP</field>
+            <field name="name">Zero rated purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Zero-rated purchases</field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_bl" model="unece.code.list">
+            <field name="code">BL</field>
+            <field name="name">Non reportable purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Disallowed expenses</field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_ep" model="unece.code.list">
+            <field name="code">EP</field>
+            <field name="name">Non reportable purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Import of goods with GST paid to Singapore Customs that are residual</field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_op" model="unece.code.list">
+            <field name="code">OP</field>
+            <field name="name">Non reportable purchases</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Out-of-scope purchases</field>
+            <field name="technical_value">standard</field>
+        </record>
+        <record id="tax_categ_im_nr" model="unece.code.list">
+            <field name="code">NR</field>
+            <field name="name">Non-GST Registered</field>
+            <field name="type">tax_categ</field>
+            <field name="description">Purchases from Non-GST Registered Suppliers</field>
+            <field name="technical_value">standard</field>
+        </record>
+    </data>
+</odoo>

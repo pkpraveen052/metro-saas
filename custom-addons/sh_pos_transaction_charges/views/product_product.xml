@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_template_only_form__inherit" model="ir.ui.view">
+        <field name="name">product.template.product.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"></field>
+        <field name="arch" type="xml">
+            <group name="pos" position="inside">
+            	<group string="Transaction Charge">
+	                <field name="sh_is_credit_card_charge" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>

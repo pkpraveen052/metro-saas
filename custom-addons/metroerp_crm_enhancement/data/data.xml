@@ -1,0 +1,156 @@
+<odoo>
+    <data noupdate="1">
+        <!--Stages demo data-->
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','stage_lead1')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+    
+        <record id="crm.stage_lead1" model="crm.stage">
+            <field name="name">New</field>
+            <field name="sequence">1</field>
+            <field name="company_id">1</field>
+        </record>
+    
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','stage_lead1')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','stage_lead2')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+    
+        <record id="crm.stage_lead2" model="crm.stage">
+            <field name="name">Qualified</field>
+            <field name="sequence">2</field>
+            <field name="company_id">1</field>
+        </record>
+    
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','stage_lead2')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','stage_lead3')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+    
+        <record id="crm.stage_lead3" model="crm.stage">
+            <field name="name">Proposition</field>
+            <field name="sequence">3</field>
+            <field name="company_id">1</field>
+        </record>
+    
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','stage_lead3')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','stage_lead4')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+    
+        <record id="crm.stage_lead4" model="crm.stage">
+            <field name="name">Won</field>
+            <field name="fold" eval="False"/>
+            <field name="is_won">True</field>
+            <field name="sequence">70</field>
+            <field name="company_id">1</field>
+        </record>
+    
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','stage_lead4')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+
+        
+
+        <!--CRM Lost Reason Demo data-->
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','lost_reason_1')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+    
+        <record id="crm.lost_reason_1" model="crm.lost.reason">
+            <field name="name">Too expensive</field>
+            <field name="company_id">1</field>
+        </record>
+    
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','lost_reason_1')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','lost_reason_2')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+    
+        <record id="crm.lost_reason_2" model="crm.lost.reason">
+            <field name="name">We don't have people/skills</field>
+            <field name="company_id">1</field>
+        </record>
+    
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','lost_reason_2')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','lost_reason_3')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+    
+        <record id="crm.lost_reason_3" model="crm.lost.reason">
+            <field name="name">Not enough stock</field>
+            <field name="company_id">1</field>
+        </record>
+    
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','crm'),('name','=','lost_reason_3')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+    
+
+
+    </data>
+</odoo>

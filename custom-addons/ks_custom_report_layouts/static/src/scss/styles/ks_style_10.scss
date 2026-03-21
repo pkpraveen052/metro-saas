@@ -1,0 +1,314 @@
+.ks_style_10 {
+  font-family: $font_poppins;
+}
+.ks_header_in {
+  background-color: $bg_theme_10;
+  padding: 5px 10px;
+}
+.ks_header .ks_style_10 {
+  background-color: $bg_theme_10;
+  padding: 5px 10px;
+  .ks_tagline {
+    @extend %text-left;
+    p {
+      @include mb_0;
+      .ks_company_name {
+        @include ks_company_name;
+        @extend %extra_strong_font;
+      }
+      .ks_company_tagline {
+        @include ks_company_tagline;
+        @extend %light_font;
+      }
+    }
+  }
+  .ks_invoice_number {
+    h3 {
+      color: $theme_color5;
+      font-size: $ks_large_font;
+      text-transform: lowercase;
+      @extend %midium_font;
+      @include company_heading;
+      text-transform: capitalize;
+    }
+    h6 {
+      @extend %theme_text_color;
+      font-size: $font_18;
+      @extend %regular_font;
+      span:last-child {
+      }
+    }
+  }
+  .ks_details {
+    p {
+      @include mb_0;
+    }
+    .font_9 {
+      @extend %light_font;
+    }
+    .font_10 {
+      @extend %midium_font;
+    }
+  }
+  .ks_invoice {
+    h3 {
+      color: $second_text_color;
+      font-size: $ks_mid_font;
+      @extend %semi_bold_font;
+    }
+    p {
+      color: $font_text_clr_10;
+      font-size: $very_low_font;
+      @include mb_0;
+      line-height: 18px;
+    }
+    ul {
+      @include reset-list;
+      @include horizontal-list;
+      font-size: $very_low_font;
+      line-height: 18px;
+      margin: 10px 0px;
+      li {
+        color: $font_text_clr_10;
+        a {
+          color: $font_text_clr_10;
+        }
+      }
+    }
+  }
+}
+
+.ks_style_10.ks_address {
+  padding: 10px 10px;
+  .custom-container {
+    padding: 10px 10px;
+  }
+  .ks_invoice_number {
+    h3 {
+      color: $theme_color5;
+      font-size: $ks_large_font;
+      text-transform: lowercase;
+      @extend %midium_font;
+      @include company_heading;
+      text-transform: capitalize;
+    }
+    h6 {
+      @extend %theme_text_color;
+      font-size: $ks_small_font;
+      @extend %regular_font;
+      span:last-child {
+      }
+    }
+  }
+  .ks_details {
+    p {
+      @include mb_0;
+    }
+  }
+  .ks_invoice {
+    h3 {
+      color: $second_text_color;
+      font-size: $ks_mid_font;
+      @extend %semi_bold_font;
+    }
+    p {
+      color: $font_text_clr_10;
+      font-size: $very_low_font;
+      @include mb_0;
+      line-height: 18px;
+    }
+  }
+  .ks_details {
+    p {
+      @include mb_0;
+    }
+    .font_9 {
+      @extend %regular_font;
+      color: $font_text_clr_7;
+    }
+    .font_10 {
+      @extend %midium_font;
+      color: $font_text_6;
+    }
+    @extend %text-right;
+  }
+  .ks_total {
+    p {
+      color: $second_text_color;
+      @extend %light_font;
+      font-size: $font_23;
+    }
+    h4 {
+      color: $theme_color5;
+      font-size: $font_23;
+      @extend %semi_bold_font;
+    }
+    span {
+      /*font-size: $font_23;*/
+      @extend %semi_bold_font;
+    }
+  }
+  ul {
+    @include reset-list;
+    font-size: $ks_extra_small_font;
+    @include horizontal-list;
+    font-size: $very_low_font;
+    line-height: 22px;
+    margin-top: 10px;
+
+    li {
+      color: $font_text_clr_10;
+      a {
+        color: $font_text_clr_10;
+      }
+    }
+  }
+}
+.ks_address_10 {
+  background-color: $bg_theme_10;
+  padding: 0px 10px !important;
+}
+
+.ks_style_10.ks_table_section {
+  padding-top: 10px;
+  table {
+    @extend %ks_table;
+    thead {
+      border-top: 2px solid #ccc;
+      border-bottom: 2px solid #ccc;
+
+      th {
+        font-size: $font_11;
+        @extend %midium_font;
+        padding: 18px 10px;
+        color: $font_text_clr_10;
+      }
+    }
+    tbody {
+      .ks_table_img {
+        span {
+          img {
+            @include ks_table_img;
+          }
+        }
+      }
+      tr {
+        td {
+          font-size: $very_low_font;
+          padding: 18px 10px;
+          p {
+             @extend %table-description;
+             @include mb_0;
+          }
+          strong {
+            @extend %strong-text;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ks_style_10.ks_history_nd_total {
+  h6 {
+    @include ks_heading;
+  }
+  .ks_total_table {
+    @extend %ks_table;
+    tbody {
+      tr {
+        td {
+          @extend %border_0;
+          @extend %text-right;
+          @extend %pad_8;
+        }
+      }
+      .ks_subtotal {
+        td {
+          @include total_font;
+          @extend %regular_font;
+          color: $fifth_text_color;
+        }
+        td:nth-child(2) {
+          @extend %semi_bold_font;
+        }
+      }
+      .ks_grnad_total {
+        td {
+          @include total_font;
+          @extend %regular_font;
+//           color: $fifth_text_color;
+        }
+        td:nth-child(2) {
+          @extend %semi_bold_font;
+        }
+        td:last-child {
+          @extend %semi_bold_font;
+//           color: $theme_color5 !important;
+          font-size: $font_23;
+        }
+      }
+    }
+  }
+  .ks_history_details {
+    background: $bg_theme_4;
+    padding: 4px 8px;
+    @extend %border_rad_5;
+    .ks_list_text {
+      font-size: $font_7;
+      color: $third_text_color;
+    }
+    p {
+      @include mb_0;
+      span {
+        font-size: $ks_extra_small_font;
+      }
+
+      .round_shape {
+        @extend %semi_bold_font;
+      }
+    }
+    .round_shape {
+      background: $theme_color5;
+    }
+  }
+  .ks_amount_in_words {
+    p {
+      @include ks_amount_in_words;
+      font-size: $very_low_font;
+      @include mb_0;
+    }
+  }
+}
+
+.ks_style_10.ks_payment_term_sign {
+  h6 {
+    @include ks_heading;
+    color: $first_text_color;
+  }
+  p {
+    font-size: $font_7;
+    @include mb_0;
+    color: $third_text_color;
+  }
+}
+
+.ks_style_10.ks_footer {
+  ul {
+    @include horizontal-list;
+    @extend %text-center;
+    li {
+      a {
+        color: $second_text_color;
+        font-size: $very_low_font;
+      }
+    }
+  }
+  .ks_custom_footer {
+    color: $second_text_color;
+  }
+  p {
+    @extend %text-center;
+    font-size: $very_low_font;
+  }
+}

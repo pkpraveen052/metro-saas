@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="qr_code_email_template" model="mail.template">
+            <field name="name">QR Code Email</field>
+            <field name="model_id" ref="metro_security_management.model_pre_approved_visitor"/>
+            <field name="subject">Your QR Code for the Visit</field>
+            <field name="email_from">
+                ${(user.email and user.email != 'system@example.com') and user.email or 'default@example.com'}
+            </field>
+            <field name="email_to">${object.email}</field>
+            <field name="body_html">
+                <![CDATA[
+                <div>
+                    <p>Hello ${object.name},</p>
+                    <p>Please find your QR Code below</p>
+                    <p>Kindly present this QR Code upon arrival for a seamless check-in experience.</p>
+                    <p>Thank you!</p>
+                    <p>
+                        <img src="data:image/png;base64,${object.qr_code.decode('utf-8')}" alt="QR code" style="height:150px;width:150px;object-fit:contain;"/>
+                    </p>
+                </div>
+                ]]>
+            </field>     
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <data noupdate="0">-->
+<!--        <record id="payment.payment_acquirer_odoo_by_adyen" model="payment.acquirer">-->
+<!--            <field name="name">Payments by Adyen</field>-->
+<!--            <field name="image_128" type="base64" file="payment_odoo_by_adyen/static/src/img/odoo_icon.png"/>-->
+<!--            <field name="provider">odoo_adyen</field>-->
+<!--            <field name="company_id" ref="base.main_company"/>-->
+<!--            <field name="view_template_id" ref="odoo_by_adyen_form"/>-->
+<!--        </record>-->
+<!--    </data>-->
+
+    <!-- Overidden in order to remove the create,delete,edit access to ERP Admin -->
+    <record id="account.access_res_currency_account_manager" model="ir.model.access">
+        <field name="name">res.currency account manager METRO Overidden</field>
+        <field name="model_id" ref="base.model_res_currency"/>
+        <field name="group_id" ref="account.group_account_manager"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('name', '=', 'payment_acquirer_odoo_by_adyen'), ('module', '=', 'payment')]"/>
+        </function>
+        <value eval="{'noupdate': False}" />
+    </function>
+
+    <record id="payment.payment_acquirer_odoo_by_adyen" model="payment.acquirer">
+        <field name="name">Payments by Adyen</field>
+        <field name="display_as">Credit Card (powered by Payments)</field>
+        <field name="view_template_id" ref="payment.default_acquirer_button"/>
+        <field name="image_128" type="base64" file="metroerp_customizations/static/src/img/adyen_icon.png"/>
+        <field name="module_id" ref="base.module_payment_odoo_by_adyen"/>
+        <field name="sequence">1</field>
+        <field name="description" type="html">
+            <p>
+                A payment gateway to accept online payments via credit cards, debit cards and bank transfers.
+            </p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><i class="fa fa-check"/>Online Payment</li>
+                <li class="list-inline-item"><i class="fa fa-check"/>Subscriptions</li>
+                <li class="list-inline-item"><i class="fa fa-check"/>Save Cards</li>
+                <li class="list-inline-item"><i class="fa fa-check"/>Payment Status Tracking</li>
+            </ul>
+        </field>
+        <!-- https://www.adyen.com/payment-methods -->
+        <field name="payment_icon_ids" eval='[(6, 0, [ref("payment.payment_icon_cc_bancontact"),
+                                                        ref("payment.payment_icon_cc_maestro"),
+                                                        ref("payment.payment_icon_cc_mastercard"),
+                                                        ref("payment.payment_icon_cc_visa"),
+                                                        ref("payment.payment_icon_cc_discover"),
+                                                        ref("payment.payment_icon_cc_diners_club_intl"),
+                                                        ref("payment.payment_icon_cc_jcb"),
+                                                        ref("payment.payment_icon_cc_unionpay")])]'/>
+    </record>
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('name', '=', 'payment_acquirer_odoo_by_adyen'), ('module', '=', 'payment')]"/>
+        </function>
+        <value eval="{'noupdate': True}" />
+    </function>
+
+<!--   <data>-->
+<!--        <record id="ir_translation_web_enterprise" model="ir.translation">-->
+<!--            <field name="name">web.enterprise</field>-->
+<!--            <field name="lang">en_US</field>-->
+<!--            <field name="src">Enterprise</field>-->
+<!--            <field name="value">Odoo Enterprise</field>-->
+<!--        </record>-->
+<!--    </data>-->
+
+    <data>
+        <function model="ir.ui.menu" name="_update_settings_groups"/>
+        <function model="ir.model.access" name="_disable_oauth_access"/>
+        <function model="mail.channel" name="_replace_odoo_label"/>
+        <function model="digest.tip" name="_replace_odoo_label"/>
+        <function model="mail.message" name="_replace_odoo_label"/>
+        <function model="ir.actions.act_window" name="_replace_odoo_label"/>
+    </data>
+
+    <data noupdate="1">
+        <function  model="ir.default" name="set" eval="('res.config.settings', 'title_brand', 'MetroERP')"/>
+        <function  model="ir.default" name="set" eval="('res.config.settings', 'odoo_text_replacement', 'MetroERP')"/>
+        <function  model="ir.default" name="set_wk_favicon" eval="('res.config.settings', 'wk_favicon')"/>
+    </data>
+
+    <record id="base.partner_root" model="res.partner">
+        <field name="name">System</field>
+        <field name="email">system@example.com</field>
+    </record>
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','digest'),('name','=','digest_digest_default')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+    
+    <record id="digest.digest_digest_default" model="digest.digest">
+        <field name="name">Your ERP Periodic Digest</field>
+        <field name="periodicity">daily</field>
+        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="next_run_date" eval="DateTime.now().strftime('%Y-%m-%d')"/>
+        <field name="kpi_res_users_connected">True</field>
+        <field name="kpi_mail_message_total">True</field>
+        <field name="state">deactivated</field>
+    </record>
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','digest'),('name','=','digest_digest_default')]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+
+    <record model='ir.actions.act_url' id='base.action_third_party'>
+        <field name='name'>Third-Party Apps</field>
+        <field name='url'>https://metrogroup.solutions/contact-us/</field>
+    </record>
+
+    <record model='ir.actions.act_url' id='base.action_theme_store'>
+        <field name='name'>Theme Store</field>
+        <field name='url'>https://metrogroup.solutions/contact-us/</field>
+    </record>
+
+    <function name="write" model="ir.model.data">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module', '=', 'product'), ('name', '=', 'list0')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+    <record id="product.list0" model="product.pricelist">
+        <field name="name">Public Pricelist</field>
+        <field name="sequence">1</field>
+        <field name="company_id">1</field>
+    </record>
+    <function name="write" model="ir.model.data">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module', '=', 'product'), ('name', '=', 'list0')]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+
+    <data noupdate="1">
+        <record id="base.main_company" model="res.company">
+		<!--<field name="name">My Company</field>
+            <field name="partner_id" ref="base.main_partner"/>
+		<field name="currency_id" ref="base.EUR"/>-->
+            <field name="favicon" model="res.company" eval="obj()._get_default_favicon(original=False)"/>
+        </record>
+
+    <!-- SERVER ACTION -->
+        <record model="ir.actions.server" id="action_unsubscribe_followers">
+            <field name="name">Unsubscribe Followers</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">
+for record in records:
+    partner_ids = record.message_partner_ids.ids
+    if partner_ids:
+        record.message_unsubscribe(partner_ids)
+            </field>
+        </record>
+
+        <!-- Share Button in action menu -->
+        <record id="model_stock_picking_action_share" model="ir.actions.server">
+            <field name="name">Share</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="code">action = records.action_share()</field>
+        </record>
+    </data>
+
+    <!-- ONE TIME ACTION -->
+    <record id="create_sequence_server_action_metroerp" model="ir.actions.server">
+        <field name="name">Temp - Create Sequences with Company</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_res_company"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.create_companies_sequence()
+        </field>
+    </record>
+    <!-- ONE TIME ACTION -->
+    <record id="pre_exec_productcateg_company_id_update" model="ir.actions.server">
+        <field name="name">Temp - Create Product Category with Company</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_res_company"/>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.create_product_category()
+        </field>
+    </record>
+    <!-- ONE TIME ACTION -->
+    <record id="create_pricelist_server_action_metroerp" model="ir.actions.server">
+        <field name="name">Temp - Create Pricelist with Company</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_res_company"/>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.create_pricelist()
+        </field>
+    </record>
+
+
+    <!-- ONE TIME ACTION -->
+    <record id="pre_exec_users_company_id_update" model="ir.actions.server">
+        <field name="name">Temp - Update the company_id field on User's Partners</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_res_users"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.partner_id.write({'company_id': record.company_id.id})
+        </field>
+    </record>
+    <!-- ONE TIME ACTION -->
+    <record id="pre_exec_companies_company_id_update" model="ir.actions.server">
+        <field name="name">Temp - Update the company_id field on Company's Partners</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_res_company"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.partner_id.write({'company_id': record.id})
+        </field>
+    </record>
+
+    <record id="create_sales_team_server_action_metroerp" model="ir.actions.server">
+        <field name="name">Temp - Create Sales Team</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_res_company"/>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.create_sales_team()
+        </field>
+    </record>
+
+     <!-- ONE TIME ACTION -->
+     <record id="create_payment_term_server_action_metroerp" model="ir.actions.server">
+        <field name="name">Temp - Create Payment Term with Company</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_res_company"/>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.create_payment_term()
+        </field>
+    </record>
+
+    <record id="replace_payment_terms_server_action_metroerp" model="ir.actions.server">
+        <field name="name">Temp - Replace Payment Term with Company</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_res_company"/>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.replace_payment_terms()
+        </field>
+    </record>
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','sales_team'),('name','=','team_sales_department')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+    <record id="sales_team.team_sales_department" model="crm.team">
+            <field name="name">Sales</field>
+            <field name="sequence">0</field>
+            <field name="member_ids" eval="[(4, ref('base.user_admin'))]"/>
+            <field name="company_id">1</field>
+    </record>
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','sales_team'),('name','=','team_sales_department')]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','sales_team'),('name','=','salesteam_website_sales')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+    <record id="sales_team.salesteam_website_sales" model="crm.team">
+        <field name="name">Website</field>
+        <field name="company_id">1</field>
+        <field name="active" eval="False"/>
+    </record>
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','sales_team'),('name','=','salesteam_website_sales')]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','sales_team'),('name','=','pos_sales_team')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+    <record id="sales_team.pos_sales_team" model="crm.team">
+        <field name="name">Point of Sale</field>
+        <field name="company_id">1</field>
+        <field name="active" eval="False"/>
+    </record>
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','sales_team'),('name','=','pos_sales_team')]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','sales_team'),('name','=','ebay_sales_team')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+    <record id="sales_team.ebay_sales_team" model="crm.team">
+        <field name="name">eBay</field>
+        <field name="company_id">1</field>
+        <field name="active" eval="False"/>
+    </record>
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','sales_team'),('name','=','ebay_sales_team')]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+
+        <!-- Payment terms Demo records Overriden to set company_id=1 -->
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_immediate')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+    
+        <record id="account.account_payment_term_immediate" model="account.payment.term">
+            <field name="name">Immediate Payment</field>
+            <field name="note">Payment terms: Immediate Payment</field>
+            <field name="company_id">1</field>
+        </record>
+    
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_immediate')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_15days')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="account.account_payment_term_15days" model="account.payment.term">
+            <field name="name">15 Days</field>
+            <field name="note">Payment terms: 15 Days</field>
+            <field name="company_id">1</field>
+            <field name="line_ids" eval="[(5, 0), (0, 0, {'value': 'balance', 'value_amount': 0.0, 'sequence': 500, 'days': 15, 'option': 'day_after_invoice_date'})]"/>
+        </record>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_15days')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_21days')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="account.account_payment_term_21days" model="account.payment.term">
+            <field name="name">21 Days</field>
+            <field name="note">Payment terms: 21 Days</field>
+            <field name="company_id">1</field>
+            <field name="line_ids" eval="[(5, 0), (0, 0, {'value': 'balance', 'value_amount': 0.0, 'sequence': 500, 'days': 21, 'option': 'day_after_invoice_date'})]"/>
+        </record>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_21days')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_30days')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="account.account_payment_term_30days" model="account.payment.term">
+            <field name="name">30 Days</field>
+            <field name="note">Payment terms: 30 Days</field>
+            <field name="company_id">1</field>
+            <field name="line_ids" eval="[(5, 0), (0, 0, {'value': 'balance', 'value_amount': 0.0, 'sequence': 500, 'days': 30, 'option': 'day_after_invoice_date'})]"/>
+        </record>
+        
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_30days')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+        
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_45days')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        
+        <record id="account.account_payment_term_45days" model="account.payment.term">
+            <field name="name">45 Days</field>
+            <field name="note">Payment terms: 45 Days</field>
+            <field name="company_id">1</field>
+            <field name="line_ids" eval="[(5, 0), (0, 0, {'value': 'balance', 'value_amount': 0.0, 'sequence': 500, 'days': 45, 'option': 'day_after_invoice_date'})]"/>
+        </record>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_45days')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_2months')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        
+        <record id="account.account_payment_term_2months" model="account.payment.term">
+            <field name="name">2 Months</field>
+            <field name="note">Payment terms: 2 Months</field>
+            <field name="company_id">1</field>
+            <field name="line_ids" eval="[(5, 0), (0, 0, {'value': 'balance', 'value_amount': 0.0, 'sequence': 500, 'days': 60, 'option': 'day_after_invoice_date'})]"/>
+        </record>
+        
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_2months')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_end_following_month')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        
+        <record id="account.account_payment_term_end_following_month" model="account.payment.term">
+            <field name="name">End of Following Month</field>
+            <field name="note">Payment terms: End of Following Month</field>
+            <field name="company_id">1</field>
+            <field name="line_ids" eval="[(5, 0), (0, 0, {'value': 'balance', 'value_amount': 0.0, 'sequence': 500, 'days': 31, 'option': 'day_following_month'})]"/>
+        </record>
+        
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_end_following_month')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_advance_60days')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        
+        <record id="account.account_payment_term_advance_60days" model="account.payment.term">
+            <field name="name">30% Now, Balance 60 Days</field>
+            <field name="note">Payment terms: 30% Now, Balance 60 Days</field>
+            <field name="company_id">1</field>
+            <field name="line_ids" eval="[(5, 0), (0, 0, {'value': 'percent', 'value_amount': 30.0, 'sequence': 400, 'days': 0, 'option': 'day_after_invoice_date'}),
+                    (0, 0, {'value': 'balance', 'value_amount': 0.0, 'sequence': 500, 'days': 60, 'option': 'day_after_invoice_date'})]"/>
+        </record>
+        
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','account'),('name','=','account_payment_term_advance_60days')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <record id="all_user_group_remove_for_old_user" model="ir.cron">
+            <field name="name">Old User</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="active">False</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_res_users"/>
+            <field name="code">model.old_user_group_remove()</field>
+            <field name="state">code</field>
+        </record>
+
+
+        <record id="cron_update_mas_currency_rates" model="ir.cron">
+            <field name="name">Update MAS Currency Rates</field>
+            <field name="model_id" ref="base.model_res_currency"/>
+            <field name="state">code</field>
+            <field name="code">model.update_mas_currency_rates()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="priority" eval="5"/>
+        </record>
+
+
+<!--    end of month defaut model data created-->
+    <record id="account_payment_term_end_of_month" model="account.payment.term">
+        <field name="name">End of Month</field>
+        <field name="note">Payment terms: End of Month</field>
+        <field name="line_ids" eval="[(5, 0), (0, 0, {'value': 'balance', 'value_amount': 0.0, 'sequence': 500, 'days': 0, 'option': 'day_after_invoice_date', 'day_of_the_month': 31})]"/>
+    </record>
+</odoo>

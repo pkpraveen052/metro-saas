@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+      <record id="view_account_payment_form_inherited" model="ir.ui.view">
+        <field name="name">account.payment.form.inherited</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <!-- Add custom group to the buttons with existing group "account.group_account_invoice" -->
+            <xpath expr="//button[@name='action_draft'][@groups='account.group_account_invoice']" position="attributes">
+                 <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account.menu_action_account_payments_receivable" model="ir.ui.menu">
+        <field name="groups_id" eval="[
+            (6, 0, [
+                ref('account.group_account_readonly'),
+                ref('account.group_account_manager'),
+                ref('account.group_account_user'),
+                ref('account.group_account_invoice'),
+            ])
+        ]"/>
+    </record>
+
+    <record id="account.menu_action_account_payments_payable" model="ir.ui.menu">
+        <field name="groups_id" eval="[
+            (6, 0, [
+                ref('account.group_account_readonly'),
+                ref('account.group_account_manager'),
+                ref('account.group_account_user'),
+                ref('account.group_account_invoice'),
+            ])
+        ]"/>
+    </record>
+
+    
+  </data>
+</odoo>

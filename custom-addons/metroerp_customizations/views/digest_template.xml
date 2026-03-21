@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="digest.digest_mail_main">
+        <div id="header_background">
+            <div class="global_layout" id="header">
+                <div style="overflow: auto;">
+                    <p t-field="company.name" class="company_name" />
+                    <a t-att-href="top_button_url" target="_blank"><span t-esc="top_button_label" class="button" id="button_connect" /></a>
+                </div>
+                <div class="title_subtitle">
+                    <p t-esc="title" />
+                    <p t-if="sub_title" t-esc="sub_title" />
+                </div>
+                <div t-esc="formatted_date" class="date" />
+            </div>
+        </div>
+        <div style="background-color: #eeeeee;">
+            <div t-if="kpi_data" class="global_layout" style="padding-bottom: 0;">
+                <div t-foreach="kpi_data" t-as="kpi_info" class="kpi_row_footer">
+                    <div t-if="kpi_info.get('kpi_col1') or kpi_info.get('kpi_col2') or kpi_info.get('kpi_col3')">
+                        <div class="kpi_header">
+                            <span t-esc="kpi_info['kpi_fullname']" style="vertical-align: middle;" />
+                            <a t-if="kpi_info['kpi_action']" t-att-href="'/web#action=%s' % kpi_info['kpi_action']"><span class="button" id="button_open_report">Open Report</span></a>
+                        </div>
+                        <div t-if="kpi_info.get('kpi_col1')" class="kpi_cell">
+                            <div t-call="digest.digest_tool_kpi" >
+                                <t t-set="kpi_value" t-value="kpi_info['kpi_col1']['value']"/>
+                                <t t-set="kpi_margin" t-value="kpi_info['kpi_col1'].get('margin')"/>
+                                <t t-set="kpi_subtitle" t-value="kpi_info['kpi_col1']['col_subtitle']"/>
+                            </div>
+                        </div>
+                        <div t-if="kpi_info.get('kpi_col2')" class="kpi_cell">
+                            <div t-call="digest.digest_tool_kpi">
+                                <div t-set="kpi_value" t-value="kpi_info['kpi_col2']['value']"/>
+                                <div t-set="kpi_margin" t-value="kpi_info['kpi_col2'].get('margin')"/>
+                                <div t-set="kpi_subtitle" t-value="kpi_info['kpi_col2']['col_subtitle']"/>
+                            </div>
+                        </div>
+                        <div t-if="kpi_info.get('kpi_col3')" class="kpi_cell">
+                            <div t-call="digest.digest_tool_kpi">
+                                <div t-set="kpi_value" t-value="kpi_info['kpi_col3']['value']"/>
+                                <div t-set="kpi_margin" t-value="kpi_info['kpi_col3'].get('margin')"/>
+                                <div t-set="kpi_subtitle" t-value="kpi_info['kpi_col3']['col_subtitle']"/>
+                            </div>
+                        </div>
+                        <div class="kpi_trick" />
+                    </div>
+                </div>
+            </div>
+            <div t-foreach="tips" t-as="tip" t-raw="tip" class="global_layout" />
+            <t t-if="body" t-raw="body"/>
+            <div class="global_layout" id="footer">
+                <p style="font-weight: bold;" t-esc="company.name"/>
+                <p class="by_odoo" id="powered">
+                    Powered by <a t-att-href="'%r'%company.website" target="_blank" style="color: #875A7B;"><t t-esc="'%s' % company.name"/></a>
+                </p>
+            </div>
+        </div>
+    </template>
+
+
+<!--    <template id="mail_digest_inherit" inherit_id="digest.digest_mail_main">-->
+<!--        <xpath expr="//div[@t-if='preferences']" position="replace"/>-->
+<!--        <xpath expr="//div[@t-if='display_mobile_banner']" position="replace"/>-->
+<!--        <xpath expr="//div[hasclass('global_layout')]//p[hasclass('by_odoo')]" position="replace">-->
+<!--            <p class="by_odoo" id="powered">-->
+<!--                Powered by <a t-att-href="'%r'%company.website" target="_blank" style="color: #875A7B;"><t t-esc="'%s' % company.name"/></a>-->
+<!--            </p>-->
+<!--        </xpath>-->
+<!--    </template>-->
+</odoo>

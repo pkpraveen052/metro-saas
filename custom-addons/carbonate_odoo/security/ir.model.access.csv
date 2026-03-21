@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_mapping,account.mapping,model_account_mapping,base.group_user,1,1,1,1
+access_cpf_account_mapping_lines,account.mapping.cpf.lines,model_account_mapping_cpf_lines,base.group_user,1,1,1,1
+access_carbonate_log,carbonate.log,model_carbonate_log,base.group_user,1,1,1,1
+

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="peppol_queue_out_form" model="ir.ui.view">
+    <field name="name">peppol.queue.out.form</field>
+    <field name="model">peppol.queue.out</field>
+    <field name="arch" type="xml">
+        <form string="PEPPOL Outgoing Document" create="false" edit="false">
+            <header>
+                <button name="action_send" type="object" string="Send" states="pending" icon="fa-paper-plane"/>
+                <button name="action_confirm" type="object" string=" Get Document Submission Evidence" attrs="{'invisible': ['|',('state','!=','sent'),('event','!=','succeeded')]}" icon="fa-cloud-upload"/>
+                <button name="action_retry" type="object" string="Retry" states="error,cancelled" icon="fa-exclamation-triangle"/>
+                <button name="action_cancel" type="object" string="Cancel" states="pending,error" icon="fa-times-circle" confirm="Don't send this document to PEPPOL?"/>
+                <field name="state" widget="statusbar" statusbar_visible="pending,sent,done"/>
+            </header>
+            <sheet>
+                <field name="show_invoice_submission_evidence" invisible="1"/>
+                <h1>
+                    <field name="name"/>
+                </h1>
+                <group name="grp_main">
+                    <group name="grp_left">
+                        <field name="invoice_id"/>
+                        <field name="partner_id"/>
+                        <field name="invoice_type" invisible="1"/>
+                    </group>
+                    <group name="grp_right">
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="create_date"/>
+                        <field name="create_uid"/>
+                    </group>
+                    <group>
+                        <field name="event" attrs="{'invisible': [('event','=',False)]}"/>
+                    </group><group/>
+                </group>
+                <notebook>
+                    <page string="Invoice Submission Evidence" attrs="{'invisible': [('show_invoice_submission_evidence','=',False)]}">
+                        <group name="grp_main">
+                            <group name="grp_left">
+                                <field name="evidence_sender_identifier"/>
+                                <field name="evidence_receiver_identifier"/>
+                            </group>
+                            <group name="grp_right">
+                                <field name="evidence_network"/>
+                            </group>
+                        </group>
+                        <separator string="The evidence for this transmission"/>
+                        <p>An array of documents that were sent.</p>
+                        <field name="invoice_submission_evidence_action_ids" readonly="1" nolabel="1">
+                            <tree>
+                                <field name="message_id"/>
+                                <field name="receiving_accesspoint"/>
+                                <field name="remote_mta_ip"/>
+                                <field name="reporting_mta"/>
+                                <field name="smtp_response"/>
+                                <field name="timestamp"/>
+                                <field name="transmission_id"/>
+                            </tree>
+                        </field>
+                        <separator string="Document Submission Evidence Documents"/>
+                        <field name="evidence_document_ids" widget="many2many_binary" readonly="1" nolabel="1"/>
+                    </page>
+                    <page string="Technical" attrs="{'invisible': [('guid','=',False)]}">
+                          <group name="grp_left" string="Response">
+                              <field name="guid"/>
+                          </group>
+                    </page>
+                    <page string="Documents Sent">
+                        <group string="Internal Documents">
+                            <group>
+                                <field name="attachment_ids" widget="many2many_binary" readonly="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+        </form>
+    </field>
+</record>
+
+<record id="peppol_queue_out_tree" model="ir.ui.view">
+    <field name="name">peppol.queue.out.tree</field>
+    <field name="model">peppol.queue.out</field>
+    <field name="arch" type="xml">
+        <tree string="PEPPOL Outgoing Documents" create="false" edit="false"
+              decoration-danger="state == 'error'" decoration-info="state == 'pending'" decoration-muted="state in ('done', 'cancelled')">
+            <field name="name"/>
+            <field name="invoice_type" invisible="1"/>
+            <field name="event" invisible="1"/>
+            <field name="partner_id"/>
+            <field name="company_id" groups="base.group_multi_company"/>
+            <field name="create_date"/>
+            <field name="create_uid"/>
+            <field name="state"/>
+            <button class="oe_inline oe_stat_button" type="object" icon="fa-paper-plane" string="Send"  name="action_send" attrs="{'invisible':[('state','!=','pending')]}"  />
+            <button name="action_confirm" type="object" string=" Get Document Submission Evidence" attrs="{'invisible': ['|',('state','!=','sent'),('event','!=','succeeded')]}" icon="fa-cloud-upload"/>
+            <button name="action_retry" type="object" string="Retry" states="error,cancelled" icon="fa-exclamation-triangle"/>
+            <button name="action_cancel" type="object" string="Cancel" states="pending,error" icon="fa-times-circle" confirm="Don't send this document to PEPPOL?"/>
+        </tree>
+    </field>
+</record>
+
+<record id="peppol_queue_out_search" model="ir.ui.view">
+    <field name="name">peppol.queue.out.search</field>
+    <field name="model">peppol.queue.out</field>
+    <field name="arch" type="xml">
+        <search string="PEPPOL Outgoing Documents">
+            <field name="name"/>
+            <field name="partner_id"/>
+            <field name="invoice_type" invisible="1"/>
+            <field name="state"/>
+            <field name="event"/>
+            <separator/>
+            <filter string="Pending" name="filter_state_pending" domain="[('state', '=', 'pending')]"/>
+            <filter string="Sent" name="filter_state_sent" domain="[('state', '=', 'sent')]"/>
+            <filter string="Complete" name="filter_state_done" domain="[('state', '=', 'done')]"/>
+            <filter string="Failed" name="filter_state_error" domain="[('state', '=', 'error')]"/>
+            <filter string="Cancelled" name="filter_state_cancelled" domain="[('state', '=', 'cancelled')]"/>
+            <separator/>
+            <filter string="Event succeeded" name="filter_event_succeeded" domain="[('event', '=', 'succeeded')]"/>
+            <filter string="Event failed" name="filter_event_failed" domain="[('event', '=', 'failed')]"/>
+            <separator/>
+            <group expand="1" string="Group By">
+                <filter string="Partner" name="partner_id" context="{'group_by':'partner_id'}"/>
+                <filter string="Event" name="event" context="{'group_by':'event'}"/>
+                <filter string="Company" name="company_id" context="{'group_by':'company_id'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+
+<record id="peppol_queue_out_action" model="ir.actions.act_window">
+    <field name="name">Outgoing Documents</field>
+    <field name="res_model">peppol.queue.out</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="peppol_queue_out_menu"
+    action="peppol_queue_out_action"
+    parent="menu_peppol_documents"
+    sequence="1" groups="sales_team.group_sale_manager" />
+
+<record id="peppol_queue_out_send_action" model="ir.actions.server">
+    <field name="name">Send</field>
+    <field name="model_id" ref="account_peppol_sg.model_peppol_queue_out"/>
+    <field name="binding_model_id" ref="account_peppol_sg.model_peppol_queue_out"/>
+    <field name="state">code</field>
+    <field name="code">action = records.action_send()</field>
+</record>
+
+<record id="peppol_queue_out_confirm_action" model="ir.actions.server">
+    <field name="name">Get Document Submission Evidence</field>
+    <field name="model_id" ref="account_peppol_sg.model_peppol_queue_out"/>
+    <field name="binding_model_id" ref="account_peppol_sg.model_peppol_queue_out"/>
+    <field name="state">code</field>
+    <field name="code">action = records.action_confirm()</field>
+</record>
+
+<record id="peppol_queue_out_retry_action" model="ir.actions.server">
+    <field name="name">Retry</field>
+    <field name="model_id" ref="account_peppol_sg.model_peppol_queue_out"/>
+    <field name="binding_model_id" ref="account_peppol_sg.model_peppol_queue_out"/>
+    <field name="state">code</field>
+    <field name="code">action = records.action_retry()</field>
+</record>
+
+<record id="peppol_queue_out_cancel_action" model="ir.actions.server">
+    <field name="name">Cancel</field>
+    <field name="model_id" ref="account_peppol_sg.model_peppol_queue_out"/>
+    <field name="binding_model_id" ref="account_peppol_sg.model_peppol_queue_out"/>
+    <field name="state">code</field>
+    <field name="code">action = records.action_cancel()</field>
+</record>
+
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="whatsapp_composer_view_form" model="ir.ui.view">
+        <field name="name">whatsapp.composer.view.form</field>
+        <field name="model">whatsapp.composer</field>
+        <field name="arch" type="xml">
+            <form string="Send WhatsApp">
+                <sheet>
+                    <group>
+                        <field name="wa_template_id"/>
+                        <field name="partner_ids" widget="many2many_tags" placeholder="Add contacts to share the document..."/>
+                        <field name="res_model" invisible="1"/>
+                        <field name="res_id" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="body"/>
+                        <label for="attachment_ids" string="Attach a file"/>
+                        <div class="oe_clear" style="display: flex; flex-direction: column; gap: 5px;">
+                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" colspan="2"/>
+                            <p style="color: blue; font-weight: bold; margin: 0;">
+                                Enhance your experience with <strong>Metro Assistro WhatsApp Integration</strong>—designed for seamless communication and greater efficiency!
+                            </p>
+                        </div>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Send" type="object" class="oe_highlight" name="action_send_whatsapp"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

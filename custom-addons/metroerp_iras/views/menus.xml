@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_iras_root"
+        name="IRAS"
+        sequence="21"
+        parent="account.menu_finance"
+        groups="account.group_account_manager"/>
+
+    <menuitem id="menu_iras_configuration" name="Configuration"
+		parent="menu_iras_root"
+		sequence="4" groups="metroerp_customizations.sub_admin_group,base.group_system,account.group_account_manager"/>
+
+    <menuitem id="menu_iras_config_technical" name="Technical"
+		parent="menu_iras_configuration"
+		sequence="1"/>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="formcs_partb_data_check_view" model="ir.ui.view">
+        <field name="name">formcs.partb.check.form</field>
+        <field name="model">formcs.partb.check</field>
+        <field name="arch" type="xml">
+            <form>
+                <h3>Kindly review once again and verify the details provided in <u>'Part B'</u> to ensure accuracy and completeness.</h3>
+                <!-- <br/>
+                <div>                       
+                    <field name="is_produced" nolabel="1"/>
+                    <span class="o_form_label">
+                        <b>Do not show this message in the future. (Select this checkbox only if you do not want to perform anymore validation check after the review.)</b>
+                    </span>
+                </div> -->
+                <br/>
+                <u><span style='color:black; font-weight:bold; font-size:15px;'>Help: Information provided below can assist in resolving the errors</span></u><br/><br/>
+                <field name="message" readonly="1"/>
+                <field name="form_cs_id" invisible="1"/>
+                <footer>
+                    <button string="Review" class="btn-primary" special="cancel"/>
+                    <button name="proceed_data_partb" string="Proceed: Submit to IRAS" type="object" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

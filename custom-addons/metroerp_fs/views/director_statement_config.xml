@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="director_statement_config_tree" model="ir.ui.view">
+            <field name="name">director.statement.config.tree</field>
+            <field name="model">director.statement.config</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <!-- <field name="director_name1"/> -->
+                    <field name="company_id"/>
+                    <field name="template_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="director_statement_config_form" model="ir.ui.view">
+            <field name="name">director.statement.config.form</field>
+            <field name="model">director.statement.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <!-- <field name="director_name1" placeholder="eg: Michael Joe"/> -->
+                                <field name="company_id" groups="base.group_multi_company"/>   
+                                <!-- <field name="director_name2" placeholder="eg: Dennis Ritchie"/> -->
+                            </group>
+                            <group>   
+                                <field name="template_id" placeholder="Select Template" required="1"/>                         
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Defaults">
+                                <separator string="Directors"/>
+                                <field name="director_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name" placeholder="eg: Michael Joe"/>
+                                        <field name="required_signature"/>
+                                    </tree>
+                                </field>
+                                <br/><br/>
+                                <separator string="Director Statement"/>
+                                <span><b style="font-weight: 900;font-size: 14px;">OPINION OF THE DIRECTOR</b></span>
+                                <field name="director_statement_opinion1" placeholder="Type here" nolabel="1"/><br/>
+                                <field name="director_statement_opinion2" placeholder="Type here" nolabel="1"/>
+                                <br/><br/>
+                                <span><b style="font-weight: 900;font-size: 14px;">ARRANGEMENTS TO ACQUIRE SHARES OR DEBENTURES</b></span>
+                                <field name="director_statement_arrangements" placeholder="Type here" nolabel="1"/>
+                                <br/><br/>
+                                <span><b style="font-weight: 900;font-size: 14px;">INTERESTS IN SHARES OR DEBENTURES</b></span>
+                                <field name="director_statement_interests" placeholder="Type here" nolabel="1"/>
+                                <br/><br/>
+                                <span><b style="font-weight: 900;font-size: 14px;">SHARE OPTIONS</b></span>
+                                <field name="director_statement_share_options" placeholder="Type here" nolabel="1"/>
+                                <br/><br/>
+
+                                <!-- <group>
+                                    <group>
+                                        <field name="report_id"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group> -->
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="director_statement_config_action">
+            <field name="name">FS Default Form</field>
+            <field name="res_model">director.statement.config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id="menu_director_statement_config"
+              name="FS Default Form"
+              parent="menu_main_director_statement_config"
+              action="director_statement_config_action"
+              sequence="1"
+              />
+
+    </data>
+</odoo>

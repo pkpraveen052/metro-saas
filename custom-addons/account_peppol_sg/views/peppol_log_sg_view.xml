@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="pepppol_log_sg_view" model="ir.ui.view">
+    <field name="name">pepppol.log.sg.view</field>
+    <field name="model">peppol.log.sg</field>
+    <field name="arch" type="xml">
+        <form string="Incoming Invoice Document" create="false" edit="false" delete="false">
+            <script>
+                document.getElementById("suggestion_id").onclick = displayMenus;
+                function displayMenus() {
+                document.getElementById("suggestion_id").style.visibility = "hidden";
+                setTimeout(function(){document.getElementById("create").innerHTML = 'Create a Record';}, 1000);
+                setTimeout(function(){document.getElementById("list").innerHTML = 'Verify in the List';}, 1500);
+                  }
+            </script>
+            <header>
+                <button name="action_retry" icon="fa-repeat" type="object" string="Retry" class="oe_highlight" attrs="{'invisible': [('subtype', '!=','error')]}"/>
+                <button name="action_cancel" icon="fa-times" type="object" string="Cancel" attrs="{'invisible': [('subtype', '!=','error')]}"/>
+                <button name="action_view_orders" type="object" string="View &amp; Map PO" class="oe_highlight" attrs="{'invisible': [('subtype','!=','sent_to_process')]}"/>
+                <field name="subtype" widget="statusbar" options="{'fold_field': 'fold'}" statusbar_visible="False"/>
+            </header>
+            <sheet>
+                <div class="oe_title" attrs="{'invisible': [('invoice_no','=',False)]}">
+                    <span class="o_form_label">Invoice Ref</span>
+                    <h1>
+                        <field name="invoice_no" readonly="1"/>
+                    </h1>
+                </div>
+                <group name="grp_main">
+                    <group name="grp_left" attrs="{'invisible': [('po_id','=',False)]}">
+                      <field name="po_id"/>
+                    </group>
+                    <group name="grp_right">
+                        <field name="error_type" invisible="1"/>
+                    </group>
+                    <group name="grp_right" invisible="1">
+                      <button style="margin-top:25px;padding:4px;padding-left:20px;padding-right:20px;background:blue;font-weight: bold;color:white;border:0"
+                              name="action_suggestion" id="suggestion_id" string="Suggestions"/><br/>
+                      <button id="create" name="action_create_record" type="object" style="margin-top:5px;border:0;color:blue;text-decoration: underline;"/><br/>
+                      <button id="list" name="action_verify_list" type="object" style="margin-top:1px;border:0;color:blue;text-decoration: underline;"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Sender" attrs="{'invisible': [('subtype', '=','error')]}">
+                        <field name="sender_party_name"/>
+                        <label for="sender_address_line1" string="Address"/>
+                        <div class="o_address_format">
+                            <field name="sender_address_line1" class="o_address_street"/>
+                            <field name="sender_address_line2" class="o_address_street"/>
+                            <field name="sender_address_city" class="o_address_city"/>
+                            <field name="sender_address_county" class="o_address_county"/>
+                            <field name="sender_address_zip" class="o_address_zip"/>
+                            <field name="sender_address_country"/>
+                        </div>
+                        <label for="billing_first_name" string="Billing Contact"/>
+                        <div>
+                            <field name="billing_first_name" class="oe_inline"/><![CDATA[&nbsp;]]>
+                            <field name="billing_last_name" class="oe_inline"/><br/>
+                            <field name="email"/>
+                        </div>
+                        <field name="sender_peppol_identifiers" readonly="1" string="Peppol Identifier"/>
+                    </group>
+                    <group string="">
+                        <field name="create_date" string="Created On"/>
+                        <field name="issue_date" attrs="{'invisible': [('subtype', '=','error')]}"/>
+                        <field name="due_date" attrs="{'invisible': [('subtype', '=','error')]}"/>
+                        <field name="tax_point_date" attrs="{'invisible':[('tax_point_date','=',False)]}"/>
+                        <field name="document_currency_code" attrs="{'invisible': [('subtype', '=','error')]}"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                    <group string="Payment Terms" attrs="{'invisible': [('subtype', '=','error')]}">
+                        <field name="payment_means_type" attrs="{'invisible':[('payment_means_type','=',False)]}" string="Type"/>
+                        <field name="payment_means_holder" attrs="{'invisible':[('payment_means_holder','=',False)]}" string="Holder"/>
+                        <field name="payment_means_account" attrs="{'invisible':[('payment_means_account','=',False)]}" string="Account"/>
+                        <field name="payment_means_branch_code" attrs="{'invisible':[('payment_means_branch_code','=',False)]}" string="Branch Code"/>
+                        <field name="payment_means_mandate" attrs="{'invisible':[('payment_means_mandate','=',False)]}" string="Mandate"/>
+                        <field name="payment_means_network" attrs="{'invisible':[('payment_means_network','=',False)]}" string="Network"/>
+                        <field name="payment_means_payment_id" attrs="{'invisible':[('payment_means_payment_id','=',False)]}" string="Payment ID"/>
+                    </group>
+                    <group string="" attrs="{'invisible': [('subtype', '=','error')]}">
+                        <field name="period_start"/>
+                        <field name="period_end"/>
+                        <field name="buyer_reference"/>
+                        <field name="billing_reference"/>
+                    </group>
+                </group>
+                <separator string="Detailed Information"/>
+                <field name="message" nolabel="1" decoration-success="subtype=='success'"/>
+                <notebook>
+                    <page string="Invoice Lines" attrs="{'invisible': [('subtype', '=','error')]}">
+                    <field name="invoice_line_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="quantity"/>
+                            <field name="price_amount"/>
+                            <field name="allowance_charges"/>
+                            <field name="tax_type"/>
+                            <field name="tax_amount"/>
+                            <field name="tax_percentage"/>
+                            <field name="tax_category"/>
+                            <field name="tax_category_code"/>
+                            <field name="amount_excluding_tax" string="Amount (Exclu. Tax)"/>
+                        </tree>
+                    </field>
+                    <group class="oe_subtotal_footer oe_right">
+                        <div class="oe_subtotal_footer_separator oe_inline">
+                            <label for="amt_including_tax" string="Total(Inc. tax)"/>
+                        </div>
+                        <field name="amt_including_tax" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    </group>
+                    </page>
+                    <page string="Invoice Documents" attrs="{'invisible': [('subtype', '=','error')]}">
+                        <group>
+                            <group>
+                                <field name="document_ids" widget="many2many_binary" readonly="1"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Other Info" attrs="{'invisible': [('subtype', '=','error')]}">
+                        <group>
+                            <group string="Receiver Details">
+                                <field name="legal_entity_id"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="source"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Technical">
+                        <group>
+                            <group attrs="{'invisible': [('guid','=',False)]}">
+                              <field name="guid"/>
+                            </group>
+                        </group>
+                        <separator string="Response" attrs="{'invisible': [('json_data','=',False)]}"/>
+                        <div style="overflow-x: overlay;height: 200px;" attrs="{'invisible': [('json_data','=',False)]}">
+                          <field name="json_data" nolabel="1"/>
+                        </div>
+                        <separator string="Error Exception" attrs="{'invisible': [('error_exception','=',False)]}"/>
+                        <div style="overflow-x: overlay;height: 200px;" attrs="{'invisible': [('error_exception','=',False)]}">
+                          <field name="error_exception" nolabel="1"/>
+                        </div>
+                    </page>
+                </notebook>
+            </sheet>
+            <div class="oe_chatter">
+        <field name="message_follower_ids"/>
+        <field name="message_ids"/>
+    </div>
+      </form>
+    </field>
+    </record>
+
+
+    <record id="pepppol_log_sg_tree_view" model="ir.ui.view">
+        <field name="name">pepppol.log.sg.tree.view</field>
+        <field name="model">peppol.log.sg</field>
+        <field name="arch" type="xml">
+            <tree string="Incoming Invoice Documents" decoration-danger="subtype=='error'" decoration-success="subtype=='success'" decoration-info="subtype=='sent_to_process'" create="false" edit="false">
+                <field name="invoice_no"/>
+                <field name="sender_party_name"/>
+                <field name="issue_date"/>
+                <field name="due_date"/>
+                <field name="subtype"/>
+                <field name="create_date"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="amt_including_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <button name="action_retry" type="object" string="Retry" class="oe_highlight" attrs="{'invisible': [('subtype', '!=','error')]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="peppol_search_view">
+        <field name="name">peppol.log.sg.search.view</field>
+        <field name="model">peppol.log.sg</field>
+        <field name="arch" type="xml">
+            <search string="Incoming Invoice Documents">
+                <field name="invoice_no"/>
+                <field name="sender_party_name"/>
+                <field name="subtype"/>
+                <field name="company_id"/>
+                <field name="guid"/>
+                <separator/>
+                <filter string="Success" name="Mapped" domain="[('subtype', '=', 'success')]"/>
+                <filter string="Unmapped" name="sent_to_process" domain="[('subtype', '=', 'sent_to_process')]"/>
+                <filter string="Failed" name="Failed" domain="[('subtype', '=', 'error')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('subtype', '=', 'cancelled')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Vendor" name="sender" domain="[]" context="{'group_by': 'sender_party_name'}"/>
+                    <filter string="Status" name="status" domain="[]" context="{'group_by': 'subtype'}"/>
+                    <filter string="Issue Date" name="issuedate" domain="[]" context="{'group_by': 'issue_date'}" help="Issue Date"/>
+                    <filter string="Due Date" name="duedate" domain="[]" context="{'group_by': 'due_date'}" help="Due Date"/>
+                    <filter string="Company" name="company" domain="[]" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pepppol_log_sg_view" model="ir.actions.act_window">
+        <field name="name">Incoming Documents</field>
+        <field name="res_model">peppol.log.sg</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="peppol_search_view"/>
+    </record>
+
+
+  <menuitem id="menu_sub_peppol_log"
+        parent="menu_peppol_documents"
+        action="action_pepppol_log_sg_view"
+        sequence="2"
+        groups="purchase.group_purchase_manager"/>
+
+</odoo>

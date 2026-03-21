@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="uom_code_form" model="ir.ui.view">
+        <field name="name">uom.code.form</field>
+        <field name="model">uom.code</field>
+        <field name="arch" type="xml">
+            <form string="Uom Code">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="uom_code_tree" model="ir.ui.view">
+        <field name="name">uom.code.tree</field>
+        <field name="model">uom.code</field>
+        <field name="arch" type="xml">
+            <tree string="Uom Code">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_uom_code_view" model="ir.actions.act_window">
+        <field name="name">Uom Code</field>
+        <field name="res_model">uom.code</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+     <menuitem id="menu_uom_code"
+               parent="metro_einvoice_datapost.menu_peppol_configuration"
+               action="action_uom_code_view"
+               sequence="3"
+               groups="base.group_system"
+     />
+
+</odoo>

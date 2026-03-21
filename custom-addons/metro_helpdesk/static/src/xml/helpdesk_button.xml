@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="metro_helpdesk.HelpdeskButton">
+        <li class="o_helpdesk_systray_item">
+            <a class="dropdown-toggle o-no-caret" title="Helpdesk" href="#" role="button" data-toggle="modal">
+                <i class="fa fa-ticket" role="img" aria-label="Helpdesk"/>
+            </a>
+        </li>
+    </t>
+</templates>

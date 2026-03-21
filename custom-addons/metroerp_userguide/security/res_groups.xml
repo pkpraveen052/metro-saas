@@ -1,0 +1,35 @@
+<odoo>
+
+        <record model="ir.module.category" id="module_main_category_for_user_guide">
+            <field name="name">User Guide</field>
+            <field name="sequence">8</field>
+            <field name="parent_id" eval="False"/>
+        </record>
+
+        <record model="ir.module.category" id="module_category_for_user_guide">
+            <field name="name">User Guide</field>
+            <field name="parent_id" ref="module_main_category_for_user_guide"/>
+        </record>
+
+<!--        <record model="res.groups" id="user_sub_admin_group">-->
+<!--            <field name="name">User</field>-->
+<!--            <field name="category_id" ref="metroerp_userguide.module_category_for_user_guide"/>-->
+<!--        </record>-->
+
+         <record model="res.groups" id="manager_sub_admin_group">
+            <field name="name">Manager</field>
+<!--            <field name="implied_ids" eval="[(4, ref('user_sub_admin_group'))]"/>-->
+            <field name="category_id" ref="metroerp_userguide.module_category_for_user_guide"/>
+        </record>
+
+         <record model="res.groups" id="admin_sub_admin_group">
+            <field name="name">Admin</field>
+            <field name="implied_ids" eval="[(4, ref('manager_sub_admin_group'))]"/>
+            <field name="category_id" ref="metroerp_userguide.module_category_for_user_guide"/>
+        </record>
+
+        <record id="all_user_guide_url_groups" model="res.groups">
+            <field name="name">User Guide List</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+</odoo>

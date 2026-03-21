@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_peppolsg_inherit" model="ir.ui.view">
+        <field name="name">view.partner.peppol.sg.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <page name="peppol_identifier" string="e-Invoice">
+                    <group string="Peppol">
+                        <group>
+                            <label for="peppol_identifier" string="Peppol Identifier"/>
+                            <div>
+                                <field name="peppol_identifier" class="oe_inline" placeholder="eg: sguen201316807h" widget="field_peppol_autocomplete" />
+
+                                <button style="background: white;pading-left:3px;margin: 3px;font-size:80%;color: black;border-color: #cccccc;" class="btn btn-default oe_inline oe_highlight"
+                                        type="object" string="Verify" name="verify_identifier_registered" icon="fa-check fa-lg" attrs="{'invisible':[('peppol_identifier','=', False)]}" help="Click here to verify the identifier is registered at https://directory.peppol.eu/public">
+                                </button>
+                            </div>
+                            <field name="is_peppol_participant" readonly="1" force_save="1"/>
+                            <field name="peppol_scheme" placeholder="eg: 0195" string="Scheme"/>
+                            <field name="peppol_superscheme" readonly="1" string="Superscheme"/>
+                        </group>                            
+                        <group>
+                             <field name="seller_identifier" placeholder="eg: 5060012349998"/>
+                            <label for="peppol_document_type" string="Document Type"/>
+                            <div class="o_row">
+                                <field name="peppol_document_type" class="oe_inline"/>
+                                <button style="background: white;pading-left:3px;margin: 3px;font-size:112%;color: black;border-color: #cccccc;" class="btn btn-default oe_inline oe_highlight"
+                                        type="object" string="Check" name="check_peppol_document_type" icon="fa-check fa-lg">
+                                </button>
+                            </div>
+                             <!-- <field name="seller_identifier_scheme" placeholder="eg: 0088" string="Scheme"/> -->
+                        </group>
+                        <group>
+                            <field name="peppol_registered_date" string="Registered Date"/>
+                        </group>
+                        <group></group> 
+                    </group>
+                    <group string="GST Registration">
+                        <group>
+                            <field name="reg_id" placeholder="Enter Unique Entity Number/ GST Registration Number/ NRIC"/>
+                            <field name="registered_name" readonly="1"/>
+                            <field name="registration_id" readonly="1"/>
+                            <field name="is_gst_register" readonly="1"/>
+                            <field name="is_sg_government_customer"/>
+                        </group>
+                        <group>
+                            <field name="registered_from" readonly="1"/>
+                            <field name="remark" readonly="1"/>
+                            <field name="return_code" readonly="1"/>
+                        </group>                            
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+		<!-- <field name="nric_no" placeholder="e.g. S1234567A"/> -->
+                <label for="registration_status" string="GST Reg Status"/>
+                <div>
+                    <field name="registration_status" readonly="1"/>
+                    <button name="check_gst_register" type="object" string="Check GST Reg"
+                        style="pading-left:3px;margin:3px;font-size:80%;" class="btn btn-primary oe_inline"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_kanban_peppol_inherit" model="ir.ui.view">
+        <field name="name">res.partner.kanban.peppol.sg.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+          <xpath expr="//kanban" position="attributes">
+              <attribute name="js_class">kanban_res_partner_search_button</attribute>
+          </xpath>
+        </field>
+    </record>
+
+    <record id="action_send_news" model="ir.actions.server">
+        <field name="name">Send News</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="binding_model_id" ref="model_res_partner"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+            action = records.action_send_email_template()</field>
+    </record>
+
+    <record id="action_check_peppol_document_type" model="ir.actions.server">
+        <field name="name">Check Peppole Document Type</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="binding_model_id" ref="model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+            action = records.action_check_peppol_doc_type()</field>
+    </record>
+
+</odoo>

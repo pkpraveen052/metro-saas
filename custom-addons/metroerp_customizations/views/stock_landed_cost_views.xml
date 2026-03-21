@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_product_landed_cost_form_inherit_metroerp_customizations" model="ir.ui.view">
+            <field name="name">product.template.landed.cost.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock_landed_costs.view_product_landed_cost_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div//group[@name='landedcosts']" position="attributes">
+                    <attribute name="groups">metroerp_customizations.group_module_stock_landed_costs</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem action="stock_landed_costs.action_stock_landed_cost"
+                  name="Landed Costs" parent="stock.menu_stock_warehouse_mgmt"
+                  id="stock_landed_costs.menu_stock_landed_cost" sequence="115"
+                  groups="metroerp_customizations.group_module_stock_landed_costs"/>
+    </data>
+</odoo>

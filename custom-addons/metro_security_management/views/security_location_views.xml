@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="security_location_tree_view" model="ir.ui.view">
+            <field name="name">security.location.list.view</field>
+            <field name="model">security.location</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="location_ref"/>
+                    <field name="location_name" />
+                    <field name="address_id"/>
+                    <field name="contract_id" />
+                    <field name="start_date" />
+                    <field name="end_date" />
+                </tree>
+            </field>
+        </record>
+        <record id="security_location_form_view" model="ir.ui.view">
+            <field name="name">security.location.form.view</field>
+            <field name="model">security.location</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_open_block_locations" type="object" class="oe_stat_button" icon="fa-map-marker">
+                                <field name="block_location_count" widget="statinfo" string="Block Locations"/>
+                            </button>
+                            <button name="action_view_visitors" type="object" class="oe_stat_button" icon="fa-solid fa-user">
+                                <field string="Visitors" name="visitor_count" widget="statinfo"/>
+                            </button>
+                            <button name="action_block_visitors" 
+                                    type="object" 
+                                    class="oe_stat_button" 
+                                    icon="fa-solid fa-ban">
+                                <field string="Blocked Visitors" name="block_visitor_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <h1>
+                            <field name="location_ref" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="location_name" placeholder="Enter Location Name"/>
+                                <field name="address_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True}" 
+                                domain="[('company_id','=', company_id)]" options="{&quot;always_reload&quot;: True}" placeholder="Select or Create address"/>
+                                <field name="contract_id" options="{'no_create': True}"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="start_date" />
+                                <field name="end_date" />
+                                <field name="active" invisible="1"/>
+                                <field name="color" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="CheckPoints">
+                                <field name="checkpoint_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="sequence"/>
+                                        <field name="name" placeholder="Enter Check-Point Name"/>
+                                        <field name="item_type"/>
+                                        <field name="device_id" placeholder="23224434"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Security Info">
+                                <group>
+                                    <group>
+                                        <field name="security_ids" widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="security_loction_kanban_view" model="ir.ui.view">
+            <field name="name">security.location.kanban.view</field>
+            <field name="model">security.location</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <kanban sample="1">
+                    <field name="location_ref"/>
+                    <field name="location_name" />
+                    <field name="address_id"/>
+                    <field name="contract_id" />
+                    <field name="start_date" />
+                    <field name="end_date" />
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                                <!-- Dropdown Menu -->
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <t t-if="widget.editable">
+                                            <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                        </t>
+                                        <t t-if="widget.deletable">
+                                            <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                        </t>
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                </div>
+                                
+                                <!-- Main Content -->
+                                <div class="oe_kanban_content">
+                                    <!-- Contract Reference -->
+                                    <div class="o_kanban_record_title">
+                                        <h4><field name="location_ref"/></h4>
+                                    </div>
+                                    
+                                    <!-- Partner and Service Buyer -->
+                                    <div class="o-kanban-partner-info">
+                                        <div>
+                                            <b>Location Name: </b><field name="location_name"/>
+                                        </div>
+                                        <div>
+                                            <b>Address: </b><field name="address_id"/>
+                                        </div>
+                                        <div>
+                                            <b>Contract: </b><field name="contract_id" />
+                                        </div>
+                                    </div>
+                                    <div class="o-kanban-activity">
+                                        <div class="text-right">
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o-kanban-bottom d-flex justify-content-between align-items-center">
+                                    <div class="text-left">
+                                        <b>Start Date: </b><field name="start_date" />
+                                    </div>
+                                    <div class="text-right">
+                                        <b>End Date: </b><field name="end_date" />
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        
+        <record id="security_location_search_view" model="ir.ui.view">
+            <field name="name">security.location.search.view</field>
+            <field name="model">security.location</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="location_ref"/>
+                    <field name="location_name"/>
+                    <field name="address_id"/>
+                    <field name="contract_id"/>
+                    <filter name="filter_active" string="Archived"  domain="[('active','=',False)]"/>
+                    <separator/>
+                    <filter string="Create Date" name="filter_create_date" date="create_date"/>
+                    <separator/>
+                    <group expand="1" string="Group By">
+                        <filter string="Address" name='address' context="{'group_by':'address_id'}"/>
+                        <filter string="Contract" name="contract" context="{'group_by':'contract_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="security_location_action_window" model="ir.actions.act_window">
+            <field name="name">Location</field>
+            <field name="res_model">security.location</field>
+            <field name="view_mode">tree,form,kanban,search</field>
+        </record>
+
+
+    <menuitem id="security_location_menu"
+        parent="security_contract_menu_root"
+        name="Location"
+        action="security_location_action_window"
+        sequence="1"/>
+
+    </data>
+</odoo>

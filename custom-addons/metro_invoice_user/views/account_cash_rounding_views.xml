@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+       <!-- Inherit the rounding_form_view to add the custom group -->
+        <record id="inherit_rounding_form_view" model="ir.ui.view">
+            <field name="name">account.cash.rounding.form.inherit</field>
+            <field name="model">account.cash.rounding</field>
+            <field name="inherit_id" ref="account.rounding_form_view"/>
+            <field name="arch" type="xml">
+                <field name="profit_account_id" position="attributes">
+                    <attribute name="groups">account.group_account_invoice,account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </field>
+                <field name="loss_account_id" position="attributes">
+                    <attribute name="groups">account.group_account_invoice,account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </field>
+            </field>
+        </record>
+   </data>
+</odoo>

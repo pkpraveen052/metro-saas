@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','point_of_sale'),('name','=','seq_pos_session')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        <record id="point_of_sale.seq_pos_session" model="ir.sequence">
+            <field name="name">POS Session</field>
+            <field name="code">pos.session</field>
+            <field name="prefix">POS/</field>
+            <field name="padding">5</field>
+            <field name="company_id">1</field>
+        </record>
+        <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','point_of_sale'),('name','=','seq_pos_session')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+
+        <!-- Overidden inorder to remove the create,delete access to ERP Admin -->
+        <record id="point_of_sale.access_pos_config_manager" model="ir.model.access">
+            <field name="name">pos.config manager</field>
+            <field name="model_id" ref="point_of_sale.model_pos_config"/>
+            <field name="group_id" ref="point_of_sale.group_pos_manager"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    
+    <template id="mail_notification_paynow_inheirt" inherit_id="mail.mail_notification_paynow">
+        <xpath expr="//table/tr[2]/td[@align='center']" position="replace">
+            <td align="center" style="min-width: 590px;">
+                <p>Powered by 
+                    <a target="_blank" 
+                    href="https://www.metrogroup.solutions/solutions/accounting-system" 
+                    style="color: #875A7B;">
+                    Metro Accounting System
+                    </a>
+                </p>
+            </td>
+        </xpath>            
+    </template>
+
+    <template id="mail_notification_borders_inherit" inherit_id="mail.mail_notification_borders">
+        <xpath expr="//div/table/tbody/tr[4]/td[@align='center']" position="replace">
+            <td align="center" style="min-width: 590px;">
+                <p>Powered by 
+                    <a target="_blank" 
+                    href="https://www.metrogroup.solutions/solutions/accounting-system" 
+                    style="color: #875A7B;">
+                    Metro Accounting System
+                    </a>
+                </p>
+            </td>
+        </xpath>
+    </template>
+    
+    <template id="mail_notification_light_inherit" inherit_id="mail.mail_notification_light">
+        <xpath expr="//table/tr[2]/td[@align='center']" position="replace">
+            <td align="center" style="min-width: 590px;">
+                <p>Powered by 
+                <a target="_blank" 
+                   href="https://www.metrogroup.solutions/solutions/accounting-system" 
+                   style="color: #875A7B;">Metro Accounting System</a>
+                </p>
+            </td>
+        </xpath>
+    </template>
+
+    <!-- message notification email template override and replace it-->
+    <template id="message_notification_email_inherit" inherit_id="mail.message_notification_email">
+        <xpath expr="//div[1]" position="replace">
+            <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: rgb(255, 255, 255); font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; color: rgb(34, 34, 34); width: 100%; border-collapse:separate;">
+                <tr>
+                    <td align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
+                            <tbody>
+                            <!-- HEADER -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: white; padding: 0; border-collapse:separate;">
+                                            <tr t-if="has_button_access" itemscope="itemscope" itemtype="http://schema.org/EmailMessage">
+                                                <td>
+                                                    <div itemprop="potentialAction" itemscope="itemscope" itemtype="http://schema.org/ViewAction">
+                                                        <link itemprop="target" t-att-href="button_access['url']"/>
+                                                        <link itemprop="url" t-att-href="button_access['url']"/>
+                                                        <meta itemprop="name" t-att-content="button_access['title']"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="middle">
+                                                    <span style="font-size: 10px;">Your <t t-esc="model_description or 'document'"/></span><br/>
+                                                    <span style="font-size: 20px; font-weight: bold;">
+                                                        <t t-esc="message.record_name"/>
+                                                    </span>
+                                                </td>
+                                                <td t-if="actions">
+                                                    <t t-foreach="actions" t-as="action">
+                                                        |
+                                                        <a t-att-href="action['url']" style="color: #875A7B; text-decoration:none !important;">
+                                                            <t t-esc="action['title']"/>
+                                                        </a>
+                                                    </t>
+                                                </td>
+    <!--													<td valign="middle">-->
+    <!--														<span style="font-size: 20px; font-weight: bold;">Your Partner Outstanding Statement</span><br/>-->
+    <!--													</td>-->
+                                                <td valign="middle" align="right">
+                                                    <img t-att-src="'/logo.png?company=%s' % (company.id or 0)" style="padding: 0px; margin: 0px; height: 48px;" t-att-alt="'%s' % company.name"/>
+    <!--														<img src="/logo.png?company=${object.company_id.id}" style="padding: 0px; margin: 0px; height: 48px;" alt="${object.company_id.name}" id="mail_template_images"/>-->
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="text-align:center;">
+                                                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 17px 0px;"/>
+                                                    <p t-if="subtype.internal" style="background-color: #f2dede; padding: 5px; margin-bottom: 16px;">
+                                                    <strong>Internal communication</strong>: Replying will post an internal note. Followers won't receive any email notification.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- CONTENT -->
+                                <tr>
+                                    <td style="min-width:590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: white; padding: 0; border-collapse:separate;">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top" style="font-size:13px;">
+                                                        <div>
+                                                            <t t-raw="message.body"/>
+                                                            <div t-if="has_button_access" style="margin: 32px 0px 32px 0px; text-align: center;">
+                                                                <a t-att-href="button_access['url']"
+                                                                    style="background-color: #875A7B; padding: 8px 16px 8px 16px;
+                                    text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                    <t t-esc="button_access['title']"/>
+                                                                </a>
+                                                            </div>
+                                                            <ul t-if="tracking_values">
+                                                                <t t-foreach="tracking_values" t-as="tracking">
+                                                                    <li><t t-esc="tracking[0]"/>: <t t-esc="tracking[1]"/> -&gt; <t t-esc="tracking[2]"/></li>
+                                                                </t>
+                                                            </ul>
+                                                            <br/>
+                                                            Best regards,
+                                                            <br/>
+                                                            <t t-if="signature" t-raw="signature" style="font-size: 13px;"/>
+                                                            <br/>
+                                                            <t t-esc="company.name"/>
+                                                            <br/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- FOOTER -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px; padding: 0 8px 0 8px; font-size:11px;">
+                                        <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
+                                        <b style="background-color: white;"><t t-esc="company.name"/></b><br/>
+                                        <div style="color: #999999;">
+                                            <t t-esc="company.phone"/>
+                                            <t t-if="company.email">
+                                                | <a t-att-href="'mailto:' + company.email" style="text-decoration:none; color: #454748;">
+                                                    <t t-esc="company.email"/>
+                                                </a>
+                                            </t>
+                                            <t t-if="company.website">
+                                                | <a t-att-href="company.website" style="text-decoration:none; color: #454748;">
+                                                    <t t-esc="company.website"/>
+                                                </a>
+                                            </t>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- POWERED BY -->
+                <tr>
+                    <td align="center" style="min-width: 590px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+                          <tr><td style="text-align: center; font-size: 13px;">
+                            Powered by <a href="https://www.metrogroup.solutions/solutions/accounting-system" style="color: #875A7B;">Metro Accounting System</a>
+                          </td></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </xpath>
+    </template>
+
+
+    <!-- Start To override an Email template 'auth_signup.reset_password_email -->
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','auth_signup'),('name','=','reset_password_email')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+
+    <!-- (Base Code) Email template override for reset password -->
+
+    <record id="auth_signup.reset_password_email" model="mail.template">
+        <field name="name">Auth Signup: Reset Password</field>
+        <field name="model_id" ref="base.model_res_users"/>
+        <field name="subject">Password reset</field>
+        <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+        <field name="email_to">${object.email_formatted | safe}</field>
+        <field name="body_html" type="html">
+            <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                <tr>
+                    <td align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+                            <tbody>
+                                <!-- HEADER -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                            <tr><td valign="middle">
+                                                <span style="font-size: 10px;">Your Account</span><br/>
+                                                <span style="font-size: 20px; font-weight: bold;">
+                                                    ${object.name}
+                                                </span>
+                                            </td><td valign="middle" align="right">
+                                                <img src="/logo.png?company=${object.company_id.id}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${object.company_id.name}" id="mail_template_images"/>
+                                            </td></tr>
+                                            <tr><td colspan="2" style="text-align:center;">
+                                              <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                            </td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- CONTENT -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                            <tr>
+                                                <td valign="top" style="font-size: 13px;">
+                                                    <div>
+                                                        Dear ${object.name},<br/><br/>
+                                                        A password reset was requested for the ${object.get_powerby_title()} account linked to this email.
+                                                        You may change your password by following this link which will remain valid during 24 hours:<br/>
+                                                        <div style="margin: 16px 0px 16px 0px;">
+                                                            <a href="${object.signup_url}"
+                                                                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                                Change password
+                                                            </a>
+                                                        </div>
+                                                        If you do not expect this, you can safely ignore this email.<br/><br/>
+                                                        Thanks,
+                                                        % if user.signature:
+                                                            <br/>
+                                                            ${user.signature | safe}
+                                                        % endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:center;">
+                                                    <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                                </td>
+                                            </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <!-- FOOTER -->
+                            <tr>
+                                <td align="center" style="min-width: 590px;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                        <tr><td valign="middle" align="left">
+                                            ${object.company_id.name}
+                                        </td></tr>
+                                        <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                                            ${object.company_id.phone}
+                                            % if object.company_id.email
+                                                | <a href="'mailto:%s' % ${object.company_id.email}" style="text-decoration:none; color: #454748;">${object.company_id.email}</a>
+                                            % endif
+                                            % if object.company_id.website
+                                                | <a href="'%s' % ${object.company_id.website}" style="text-decoration:none; color: #454748;">
+                                                ${object.company_id.website}
+                                            </a>
+                                            % endif
+                                        </td></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- POWERED BY -->
+                <tr>
+                    <td align="center" style="min-width: 590px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+                          <tr>
+                            <td style="text-align: center; font-size: 13px;">
+                                Powered by 
+                                <a target="_blank" 
+                                href="https://www.metrogroup.solutions/solutions/accounting-system" 
+                                style="color: #875A7B;">
+                                Metro Accounting System
+                                </a>
+                            </td>
+                          </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','auth_signup'),('name','=','reset_password_email')]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+
+    <!-- **=================================================** -->
+
+
+    <!-- Start To override an Email template override for new users 'auth_signup.set_password_email -->
+
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','auth_signup'),('name','=','set_password_email')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+
+    <!-- (Base Code) Email template override for new users -->
+    <record id="auth_signup.set_password_email" model="mail.template">
+        <field name="name">Auth Signup: ${object.get_powerby_title()} Connection</field>
+        <field name="model_id" ref="base.model_res_users"/>
+        <field name="subject">${object.create_uid.name} from ${object.company_id.name} invites you to connect to ${object.get_powerby_title()}</field>
+        <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+        <field name="email_to">${object.email_formatted | safe}</field>
+        <field name="body_html" type="html">
+            <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                <tr>
+                    <td align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+                            <tbody>
+                            <!-- HEADER -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                            <tr>
+                                                <td valign="middle">
+                                                    <span style="font-size: 10px;">Welcome to ${object.get_powerby_title()}</span><br/>
+                                                    <span style="font-size: 20px; font-weight: bold;">
+                                                        ${object.name}
+                                                    </span>
+                                                </td>
+                                                <td valign="middle" align="right">
+                                                    <img src="/logo.png?company=${object.company_id.id}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${object.company_id.name}" id="mail_template_images"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="text-align:center;">
+                                                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- CONTENT -->
+                                <tr>
+                                    <td align="center" style="min-width:590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width:590px;background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                            <tbody><tr><td valign="top" style="font-size:13px;">
+                                                <div>
+                                                    Dear ${object.name},<br/><br/>
+                                                    You have been invited by ${object.create_uid.name} of ${object.company_id.name} to connect on ${object.get_powerby_title()}.
+                                                    <div style="margin:16px 0px 16px 0px;">
+                                                        <a href="${object.signup_url}" style="background-color:#875A7B;padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                            Accept invitation
+
+                                                    </a></div>
+                                                    % set website_url = object.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                                                    Your ${object.get_powerby_title()} domain is: <b><a href="${website_url}">${website_url}</a></b><br/>
+                                                    Your sign in email is: <b><a href="/web/login?login=${object.email}" target="_blank">${object.email}</a></b><br/><br/> Have a look at the our <a href="https://www.metrogroup.solutions/support/knowledge-base" style="color:#875A7B;" target="_blank"/><span style="font-family:Verdana, Arial, sans-serif;font-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit; text-align: inherit;"><a href="https://www.metrogroup.solutions/support/knowledge-base" target="_blank">User-guide</a></span><span style="font-style:inherit;font-variant-ligatures: inherit; font-variant-caps: inherit; font-weight: inherit; text-align: inherit;">.</span></div><div><br/>
+                                                    Enjoy ${object.get_powerby_title()}!<br/>
+                                                    --<br/>The ${object.company_id.name} Team
+                                                </div>
+                                            </td></tr>
+                                            <tr><td style="text-align:center;">
+                                              <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                            </td></tr>
+                                        </tbody></table>
+                                    </td>
+                                </tr>
+                                <!-- FOOTER -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                            <tr><td valign="middle" align="left">
+                                                ${object.company_id.name}
+                                            </td></tr>
+                                            <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                                                ${object.company_id.phone}
+                                                % if object.company_id.email
+                                                    | <a href="'mailto:%s' % ${object.company_id.email}" style="text-decoration:none; color: #454748;">${object.company_id.email}</a>
+                                                % endif
+                                                % if object.company_id.website
+                                                    | <a href="'%s' % ${object.company_id.website}" style="text-decoration:none; color: #454748;">
+                                                    ${object.company_id.website}
+                                                </a>
+                                                % endif
+                                            </td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- POWERED BY -->
+                <tr>
+                    <td align="center" style="min-width: 590px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+                          <tr><td style="text-align: center; font-size: 13px;">
+                            <p>Powered by 
+                            <a target="_blank" 
+                            href="https://www.metrogroup.solutions/solutions/accounting-system" 
+                            style="color: #875A7B;">Metro Accounting System</a>
+                            </p>
+                          </td></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','auth_signup'),('name','=','set_password_email')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+    </function>
+
+    <!-- **=================================================** -->
+
+     <!-- Start Email template override for new users that used a signup token -->
+    <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','auth_signup'),('name','=','mail_template_user_signup_account_created')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+    </function>
+    <!-- Email template override for new users that used a signup token -->
+    <record id="auth_signup.mail_template_user_signup_account_created" model="mail.template">
+        <field name="name">Auth Signup: ${object.get_powerby_title()} Account Created</field>
+        <field name="model_id" ref="base.model_res_users"/>
+        <field name="subject">Welcome to ${object.company_id.name}!</field>
+        <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+        <field name="email_to">${object.email_formatted | safe}</field>
+        <field name="body_html" type="html">
+            <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                <tr>
+                    <td align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+                            <tbody>
+                            <!-- HEADER -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                            <tr><td valign="middle">
+                                                <span style="font-size: 10px;">Your Account</span><br/>
+                                                <span style="font-size: 20px; font-weight: bold;">
+                                                    ${object.name}
+                                                </span>
+                                            </td><td valign="middle" align="right">
+                                                <img src="/logo.png?company=${object.company_id.id}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${object.company_id.name}" id="mail_template_images"/>
+                                            </td></tr>
+                                            <tr><td colspan="2" style="text-align:center;">
+                                              <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                            </td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- CONTENT -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                            <tr><td valign="top" style="font-size: 13px;">
+                                                <div>
+                                                    Dear ${object.name},<br/><br/>
+                                                    Your account has been successfully created!<br/>
+                                                    Your login is <strong>${object.email}</strong><br/>
+                                                    To gain access to your account, you can use the following link:
+                                                    <div style="margin: 16px 0px 16px 0px;">
+                                                        <a href="/web/login?auth_login=${object.email}"
+                                                            style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                                            Go to My Account
+                                                        </a>
+                                                    </div>
+                                                    Thanks,<br/>
+                                                    % if user.signature:
+                                                        <br/>
+                                                        ${user.signature | safe}
+                                                    % endif
+                                                </div>
+                                            </td></tr>
+                                            <tr><td style="text-align:center;">
+                                              <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                            </td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- FOOTER -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                            <tr><td valign="middle" align="left">
+                                                ${object.company_id.name}
+                                            </td></tr>
+                                            <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                                                ${object.company_id.phone}
+                                                % if object.company_id.email
+                                                    | <a href="'mailto:%s' % ${object.company_id.email}" style="text-decoration:none; color: #454748;">${object.company_id.email}</a>
+                                                % endif
+                                                % if object.company_id.website
+                                                    | <a href="'%s' % ${object.company_id.website}" style="text-decoration:none; color: #454748;">
+                                                    ${object.company_id.website}
+                                                </a>
+                                                % endif
+                                            </td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- POWERED BY -->
+                <tr>
+                    <td align="center" style="min-width: 590px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+                          <tr>
+                            <td style="text-align: center; font-size: 13px;">
+                                Powered by 
+                                <a target="_blank" 
+                                href="https://www.metrogroup.solutions/solutions/accounting-system" 
+                                style="color: #875A7B;">
+                                Metro Accounting System
+                                </a>
+                            </td>
+                          </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </field>
+        <field name="lang">${object.lang}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','auth_signup'),('name','=','mail_template_user_signup_account_created')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+    </function>
+    <!-- **=========================End========================** -->
+
+    <!-- (Start) Portal user email overrided -->
+    <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','portal'),('name','=','mail_template_data_portal_welcome')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+    </function>
+
+    <!-- Portal user email overrided -->
+
+    <record id="portal.mail_template_data_portal_welcome" model="mail.template">
+        <field name="name">Portal: new user</field>
+        <field name="model_id" ref="portal.model_portal_wizard_user"/>
+        <field name="subject">Your ${object.get_powerby_title()} account at ${object.user_id.company_id.name}</field>
+        <field name="email_to">${object.user_id.email_formatted | safe}</field>
+        <field name="body_html" type="html">
+            <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                <tr>
+                    <td align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+                            <tbody>
+                            <!-- HEADER -->
+                            <tr>
+                                <td align="center" style="min-width: 590px;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                        <tr><td valign="middle">
+                                            <span style="font-size: 10px;">Your Accountttt</span><br/>
+                                            <span style="font-size: 20px; font-weight: bold;">
+                                                ${object.user_id.name}
+                                            </span>
+                                        </td><td valign="middle" align="right">
+                                            <img src="/logo.png?company=${object.user_id.company_id.id}" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${object.user_id.company_id.name}" id="mail_template_images"/>
+                                        </td></tr>
+                                        <tr><td colspan="2" style="text-align:center;">
+                                          <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:16px 0px 16px 0px;"/>
+                                        </td></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <!-- CONTENT -->
+                            <tr>
+                                <td align="center" style="min-width: 590px;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                        <tr><td valign="top" style="font-size: 13px;">
+                                            <div>
+                                                Dear ${object.user_id.name or ''},<br/> <br/>
+                                                You have been given access to ${object.user_id.company_id.name}'s portal.<br/>
+                                                Your login account data is:
+                                                <ul>
+                                                    <li>Username: ${object.user_id.login or ''}</li>
+                                                    <li>Portal: <a href="${'portal_url' in ctx and ctx['portal_url'] or ''}">${'portal_url' in ctx and ctx['portal_url'] or ''}</a></li>
+                                                    <li>Database: ${'dbname' in ctx and ctx['dbname'] or ''}</li>
+                                                </ul>
+                                                You can set or change your password via the following url:
+                                                <ul>
+                                                    <li><a href="${object.user_id.signup_url}">${object.user_id.signup_url}</a></li>
+                                                </ul>
+                                                ${object.wizard_id.welcome_message or ''}
+                                            </div>
+                                        </td></tr>
+                                        <tr><td style="text-align:center;">
+                                          <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                        </td></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <!-- FOOTER -->
+                            <tr>
+                                <td align="center" style="min-width: 590px;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                        <tr><td valign="middle" align="left">
+                                            ${object.user_id.company_id.name}
+                                        </td></tr>
+                                        <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                                            ${object.user_id.company_id.phone}
+                                            % if object.user_id.company_id.email
+                                                | <a href="'mailto:%s' % ${object.user_id.company_id.email}" style="text-decoration:none; color: #454748;">${object.user_id.company_id.email}</a>
+                                            % endif
+                                            % if object.user_id.company_id.website
+                                                | <a href="'%s' % ${object.user_id.company_id.website}" style="text-decoration:none; color: #454748;">
+                                                ${object.user_id.company_id.website}
+                                            </a>
+                                            % endif
+                                        </td></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <!-- POWERED BY -->
+            <tr>
+                <td align="center" style="min-width: 590px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+                        <tr>
+                            <td style="text-align: center; font-size: 13px;">
+                                Powered by 
+                                <a target="_blank" 
+                                href="https://www.metrogroup.solutions/solutions/accounting-system" 
+                                style="color: #875A7B;">
+                                Metro Accounting System
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </field>
+    <field name="lang">${object.partner_id.lang}</field>
+    <field name="auto_delete" eval="True"/>
+    </record>
+
+    <function model="ir.model.data" name="write">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module','=','portal'),('name','=','mail_template_data_portal_welcome')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+    </function>
+
+<!--    Bulk email for Invoice -->
+    <record id="mass_email_template_edi_invoice" model="mail.template">
+            <field name="name">Invoice: Send by Mass email</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="email_from">${(object.invoice_user_id.email_formatted or user.email_formatted) |safe}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="subject">${object.company_id.name} Invoice (Ref ${object.name or 'n/a'})</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+					<tr>
+						<td align="center">
+							<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
+								<tbody>
+								<!-- HEADER -->
+									<tr>
+										<td align="center" style="min-width: 590px;">
+											<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: white; padding: 0; border-collapse:separate;">
+												<tr>
+													<td valign="middle">
+                                                        <span style="font-size: 10px;">
+                                                            Your
+                                                            % if object.move_type == 'out_refund':
+                                                                        Credit Note
+                                                                    % else:
+                                                                        Journal Entry
+                                                                    %endif
+                                                        </span><br/>
+                                                        <span style="font-size: 20px; font-weight: bold;">
+                                                            ${object.name}
+                                                        </span>
+													</td>
+													<td valign="middle" align="right">
+														<img src="/logo.png?company=${object.company_id.id}" style="padding: 0px; margin: 0px; height: 48px;" alt="${object.company_id.name}" id="mail_template_images"/>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2" style="text-align:center;">
+													  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 17px 0px;"/>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									<!-- CONTENT -->
+									<tr>
+										<td style="min-width:590px;">
+											<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: white; padding: 0; border-collapse:separate;">
+												<tbody>
+                                                    <tr>
+                                                        <td valign="top" style="font-size:13px;">
+															<div>
+                                                                <p>
+																    Dear
+                                                                    % if object.partner_id.parent_id:
+                                                                        ${object.partner_id.name} (${object.partner_id.parent_id.name}),
+                                                                    % else:
+                                                                        ${object.partner_id.name},
+                                                                    % endif
+                                                                    <br /><br />
+                                                                    Here is your
+                                                                    % if object.name:
+                                                                        invoice <strong>${object.name}</strong>
+                                                                    % else:
+                                                                        invoice
+                                                                    %endif
+                                                                    % if object.invoice_origin:
+                                                                        (with reference: ${object.invoice_origin})
+                                                                    % endif
+                                                                    amounting in <strong>${format_amount(object.amount_total, object.currency_id)}</strong>
+                                                                    from ${object.company_id.name}.
+                                                                    % if object.payment_state in ('paid', 'in_payment'):
+                                                                        This invoice is already paid.
+                                                                    % else:
+                                                                        Please remit payment at your earliest convenience.
+                                                                        % if object.payment_reference:
+                                                                            <br /><br />
+                                                                            Please use the following communication for your payment: <strong>${object.payment_reference}</strong>.
+                                                                        % endif
+                                                                    % endif
+                                                                    <br /><br />
+                                                                    Do not hesitate to contact us if you have any questions.
+                                                                    % if object.invoice_user_id.signature:
+                                                                        <br />
+                                                                        ${object.invoice_user_id.signature | safe}
+                                                                    % endif
+                                                                </p>
+															</div>
+														</td>
+													</tr>
+												</tbody>
+                            				</table>
+										</td>
+									</tr>
+									<!-- FOOTER -->
+									<tr>
+										<td align="center" style="min-width: 590px; padding: 0 8px 0 8px; font-size:11px;">
+											<hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
+											<b style="background-color: white;">${object.company_id.name}</b><br/>
+											<div style="color: #999999;">
+												${object.company_id.phone}
+													% if object.company_id.email
+														| <a href="'mailto:%s' % ${object.company_id.email}" style="text-decoration:none; color: #454748;">${object.company_id.email}</a>
+													% endif
+													% if object.company_id.website
+														| <a href="'%s' % ${object.company_id.website}" style="text-decoration:none; color: #454748;">
+														${object.company_id.website}
+													</a>
+													% endif
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					<!-- POWERED BY -->
+					<tr>
+						<td align="center" style="min-width: 590px;">
+							<table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+							  <tr><td style="text-align: center; font-size: 13px;">
+								Powered by <a href="https://www.metrogroup.solutions/solutions/accounting-system" style="color: #875A7B;">Metro Accounting System</a>
+							  </td></tr>
+							</table>
+						</td>
+					</tr>
+            	</table>
+            </field>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="report_name">Invoice_${(object.name or '').replace('/','_')}${object.state == 'draft' and '_draft' or ''}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+    </record>
+
+    <!--Bulk email for Payment-->
+     <record id="mass_mail_template_data_payment_receipt" model="mail.template">
+         <field name="name">Payment Receipt: Send by Mass email</field>
+        <field name="model_id" ref="account.model_account_payment"/>
+        <field name="subject">${object.company_id.name} Payment Receipt (Ref ${object.name or 'n/a' })</field>
+        <field name="partner_to">${object.partner_id.id}</field>
+        <field name="body_html" type="xml">
+            <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                <tr>
+                    <td align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
+                            <tbody>
+                            <!-- HEADER -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: white; padding: 0; border-collapse:separate;">
+                                            <tr>
+                                                <td valign="middle">
+                                                    <span style="font-size: 10px;">
+                                                        Your Payments
+                                                    </span><br/>
+                                                    <span style="font-size: 20px; font-weight: bold;">
+                                                        ${(object.name or '').replace('/','-')}
+                                                    </span>
+                                                </td>
+                                                <td valign="middle" align="right">
+                                                    <img src="/logo.png?company=${object.company_id.id}" style="padding: 0px; margin: 0px; height: 48px;" alt="${object.company_id.name}" id="mail_template_images"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="text-align:center;">
+                                                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 17px 0px;"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- CONTENT -->
+                                <tr>
+                                    <td style="min-width:590px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: white; padding: 0; border-collapse:separate;">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top" style="font-size:13px;">
+                                                        <div>
+                                                            <p>
+                                                                Dear ${object.partner_id.name}<br/><br/>
+                                                                Thank you for your payment.
+                                                                Here is your payment receipt <strong>${(object.name or '').replace('/','-')}</strong> amounting
+                                                                to <strong>${format_amount(object.amount, object.currency_id)}</strong> from ${object.company_id.name}.
+                                                                <br /><br />
+                                                                Do not hesitate to contact us if you have any questions.
+                                                                <br/><br/>
+                                                                Best regards,
+                                                                % if user.signature:
+                                                                    <br/>
+                                                                    ${user.signature | safe}
+                                                                % endif
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- FOOTER -->
+                                <tr>
+                                    <td align="center" style="min-width: 590px; padding: 0 8px 0 8px; font-size:11px;">
+                                        <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
+                                        <b style="background-color: white;">${object.company_id.name}</b><br/>
+                                        <div style="color: #999999;">
+                                            ${object.company_id.phone}
+                                                % if object.company_id.email
+                                                    | <a href="'mailto:%s' % ${object.company_id.email}" style="text-decoration:none; color: #454748;">${object.company_id.email}</a>
+                                                % endif
+                                                % if object.company_id.website
+                                                    | <a href="'%s' % ${object.company_id.website}" style="text-decoration:none; color: #454748;">
+                                                    ${object.company_id.website}
+                                                </a>
+                                                % endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <!-- POWERED BY -->
+                <tr>
+                    <td align="center" style="min-width: 590px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: #F1F1F1; color: #454748; padding: 8px; border-collapse:separate;">
+                          <tr><td style="text-align: center; font-size: 13px;">
+                            Powered by <a href="https://www.metrogroup.solutions/solutions/accounting-system" style="color: #875A7B;">Metro Accounting System</a>
+                          </td></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </field>
+        <field name="report_template" ref="account.action_report_payment_receipt"/>
+        <field name="report_name">${(object.name or '').replace('/','-')}</field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+     </record>
+
+</odoo>

@@ -1,0 +1,15 @@
+<odoo> 
+    <data>
+         <record id="action_create_whatsapp_templates" model="ir.actions.server">
+            <field name="name">Temp - Create Whatsapp Templates</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_res_company"/>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    record.create_whatsapp_templates()
+            </field>
+        </record>
+         <function model="assistro.whatsapp.template" name="_create_temp_records"/>
+    </data>
+</odoo>

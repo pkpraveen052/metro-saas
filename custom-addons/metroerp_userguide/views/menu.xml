@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="main_app_menu_users_guide"
+                  name="User Guide"
+                  sequence="302"
+                  web_icon="metroerp_userguide,static/description/icon.png"
+        />
+
+        <menuitem id="main_menu_user_guide_url"
+                  name="User Guide"
+                  action="action_user_guide_form_url"
+                  parent="metroerp_userguide.main_app_menu_users_guide"
+                  sequence="2"
+        />
+
+        <menuitem id="menu_configuration"
+                  name="Configuration"
+                  parent="metroerp_userguide.main_app_menu_users_guide"
+                  sequence="3"
+                  groups="metroerp_userguide.manager_sub_admin_group,metroerp_userguide.admin_sub_admin_group"
+        />
+
+        <menuitem id="menu_user_guide"
+                  name="User Guide"
+                  action="action_user_guide"
+                  parent="metroerp_userguide.menu_configuration"
+                  sequence="1"
+        />
+
+        <menuitem id="menu_user_guide_tags"
+                  name="Tags"
+                  action="action_user_guide_tags_form"
+                  parent="metroerp_userguide.menu_configuration"
+                  sequence="2"
+        />
+
+        <!--Account user guide menu-->
+        <menuitem id="menu_user_guide_account"
+                  name="User Guide"
+                  action="action_user_guide_account"
+                  parent="account.menu_finance"
+                  sequence="36"
+                  groups="metroerp_userguide.manager_sub_admin_group,metroerp_userguide.admin_sub_admin_group"
+
+        />
+        <menuitem id="menu_user_guide_url_account"
+                  name="User Guide"
+                  action="action_user_guide_url_account"
+                  parent="account.menu_finance"
+                  sequence="36"
+                  groups="metroerp_userguide.all_user_guide_url_groups"
+
+        />
+
+        <!--Sales user guide menu-->
+        <menuitem id="menu_user_guide_sales"
+                  name="User Guide"
+                  action="action_user_guide_sales"
+                  parent="sale.sale_menu_root"
+                  sequence="8"
+                  groups="metroerp_userguide.manager_sub_admin_group,metroerp_userguide.admin_sub_admin_group"
+        />
+        <menuitem id="menu_user_guide_url_sales"
+                  name="User Guide"
+                  action="action_user_guide_url_sales"
+                  parent="sale.sale_menu_root"
+                  sequence="8"
+                  groups="metroerp_userguide.all_user_guide_url_groups"
+        />
+
+
+        <!--Purchase user guide menu-->
+        <menuitem id="menu_user_guide_purchase"
+                  name="User Guide"
+                  action="action_user_guide_purchase"
+                  parent="purchase.menu_purchase_root"
+                  sequence="102"
+                  groups="metroerp_userguide.manager_sub_admin_group,metroerp_userguide.admin_sub_admin_group"
+
+        />
+        <menuitem id="menu_user_guide_url_purchase"
+                  name="User Guide"
+                  action="action_user_guide_url_purchase"
+                  parent="purchase.menu_purchase_root"
+                  sequence="102"
+                  groups="metroerp_userguide.all_user_guide_url_groups"
+        />
+
+        <!--Inventory user guide menu-->
+        <menuitem id="menu_user_guide_inventory"
+                  name="User Guide"
+                  action="action_user_guide_inventory"
+                  parent="stock.menu_stock_root"
+                  sequence="101"
+                  groups="metroerp_userguide.manager_sub_admin_group,metroerp_userguide.admin_sub_admin_group"
+        />
+        <menuitem id="menu_user_guide_url_inventory"
+                  name="User Guide"
+                  action="action_user_guide_url_inventory"
+                  parent="stock.menu_stock_root"
+                  sequence="101"
+                  groups="metroerp_userguide.all_user_guide_url_groups"
+        />
+
+        <!--Peppol user guide menu-->
+        <menuitem id="menu_user_guide_peppol"
+                  name="User Guide"
+                  action="action_user_guide_peppol"
+                  parent="metro_einvoice_datapost.menu_peppol_root"
+                  sequence="7"
+                  groups="metroerp_userguide.manager_sub_admin_group,metroerp_userguide.admin_sub_admin_group"
+        />
+        <menuitem id="menu_user_guide_url_peppol"
+                  name="User Guide"
+                  action="action_user_guide_url_peppol"
+                  parent="metro_einvoice_datapost.menu_peppol_root"
+                  sequence="7"
+                  groups="metroerp_userguide.all_user_guide_url_groups"
+        />
+        <!--Contact User Guide Menu-->
+        <menuitem id="menu_user_guide_contact"
+                  name="User Guide"
+                  action="action_user_guide_contacts"
+                  parent="contacts.menu_contacts"
+                  sequence="4"
+                  groups="metroerp_userguide.manager_sub_admin_group,metroerp_userguide.admin_sub_admin_group"
+
+        />
+        <menuitem id="menu_user_guide_url_contact"
+                  name="User Guide"
+                  action="action_user_guide_url_contacts"
+                  parent="contacts.menu_contacts"
+                  sequence="4"
+                  groups="metroerp_userguide.all_user_guide_url_groups"
+
+        />
+    </data>
+</odoo>

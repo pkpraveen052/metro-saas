@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="setup_administrator_wizard" model="ir.ui.view">
+            <field name="name">setup_administrator_wizard</field>
+            <field name="model">administrator.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                                <field name="name" />
+                                <field name="phone_number" />
+                                <field name="email" />
+                                <field name="role" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Create" class="oe_highlight" type="object" name="validate"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+</odoo>

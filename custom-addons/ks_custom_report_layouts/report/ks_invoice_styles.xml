@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <!-- Vendor Bill Report-->
+        <template id="ks_vendor_bill_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice') else o.partner_id.lang"/>
+                    <t t-set="print_with_payments" t-value="True"/>
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config" t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'Bill'), ('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <t t-if="res_config.sale_report_style_id.name == 'Contemporary'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_1"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_2"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_3"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_4"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_5"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_6"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_7"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_8"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_9"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_10"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.report_invoice_inherit_document_dynamic"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'MCT'">
+                            <t t-call="ks_custom_report_layouts.metro_custom_invoice_report_style_2"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Lite'">
+                            <t t-call="ks_custom_report_layouts.metro_custom_invoice_report_style_3"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <!-- invoice report with payment-->
+        <template id="ks_invoice_report_with_payments">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('out_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-set="print_with_payments" t-value="True"/>
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config" t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'Invoice'), ('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <t t-if="res_config.sale_report_style_id.name == 'Contemporary'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_1"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_2"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_3"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_4"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_5"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_6"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_7"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_8"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_9"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_10"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.report_invoice_inherit_document_dynamic"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'MCT'">
+                            <t t-call="ks_custom_report_layouts.metro_custom_invoice_report_style_2"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Lite'">
+                            <t t-call="ks_custom_report_layouts.metro_custom_invoice_report_style_3"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="ks_bill_report_without_amount">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice') else o.partner_id.lang"/>
+                    <t t-set="print_with_payments" t-value="True"/>
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config" t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'Bill'), ('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <t t-if="res_config.sale_report_style_id.name == 'Contemporary'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_1"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_2"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_3"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_4"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_5"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_6"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_7"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_8"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_9"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_10"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.duplicate_report_invoice_inherit_document_dynamic"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <template id="ks_invoice_report_wihtout_amount">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('out_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-set="print_with_payments" t-value="True"/>
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config" t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'Invoice'), ('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <t t-if="res_config.sale_report_style_id.name == 'Contemporary'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_1"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_2"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_3"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_4"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_5"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_6"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_7"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_8"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_9"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_10"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.duplicate_report_invoice_inherit_document_dynamic"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <template id="ks_invoice_with_payments_dplct">
+            <t t-set="is_with_payment_duplicate" t-value="True"/>
+            <t t-if="docs and docs[0].move_type in ['in_invoice']">
+                <t t-call="ks_custom_report_layouts.ks_vendor_bill_report"/>
+            </t>
+            <t t-else="">
+                <t t-call="ks_custom_report_layouts.ks_invoice_report_with_payments"/>
+            </t>
+        </template>
+
+        <template id="ks_invoice_bill_without_amount">
+            <t t-set="is_with_payment_duplicate" t-value="True"/>
+            <t t-if="docs and docs[0].move_type in ['in_invoice']">
+                <t t-call="ks_custom_report_layouts.ks_bill_report_without_amount"/>
+            </t>
+            <t t-else="">
+                <t t-call="ks_custom_report_layouts.ks_invoice_report_wihtout_amount"/>
+            </t>
+        </template>
+
+        <template id="metro_invoice_report_with_local_currency">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('out_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-set="print_with_payments" t-value="True"/>
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config" t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'Invoice'), ('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <!-- <t t-if="res_config.sale_report_style_id.name == 'Contemporary'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_1"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_2"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_3"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_4"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_5"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_6"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_7"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_8"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_9"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_10"
+                               t-lang="lang"/>
+                        </t> -->
+                        <t t-if="res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.metro_invoice_report_with_local_currency_template"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Lite'">
+                            <t t-call="ks_custom_report_layouts.metro_invoice_report_with_local_currency_template"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'MCT'">
+                            <t t-call="ks_custom_report_layouts.metro_invoice_report_with_local_currency_template"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="metro_invoice_delivery_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('out_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-set="print_with_payments" t-value="True"/>
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config" t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'Invoice'), ('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <!-- <t t-if="res_config.sale_report_style_id.name == 'Contemporary'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_1"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_2"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_3"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_4"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_5"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_6"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_7"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_8"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_9"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_10"
+                               t-lang="lang"/>
+                        </t> -->
+                        <t t-if="res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.invoice_delivery_report"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Lite'">
+                            <t t-call="ks_custom_report_layouts.invoice_delivery_report"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'MCT'">
+                            <t t-call="ks_custom_report_layouts.invoice_delivery_report"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="metro_delivery_invoice_report">
+            <t t-set="is_with_payment_duplicate" t-value="True"/>
+            <t t-if="docs and docs[0].move_type in ['in_invoice']">
+                <t t-call="ks_custom_report_layouts.metro_invoice_delivery_report"/>
+            </t>
+            <t t-else="">
+                <t t-call="ks_custom_report_layouts.metro_invoice_delivery_report"/>
+            </t>
+        </template>
+
+<!--        <template id="report_invoice_with_payments">-->
+<!--            <t t-call="web.html_container">-->
+<!--                <t t-foreach="docs" t-as="o">-->
+<!--                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>-->
+<!--                    <t t-set="print_with_payments" t-value="True"/>-->
+<!--                    <t t-if="o._get_name_invoice_report() == 'account.report_invoice_document'"-->
+<!--                        t-call="account.report_invoice_document" t-lang="lang"/>-->
+<!--                </t>-->
+<!--            </t>-->
+<!--        </template>-->
+
+        <template id="report_invoice_with_payments" inherit_id="account.report_invoice_with_payments">
+            <xpath expr='//t[@t-call="web.html_container"]' position="replace">
+                <t t-if="docs and docs[0].move_type in ['in_invoice']">
+                    <t t-call="ks_custom_report_layouts.ks_vendor_bill_report"/>
+                </t>
+                <t t-else="">
+                    <t t-call="ks_custom_report_layouts.ks_invoice_report_with_payments"/>
+                </t>             
+            </xpath>
+       </template>
+
+        <record id="account.account_invoices" model="ir.actions.report">
+            <field name="name">Invoices / Bills</field>
+            <!-- <field name="name">Invoices</field> -->
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">account.report_invoice_with_payments</field>
+            <field name="report_file">account.report_invoice_with_payments</field>
+            <field name="print_report_name">(object._get_report_base_filename())</field>
+            <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')
+            </field>
+            <field name="binding_model_id" ref="model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice')),
+ (4, ref('account.group_account_readonly'))]"/>
+            <field name="paperformat_id" ref="paperformat_dynamic_invoices_bills"/>
+        </record>
+        
+        <record id="ks_duplicate_account_invoices" model="ir.actions.report">
+            <field name="name">Duplicate Invoices / Bills</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_invoice_with_payments_dplct</field>
+            <field name="report_file">ks_custom_report_layouts.ks_invoice_with_payments_dplct</field>
+            <field name="print_report_name">(object._get_report_base_filename())</field>
+            <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')
+            </field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="groups_id"
+                   eval="[(4, ref('account.group_account_invoice')),(4, ref('account.group_account_readonly'))]"/>
+        </record>
+
+        <record id="ks_account_invoices_without_amount" model="ir.actions.report">
+            <field name="name">Invoices / Bills Without Details</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_invoice_bill_without_amount</field>
+            <field name="report_file">ks_custom_report_layouts.ks_invoice_bill_without_amount</field>
+            <field name="print_report_name">(object._get_report_base_filename())</field>
+            <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')
+            </field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="groups_id"
+                   eval="[(4, ref('account.group_account_invoice')),(4, ref('account.group_account_readonly'))]"/>
+            <field name="paperformat_id" ref="paperformat_dynamic_invoices_bills"/>
+        </record>
+
+        <record id="ks_delivery_invoice_report" model="ir.actions.report">
+            <field name="name">Invoice Delivery Report</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.metro_delivery_invoice_report</field>
+            <field name="report_file">ks_custom_report_layouts.metro_delivery_invoice_report</field>
+            <field name="print_report_name">(object._get_report_base_filename())</field>
+            <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')
+            </field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+            <!-- <field name="groups_id"
+                   eval="[(4, ref('account.group_account_invoice')),(4, ref('account.group_account_readonly'))]"/> -->
+            <field name="paperformat_id" ref="paperformat_dynamic_invoices_bills"/>
+        </record>
+
+        <record id="invoice_report_with_local_currency" model="ir.actions.report">
+            <field name="name">Invoices / Bills With Local Currency</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.metro_invoice_report_with_local_currency</field>
+            <field name="report_file">ks_custom_report_layouts.metro_invoice_report_with_local_currency</field>
+            <field name="print_report_name">(object._get_report_base_filename())</field>
+            <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')
+            </field>
+            <field name="binding_model_id" ref="model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_dynamic_invoices_bills"/>
+        </record>
+
+      <!-- Invoice Without Payment-->
+
+        <template id="ks_custom_report_invoice">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config" t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'Invoice'), ('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <t t-if="res_config.sale_report_style_id.name == 'Contemporary'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_1"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_2"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_3"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_4"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_5"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_6"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_7"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_8"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_9"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_10"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.report_invoice_inherit_document_dynamic"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'MCT'">
+                            <t t-call="ks_custom_report_layouts.metro_custom_invoice_report_style_2"
+                            t-lang="lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <!-- Vendor Bill Without Payment-->
+        <template id="ks_custom_vendor_bill_report_invoice">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config" t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'Bill'), ('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <t t-if="res_config.sale_report_style_id.name == 'Contemporary'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_1"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_2"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_3"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_4"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_5"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_6"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_7"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_8"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_9"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_invoice_report_style_10"
+                               t-lang="lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="#{ o._get_name_invoice_report() }" t-lang="lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <template id="invoice_bill_with_out_payments">
+            <t t-if="docs and docs[0].move_type in ['in_invoice']">
+                <t t-call="ks_custom_report_layouts.ks_custom_vendor_bill_report_invoice"/>
+            </t>
+            <t t-else="">
+                <t t-call="ks_custom_report_layouts.ks_custom_report_invoice"/>
+            </t>            
+       </template>
+
+        <template id="ks_duplicate_report_invoice">
+            <t t-set="is_without_payment_duplicate" t-value="True"/>
+            <t t-if="docs and docs[0].move_type in ['in_invoice']">
+                <t t-call="ks_custom_report_layouts.ks_custom_vendor_bill_report_invoice"/>
+            </t>
+            <t t-else="">
+                <t t-call="ks_custom_report_layouts.ks_custom_report_invoice"/>
+            </t>
+        </template>
+
+        <record id="account.account_invoices_without_payment" model="ir.actions.report">
+            <field name="name">Invoices / Bills without Payment</field>
+            <!-- <field name="name">Invoices without Payment</field> -->
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.invoice_bill_with_out_payments</field>
+            <field name="report_file">ks_custom_report_layouts.invoice_bill_with_out_payments</field>
+            <field name="print_report_name">(object._get_report_base_filename())</field>
+            <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field>
+            <field name="binding_model_id" ref="model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_dynamic_invoices_bills"/>
+        </record>
+
+        <record id="ks_duplicate_account_invoices_without_payment" model="ir.actions.report">
+            <field name="name">Duplicate Invoices / Bills without Payment</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_duplicate_report_invoice</field>
+            <field name="report_file">ks_custom_report_layouts.ks_duplicate_report_invoice</field>
+            <field name="print_report_name">(object._get_report_base_filename())</field>
+            <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')
+            </field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

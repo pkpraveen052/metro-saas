@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<template id="template" xml:space="preserve">
+
+    <t t-name="Chrome" t-inherit="point_of_sale.Chrome" t-inherit-mode="extension" owl="1">
+        <xpath expr="//img[hasclass('pos-logo')]" position="replace">
+            <img class="pos-logo" src="/pos_change_logo/static/src/img/metro_logo.png"/>
+        </xpath>
+    </t>
+
+    <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('pos-receipt')]//img" position="replace">
+            <t t-if="env.pos and env.pos.config and env.pos.config.pos_logo">
+                <img t-att-src="'data:image/png;base64,' + env.pos.config.pos_logo" 
+                    style="display: block; margin-left: auto; margin-right: auto; width:100%;"/>
+            </t>
+            <t t-else="">
+                <t t-if="receipt.company and receipt.company.logo">
+                    <img t-att-src="receipt.company.logo" 
+                        style="display: block; margin-left: auto; margin-right: auto; width: 100%;"/>
+                </t>
+            </t>
+        </xpath>
+    </t>
+    
+</template>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="sh_card_service_charge_demo_product" model="product.product">
+            <field name="name">Transaction Charge</field>
+            <field name="type">service</field>
+            <field name="available_in_pos" eval="True" />
+            <field name="sh_is_credit_card_charge" eval="True" />
+            <field name="taxes_id" eval="False" />
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+<odoo>
+  <data>
+    <!-- Settings -->
+      <menuitem id="mrp.menu_mrp_config"
+                name="Settings"
+                parent="mrp.menu_mrp_configuration"
+                sequence="0"
+                action="mrp.action_mrp_configuration"
+                groups="base.group_system,metroerp_customizations.sub_admin_group"/>
+  </data>
+</odoo>

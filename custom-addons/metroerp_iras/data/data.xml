@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <record model="iras.coa.mapping" id="demo_data_1">
+            <field name="name">totalRevenue</field>
+            <field name="description">Total Revenue</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_2">
+            <field name="name">sgIntDisc</field>
+            <field name="description">Interest Income</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_3">
+            <field name="name">oneTierTaxDividendIncome</field>
+            <field name="description">Dividend Income - One-Tier</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_4">
+            <field name="name">c1_GrossRent</field>
+            <field name="description">Gross Rental Income</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_5">
+            <field name="name">sgOtherI</field>
+            <field name="description">Other Taxable Income</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_6">
+            <field name="name">otherNonTaxableIncome</field>
+            <field name="description">Other non-Taxable Income</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_7">
+            <field name="name">totalOtherIncome</field>
+            <field name="description">Total Other Income</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_8">
+            <field name="name">costOfGoodsSold</field>
+            <field name="description">Cost of Goods Sold</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_9">
+            <field name="name">bankCharges</field>
+            <field name="description">Bank Charges</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_10">
+            <field name="name">commissionOther</field>
+            <field name="description">Commission (Other Than Expenses Incurred to Derive Rental Income)</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_11">
+            <field name="name">depreciationExpense</field>
+            <field name="description">Depreciation Expense</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_12">
+            <field name="name">directorsFees</field>
+            <field name="description">Director's Fees</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_13">
+            <field name="name">directorsRemunerationExcludingDirectorsFees</field>
+            <field name="description">Director's Remuneration (Excluding Director's Fees)</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_14">
+            <field name="name">donations</field>
+            <field name="description">Donations</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_15">
+            <field name="name">cpfContribution</field>
+            <field name="description">CPF Contribution</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_16">
+            <field name="name">c1_EntertainExp</field>
+            <field name="description">Expenses</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_17">
+            <field name="name">commissionExpRentalIncome</field>
+            <field name="description">Expenses Incurred to Derive Rental Income - Commission"</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_18">
+            <field name="name">insuranceExpRentalIncome</field>
+            <field name="description">Expenses Incurred to Derive Rental Income - Insurance</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_19">
+            <field name="name">interestExpRentalIncome</field>
+            <field name="description">Expenses Incurred to Derive Rental Income - Interest</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_20">
+            <field name="name">propertyTaxExpRentalIncome</field>
+            <field name="description">Expenses Incurred to Derive Rental Income - Property Tax</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_21">
+            <field name="name">repairMaintenanceExpRentalIncome</field>
+            <field name="description">Expenses Incurred to Derive Rental Income - Repair and Maintenance</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_22">
+            <field name="name">otherExpRentalIncome</field>
+            <field name="description">Expenses Incurred to Derive Rental Income - Others</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_23">
+            <field name="name">fixedAssetsExpdOff</field>
+            <field name="description">Fixed Assets Expensed Off</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_24">
+            <field name="name">amortisationExpense</field>
+            <field name="description">Amortisation Expense</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_25">
+            <field name="name">insuranceExpOther</field>
+            <field name="description">Insurance (Other Than Medical Expenses and Expenses Incurred to Derive Rental Income)</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_26">
+            <field name="name">interestExpOther</field>
+            <field name="description">Interest Expenses (Other Than Expenses Incurred to Derive Rental Income)</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_27">
+            <field name="name">impairmentLossReversalOfImpairmentLossForBadDebts</field>
+            <field name="description">Impairment Loss/ Reversal of Impairment Loss for Bad Debts</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_28">
+            <field name="name">medicalExpIncludingMedicalInsurance</field>
+            <field name="description">Medical Expenses (Including Medical Insurance)</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_29">
+            <field name="name">netGainsOrLossesOnDisposalOfPPE</field>
+            <field name="description">Net Gains/ Losses on Disposal of Property, Plant and Equipment:Positive value = Losses,Negative value = Gains</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_30">
+            <field name="name">netGainsOrLossesOnForex</field>
+            <field name="description">Net Gains/ Losses on Foreign Exchange Adjustment:Positive value = Losses,Negative value = Gains</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_31">
+            <field name="name">netGainsOrLossesOnOtherItems</field>
+            <field name="description">Net Gains/ Losses on Other Items:Positive value = Losses,Negative value = Gains</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_32">
+            <field name="name">miscExp</field>
+            <field name="description">Miscellaneous Expenses</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_33">
+            <field name="name">otherPrivateOrCapitalExp</field>
+            <field name="description">Other Private/ Capital Expenses</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_34">
+            <field name="name">otherFinanceCost</field>
+            <field name="description">Other Finance Cost</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_35">
+            <field name="name">penaltiesOrFine</field>
+            <field name="description">Penalties/ Fine</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_36">
+            <field name="name">professionalFees</field>
+            <field name="description">Professional Fees</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_37">
+            <field name="name">propertyTaxOther</field>
+            <field name="description">Property Tax (Other Than Expenses Incurred to Derive Rental Income)</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_38">
+            <field name="name">rentExp</field>
+            <field name="description">Rent Expense</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_39">
+            <field name="name">repairMaintenanceExcludingUpkeepOfPrivateVehiclesAndExp</field>
+            <field name="description">Repairs and Maintenance (Excluding Private Motor Vehicles and Expenses Incurred to Derive Rental Income)</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_40">
+            <field name="name">repairsMaintenanceForPrivateVehicles</field>
+            <field name="description">Repairs and Maintenance (Private Motor Vehicles)</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_41">
+            <field name="name">salesAndMarketingExpense</field>
+            <field name="description">Sales and Marketing Expense</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_42">
+            <field name="name">skillsDevelopmentForeignWorkerLevy</field>
+            <field name="description">Skills Development Levy/ Foreign Worker Levy</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_43">
+            <field name="name">staffRemunerationOtherThanDirectorsRemuneration</field>
+            <field name="description">Staff Remuneration (Other Than Director's Remuneration)</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_44">
+            <field name="name">staffWelfare</field>
+            <field name="description">Staff Welfare</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_45">
+            <field name="name">telecommunicationOrUtilities</field>
+            <field name="description">Telecommunication/ Utilities</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_46">
+            <field name="name">training</field>
+            <field name="description">Training</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_47">
+            <field name="name">c1_TransportExp</field>
+            <field name="description">Transport/ Travelling Expenses</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_48">
+            <field name="name">upkeepNonPrivateVehicles</field>
+            <field name="description">Upkeep of Non-private Motor Vehicles</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_49">
+            <field name="name">upkeepPrivateVehicles</field>
+            <field name="description">Upkeep of Private Motor Vehicles</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_50">
+            <field name="name">profitLossBeforeTaxation</field>
+            <field name="description">Profit/ Loss before Taxation:Positive value = Net profit,Negative value = Net loss</field>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_51">
+            <field name="name">tradeReceivables</field>
+            <field name="description">Trade Receivables</field>
+            <field name="date_as_of" eval="True"/>
+        </record>
+        <record model="iras.coa.mapping" id="demo_data_52">
+            <field name="name">inventories</field>
+            <field name="description">Inventories</field>
+            <field name="date_as_of" eval="True"/>
+        </record>
+
+
+
+        <!-- gst.f5.auto.schedule -->
+        <record id="gst_f5_auto_schedule_1" model="gst.f5.auto.schedule">
+            <field name="name">Reminder Schedule</field>
+            <field name="filing_reminder_id" ref="mail_template_start_f5_reminder"/>
+            <field name="due_date_reminder_id" ref="mail_template_submit_gst_f5_reminder"/>
+        </record>
+
+        <record id="gst_f5_auto_schedule_lines_q1" model="gst.f5.auto.schedule.lines">
+            <field name="gst_f5_auto_schedule_id" ref="gst_f5_auto_schedule_1"/>
+            <field name="quarter_name">Q1</field>
+        </record>
+
+        <record id="gst_f5_auto_schedule_lines_q2" model="gst.f5.auto.schedule.lines">
+            <field name="gst_f5_auto_schedule_id" ref="gst_f5_auto_schedule_1"/>
+            <field name="quarter_name">Q2</field>
+        </record>
+
+        <record id="gst_f5_auto_schedule_lines_q3" model="gst.f5.auto.schedule.lines">
+            <field name="gst_f5_auto_schedule_id" ref="gst_f5_auto_schedule_1"/>
+            <field name="quarter_name">Q3</field>
+        </record>
+
+        <record id="gst_f5_auto_schedule_lines_q4" model="gst.f5.auto.schedule.lines">
+            <field name="gst_f5_auto_schedule_id" ref="gst_f5_auto_schedule_1"/>
+            <field name="quarter_name">Q4</field>
+        </record>
+
+	<record id="update_payment_ref_values_metroerp" model="ir.actions.server">
+            <field name="name">Temp - Update Payment Reference</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_gst_returns_f5f8"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    record.extract_payment_reference()
+            </field>
+        </record>
+
+    </data>
+ </odoo>

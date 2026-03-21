@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id="report_customer_monthly_statement">
+			<t t-call="account_statement.custom_external_account_layout">
+				<t t-set="doc" t-value="doc.with_context({'lang':doc.lang})" />
+				<div class="page" style="font-family: 'Open Sans', Arial, sans-serif; font-size:10.0pt;">
+					<div class="oe_structure" />
+					<h5 style="margin:20px;text-align:center;font-weight:bold;">MONTHLY STATEMENT</h5>
+					<br/><br/>
+					<div class="row">
+							<div class="col-6">
+								<strong>Name: </strong><span t-esc="doc.name" /><br/>
+								<div>
+									<strong>Address:</strong>
+									<t t-if="doc.street">
+										<span t-field="doc.street"/>,
+									</t>
+									<t t-if="doc.street2">
+										<span t-field="doc.street2"/>,
+									</t>
+									<t t-if="doc.street or doc.street2">
+										<br/>
+									</t>
+									<t t-if="doc.city">
+										<span t-field="doc.city"/>,
+									</t>
+									<t t-if="doc.state_id">
+										<span t-field="doc.state_id.name"/>,
+									</t>
+									<t t-if="doc.zip">
+										<span t-field="doc.zip"/>,
+									</t>
+									<t t-if="doc.country_id">
+										<span t-field="doc.country_id.name"/>
+									</t>
+								</div>
+								<div t-if="doc.phone">
+									<strong>Phone: </strong><span t-field="doc.phone"/>
+								</div>
+								<div t-if="doc.email">
+									<strong>Email: </strong><span t-field="doc.email"/>
+								</div>
+							</div>
+							<div class="col-3"></div>
+							<div class="col-3">
+								<p>
+									<strong>Year: <span t-esc="doc.year" /></strong><br/>
+									<strong>Month: <span t-esc="doc.month_name" /></strong>
+								</p>
+							</div>
+						</div>
+					<div class="row">
+						<t t-set="i" t-value="0.0" />
+						<t t-set="j" t-value="0.0" />
+						<t t-set="k" t-value="0.0" />
+					</div><br/><br/>
+					<div>
+						<style>
+							.table-condensed th, .table-condensed td {
+								border: 1px solid black;
+								background-color: transparent !important;
+							}
+							.table-condensed th {
+								text-align: center;
+							}
+							.text-right {
+								text-align: right;
+							}
+						</style>
+						<t t-if="doc.monthly_statement_line_ids.ids">
+							<table class="table table-condensed" style="border: none;">
+								<thead>
+								<tr class="text-center">
+									<th>Date</th>
+									<th>Invoice Number</th>
+									<th>Ref</th>
+									<th>Invoices/Credit</th>
+									<th>Payments/Debit</th>
+									<th>Balance</th>
+								</tr>
+							</thead>
+								<tbody>
+								<tr t-foreach="doc.monthly_statement_line_ids.sorted(key=lambda r: (r.invoice_date, r.name))" t-as="line">
+									<td>
+										<span t-esc="line.invoice_date" t-options="{'widget': 'date'}"/>
+									</td>
+									<td>
+										<span t-esc="line.name" />
+									</td>
+									<td>
+										<span t-esc="line.invoice_id.ref" />
+									</td>
+									<td class="text-right">
+<!-- 										<t t-if="line.invoice_id.adjust_in_carry_fwd_bal">
+											<span t-esc="0.00"
+												t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+										</t>
+										<t t-else=""> -->
+											<span t-esc="line.amount_total_signed"
+												t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+										<!-- </t> -->
+									</td>
+									<td class="text-right">
+										<span t-esc="line.credit_amount"
+											t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									</td>
+									<td class="text-right">
+										<span t-esc="line.result"
+											t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+									</td>
+								</tr>
+								<tr style="border: none;">
+									<td style="border: none;"/>
+									<td style="border: none;"/>
+									<td style="border: none;"/>
+									<td style="border: none;"/>
+									<td class="text-right" style="border: none;">
+										<strong>Balance :</strong>
+									</td>
+									<td class="text-right" style="border: none;">
+										<span t-field="doc.monthly_payment_amount_due_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: res_company.currency_id}"/>
+									</td>
+								</tr>
+							</tbody>
+							</table>
+						</t>
+					</div>					
+					<t t-if="doc.company_id.show_invoice_summary_monthly_statement">
+						<div>
+		  					<t t-set="inv_data" t-value="doc.compute_days_wise_invamt()"/>
+		            		<span style="font-weight: bold;font-size: 1rem;">Invoice Summary (As of <span t-field="doc.month_end_date" t-options="{'widget': 'date'}"/>)</span>
+	  						<table t-attf-class="table table-sm" name="days_table">
+		  						<thead>
+		  							<tr>
+		  								<th>0-30</th>
+		  								<th>30-60</th>
+		  								<th>60-90</th>
+		  								<th>90+</th>
+		  								<th>Total</th>
+		  							</tr>
+		  						</thead>
+		  						<tr>
+		  							<td><span t-esc="inv_data[0]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+		  							<td><span t-esc="inv_data[1]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+		  							<td><span t-esc="inv_data[2]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+		  							<td><span t-esc="inv_data[3]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+		  							<td style="background-color: transparent;"><span t-esc="inv_data[4]" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+		  						</tr>
+		  					</table>
+						</div>
+					</t>
+				</div>
+			</t>
+		</template>
+
+		<template id="monthly_customer_statement">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="account_statement.report_customer_monthly_statement" t-lang="doc.lang" />
+				</t>
+			</t>
+		</template>
+
+
+		<record id="report_customer_monthly_print" model="ir.actions.report">
+			<field name="name">Customer Monthly Statement</field>
+			<field name="model">res.partner</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">account_statement.monthly_customer_statement</field>
+			<field name="report_file">account_statement.monthly_customer_statement</field>
+			<field name="print_report_name">'%s_Customer_Monthly_Statement.pdf' % (object.name)</field>
+			<field name="binding_model_id" ref="base.model_res_partner"/>
+			<field name="binding_type">report</field>
+			<field name="paperformat_id" ref="account_statement.paperformat_customer_statement"/>
+			<field name="attachment">'%s_Customer_Monthly_Statement.pdf' % (object.name)</field>
+			<field name="binding_model_id" eval="False"/>
+		</record>
+	
+	</data>
+</openerp>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   	 <record id="cron_send_alert_for_low_stock" model="ir.cron">
+        <field name="name">Low Stock Alert - Notify Inventory Manager</field>
+        <field name="model_id" ref="stock.model_stock_location"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_alert_for_low_stock()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+    </record>
+
+    <record id="cron_expiry_alerts" model="ir.cron">
+        <field name="name">Product Expiry Alerts</field>
+        <field name="model_id" ref="stock.model_stock_production_lot"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_generate_expiry_alerts()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+    </record>
+</odoo>

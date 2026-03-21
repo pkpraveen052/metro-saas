@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sales_custom_tc_wizard" model="ir.ui.view">
+            <field name="name">sales_custom_tc_wizard</field>
+            <field name="model">sales.terms.condition</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="sales_tc_custom" placeholder="Sales Terms and Conditions will be shown on orders."/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Apply" class="oe_highlight" type="object" name="validate"/>
+                        <button string="Cancel" special="cancel"/>
+                        <button string="Skip" class="btn-secondary" type="object" name="action_skip_onboarding_sales_tc" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+</odoo>

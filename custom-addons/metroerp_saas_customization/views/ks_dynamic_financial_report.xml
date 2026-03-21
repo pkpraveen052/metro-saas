@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+    <odoo>
+
+        <menuitem id="ks_dynamic_financial_report.ks_df_create_dyn_finance_menu" 
+            name="Dynamic Financial Reports" 
+            sequence="1000"
+            parent="account.account_account_menu" 
+            action="ks_dynamic_financial_report.ks_df_create_dyn_finance_action"
+            groups="base.group_system"/>
+
+    </odoo>

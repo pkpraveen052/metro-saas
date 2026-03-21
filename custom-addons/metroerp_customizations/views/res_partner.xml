@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+		<record id="contacts.action_contacts" model="ir.actions.act_window">
+			<field name="name">Contacts</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">res.partner</field>
+			<field name="view_mode">kanban,tree,form,activity</field>
+			<field name="search_view_id" ref="base.view_res_partner_filter"/>
+			<field name="context">{'default_is_company': True,'default_company_id': allowed_company_ids[0]}</field>
+			<field name="help" type="html">
+			  <p class="o_view_nocontent_smiling_face">
+				Create a contact in your address book
+			  </p><p>
+				Odoo helps you to easily track all activities related to a customer.
+			  </p>
+			</field>
+		</record>
+
+		<record id="account.res_partner_action_customer" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1,'default_company_id': allowed_company_ids[0]}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new customer in your address book
+              </p><p>
+                Odoo helps you easily track all activities related to a customer.
+              </p>
+            </field>
+        </record>
+
+		<record id="account.res_partner_action_supplier" model="ir.actions.act_window">
+            <field name="name">Vendors</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1,'default_company_id': allowed_company_ids[0]}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new supplier in your address book
+              </p><p>
+                Odoo helps you easily track all activities related to a supplier.
+              </p>
+            </field>
+        </record>
+        
+        <record id="inherited_res_partner_search_view" model="ir.ui.view">
+            <field name="name">res.partner.inherited.search.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='group_company']" position="replace">
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_partner_view_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.view.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="product.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='sale']//field[@name='property_product_pricelist']" position="attributes">
+                    <attribute name="domain">[('company_id', '=', company_id)]</attribute>
+                </xpath>
+                <xpath expr="//group[@name='sale']//field[@name='user_id']" position="attributes">
+                    <attribute name="domain">[('company_ids', 'in', allowed_company_ids)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherited_res_partner_form_view" model="ir.ui.view">
+            <field name="name">res.partner.inherited.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='accounting']/group/group[@name='banks']/field[@name='bank_ids']/tree/field[@name='bank_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+	              </xpath>
+		            <xpath expr="//field[@name='industry_id']" position="after">
+                    <field name="type"/>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                  <attribute name="domain">[('is_company', '=', True), ('company_id', '=', company_id)]</attribute>
+	        </xpath>
+            	<xpath expr="//field[@name='website']" position="before">
+                    <field name="fax" placeholder="e.g. +65 1234 5678"/>
+            	</xpath>
+            </field>
+        </record>
+
+        <record id="inherited_res_partner_category_list_view" model="ir.ui.view">
+            <field name="name">res.partner.category.inherited.list.view</field>
+            <field name="model">res.partner.category</field>
+            <field name="inherit_id" ref="base.view_partner_category_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='display_name']" position="after">
+                    <field name="company_id" string="Company" required="1"/>
+                </xpath>
+            </field>
+        </record>
+
+<!--        res partner category form view inherit-->
+        <record id="inherited_res_partner_category_form_view" model="ir.ui.view">
+            <field name="name">res.partner.category.inherited.form.view</field>
+            <field name="model">res.partner.category</field>
+            <field name="inherit_id" ref="base.view_partner_category_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="company_id" string="Company" required="1"/>
+                </xpath>
+            </field>
+        </record>
+
+    <!--  res partner bank form view inherit-->
+        <record id="inherited_res_partner_bank_form_view" model="ir.ui.view">
+          <field name="name">res.partner.bank.inherited.form.view</field>
+          <field name="model">res.partner.bank</field>
+          <field name="inherit_id" ref="base.view_partner_bank_form"/>
+          <field name="arch" type="xml">
+            <xpath expr="//field[@name='bank_id']" position="attributes">
+              <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+            </xpath>
+          </field>
+      </record>
+
+	</data>
+</odoo>

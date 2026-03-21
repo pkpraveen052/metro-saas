@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_field_dynamic_group_form" model="ir.ui.view">
+        <field name="name">view_field_dynamic_group_form</field>
+        <field name="model">dynamic.field.group</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" string="Name"/>
+                            <field name="group_string" string="String"/>
+                            <field name="template_id" string="Template"/>
+                            <!-- domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]" -->
+                            <field name="company_id" required="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_field_dynamic_group_tree" model="ir.ui.view">
+            <field name="name">view_field_dynamic_group_tree</field>
+            <field name="model">dynamic.field.group</field>
+            <field name="arch" type="xml">
+                <tree string="Dynamic Group">
+                    <field name="name"/>
+                    <field name="template_id" string="Template"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+    <record id="action_field_dynamic_group_button" model="ir.actions.act_window">
+            <field name="name">Dynamic Group</field>
+            <field name="res_model">dynamic.field.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_field_dynamic_group_tree"/>
+        </record>
+
+<!--    <menuitem id="menu_dynamic_group" parent="dynamic_fields_menu" name="Create Group" action="action_field_dynamic_group_button"-->
+<!--              groups="all_in_one_dynamic_custom_fields_group_user,all_in_one_dynamic_custom_fields_group_administrator" sequence="3"/>-->
+</odoo>

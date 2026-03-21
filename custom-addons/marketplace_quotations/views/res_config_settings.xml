@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.base.setup</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='invite_users']" position="after">
+                <div id="market_place">
+                 <h2>Market Place</h2>
+                   <div class="row mt16 o_settings_container" name="market_place_division">
+                    <div class="col-12 col-lg-6 o_setting_box" id="market_place_id">
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Market Place Order Notify</span>
+                            <field name="market_place_order_notify_ids" widget="many2many_tags" domain="[('company_id','=', company_id)]"/>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <field name="auto_invoice"/>
+                            <label string="Auto Invoice" for="auto_invoice"/>  
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

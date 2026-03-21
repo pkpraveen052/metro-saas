@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="assets_frontend" inherit_id="web.assets_frontend" name="Custom Website Quote frontend assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/marketplace_quotations/static/src/js/custom_sale_management.js"></script>
+        </xpath>
+    </template>
+
+    <template id="view_marketplace_error_template1" name="Marketplace Error - Message1">
+        <t t-call="portal.portal_layout">
+            <div class="oe_structure">
+                <div class="container">
+                    <div style="margin-top:20px;text-align:center;">
+                        <h3>Your Purchase cannot be completed!</h3><br/>
+                        <h4>Technical reason might be the 'Company Name' or 'Company UEN' parameters are not passed. Please contact your Administrator.</h4>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="view_marketplace_error_template2" name="Marketplace Error - Message1">
+        <t t-call="portal.portal_layout">
+            <div class="oe_structure">
+                <div class="container">
+                    <div style="margin-top:20px;text-align:center;">
+                        <h3>Your Purchase cannot be completed!</h3><br/>
+                        <h4>Technical reason might be it has failed to check the condition of 'Vendor UEN'. Please contact your Administrator.</h4>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="view_marketplace_no_product_template" name="Marketplace Error - No Products Available">
+        <t t-call="portal.portal_layout">
+            <div class="oe_structure">
+                <div class="container">
+                    <div style="margin-top:20px;text-align:center;">
+                        <h3>Your Purchase cannot be completed!</h3><br/>
+                        <h4>No products available in the Vendor's Marketplace. Please contact your Administrator.</h4>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo>
+    <record id="view_pos_config_form_inherit" model="ir.ui.view">
+        <field name="name">POS configuration</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/div[@class='oe_title']" position="replace">
+                <div style="width: 100%;">
+                    <field name="pos_logo" id="pos_logo" widget="image" class="oe_avatar oe_left"/>
+                </div>
+                <div class="oe_title" id="title" style="margin-top:15%;">
+                    <label for="name" class="oe_edit_only"/>
+                    <h1><field name="name"/></h1>
+                </div>
+            </xpath>
+            <xpath expr="//div[@id='iface_invoicing']" position="after">
+                <div class="col-xs-12 col-md-6 o_setting_box">
+                    <div class="o_setting_left_pane">
+                        <field name="show_logo_on_receipt"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="show_logo_on_receipt"/>
+                        <div class="text-muted">
+                            Print Pos logo on the receipt
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

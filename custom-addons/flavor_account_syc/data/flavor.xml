@@ -1,0 +1,11 @@
+<odoo>
+    <data noupdate="1">
+<!--        <record id="flavor_api_data_id" model="flavor.system">-->
+<!--            <field name="enable_sync">False</field>-->
+<!--        </record>-->
+        <record id="flavor_categ_id" model="product.category">
+            <field name="name">Flavor</field>
+            <field name="company_id">1</field>
+        </record>
+    </data>
+</odoo>

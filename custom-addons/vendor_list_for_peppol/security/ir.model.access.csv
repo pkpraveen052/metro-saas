@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vendor_list_peppol_user,vendor.list.peppol.user,model_vendor_list_peppol,base.group_user,1,0,0,0
+access_vendor_list_peppol_admin_user,vendor.list.peppol.admin,model_vendor_list_peppol,base.group_system,1,1,1,1
+
+

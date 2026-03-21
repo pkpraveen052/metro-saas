@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        Quotation Sale Order-->
+        <template id="ks_pro_bill_quotation_custom_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                        <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="doc and 'company_id' in doc">
+                        <t t-set="company" t-value="doc.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config" t-value="doc.env['ks.report.configuration'].search([('ks_record_status','=', 'progressive_quotation'),('company_id','=', company.id)], limit=1)"/>
+                    <t t-call="ks_custom_report_layouts.progressive_quotation_report" t-lang="doc.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+    
+
+        <record id="action_ks_pro_billl_quotation_report" model="ir.actions.report">
+            <field name="name">Progressive Quotation / Order</field>
+            <field name="model">progressive.billing.qt</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_pro_bill_quotation_custom_report</field>
+            <field name="report_file">ks_custom_report_layouts.ks_pro_bill_quotation_custom_report</field>
+            <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="metroerp_progressive_billing.model_progressive_billing_qt"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_dynamic_sales_order"/>
+        </record>
+
+    </data>
+</odoo>

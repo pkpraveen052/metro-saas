@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="invoice_responses_queue_in_form_view" model="ir.ui.view">
+            <field name="name">invoice.responses.queue.in.form</field>
+            <field name="model">invoice.responses.queue.in</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <header>
+                        <button name="action_retry" icon="fa-repeat" type="object" string="Retry" attrs="{'invisible': [('state', '!=','error')]}"/>
+                        <field name="state" widget="statusbar" options="{'fold_field': 'fold'}" statusbar_visible="received"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" attrs="{'invisible': [('name','=',False)]}">
+                            <span class="o_form_label">Ref</span>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="invoice_queue_out_id"/>
+                            </group>
+                            <group>
+                                <field name="doc_type"/>
+                            </group>
+                            <group>
+                                <field name="move_id" attrs="{'invisible': [('move_id','=',False)]}"/>  
+                                <field name="partner_id" attrs="{'invisible': [('partner_id','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="issue_date" attrs="{'invisible': [('issue_date','=',False)]}"/>
+                                <field name="issue_time" attrs="{'invisible': [('issue_time','=',False)]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="response_code"/>
+                                <field name="effective_date" attrs="{'invisible': [('effective_date','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="note" attrs="{'invisible': [('note','=',False)]}"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                        <separator string="Status" attrs="{'invisible': [('status_ids','!=',True)]}"/>
+                        <field name="status_ids" nolabel="1" attrs="{'invisible': [('status_ids','!=',True)]}">
+                            <tree>
+                                <field name="list_identifier"/>
+                                <field name="clarification_code_id"/>
+                                <field name="clarification_description"/>
+                                <field name="condition_code_ids" widget="many2many_tags"/>
+                            </tree>
+                            <form>
+                                <sheet>
+                                    <group>
+                                        <group>
+                                            <field name="list_identifier" attrs="{'invisible': [('list_identifier','=',False)]}"/>
+                                        </group>
+                                        <group></group>
+                                        <group>
+                                            <field name="clarification_code_id" attrs="{'invisible': [('clarification_code_id','=',False)]}"/>
+                                        </group>
+                                        <group>
+                                            <field name="clarification_description" attrs="{'invisible': [('clarification_description','=',False)]}"/>
+                                        </group>
+                                    </group>
+                                    <br/>
+                                    <field name="condition_code_ids" nolabel="1" attrs="{'invisible': [('condition_code_ids','=',False)]}">
+                                        <tree editable="1">
+                                            <field name="condition_code"/>
+                                            <field name="condition_value"/>
+                                        </tree>
+                                    </field>
+                                </sheet>
+                            </form>
+                        </field>
+                        <separator string="Detailed Information"/>
+                        <field name="message" nolabel="1" decoration-success="state=='success'"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="invoice_responses_queue_in_tree_view" model="ir.ui.view">
+            <field name="name">invoice.responses.queue.in.tree</field>
+            <field name="model">invoice.responses.queue.in</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="state=='error'" decoration-success="state=='success'" decoration-info="state=='sent_to_process'" create="false" edit="false">
+                    <field name="name"/>
+                    <field name="inv_no"/>
+                    <field name="invoice_queue_out_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="issue_date"/>
+                    <field name="create_date" optional="hide"/>
+                    <field name="create_uid" optional="hide"/>
+                    <field name="extracted_senderid" optional="hide"/>
+                    <field name="extracted_receiverid" optional="hide"/>
+                    <field name="response_code"/>
+                    <field name="state" decoration-bf="1" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="invoice_responses_queue_in_search">
+            <field name="name">invoice.responses.queue.in.search</field>
+            <field name="model">invoice.responses.queue.in</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="inv_no"/>
+                    <field name="state"/>
+                    <field name="company_id"/>
+                    <field name="partner_id"/>
+                    <separator/>
+                    <filter string="Success" name="Mapped" domain="[('state', '=', 'success')]"/>
+                    <filter string="Unmapped" name="sent_to_process" domain="[('state', '=', 'sent_to_process')]"/>
+                    <filter string="Failed" name="Failed" domain="[('state', '=', 'error')]"/>
+                    <filter string="Cancelled" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Issue Date" name="issuedate" domain="[]" context="{'group_by': 'issue_date'}" help="Issue Date"/>
+                        <filter string="Company" name="company" domain="[]" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_invoice_responses_queue_in" model="ir.actions.act_window">
+            <field name="name">Incoming Invoice Responses</field>
+            <field name="res_model">invoice.responses.queue.in</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="invoice_responses_queue_in_menu"
+                  parent="menu_peppol_documents"
+                  action="action_invoice_responses_queue_in"
+                  sequence="4"/>
+
+
+    </data>
+</odoo>

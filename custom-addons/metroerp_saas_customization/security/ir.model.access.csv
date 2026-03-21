@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_change_uom,access_product_change_uom,model_product_change_uom,base.group_user,1,1,1,1
+access_res_company_accounting_partner,res.company.accounting.partner,base.model_res_company,metroerp_saas_customization.accounting_partner,1,1,1,0

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="whatsapp_send_msg_wizard" model="ir.ui.view">
+            <field name="name">whatsapp.message.wizard.form</field>
+            <field name="model">whatsapp.message.wizard</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Whatsapp Message">
+                    <group>
+                        <field name="name" placeholder="Recipient's Name"/>
+                        <field name="mobile" placeholder="Recipient's Mobile Number"/>
+                    </group>
+                    <group>
+                        <field name="message" placeholder="Type your message here..."/>
+                    </group>                    
+                    <footer>
+                        <button string="WhatsApp" name="send_message" type="object" class="oe_highlight" icon="fa-whatsapp"/>
+                        <button string="Cancel" name="cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="whatsapp_wizard_action" model="ir.actions.act_window">
+            <field name="name">Send WhatsApp Message</field>
+            <field name="res_model">whatsapp.message.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="metro_security_management.model_visitor_details" />
+            <field name="binding_view_types">form</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2018 ForgeFlow, S.L. (https://www.forgeflow.com)
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template id="partner_statement.activity_statement_document">
+        <t t-call="partner_statement.custom_external_partner_layout">
+            <t t-set="o" t-value="o.with_context({'lang': lang})"/>
+            <!-- <t t-set="address">
+                <address
+                    t-esc="get_inv_addr(o)"
+                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'
+                />
+                <div t-if="o.vat" class="mt16"><t
+                        t-esc="company.country_id.vat_label or 'Tax ID'"
+                    />: <span t-field="o.vat" /></div>
+            </t> -->
+            <div class="page">
+                <h2 style="margin-top:-42px;text-align:center;">Statement of Account</h2>
+                <h6 style="text-align:center;">Account Activity</h6>
+                <br/>
+                <div class="row" style="margin-top: 0px !important;">
+                    <div class="col-6">
+                        <strong>Name:</strong>
+                        <span t-esc="o.name"/>
+                        <br/>
+                        <div>
+                            <strong>Address:</strong>
+                            <t t-if="o.street">
+                                <span t-field="o.street"/>,
+                            </t>
+                            <t t-if="o.street2">
+                                <span t-field="o.street2"/>,
+                            </t>
+                            <t t-if="o.street or o.street2">
+                                <br/>
+                            </t>
+                            <t t-if="o.city">
+                                <span t-field="o.city"/>,
+                            </t>
+                            <t t-if="o.state_id">
+                                <span t-field="o.state_id.name"/>,
+                            </t>
+                            <t t-if="o.country_id">
+                                <span t-field="o.country_id.name"/>,
+                            </t>
+                            <t t-if="o.zip">
+                                <span t-field="o.zip"/>
+                            </t>
+                        </div>
+                        <div t-if="o.phone">
+                            <strong>Phone:</strong>
+                            <span t-field="o.phone"/>
+                        </div>
+                        <div t-if="o.email">
+                            <strong>Email:</strong>
+                            <span t-field="o.email"/>
+                        </div>
+                    </div>
+                    <div class="col-3"/>
+                    <div class="col-3" style="margin-left:50px;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="">
+                                    <strong>From</strong>
+                                </td>
+                                <td>
+                                    <span t-esc="d['start']"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="">
+                                    <strong>To
+                                    </strong>
+                                </td>
+                                <td>
+                                    <span t-esc="d['end']"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <br/>
+                <!-- <div id="informations" class="row mt32 mb32">
+                    <div class="col-3 bm-2">
+                        <strong>Date:</strong>
+                        <p t-esc="d['today']" class="m-0" />
+                    </div>
+                    <div class="col-3 bm-2">
+                        <strong>Partner Name:</strong>
+                        <p t-field="o.name" class="m-0" />
+                    </div>
+                    <div t-if="o.ref" class="col-3 bm-2">
+                        <strong>Partner Code:</strong>
+                        <p t-field="o.ref" class="m-0" />
+                    </div>
+                </div> -->
+                <t t-if="d['currencies']">
+                    <t t-foreach="d['currencies'].items()" t-as="currency">
+                        <t t-set="display_currency" t-value="Currencies[currency[0]]"/>
+                        <t t-set="currency" t-value="currency[1]"/>
+                        <div class="row" style="margin-top: 0px !important;">
+                            <!--                            <div class="col-6">-->
+                            <!--                                <span-->
+                            <!--                                        t-if="account_type == 'payable'"-->
+                            <!--                                >Supplier</span>Statement between-->
+                            <!--                                <span-->
+                            <!--                                        t-esc="d['start']"-->
+                            <!--                                />-->
+                            <!--                                and-->
+                            <!--                                <span t-esc="d['end']"/>-->
+                            <!--                                in-->
+                            <!--                                <strong-->
+                            <!--                                        t-esc="display_currency.name"-->
+                            <!--                                />-->
+                            <!--                            </div>-->
+                            <div class="col-6">
+                                <t t-set="invoiced_amount" t-value="0.0"/>
+                                <t t-set="paid_amount" t-value="0.0"/>
+                                <t t-set="initial_balance" t-value="currency['balance_forward']"/>
+                                <t t-set="ending_bal" t-value="currency['amount_due']"/>
+                                <t t-foreach="currency['lines']" t-as="line_summary">
+                                    <t t-if="account_type == 'receivable'">
+                                        <t t-if="line_summary['amount'] &gt; 0.0">
+                                            <t t-set="invoiced_amount"
+                                               t-value="invoiced_amount + line_summary['amount']"/>
+                                        </t>
+                                        <t t-if="line_summary['amount'] &lt; 0">
+                                            <t t-set="paid_amount" t-value="paid_amount + abs(line_summary['amount'])"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="account_type == 'payable'">
+                                        <t t-if="line_summary['amount'] &lt; 0.0">
+                                            <t t-set="invoiced_amount"
+                                               t-value="invoiced_amount + line_summary['amount']"/>
+                                        </t>
+                                        <t t-if="line_summary['amount'] &gt; 0">
+                                            <t t-set="paid_amount" t-value="paid_amount + abs(line_summary['amount'])"/>
+                                        </t>
+                                    </t>
+
+                                </t>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr>
+                                        <td style="">
+                                            <strong>Opening Balance on
+                                                <span t-esc="d['start']"/>
+                                                <span t-esc="display_currency.name"/>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align: right; ">
+                                            <t t-if="initial_balance">
+                                                <span t-esc="round(initial_balance,2)"
+                                                      t-options="{'widget': 'monetary', 'display_currency': display_currency}"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="initial_balance"
+                                                      t-options="{'widget': 'monetary', 'display_currency': display_currency}"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="">
+                                            <t t-if="account_type == 'payable'">
+                                                <strong>Billed</strong>
+                                            </t>
+                                            <t t-if="account_type == 'receivable'">
+                                                <strong>Invoiced</strong>
+                                            </t>
+                                        </td>
+                                        <td style="text-align: right; ">
+                                            <t t-if="invoiced_amount">
+                                                <span t-esc="round(invoiced_amount,2)"
+                                                      t-options="{'widget': 'monetary', 'display_currency': display_currency}"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="invoiced_amount"
+                                                      t-options="{'widget': 'monetary', 'display_currency': display_currency}"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="">
+                                            <strong>Paid</strong>
+                                        </td>
+                                        <t t-if="account_type == 'receivable'">
+                                            <td style="text-align: right; ">
+                                                <t t-if="paid_amount">
+                                                    <span t-esc="round(paid_amount,2)"
+                                                          t-options="{'widget': 'monetary', 'display_currency': display_currency}"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span t-esc="paid_amount"
+                                                          t-options="{'widget': 'monetary', 'display_currency': display_currency}"/>
+                                                </t>
+                                            </td>
+                                        </t>
+                                        <t t-if="account_type == 'payable'">
+                                            <td style="text-align: right; ">
+                                                <t t-if="paid_amount">
+                                                    <span t-esc="round(-paid_amount,2)"
+                                                          t-options="{'widget': 'monetary', 'display_currency': display_currency}"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span t-esc="-paid_amount"
+                                                          t-options="{'widget': 'monetary', 'display_currency': display_currency}"/>
+                                                </t>
+                                            </td>
+                                        </t>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="text-align: right; border-top: 1px solid #ddd;"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="">
+                                            <strong>Closing Balance on
+                                                <span t-esc="d['end']"/>
+                                                <span t-esc="display_currency.name"/>
+                                            </strong>
+                                        </td>
+                                        <td style="text-align: right; ">
+                                            <t t-if="ending_bal">
+                                                <span t-esc="round(ending_bal,2)"
+                                                      t-options="{'widget': 'monetary', 'display_currency': display_currency}"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="ending_bal"
+                                                      t-options="{'widget': 'monetary', 'display_currency': display_currency}"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <br/>
+                        <table class="table table-condensed table-statement">
+                            <col width="20%"/>
+                            <col width="45%"/>
+                            <col width="15%"/>
+                            <col width="20%"/>
+                            <thead>
+                                <tr>
+                                    <!--                                    <th>Reference number</th>-->
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th class="amount">Amount</th>
+                                    <th class="amount">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span t-esc="d['start']"/>
+                                    </td>
+                                    <td>
+                                        Balance Forward
+                                    </td>
+                                    <td/>
+                                    <td class="amount">
+                                        <span
+                                                t-esc="currency['balance_forward']"
+                                                t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr t-foreach="currency['lines']"
+                                    t-as="line"
+                                    t-att-class="'statement-blocked' if line['blocked'] else ''">
+                                    <!--                                    <td>-->
+                                    <!--                                        <t t-set="invoice" t-value="request.env['account.move'].sudo().search([('name', '=', line['move_id'])], limit=1)"/>-->
+                                    <!--                                        <a t-att-href="'/web#id=%d&amp;view_type=form&amp;model=account.move' % invoice.id" target="_blank">-->
+                                    <!--                                            <span t-esc="line['move_id']"/>-->
+                                    <!--                                        </a>-->
+                                    <!--                                    </td>-->
+                                    <td>
+                                        <span t-esc="line['date']"/>
+                                    </td>
+                                    <td>
+                                        <t t-if="line['name'] != '/'">
+                                            <t t-if="(line['name'] == 'Payment') or (line['ref'] == 'Payment')">
+                                                <t t-set="invoice" t-value="request.env['account.move'].search([('name', '=', line['move_id']),('company_id','=',company[0].id)], limit=1)"/>
+                                                <span>Payment made for
+                                                    <t t-esc="invoice.ref or line['move_id']"/>
+                                                </span>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-if="not line['ref'] and line['name']">
+                                                    <span t-esc="line['name']"/>
+                                                </t>
+                                                <t t-if="line['ref'] and not line['name']">
+                                                    <span t-esc="line['ref']"/>
+                                                </t>
+                                                <t t-if="line['ref'] and line['name']">
+                                                    <t t-if="line['name'] not in line['ref'] or line['name'] == line['ref']">
+                                                        <span t-esc="line['name']"/>
+                                                    </t>
+                                                    <t t-if="line['ref'] not in line['name']">
+                                                        <span t-esc="line['ref']"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <t t-if="line['name'] == '/'">
+                                            <t t-if="(line['name'] == 'Payment') or (line['ref'] == 'Payment')">
+                                                <t t-set="invoice" t-value="request.env['account.move'].search([('name', '=', line['move_id']),('company_id','=',company[0].id)], limit=1)"/>
+                                                <span>Payment made for
+                                                    <t t-esc="invoice.ref or line['move_id']"/>
+                                                </span>
+                                            </t>
+                                        </t>
+                                        <t t-if="not line['name'] and not line['ref']">
+                                            <span t-esc="line['move_id']"/>
+                                        </t>
+                                    </td>
+                                    <td class="amount">
+                                        <span
+                                                t-esc="line['amount']"
+                                                t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                                        />
+                                    </td>
+                                    <td class="amount">
+                                        <span
+                                                t-esc="line['balance']"
+                                                t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span t-esc="d['end']"/>
+                                    </td>
+                                    <td>
+                                        Ending Balance
+                                    </td>
+                                    <td/>
+                                    <td class="amount">
+                                        <span
+                                                t-esc="currency['amount_due']"
+                                                t-options="{'widget': 'monetary', 'display_currency': display_currency}"
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <t
+                                t-call="partner_statement.aging_buckets"
+                                t-if="currency['buckets']"
+                        />
+                        <br/>
+                    </t>
+                </t>
+                <p t-if="d.get('no_entries')">
+                    <strong>The partner doesn't have due entries.</strong>
+                </p>
+            </div>
+<!--            <div class="footer"-->
+<!--                 style="margin-top:10px;text-align: center; font-size: 14px;font-weight: bold;font-family: 'dinerosans,sans-serif;"-->
+<!--                 t-if="o.company_id.show_poweredby_report_statements">-->
+<!--                <span style="padding-left:2px;margin-top:10px;">Powered by</span>-->
+<!--                <img t-att-src="'/partner_statement/static/src/img/metrologo.png'" style="width: 80px;"/>-->
+<!--            </div>-->
+        </t>
+    </template>
+
+    <template id="activity_statement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="d" t-value="data.get(o.id)"/>
+                <t
+                        t-call="partner_statement.activity_statement_document"
+                        t-lang="o.lang"
+                />
+            </t>
+        </t>
+    </template>
+
+    <record id="action_print_activity_statement" model="ir.actions.report">
+        <field name="name">Activity Statement</field>
+        <field name="model">res.partner</field>
+        <field name="report_name">partner_statement.activity_statement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_file">partner_statement.activity_statement</field>
+        <field name="print_report_name">'%s_Activity_Statement' % (object.name)</field>
+        <field name="paperformat_id" ref="partner_statement.paperformat_partner_statement"/>
+    </record>
+</odoo>

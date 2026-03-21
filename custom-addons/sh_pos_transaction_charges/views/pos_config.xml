@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_pos_transaction_charges_config" model="ir.ui.view">
+        <field name="name">pos card charges config   view</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"></field>
+        <field name="arch" type="xml">
+            <div id="iface_tipproduct" position="after">
+                <div class="col-12 col-lg-12 o_setting_box mb-5">
+                    <div class="o_setting_left_pane">
+                        <field name="sh_pos_enable_transaction_cherge" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="sh_pos_enable_transaction_cherge" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-12 o_setting_box" attrs="{'invisible': [('sh_pos_enable_transaction_cherge', '=', False)]}">
+                    <div class="o_setting_left_pane"></div>
+                    <div class="o_setting_right_pane">
+                        <label for="sh_pos_card_method_id" />
+                        <br></br>
+                        <field name="sh_pos_card_method_id" />
+                        <div class="text-muted" id="invoice_journal">
+                            Select Payment Method for Transaction Charges
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" attrs="{'invisible': ['|',('sh_pos_enable_transaction_cherge', '=', False), ('sh_pos_card_method_id', '=', False)]}">
+                    <div class="o_setting_left_pane"></div>
+                    <div class="o_setting_right_pane">
+                        <label for="sh_pos_transaction_charge" />
+                        <br></br>
+                        <field name="sh_pos_transaction_charge" widget="radio" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" attrs="{'invisible': ['|',('sh_pos_enable_transaction_cherge', '=', False), ('sh_pos_card_method_id', '=', False)]}">
+                    <div class="o_setting_left_pane"></div>
+                    <div class="o_setting_right_pane">
+                        <label for="sh_pos_card_charge" />
+                        <br></br>
+                        <field name="sh_pos_card_charge" />
+                        <div class="text-muted" id="invoice_journal">
+                            Add Transaction Charge
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </field>
+    </record>
+</odoo>

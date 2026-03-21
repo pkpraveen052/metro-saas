@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <record id="view_attachment_form_inherit" model="ir.ui.view">
+            <field name="name">ir.attachment.form.inherit</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_form"/>
+            <field name="arch" type="xml">
+                <!-- Add metro_invoice_user.group_account_invoice_user to the Post button -->
+                <xpath expr="//field[@name='public']" position="after">
+                    <field name="is_export"/>
+                </xpath>
+            </field>
+    </record>
+  </data>
+</odoo>

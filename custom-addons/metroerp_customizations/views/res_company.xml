@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="res_company_inherited_view" model="ir.ui.view">
+            <field name="name">res.company.form.view</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='general_info']" position="after">
+                    <page string="Fiscal Localization" attrs="{'invisible': [('id', '=', False)]}">
+                        <group>
+                            <group>
+                                <label for="chart_template_id"/>
+                                <div>
+                                    <field name="chart_of_accounts_installed" invisible="1"/>
+                                    <field name="id" invisible="1"/>
+                                    <field name="chart_template_id"/>
+                                    <button name="install_chart_of_accounts" type="object" string="Install Chart of account" class="oe_highlight" 
+                                    attrs="{'invisible': [('chart_of_accounts_installed', '=', True)]}"/>
+                                </div>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,39 @@
+<odoo> 
+    <data>
+        <record id="default_sale_whatsapp_template" model="assistro.whatsapp.template">
+            <field name="name">Default Sales Template</field>
+            <field name="body">Dear {object.partner_id.name}, Your order {object.name} amounting in {object.currency_id.symbol} {object.amount_total} has been confirmed. Thank you for your trust!</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="company_id" eval="False"/> <!-- Set to False for all companies -->
+            <field name="is_default">True</field>
+        </record>
+
+        <record id="default_invoice_whatsapp_template" model="assistro.whatsapp.template">
+            <field name="name">Default Invoice Template</field>
+            <field name="body">Dear {object.partner_id.name}, Here is your invoice {object.name} amounting in {object.currency_id.symbol} {object.amount_total} from {object.company_id.name}.Please remit payment at your earliest convenience.
+            </field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="company_id" eval="False"/> <!-- Available for all companies -->
+            <field name="is_default">True</field>
+        </record>
+
+        <record id="default_purchase_order_whatsapp_template" model="assistro.whatsapp.template">
+            <field name="name">Default Purchase Order Template</field>
+            <field name="body">Dear {object.partner_id.name}, Here is in attachment a purchase order {object.name} amounting in {object.currency_id.symbol} {object.amount_total} from {object.company_id.name}.The receipt is expected for {object.date_planned}. Could you please acknowledge the receipt of this order?.</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="company_id" eval="False"/> <!-- Available for all companies -->
+            <field name="is_default">True</field>
+        </record>
+
+        <record id="default_delivery_whatsapp_template" model="assistro.whatsapp.template">
+            <field name="name">Default Delivery Template</field>
+            <field name="body">Dear {object.partner_id.name}, We are glad to inform you that your delivery order {object.name} has been confirmed.Please find your delivery order attached for more details.Thank you,{object.company_id.name}</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="company_id" eval="False"/> <!-- Available for all companies -->
+            <field name="is_default">True</field>
+        </record>
+
+
+         <!-- <function model="assistro.whatsapp.template" name="_create_temp_records"/> -->
+    </data>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_partners_form_crm1_inherit" model="ir.ui.view">
+            <field name="name">view.res.partner.form.crm.inherited1</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="crm.view_partners_form_crm1"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@class='oe_stat_button o_res_partner_tip_opp']" position="attributes">
+                    <attribute name="groups">metroerp_crm_enhancement.group_crm_manager</attribute>
+                </xpath>
+                <xpath expr="//button[@name='schedule_meeting']" position="attributes">
+                    <attribute name="groups">metroerp_crm_enhancement.group_crm_manager</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sale_order_peppol_mapping_list" model="ir.ui.view">
+            <field name="name">sale.order.peppol.mapping.list</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <tree string="Sale Order">
+                    <button name="map_to_incoming_order" type="object" string="Map" class="oe_highlight"/>
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name" string="Number" readonly="1" decoration-bf="1"/>
+                    <field name="date_order" string="Order Date" widget="date" optional="show"/>
+                    <field name="commitment_date" optional="hide"/>
+                    <field name="expected_date" optional="hide"/>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
+                    <field name="team_id" optional="hide"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1"/>
+                    <field name="amount_untaxed" sum="Total Tax Excluded" widget="monetary" optional="hide"/>
+                    <field name="amount_tax" sum="Tax Total" widget="monetary" optional="hide"/>
+                    <field name="amount_total" sum="Total Tax Included" widget="monetary" decoration-bf="1" optional="show"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="invoice_status" decoration-success="invoice_status == 'invoiced'" decoration-info="invoice_status == 'to invoice'" decoration-warning="invoice_status == 'upselling'" widget="badge" optional="show"/>
+                    <field name="tag_ids" optional="hide" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree/field[@name='price_tax']" position="after">
+                    <field name="incoming_order_line_id" optional="hide" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='client_order_ref']" position="after">
+                    <field name="document_type" invisible="1"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="action_send_orders" type="object" string="Send to Order" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//page[@name='other_information']" position="inside">
+                    <group string="Outgoing Order Queue">
+                        <group>
+                          <field name="outgoing_order_change_doc_ref"  readonly="1"/>
+                          <field name="outgoing_order_cancel_doc_ref"  readonly="1"/>
+                          <field name="outgoing_order_balance_doc_ref" readonly="1"/>
+                            <field name="incoming_order_id" readonly="1"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

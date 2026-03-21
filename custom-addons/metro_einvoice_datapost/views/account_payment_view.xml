@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<!--        <record model="ir.actions.server" id="action_move_peppol_payment_send">-->
+<!--        <field name="name">Send to GST InvoiceNow</field>-->
+<!--        <field name="model_id" ref="account.model_account_payment"/>-->
+<!--        <field name="groups_id" eval="[(6, 0, [ref('metro_einvoice_datapost.group_c5_submitter')])]"/>-->
+<!--        <field name="binding_model_id" ref="account.model_account_payment"/>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">-->
+<!--    if records:-->
+<!--        action = records._peppol_action_manual_send_payment()-->
+<!--        </field>-->
+<!--    </record>-->
+
+</odoo>

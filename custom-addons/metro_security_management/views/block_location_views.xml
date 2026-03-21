@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="block_location_tree_view" model="ir.ui.view">
+            <field name="name">block.location.list.view</field>
+            <field name="model">block.location</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="security_location_id"/>
+                    <field name="complete_name"/>
+                    <field name="owner"/>
+                    <field name="ref" optional="hide"/>
+                    <field name="address_id" optional="hide"/>
+                    <field name="phone" optional="hide"/>
+                    <field name="email" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="block_location_form_view" model="ir.ui.view">
+            <field name="name">block.location.form.view</field>
+            <field name="model">block.location</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" name="action_view_pre_approved_visitor" class="oe_stat_button" icon="fa-solid fa-user">
+                                <field name="pre_approve_visitor_count" widget="statinfo" string="Pre-Approved Visitor"/>
+                            </button>
+                            <button
+                                type="object"
+                                name="action_view_sublocation"
+                                class="oe_stat_button"
+                                icon="fa-location-arrow">
+                                <field name="sublocation_count" widget="statinfo" string="Sub-Locations"/>
+                            </button>
+                        </div>
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" required="True" />
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="fsm_parent_id"/>
+                                <field name="security_location_id" options="{'no_create': True}"/>
+                                <field name="ref" placeholder="Enter Reference (optional)" />
+                            </group>
+                            <group>
+                                <field name="owner" placeholder="Enter owner name"/>
+                                <field name="phone" widget="phone" placeholder="Enter phone number"/>
+                                <field name="email" widget="email" placeholder="Enter email address"/>
+                                <field name="address_id"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="notes" placeholder="Enter any additional notes"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="block_location_search_view" model="ir.ui.view">
+            <field name="name">block.location.search.view</field>
+            <field name="model">block.location</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="ref"/>
+                    <field name="name"/>
+                    <field name="owner"/>
+                    <field name="address_id"/>
+                    <field name="security_location_id"/>
+                    <filter name="filter_active" string="Archived"  domain="[('active','=',False)]"/>
+                    <separator/>
+                    <filter string="Create Date" name="filter_create_date" date="create_date"/>
+                    <separator/>
+                    <group expand="1" string="Group By">
+                        <filter string="Location" name='location' context="{'group_by':'security_location_id'}"/>
+                        <filter string="Address" name="address" context="{'group_by':'address_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+    <record id="block_location_action_window" model="ir.actions.act_window">
+        <field name="name">Block Location</field>
+        <field name="res_model">block.location</field>
+        <field name="view_mode">tree,form,search</field>
+    </record>
+
+    <menuitem id="location_management_menu"
+        parent="configuration_menu_root"
+        name="Location Management"
+        sequence="3"/>
+    
+    <menuitem id="block_location_menu_root"
+        parent="location_management_menu"
+        action="block_location_action_window"
+        name="Block Locations"/>
+
+    </data>
+</odoo>

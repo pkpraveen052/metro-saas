@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_vendor_not_found_wizard" model="ir.ui.view">
+        <field name="name">vendor.not.found.wizard.form</field>
+        <field name="model">vendor.not.found.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Vendor Not Found">
+                <p>
+                    <strong> Note :
+                    Uploaded bill's vendor is not found in the system, You need to create this below vendor or
+                        select from existing vendors </strong>
+                </p>
+                <group>
+                    <field name="ocr_vendor_name"/>
+                    <field name="option"/>
+                    <field name="company_id" invisible="1" />
+                    <field name="selected_vendor_id" attrs="{'invisible': [('option', '!=', 'select')], 'required': [('option', '=', 'select')]}" domain="[('company_id', '=', company_id)]"/>
+                </group>
+                <footer>
+                    <button string="Continue" type="object" name="action_continue" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vendor_not_found_wizard" model="ir.actions.act_window">
+        <field name="name">Vendor Not Found</field>
+        <field name="res_model">vendor.not.found.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

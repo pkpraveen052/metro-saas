@@ -1,0 +1,52 @@
+<odoo>
+  <data>
+        <record id="product_template_search_view_inherited" model="ir.ui.view">
+            <field name="name">product.search.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/field[@name='categ_id']" position="after">
+                    <field name="barcode"/>
+                </xpath>
+            </field>
+        </record>
+    <record id="sms.res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit.sms</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='mobile']" position="after">
+                <field name="phone_sanitized" groups="base.group_no_one" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="replace">
+                <field name="phone_blacklisted" invisible="1"/>
+                <field name="mobile_blacklisted" invisible="1"/>
+                <label for="phone" class="oe_inline"/>
+                <div class="o_row o_row_readonly">
+                    <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger"
+                        title="This phone number is blacklisted for SMS Marketing. Click to unblacklist."
+                        type="object" context="{'default_phone': phone}" groups="base.group_user"
+                        attrs="{'invisible': [('phone_blacklisted', '=', False)]}"/>
+                    <field name="phone"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="replace">
+                <field name="phone_blacklisted" invisible="1"/>
+                <field name="mobile_blacklisted" invisible="1"/>
+                <label for="mobile" class="oe_inline"/>
+                <div class="o_row o_row_readonly">
+                    <button name="phone_action_blacklist_remove" class="fa fa-ban text-danger"
+                        title="This phone number is blacklisted for SMS Marketing. Click to unblacklist."
+                        type="object" context="{'default_phone': mobile}" groups="base.group_user"
+                        attrs="{'invisible': [('mobile_blacklisted', '=', False)]}"/>
+                    <field name="mobile"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+
+
+  </data>
+</odoo>

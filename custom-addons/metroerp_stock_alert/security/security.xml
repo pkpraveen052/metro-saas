@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_notify_low_stock" model="res.groups">
+        <field name="name">Notify Low Stock</field>
+	</record>
+
+    <record id="group_notify_expiry_alert" model="res.groups">
+        <field name="name">Notify Product Expiry</field>
+    </record>
+</odoo>

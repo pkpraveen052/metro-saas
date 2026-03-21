@@ -1,0 +1,105 @@
+<odoo>
+	<data>
+<!--        Multi-Company Record Rule For Recurring Template   -->
+        <record id="recurring_template_multi_company_rule" model="ir.rule">
+            <field name="name">Recurring Template Multi Company Rule - Non Super Admins</field>
+            <field ref="om_recurring_payments.model_account_recurring_template" name="model_id"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+        </record>
+
+        <record id="recurring_template_admin_rule" model="ir.rule">
+            <field name="name">Recurring Template Multi Company Rule - Super Admin</field>
+            <field ref="om_recurring_payments.model_account_recurring_template" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+
+<!--        Multi-Company Record Rule For Recurring Payment   -->
+        <record id="recurring_payment_multi_company_rule" model="ir.rule">
+            <field name="name">Recurring Payment Multi Company Rule - Non Super Admins</field>
+            <field ref="om_recurring_payments.model_recurring_payment" name="model_id"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+        </record>
+
+        <record id="recurring_payment_admin_rule" model="ir.rule">
+            <field name="name">Recurring Payment Multi Company Rule - Super Admin</field>
+            <field ref="om_recurring_payments.model_recurring_payment" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+
+        <!--      In UOM and Category Remove write,delete and create access right of users other than Super Admin-->
+        <record id="point_of_sale.access_uom_uom_manager" model="ir.model.access">
+            <field name="name">uom.uom manager</field>
+            <field name="model_id" ref="uom.model_uom_uom"/>
+            <field name="group_id" ref="point_of_sale.group_pos_manager"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="purchase.access_uom_uom_purchase_manager" model="ir.model.access">
+            <field name="name">uom.uom purchase_manager</field>
+            <field name="model_id" ref="uom.model_uom_uom"/>
+            <field name="group_id" ref="purchase.group_purchase_manager"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="sale.access_uom_uom_sale_manager" model="ir.model.access">
+            <field name="name">uom.uom salemanager</field>
+            <field name="model_id" ref="uom.model_uom_uom"/>
+            <field name="group_id" ref="sales_team.group_sale_manager"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="stock.access_uom_uom_stock_manager" model="ir.model.access">
+            <field name="name">uom.uom stock_manager</field>
+            <field name="model_id" ref="uom.model_uom_uom"/>
+            <field name="group_id" ref="stock.group_stock_manager"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="purchase.access_uom_category_purchase_manager" model="ir.model.access">
+            <field name="name">uom.category purchase_manager</field>
+            <field name="model_id" ref="uom.model_uom_category"/>
+            <field name="group_id" ref="purchase.group_purchase_manager"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="sale.access_uom_category_sale_manager" model="ir.model.access">
+            <field name="name">uom.category salemanager</field>
+            <field name="model_id" ref="uom.model_uom_category"/>
+            <field name="group_id" ref="sales_team.group_sale_manager"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="stock.access_uom_category_stock_manager" model="ir.model.access">
+            <field name="name">uom.category stock_manager</field>
+            <field name="model_id" ref="uom.model_uom_category"/>
+            <field name="group_id" ref="stock.group_stock_manager"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+	</data>
+</odoo>

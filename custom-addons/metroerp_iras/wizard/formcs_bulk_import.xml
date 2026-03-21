@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="formcs_bulk_import_import_view" model="ir.ui.view">
+        <field name="name">formcs.bulk.import.form</field>
+        <field name="model">formcs.bulk.import</field>
+        <field name="arch" type="xml">
+            <form string="Upload Excel">
+            	<p>Please upload only the Excel file (.xlsx)</p>
+                <field name="file_data" colspan="2" string="Select File" nolabel="1"/>
+                <footer>
+                    <button name="import_file" string="Import" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		
+		<record id="view_move_form_inherit" model="ir.ui.view">
+			<field name="name">account.move.form.inherit</field>
+			<field name="model">account.move</field>
+			<field name="inherit_id" ref="account.view_move_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//group[@id='other_tab_entry_group']" position="inside">
+					<group/>
+					<group>
+						<field name="initial_carry_fwd_balance"/>						
+						<field name="statement_type" attrs="{'invisible': [('initial_carry_fwd_balance','=',False)], 'required': [('initial_carry_fwd_balance','=',True)]}"/>
+						<br/>
+						<field name="adjust_in_carry_fwd_bal"/>
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+	</data>
+</odoo>

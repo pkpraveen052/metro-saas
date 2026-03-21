@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="form_res_config_settings_low_stock" model="ir.ui.view">
+		<field name="name">res.config.settings.form_low_stock</field>
+		<field name="model">res.config.settings</field>
+		<field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+		<field name="arch" type="xml">
+            <xpath expr="//div[@data-key='stock']//div[@name='operations_setting_container']" position="after">
+                <h2>Set Low Stock Alert</h2>
+                <div class="row mt16 o_settings_container" name="operations_setting_container">
+                    <!-- LEFT BOX : Low Stock Alert -->
+                    <div class="col-12 col-lg-6 o_setting_box" id="low_stock_alert">
+                        <div class="o_setting_left_pane"></div>
+                        <div class="o_setting_right_pane">
+                            <label for="low_stock_alert_qty">Low Stock Alert (Qty)</label>
+                            <div>
+                                <field name="low_stock_alert_qty"/>
+                            </div>
+                            <p class="text-muted mt8">
+                                System will trigger an alert when product quantity falls below this threshold.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT BOX : Expiry Alert -->
+                    <div class="col-12 col-lg-6 o_setting_box" id="expiry_alert">
+                        <div class="o_setting_left_pane"></div>
+                        <div class="o_setting_right_pane">
+                            <label for="expiry_alert_days">Expiry Alert (Days)</label>
+                            <div>
+                                <field name="expiry_alert_days"/>
+                            </div>
+                            <p class="text-muted mt8">
+                                System will trigger an alert when the product expiry days left falls below this value.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

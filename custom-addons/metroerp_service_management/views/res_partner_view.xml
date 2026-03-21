@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_partner_inherit_service_request_form" model="ir.ui.view">
+            <field name="name">view_partner_inherit_service_request_form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='internal_notes']" position="before">
+                    <page string="Services Request"  name="service_request" groups="metroerp_service_management.service_management_group_user,metroerp_service_management.service_management_group_administrator">
+                        <field name="service_request_ids" context="{'res_partner_search_mode': 'customer'}" >
+                            <tree string="Services Request" editable="bottom" create="false" delete="false"
+                                  default_order="name">
+                                <field name="name" />
+                                <field name="template_id" readonly="True"/>
+                                <field name="company_id" readonly="True" invisible="0"/>
+                                <field name="state" readonly="True"/>
+                                <button name="action_open_sale_order"
+                                type="object"
+                                string="Create Quotation"
+                                class="btn-primary"/>
+                            </tree>
+                        </field>
+                        <group/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>

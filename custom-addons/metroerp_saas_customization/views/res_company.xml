@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_company_form_metroerp_saas_customization" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Corporate Secretarial Document Info" name="corporate_secretarial_document" autofocus="autofocus" attrs="{'invisible': [('id','=',False)]}">
+                    <field name="corporate_partner_ids" mode="kanban" context="{'default_company_type': 'person', 'default_type': 'contact', 'default_company_id': id}">
+                        <kanban>
+                            <field name="id"/>
+                            <field name="name"/>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="zip"/>
+                            <field name="city"/>
+                            <field name="country_id"/>
+                            <field name="state_id"/>
+                            <field name="image_1920"/>
+                            <templates>
+                                <t t-name="kanban-box">
+                                    <div class="oe_kanban_global_click">
+                                        <div class="o_kanban_image">
+                                            <img alt="Contact image" t-att-src="kanban_image('res.partner', 'image_1920', record.id.raw_value)"/>
+                                        </div>
+                                        <div class="oe_kanban_details">
+                                            <field name="name"/>
+                                            <div><field name="email" widget="email"/></div>
+                                            <div>
+                                                <div>
+                                                    <field name="zip"/>
+                                                    <field name="city"/>
+                                                </div>
+                                                <field name="state_id"/>
+                                                <field name="country_id"/>
+                                            </div>
+                                            <div>Mobile: <field name="mobile"/></div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </templates>
+                        </kanban>
+                        <form string="Create Officer">
+                            <sheet>
+                                <field name="type" widget="radio" options="{'horizontal': true}" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                                <!-- <field name="officer_type" widget="radio" options="{'horizontal': true}"/> -->
+                                <!-- <hr/> -->
+                                <group col="12">
+                                    <group colspan="5">
+                                        <field name="name" string="Contact Name" required="1" placeholder="eg: John Darius"/>
+                                        <field name="function" string="Designation" required="1" placeholder="eg: Director"/>
+                                        <label for="street" string="Address"/>
+                                        <div>
+                                            <div class="o_address_format" name="div_address">
+                                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                                <field name="city" placeholder="City" class="o_address_city"/>
+                                                <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+                                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                                <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                            </div>
+                                        </div>
+                                    </group>
+                                    <group colspan="5">
+                                        <field name="email" widget="email"/>
+                                        <field name="mobile" widget="phone"/>                                        
+                                    </group>
+                                    <group colspan="1">
+                                        <field name="image_1920" widget="image" class="oe_avatar" nolabel="1" options="{'image_preview': 'image_128'}"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="visitor_type_tree_view" model="ir.ui.view">
+            <field name="name">visitor.type.list.view</field>
+            <field name="model">visitor.type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="company_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="visitor_type_action_window" model="ir.actions.act_window">
+            <field name="name">Visitor Type</field>
+            <field name="res_model">visitor.type</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+    <menuitem id="visitor_type_menu"
+        parent="configuration_menu"
+        name="Visitor Type"
+        action="visitor_type_action_window"
+        sequence="2"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="director_statement_template_tree" model="ir.ui.view">
+            <field name="name">director.statement.template.tree</field>
+            <field name="model">director.statement.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="report_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="director_statement_template_form" model="ir.ui.view">
+            <field name="name">director.statement.template.form</field>
+            <field name="model">director.statement.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>                               
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="report_id"/>
+                                    </group>
+                                    <group>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="director_statement_template_action">
+            <field name="name">FS Report Style</field>
+            <field name="res_model">director.statement.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id="menu_director_statement_template"
+              parent="menu_main_director_statement_config"
+              action="director_statement_template_action"
+              sequence="0"
+              groups="base.group_system"/>
+
+    </data>
+</odoo>

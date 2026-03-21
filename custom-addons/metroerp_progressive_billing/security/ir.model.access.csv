@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_progressive_billing_qt,progressive.billing.qt,model_progressive_billing_qt,base.group_user,1,1,1,1
+access_progressive_billing_qt_lines,access_progressive_billing_qt_lines,model_progressive_billing_qt_lines,base.group_user,1,1,1,1
+access_progressive_billing_cancel,access_progressive_billing_cancel,model_progressive_billing_cancel,base.group_user,1,1,1,1
+

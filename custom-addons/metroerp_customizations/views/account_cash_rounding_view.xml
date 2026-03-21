@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="inherited_rounding_form_view" model="ir.ui.view">
+            <field name="name">account.cash.rounding.form.inherited</field>
+            <field name="model">account.cash.rounding</field>
+            <field name="inherit_id" ref="account.rounding_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='rounding_method']" position="after">
+                	<field name="company_id" groups="base.group_multi_company"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherited_rounding_tree_view" model="ir.ui.view">
+            <field name="name">account.cash.rounding.tree.inherited</field>
+            <field name="model">account.cash.rounding</field>
+            <field name="inherit_id" ref="account.rounding_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='rounding_method']" position="after">
+                	<field name="company_id" groups="base.group_multi_company"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

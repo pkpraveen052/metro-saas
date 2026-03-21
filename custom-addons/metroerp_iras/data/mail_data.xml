@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--Email template -->
+        <record id="mail_template_start_f5_reminder" model="mail.template">
+            <field name="name">GST F5 - Filing Reminder</field>
+            <field name="model_id" ref="metroerp_iras.model_gst_f5_auto_schedule"/>
+            <field name="subject">Draft created for GST Return F5 - Start Filing</field>
+            <field name="partner_to">${ctx.get('partner_id')}</field>
+            <field name="body_html" type="xml">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hello,<br/><br/>
+                        Please note that the draft GST F5 has been created for the periods <b>${ctx.get('obj').dtPeriodStart}</b> to <b>${ctx.get('obj').dtPeriodEnd}</b>.
+                        <div style="margin: 16px 0px 16px 0px;">
+                            <a href="${ctx.get('url')}" target="new"
+                                style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                Click here to open
+                            </a>
+                        </div>
+                        <br/><br/>
+                        Thank you,
+                        % if user.signature:
+                            <br />
+                            ${user.signature | safe}
+                        % endif
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <record id="mail_template_submit_gst_f5_reminder" model="mail.template">
+            <field name="name">GST F5 - Due Date Reminder</field>
+            <field name="model_id" ref="metroerp_iras.model_gst_f5_auto_schedule"/>
+            <field name="subject">Reminder - Submission of GST Returns F5</field>
+            <field name="partner_to">${ctx.get('partner_id')}</field>
+            <field name="body_html" type="xml">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear sir,<br/><br/>
+                        Please note that the submission of GST F5 for the periods <b>${ctx.get('start_date')}</b> to <b>${ctx.get('end_date')}</b> is in due. Please submit without any further delay.<br/>
+                        <u>Note:</u>Please ignore the message if this action was already performed.
+                        % set url = ctx.get('url')
+                        % if url:
+                            <div style="margin: 16px 0px 16px 0px;">
+                                <a href="${ctx.get('url')}" target="new"
+                                    style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                    Click here to open
+                                </a>
+                            </div>
+                        % endif
+                        <br/><br/>
+                        Thank you,
+                        % if user.signature:
+                            <br />
+                            ${user.signature | safe}
+                        % endif
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

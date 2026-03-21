@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Update existing Send Payment Receipt button under action in payment form -->
+        <function model="ir.actions.act_window" name="write" eval="[
+            (ref('account.account_send_payment_receipt_by_email_action')),
+            {'groups_id': [(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]}
+        ]"/>
+
+         <!-- Update existing Record Rule to add a custom group -->
+        <function model="ir.rule" name="write" eval="[
+            (ref('account.account_analytic_line_rule_billing_user')),
+            {'groups': [(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]}
+        ]"/>
+
+        <function model="ir.rule" name="write" eval="[
+            (ref('account.account_move_see_all')),
+            {'groups': [(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]}
+        ]"/>
+
+        <!-- Add custom group to All Journal Items rule -->
+        <function model="ir.rule" name="write" eval="[
+            (ref('account.account_move_line_see_all')),
+            {'groups': [(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]}
+        ]"/>
+
+        <!-- Add custom group to Readonly Move rule -->
+        <function model="ir.rule" name="write" eval="[
+            (ref('account.account_move_rule_group_invoice')),
+            {'groups': [(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]}
+        ]"/>
+
+        <!-- Add custom group to Readonly Move Line rule -->
+        <function model="ir.rule" name="write" eval="[
+            (ref('account.account_move_line_rule_group_invoice')),
+            {'groups': [(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]}
+        ]"/>
+
+        <!-- Add custom group to Readonly Invoice Send and Print rule -->
+        <function model="ir.rule" name="write" eval="[
+            (ref('account.account_invoice_send_rule_group_invoice')),
+            {'groups': [(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]}
+        ]"/>
+
+    </data>
+</odoo>

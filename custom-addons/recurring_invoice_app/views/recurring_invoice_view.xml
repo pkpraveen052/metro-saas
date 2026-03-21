@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="recurring_invoice_view_tree" model="ir.ui.view">
+        <field name="name">recurring.invoice.view.tree</field>
+        <field name="model">recurring.invoices</field>
+        <field name="arch" type="xml">
+            <tree string="Recurring Order" create="false" edit="false">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="interval_type"/>
+                <field name="state"/>
+                <field name="first_date" invisible="1"/>
+                <field name="recurring_interval"/>
+                <field name="recurring_number"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+     </record>
+
+    <record id="recurring_invoice_form_view" model="ir.ui.view">
+        <field name="name">recurring.invoice.view.form</field>
+        <field name="model">recurring.invoices</field>
+        <field name="arch" type="xml">
+            <form string="Recurring Order" create="false" edit="false">
+                <header>
+                    <button name="cancel_button" string="Cancel" class="btn-primary" type="object" attrs="{'invisible': [('state', 'in',['new','done','Cancelled'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,running,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="user_id"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" required="1"/>
+                            <field name="cron_id" invisible="1"/>
+                            <field name="active" invisible="1"/>
+                            <field name="total" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                                
+                    </group>
+                    <notebook>
+                        <page string="Recurring Data">
+                            <group>
+                                <group> 
+                                    <field name="first_date" required="1"/>
+                                    <field name="recurring_number"/>
+                                </group>
+                                <group>
+                                    <field name="interval_type"/>
+                                    <field name="recurring_interval"/>
+                                </group>      
+                            </group>
+                        </page>
+                        <page string="Scheduled Rucurring Invoice">
+                            <field name="scheduled_idss">
+                                <tree string="Recurring Lines" editable="bottom">
+                                    <field name="recurring_invoice_id" invisible="1"/>
+                                    <field name="schedule_date"/>
+                                    <field name="invoice" string="Origin Reference"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Invoice Lines">
+                            <field name="recurring_invoice_line_ids">
+                                <tree string="Invoice Lines" create="0" editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="account_id"/>
+                                    <field name="quantity"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="price_unit"/>
+                                    <field name="tax_ids"/>
+                                    <field name="currency_id"/>
+                                    <field name="price_subtotal"/>
+                                    <field name="price_total"/>
+                                    <field name="recurring_invoice_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                       <page string="Generated Invoices Details">
+                            <field name="inv_details_ids">
+                                <tree string="Invoices Details" editable="bottom">
+                                    <field name="invoice_id"/>
+                                    <field name="date"/>
+                                    <field name="total_amount" sum="Total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_recurring_invoice_view" model="ir.actions.act_window">
+        <field name="name">Recurring invoice</field>
+        <field name="res_model">recurring.invoices</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_recurring_invoice"
+        action="action_recurring_invoice_view"
+        parent="account.menu_finance_receivables"
+        name="Recurring Invoices"
+    />
+
+    </data>
+</odoo>

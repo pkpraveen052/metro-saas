@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <template id="wk_assets_backend_inherit" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+			<script type="text/javascript" src="/flavor_account_syc/static/src/js/switch_company_menu.js"></script>
+        </xpath>
+    </template>
+</odoo>

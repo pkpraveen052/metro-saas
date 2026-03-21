@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--    <template id="onboarding_administrator_detail_step">-->
+    <!--        <t t-call="base.onboarding_step">-->
+    <!--            <t t-set="title">Administrator Details</t>-->
+    <!--            <t t-set="description">Setup your admin details. For the documents</t>-->
+    <!--            <t t-set="btn_text">Add Admin</t>-->
+    <!--            <t t-set="done_text">Step Completed!</t>-->
+    <!--            <t t-set="method" t-value="'setting_init_admin_details_action'" />-->
+    <!--            <t t-set="model" t-value="'res.company'" />-->
+    <!--            <t t-set="state" t-value="state.get('account_setup_admin_details_state')" />-->
+    <!--        </t>-->
+    <!--    </template>-->
+
+    <template id="onboarding_custom_invoice_layout_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Invoice Layout</t>
+            <t t-set="description">Digitalize your vendor bills with OCR and Artificial Intelligence.</t>
+            <t t-set="btn_text">Customize</t>
+            <t t-set="done_text">Step Completed!</t>
+            <t t-set="method" t-value="'setting_init_custom_invoice_layout_action'"/>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="state" t-value="state.get('account_setup_custom_invoice_layout')"/>
+        </t>
+    </template>
+
+    <template id="account_dashboard_onboarding_panel_metroerp_inherit"
+              inherit_id="account.account_dashboard_onboarding_panel" name="Accounting Dashboard Onboarding Panel">
+        <xpath expr="//t[@t-call='base.onboarding_container']//t[@t-call='account.dashboard_onboarding_bill_step']"
+               position="replace">
+            <t t-call="base.onboarding_company_step" name="company_step"/>
+        </xpath>
+
+        <xpath expr="//t[@t-call='base.onboarding_container']//t[@t-call='account.onboarding_bank_account_step']"
+               position="replace">
+            <t t-call="metroerp_onboarding.onboarding_custom_invoice_layout_step" name="custom_invoice_layout_step"/>
+        </xpath>
+
+        <xpath expr="//t[@t-call='base.onboarding_container']//t[@t-call='account.onboarding_chart_of_account_step']"
+               position="after">
+            <t t-call="account.onboarding_sale_tax_step" name="custom_invoice_layout_step"/>
+        </xpath>
+
+        <xpath expr="//t[@t-call='base.onboarding_container']//t[@t-call='account.onboarding_sale_tax_step']"
+               position="after">
+            <t t-call="account.onboarding_bank_account_step" name="bank_account_step"/>
+        </xpath>
+    </template>
+
+    <record id="account.account_invoice_onboarding_sale_tax_form" model="ir.ui.view">
+        <field name="name">account.invoice.layout.onboarding.form</field>
+        <field name="model">res.company</field>
+        <field name="mode">primary</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="mb16">Please set the default tax if your company is registered under GST. Otherwise, you may
+                    skip this step.
+                </div>
+                <group>
+                    <group>
+                        <field name="account_sale_tax_id" domain="[('type_tax_use','=','sale')]"/>
+                        <field name="account_purchase_tax_id" domain="[('type_tax_use','=','purchase')]"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Apply" class="btn btn-primary" type="object"
+                            name="action_save_onboarding_sale_tax"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <button string="Skip" class="btn-secondary" type="object" name="action_skip_onboarding_sale_tax"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="setup_bank_account_wizard_custom" model="ir.ui.view">
+        <field name="name">account.online.sync.res.partner.bank.setup.form.custom</field>
+        <field name="model">account.setup.bank.manual.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="num_journals_without_account" invisible="1"/>
+                <field name="journal_id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="linked_journal_id" invisible="1"/>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="acc_number" placeholder="e.g BE15001559627230"/>
+                            <field name="bank_id" placeholder="e.g OCBC Bank" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="bank_bic" placeholder="e.g GEBABEBB" string="Bank Identifier Code"/>
+                        </group>
+                    </group>
+                    <group attrs="{'invisible': [('num_journals_without_account', '=', 0)]}">
+                        <group>
+                            <field name="linked_journal_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <span class="text-muted">Leave empty to create a new journal for this bank account, or
+                                select a journal to link it with the bank account.
+                            </span>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Create" class="oe_highlight" type="object" name="validate"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="account.view_out_invoice_tree" model="ir.ui.view">
+        <field name="name">account.out.invoice.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="mode">primary</field>
+        <field name="active">False</field>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="sample">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

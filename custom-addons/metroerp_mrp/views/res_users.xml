@@ -1,0 +1,12 @@
+<odoo>
+    <record id="view_users_form_inherit_mrp_model" model="ir.ui.view">
+        <field name="name">res.users.inherited</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='signature']" position="before">
+                <field name="enable_mrp" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

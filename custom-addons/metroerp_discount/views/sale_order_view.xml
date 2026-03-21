@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sale_order_form_metroerp" model="ir.ui.view">
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree//field[@name='discount']" position="before">
+		                    <field name="discount_type" class="text-center" optional="show" groups="product.group_discount_per_so_line"/>
+	
+			<!--                    <field name="price_subtotal_no_discount" optional="hide" />-->
+<!--                    <field name="price_total_no_discount" optional="hide" />-->
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='discount']" position="attributes">
+                    <attribute name="string">Disc.</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_untaxed']" position="before">
+<!--                    <field name="price_total_no_discount" />-->
+                    <field name="discount_total" groups="product.group_discount_per_so_line"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

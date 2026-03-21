@@ -1,0 +1,533 @@
+.ks_style_4 {
+  font-family: $font_poppins;
+}
+.ks_header .ks_style_4 {
+  padding: 10px 10px;
+  .ks_invoice_number {
+    h3 {
+      color: $second_text_color;
+      font-size: $ks_large_font;
+      @extend %light_font;
+      @include company_heading;
+      text-transform: capitalize;
+    }
+    h6 {
+      @extend %theme_text_color;
+      font-size: $font_18;
+      @extend %regular_font;
+    }
+  }
+  .ks_tagline {
+    @extend %text-left;
+    p {
+      @include mb_0;
+      .ks_company_name {
+        @include ks_company_name;
+        @extend %extra_strong_font;
+      }
+      .ks_company_tagline {
+        @include ks_company_tagline;
+        @extend %light_font;
+      }
+    }
+  }
+  .ks_invoice {
+    h3 {
+      color: $second_text_color;
+      font-size: $ks_mid_font;
+      @extend %midium_font;
+    }
+    p {
+      color: $font_text_clr_10;
+      font-size: $very_low_font;
+      @include mb_0;
+      line-height: 18px;
+    }
+    ul {
+      @include horizontal-list;
+      font-size: $very_low_font;
+      margin-top: 3px;
+      li {
+        color: $font_text_clr_10;
+        a {
+          color: $font_text_clr_10;
+        }
+      }
+    }
+  }
+  .ks_details {
+    margin-bottom: 5px;
+    p {
+      @include mb_0;
+    }
+    .font_9 {
+      @extend %regular_font;
+      color: $font_text_clr_7;
+    }
+    .font_10 {
+      @extend %midium_font;
+      color: $font_text_6;
+    }
+    @extend %text-right;
+  }
+}
+
+.ks_style_4.ks_address {
+  .ks_invoice {
+    h3 {
+      color: $second_text_color;
+      font-size: $ks_mid_font;
+      @extend %midium_font;
+    }
+    p {
+      color: $font_text_clr_7;
+      font-size: $ks_extra_small_font;
+      @include mb_0;
+      line-height: 22px;
+      @extend %regular_font;
+    }
+    ul {
+      @include horizontal-list;
+      font-size: $very_low_font;
+      @extend %regular_font;
+      line-height: 20px;
+      margin-top: 10px;
+      li {
+        color: $third_text_color;
+        a {
+          color: $third_text_color;
+          word-break: break-all;
+        }
+      }
+    }
+  }
+  .ks_total {
+    p {
+      color: $third_text_color;
+    }
+    h4 {
+      color: $theme_color4;
+      font-size: $ks_mid_font;
+      @extend %strong_font;
+    }
+  }
+  .ks_details {
+    @extend %text-right;
+    margin-bottom: 20px;
+  }
+  .font_10 {
+    @extend %strong_font;
+  }
+  .ks_invoice_number {
+    h3 {
+      color: $second_text_color;
+      font-size: $font_25;
+      @extend %midium_font;
+      @include company_heading;
+      text-transform: capitalize;
+    }
+    h6 {
+      @extend %theme_text_color;
+      font-size: $font_18;
+      @extend %regular_font;
+    }
+  }
+}
+.ks_style_4 {
+  .ks_table_pick-1 {
+    @extend %ks_table;
+    thead {
+      background-color: $table_4_left_bg;
+      th:first-child {
+        padding-left: 20px;
+      }
+      th:nth-last-child(-n + 1) {
+        background-color: $theme_color4;
+      }
+      th {
+        font-size: $font_11;
+        @extend %midium_font;
+        padding: 10px 5px;
+        border-right: 0px;
+        color: $text_white;
+      }
+      th:last-child {
+        border-top-right-radius: 10px;
+      }
+      th:first-child {
+        border-top-left-radius: 20px;
+      }
+      .ks_table_design_4 {
+        position: relative;
+        border-bottom-right-radius: 35px;
+        .ks_hide_design_4 {
+          position: absolute;
+          display: inline-block;
+          top: 0px;
+          right: 0px;
+          z-index: -1;
+          height: 100%;
+          width: 30px;
+          background: $theme_color4;
+        }
+      }
+    }
+    tbody {
+      .ks_table_img {
+        span {
+          img {
+            @include ks_table_img;
+          }
+        }
+      }
+      tr:nth-child(odd) {
+        background-color: $bg_theme_4;
+      }
+      tr:last-child {
+        border-bottom:1px solid #ccc;
+      }
+      tr {
+        border-left:1px solid #ccc;
+        border-right: 1px solid #ccc;
+        td:first-child {
+          padding-left: 20px;
+        }
+        td:last-child {
+          border-right: none;
+        }
+        td {
+          font-size: $font_7;
+          @extend %pad_8;
+          border-right: 1px solid #ccc;
+          strong {
+            font-size: $very_low_font;
+            @extend %midium_font;
+          }
+          p {
+            @include mb_0;
+          }
+          span {
+            height: 100%;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+  .ks_table_left_design {
+    position: absolute;
+    top: 1px;
+    left: 0px;
+    width: 15px;
+    height: 30%;
+    background: $theme_color4;
+  }
+}
+
+.ks_style_4.ks_table_section {
+  padding: 10px 10px;
+
+  .ks_table {
+    @extend %ks_table;
+    thead {
+      background-color: $table_4_left_bg;
+      th:first-child {
+        padding-left: 20px;
+      }
+      th:nth-last-child(-n + 3) {
+        background-color: $theme_color4;
+      }
+      th {
+        font-size: $font_11;
+        @extend %midium_font;
+        padding: 10px 5px;
+        border-right: 0px;
+        color: $text_white;
+      }
+      th:last-child {
+        border-top-right-radius: 10px;
+      }
+      th:first-child {
+        border-top-left-radius: 20px;
+      }
+      .ks_table_design_4 {
+        position: relative;
+        border-bottom-right-radius: 35px;
+        .ks_hide_design_4 {
+          position: absolute;
+          display: inline-block;
+          top: 0px;
+          right: 0px;
+          z-index: -1;
+          height: 100%;
+          width: 30px;
+          background: $theme_color4;
+        }
+      }
+    }
+    tbody {
+      .ks_table_img {
+        span {
+          img {
+            @include ks_table_img;
+          }
+        }
+        text-align: center;
+      }
+      .ks_product_image {
+        text-align: center;
+      }
+      tr:nth-child(odd) {
+        background-color: $bg_theme_4;
+      }
+      tr:last-child {
+        border-bottom: 1px solid #ccc;
+      }
+      tr {
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        td:first-child {
+          padding-left: 20px;
+        }
+        td:last-child {
+          border-right: none;
+        }
+        td {
+          font-size: $very_low_font;
+          @extend %pad_8;
+          border-right:  1px solid #ccc;
+          p {
+            @include mb_0;
+            @extend %regular_font;
+            color: $theme_text10;
+            font-size: $font_13;
+          }
+          strong {
+            font-size: $very_low_font;
+            @extend %midium_font;
+            color: $first_text_color;
+          }
+        }
+      }
+    }
+  }
+
+  .ks_table_rfq {
+    @extend %ks_table;
+    thead {
+      background-color: $table_4_left_bg;
+      th:first-child {
+        padding-left: 20px;
+      }
+      th:nth-last-child(-n + 3) {
+        background-color: $theme_color4;
+      }
+      th {
+        font-size: $font_11;
+        @extend %midium_font;
+        padding: 10px 5px;
+        border-right: 0px;
+        color: $text_white;
+      }
+      th:last-child {
+        border-top-right-radius: 10px;
+      }
+      th:first-child {
+        border-top-left-radius: 20px;
+      }
+      .ks_table_design_4 {
+        position: relative;
+        border-bottom-right-radius: 35px;
+        .ks_hide_design_4 {
+          position: absolute;
+          display: inline-block;
+          top: 0px;
+          right: 0px;
+          z-index: -1;
+          height: 100%;
+          width: 30px;
+          background: $theme_color4;
+        }
+      }
+    }
+    tbody {
+      .ks_table_img {
+        span {
+          img {
+            @include ks_table_img;
+          }
+        }
+        text-align: center;
+      }
+      .ks_product_image {
+        text-align: center;
+      }
+      tr:nth-child(odd) {
+        background-color: $bg_theme_4;
+      }
+      tr:last-child {
+        border-bottom:  1px solid #ccc;
+      }
+      tr {
+        border-left:  1px solid #ccc;
+        border-right:  1px solid #ccc;
+        td:first-child {
+          padding-left: 20px;
+        }
+        td:last-child {
+          border-right: none;
+        }
+        td {
+          font-size: $very_low_font;
+          @extend %pad_8;
+          border-right: 1px solid #ccc;
+          p {
+             @extend %table-description;
+             @include mb_0;
+          }
+          strong {
+            @extend %strong-text;
+          }
+        }
+      }
+    }
+  }
+  .ks_table_left_design {
+    position: absolute;
+    top: 1px;
+    left: 0px;
+    width: 15px;
+    height: 30%;
+    background: $theme_color4;
+  }
+}
+
+.ks_style_4.ks_history_nd_total {
+  padding: 10px 10px;
+  h6 {
+    @include ks_heading;
+  }
+  .ks_total_table {
+    @extend %ks_table;
+    tbody {
+      tr {
+        td {
+          @extend %border_0;
+          @extend %text-right;
+          @extend %pad_8;
+        }
+      }
+      .ks_subtotal {
+        td {
+          @include total_font;
+        }
+      }
+      .ks_text_rate {
+        td {
+          @include total_font;
+          color: $theme_color4;
+        }
+      }
+      .ks_grnad_total {
+        td {
+          @extend %semi_bold_font;
+          @include total_font;
+          color: $theme_color4;
+          border-top: 1px solid $theme_color4;
+          font-size: $font_11;
+        }
+      }
+      .ks_amount_due {
+        font-size: $font_18;
+        font-weight: 600 !important;
+        td {
+          &:first-child {
+            @extend %regular_font;
+            font-size: $font_11;
+          }
+        }
+      }
+    }
+  }
+  .ks_history_details {
+    background: $bg_theme_4;
+    padding: 4px 8px;
+    @extend %border_rad_5;
+    .ks_list_text {
+      font-size: $font_7;
+      color: $third_text_color;
+    }
+    p {
+      font-size: $ks_extra_small_font;
+      @include mb_0;
+      
+    .round_shape {
+        @extend %semi_bold_font;
+      }
+    }
+    .round_shape {
+      background: $theme_color4;
+    }
+  }
+  .ks_amount_in_words {
+    p {
+      @include ks_amount_in_words;
+      @include mb_0;
+    }
+  }
+}
+
+.ks_style_4.ks_payment_term_sign {
+  .sign_img {
+    max-height: 60px;
+  }
+  .ks_option_des {
+    h4 {
+      @extend %midium_font;
+      color: $font_text_6;
+      font-size: $font_11;
+    }
+    span {
+      display: block;
+      font-size: $font_10;
+      color: $font_text_clr_7;
+      margin-bottom: 8px;
+      @extend %regular_font;
+    }
+    p {
+      font-size: $font_10;
+      color: $theme_text10;
+      margin-bottom: 6px;
+      @extend %light_font;
+    }
+  }
+  h6 {
+    @include ks_heading;
+    color: $first_text_color;
+  }
+  p {
+    font-size: $font_7;
+    @include mb_0;
+    color: $third_text_color;
+  }
+}
+
+.ks_style_4.ks_footer {
+  ul {
+    @include horizontal-list;
+    @extend %text-center;
+    li {
+      a {
+        color: $second_text_color;
+        font-size: $very_low_font;
+      }
+    }
+  }
+  .ks_custom_footer {
+    color: $second_text_color;
+  }
+  p {
+    @extend %text-center;
+    font-size: $very_low_font;
+  }
+}

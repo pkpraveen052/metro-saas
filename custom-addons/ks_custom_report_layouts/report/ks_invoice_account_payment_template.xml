@@ -1,0 +1,1812 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="ks_report_payment_style_1">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="ks_header header">
+                <style t-raw="res_config.get_report_header_color()"/>
+                <div class="custom-container ks_style_1">
+                    <div class="row mt-1">
+                        <div class="col-3 ks_invoice_number">
+                            <h3 class="ks_h1_font_color  ks_h1_font_size ks_heading_bold">Payment Receipt
+                                <span t-if="is_payment_duplicate" class="text-uppercase">[Duplicate]</span>
+                            </h3>
+                            <h6 t-field="o.name"/>
+                        </div>
+                        <div class="col-3 text-right">
+                            <div class="float-left ks_tagline" style="width:100%">
+                                <div t-if="res_config.ks_show_logo" style="width:20%" class="float-left">
+                                    <img t-if="company.logo" class="img-fluid ks_company_logo_font_size"
+                                         t-att-src="image_data_uri(company.logo)"
+                                         style="max-height:45px;max-width:45px" alt="Logo"/>
+                                </div>
+                                <div t-if="res_config.ks_show_company" style="width:78%" class="float-left">
+                                    <p class="pl-2 ks_show_tagline mb-0">
+                                        <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                        </span>
+                                        <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-field="company.name"/>
+                                        </span>
+                                        <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                            <t t-if="company.report_header">
+                                                <span t-field="company.report_header"/>
+                                            </t>
+                                            <t t-else="">
+                                                Company Tag Line
+                                            </t>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 ks_invoice">
+                            <h3 class="ks_company_name_color ks_company_name_bold"
+                                t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                            <p class=" pr-4" t-if="res_config.ks_address and res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p class=" pr-4" t-if="res_config.ks_address and not res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p class="py-1" t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                UEN No:
+                                <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                            </p>
+                            <ul>
+                                <li t-if="company.partner_id.phone and res_config.phone">
+                                    <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                        <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                        <span t-field="company.partner_id.phone"/>
+                                    </a>
+                                </li>
+                                <li t-if="company.partner_id.email and res_config.email">
+                                    <a t-attf-href="mailto:{{ company.partner_id.email }}">
+                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                        <span t-field="company.partner_id.email"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                    <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                    <t t-set="company" t-value="company"/>
+                </t>
+            </div>
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <section class="ks_style_1 ks_address">
+                    <div class="custom-container">
+                        <div class="row my-5">
+                            <div t-if="o.amount" class="col-3  text-left ks_total">
+                                <p class="mb-0 ">Payment Amount:</p>
+                                <h4 class="ks_text_font ks_total_value_color ks_total_value_font_size ks_payment">
+                                    <span t-field="o.amount"
+                                          t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="row my-5">
+                            <ul class="ks_dummy_ul">
+                                <li class="pl-3 text-left ks_details" t-if="o.partner_type">
+                                    <t>
+                                        <t t-if="o.partner_type == 'customer'">
+                                            <p class=" font_9">Payer:</p>
+                                        </t>
+                                        <t t-if="o.partner_type == 'supplier'">
+                                            <p class=" font_9 ">Payee:</p>
+                                        </t>
+                                        <p class="font_10"
+                                           t-field="o.partner_id"/>
+                                    </t>
+                                </li>
+                                <li t-if="o.date" class="pl-3 pr-3 border-right  text-left ks_details">
+                                    <p class="text_font_color font_9">Payment Date:</p>
+                                    <p class="font_10" t-field="o.date"/>
+                                </li>
+                                <li t-if="o.payment_method_id" class="pl-3 pr-3 border-right  text-left ks_details">
+                                    <p class="text_font_color font_9">Payment Method:</p>
+                                    <p class="font_10" t-field="o.payment_method_id.name"/>
+                                </li>
+                                <li t-if="o.ref" class="pl-3 pr-3 text-left ks_details">
+                                    <p class="text_font_color font_9">Memo:</p>
+                                    <p class=" font_10" t-field="o.ref"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_payment_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_1'"/>
+                </t>
+                <section class="ks_style_1 ks_history_nd_total">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row">
+                            <div class="col-4 offset-8 position-relative">
+                                <table class="ks_total_table">
+                                    <tbody>
+                                        <tr class="ks_total_bckgrnd_color ks_grnad_total">
+                                            <td class="ks_total_text_size ks_total_text_color">Grand Total</td>
+                                            <td class="ks_total_text_size ks_total_text_color">
+                                                <span class="ks_total_text_size ks_total_text_color" t-field="o.amount"
+                                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div t-if="res_config.ks_amount_in_words"
+                                 class="col-6 offset-6 text-right ks_amount_in_words" style="text-align:right">
+                                <p t-field="o.ks_total_amount_in_words"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+            <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                <t t-set="ks_style" t-value="'ks_style_1'"/>
+            </t>
+        </template>
+        <template id="ks_report_payment_style_2">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="ks_header header">
+                <style t-raw="res_config.get_report_header_color()"/>
+                <div class="custom-container ks_style_2">
+                    <div class="row mt-1">
+                        <div class="col-3 ks_invoice_number">
+                            <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold ">Payment Receipt
+                                <span t-if="is_payment_duplicate" class="text-uppercase">[Duplicate]</span>
+                            </h3>
+                            <h6 t-field="o.name"/>
+                        </div>
+                        <div class="col-3 text-right">
+                            <div class="float-left ks_tagline" style="width:100%">
+                                <div t-if="res_config.ks_show_logo" style="width:20%" class="float-left">
+                                    <img t-if="company.logo" class="img-fluid ks_company_logo_font_size"
+                                         t-att-src="image_data_uri(company.logo)"
+                                         style="max-height:45px;max-width:45px" alt="Logo"/>
+                                </div>
+                                <div t-if="res_config.ks_show_company" style="width:78%" class="float-left">
+                                    <p class="pl-2 ks_show_tagline mb-0">
+                                        <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                        </span>
+                                        <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-field="company.name"/>
+                                        </span>
+                                        <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                            <t t-if="company.report_header">
+                                                <span t-field="company.report_header"/>
+                                            </t>
+                                            <t t-else="">
+                                                Company Tag Line
+                                            </t>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 ks_invoice">
+                            <h3 class="ks_company_name_color ks_company_name_bold" t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                            <p class="pr-4" t-if="res_config.ks_address and res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p class="pr-4" t-if="res_config.ks_address and not res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p class="py-1" t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                UEN No:
+                                <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                            </p>
+                            <ul>
+                                <li t-if="company.partner_id.phone and res_config.phone">
+                                    <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                        <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                        <span t-field="company.partner_id.phone"/>
+                                    </a>
+                                </li>
+                                <li t-if="company.partner_id.email and res_config.email">|</li>
+                                <li t-if="company.partner_id.email and res_config.email">
+                                    <a t-attf-href="mailto:{{ company.partner_id.email }}">
+                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                        <span t-field="company.partner_id.email"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                    <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                    <t t-set="company" t-value="company"/>
+                </t>
+            </div>
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <section class="ks_style_2 ks_address">
+                    <div class="custom-container">
+                        <div class="row border-top py-4">
+                            <div class="col-9">
+                                <ul class="ks_dummy_ul">
+                                    <li class="pr-2 border-right  text-left ks_details" t-if="o.partner_type">
+                                        <t>
+                                            <t t-if="o.partner_type == 'customer'">
+                                                <p class=" font_9">Payer:</p>
+                                            </t>
+                                            <t t-if="o.partner_type == 'supplier'">
+                                                <p class=" font_9 ">Payee:</p>
+                                            </t>
+                                            <p class="font_10"
+                                               t-field="o.partner_id"/>
+                                        </t>
+                                    </li>
+                                    <li t-if="o.date" class="pl-2 pr-2  border-right  text-left ks_details">
+                                        <p class="text_font_color font_9">Payment Date:</p>
+                                        <p class=" font_10" t-field="o.date"/>
+                                    </li>
+                                    <li t-if="o.payment_method_id" class="pl-2 pr-2 border-right  text-left ks_details">
+                                        <p class="text_font_color font_9">Payment Method:</p>
+                                        <p class=" font_10"
+                                           t-field="o.payment_method_id.name"/>
+                                    </li>
+                                    <li t-if="o.ref" class="pl-2 pr-2 text-left ks_details">
+                                        <p class="text_font_color font_9" >Memo:</p>
+                                        <p class=" font_10" t-field="o.ref"/>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div t-if="o.amount" class="col-3  text-right ks_total">
+                                <p class="mb-0 ">Payment Amount:</p>
+                                <h4 class="ks_text_font ks_total_value_color ks_total_value_font_size">
+                                    <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_payment_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_2'"/>
+                </t>
+                <section class="ks_style_2 ks_history_nd_total">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row">
+                            <div class="col-12 position-relative">
+                                <table class="ks_total_table">
+                                    <tbody>
+                                        <tr class="ks_grnad_total_1">
+                                            <td class="ks_total_text_size ks_total_text_color">Grand Total</td>
+                                        </tr>
+                                        <tr class="border-top ks_total_bckgrnd_color ks_grnad_total">
+                                            <td class="ks_total2 ks_total_text_size ks_total_text_color">
+                                                <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div t-if="res_config.ks_amount_in_words" class="col-12 position-relative text-right ks_amount_in_words">
+                                <p t-field="o.ks_total_amount_in_words"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+            <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                <t t-set="ks_style" t-value="'ks_style_2'"/>
+            </t>
+        </template>
+        <template id="ks_report_payment_style_3">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="ks_header header">
+                <style t-raw="res_config.get_report_header_color()"/>
+                <div class="custom-container ks_style_3">
+                    <div class="row mt-1">
+                        <div class="col-3">
+                            <div class="float-left ks_tagline" style="width:100%">
+                                <div t-if="res_config.ks_show_logo" style="width:30%" class="float-left px-1">
+                                    <img t-if="company.logo" class="img-fluid ks_company_logo_font_size"
+                                         t-att-src="image_data_uri(company.logo)"
+                                         style="max-height:45px" alt="Logo"/>
+                                </div>
+                                <div t-if="res_config.ks_show_company" style="width:70%" class="float-left">
+                                    <p class="ks_show_tagline mb-0">
+                                        <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                        </span>
+                                        <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-field="company.name"/>
+                                        </span>
+                                        <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                            <t t-if="company.report_header">
+                                                <span t-field="company.report_header"/>
+                                            </t>
+                                            <t t-else="">
+                                                Company Tag Line
+                                            </t>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 ks_invoice">
+                            <h3 class=" ks_company_name_color ks_company_name_bold ks_company_font_size " t-if="res_config.ks_display_company"
+                                t-field="company.partner_id.name"/>
+                            <p class="pr-4" t-if="res_config.ks_address and res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p class="pr-4" t-if="res_config.ks_address and not res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                UEN No:
+                                <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                            </p>
+                            <ul>
+                                <li t-if="company.partner_id.phone and res_config.phone">
+                                    <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                        <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                        <span t-field="company.partner_id.phone"/>
+                                    </a>
+                                </li>
+                                <li t-if="company.partner_id.email and res_config.email">|</li>
+                                <li t-if="company.partner_id.email and res_config.email">
+                                    <a t-attf-href="mailto:{{ company.partner_id.email }}">
+                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                        <span t-field="company.partner_id.email"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-3  text-right ks_invoice_number">
+                            <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">Payment Receipt
+                                <span t-if="is_payment_duplicate" class="text-uppercase">[Duplicate]</span>
+                            </h3>
+                            <h6 t-field="o.name"/>
+                        </div>
+                    </div>
+                </div>
+                <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                    <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                    <t t-set="company" t-value="company"/>
+                </t>
+            </div>
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <section class="ks_style_3 ks_address mb-3">
+                    <div class="custom-container">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row ks_details" t-if="o.partner_type">
+                                    <t>
+                                        <t t-if="o.partner_type == 'customer'">
+                                            <p class="col-6 font_9">Payer:</p>
+                                        </t>
+                                        <t t-if="o.partner_type == 'supplier'">
+                                            <p class="col-6">Payee:</p>
+                                        </t>
+                                        <p class="font_10 col-6" t-field="o.partner_id"/>
+                                    </t>
+                                </div>
+                                <div t-if="o.date" class="row ks_details">
+                                    <p class="text_font_color font_9 col-6">Payment Date:</p>
+                                    <p class=" col-6 font_10" t-field="o.date"/>
+                                </div>
+                                <div t-if="o.payment_method_id" class="row ks_details">
+                                    <p class="text_font_color font_9 mb-0 col-6">Payment Method:</p>
+                                    <p class=" font_10 col-6 mb-0" t-field="o.payment_method_id.name"/>
+                                </div>
+                                <div t-if="o.ref" class="row ks_details">
+                                    <p class="col-6 text_font_color font_9 mb-0">Memo:</p>
+                                    <p class="col-6  font_10 mb-0" t-field="o.ref"/>
+                                </div>
+                            </div>
+                            <div t-if="o.amount" class="col-6 text-right">
+                                <div class="text-right ks_total">
+                                    <p class="mb-0 ">Payment Amount:</p>
+                                    <h4 class="ks_total_value_color ks_total_value_font_size mt-2">
+                                        <span t-field="o.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_payment_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_3'"/>
+                </t>
+                <section class="ks_style_3 ks_history_nd_total">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row">
+                            <div class="col-4 offset-8 position-relative">
+                                <table class="ks_total_table">
+                                    <tbody>
+                                        <tr class="ks_total_bckgrnd_color ks_grnad_total">
+                                            <td class="ks_total_text_size ks_total_text_color">Grand Total</td>
+                                            <td class="ks_total_text_size ks_total_text_color">
+                                                <span class="ks_total_text_size ks_total_text_color" t-field="o.amount"
+                                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div t-if="res_config.ks_amount_in_words" class="col-5 offset-7 ks_amount_in_words">
+                                <p t-field="o.ks_total_amount_in_words"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+            <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                <t t-set="ks_style" t-value="'ks_style_3'"/>
+            </t>
+        </template>
+        <template id="ks_report_payment_style_4">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="ks_header header">
+                <style t-raw="res_config.get_report_header_color()"/>
+                <div class="custom-container ks_style_4">
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="ks_tagline text-center">
+                                <p>
+                                    <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid d-block mx-auto ks_company_logo_font_size"
+                                         t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                </p>
+                                <div t-if="res_config.ks_show_company">
+                                <p class="ks_show_tagline mb-0">
+                                    <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                    </span>
+                                    <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span t-field="company.name"/>
+                                    </span>
+                                    <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                        <t t-if="company.report_header">
+                                            <span t-field="company.report_header"/>
+                                        </t>
+                                        <t t-else="">
+                                            Company Tag Line
+                                        </t>
+                                    </span>
+                                </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-5 pr-0 ks_invoice">
+                            <h3 class=" ks_company_name_color ks_company_name_bold ks_company_font_size "
+                                t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                            <p t-if="res_config.ks_address and res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p t-if="res_config.ks_address and not res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                             <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                UEN No:
+                                <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                            </p>
+                            <ul>
+                                <li t-if="company.partner_id.phone">
+                                    <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                        <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                        <span t-field="company.partner_id.phone"/>
+                                    </a>
+                                </li>
+                                <li t-if="company.partner_id.email">|</li>
+                                <li t-if="company.partner_id.email">
+                                    <a class=""
+                                       t-attf-href="mailto:{{ company.partner_id.email }}">
+                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                        <span t-field="company.partner_id.email"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-5">
+                            <div class="row ks_details" t-if="o.partner_type">
+                                <t>
+                                    <t t-if="o.partner_type == 'customer'">
+                                        <p class="col-6 font_9">Payer:</p>
+                                    </t>
+                                    <t t-if="o.partner_type == 'supplier'">
+                                        <p class="col-6">Payee:</p>
+                                    </t>
+                                    <p class="ks_company_name_color font_10 col-6  ks_company_bold "
+                                       t-field="o.partner_id"/>
+                                </t>
+                            </div>
+                            <div t-if="o.date" class="row ks_details">
+                                <p class="text_font_color font_9 col-6">Payment Date:</p>
+                                <p class=" col-6 font_10" t-field="o.date"/>
+                            </div>
+                            <div t-if="o.payment_method_id" class="row ks_details">
+                                <p class="text_font_color font_9 mb-0 col-6">Payment Method:</p>
+                                <p class=" font_10 col-6 mb-0" t-field="o.payment_method_id.name"/>
+                            </div>
+                            <div t-if="o.ref" class="row ks_details">
+                                <p class="col-6 text_font_color font_9 mb-0">Memo:</p>
+                                <p class="col-6  font_10 mb-0" t-field="o.ref"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                    <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                    <t t-set="company" t-value="company"/>
+                </t>
+            </div>
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <section class="ks_style_4 ks_address">
+                    <div class="custom-container">
+                        <div class="row  py-4"></div>
+                        <div class="row py-3 border-top">
+                            <div class="col-4 ks_invoice_number">
+                                <h3 class="text_font_color ks_h1_font_color ks_h1_font_size ks_heading_bold">Payment Receipt
+                                    <span t-if="is_payment_duplicate" class="text-uppercase">[Duplicate]</span>
+                                </h3>
+                                <h6 t-field="o.name"/>
+                            </div>
+                            <div t-if="o.amount" class="col-3 ks_invoice_number  text-right offset-5">
+                                <div class="ks_total">
+                                    <p class="mb-0 ">Payment Amount:</p>
+                                    <h4 class="ks_total_value_color ks_total_value_font_size">
+                                        <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_payment_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_4'"/>
+                </t>
+                <section class="ks_style_4 ks_history_nd_total">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row">
+                            <div class="col-4 offset-8 position-relative">
+                                <table class="ks_total_table">
+                                    <tbody>
+                                        <tr class="ks_total_bckgrnd_color ks_grnad_total">
+                                            <td class="ks_total_text_size ks_total_text_color">Grand Total</td>
+                                            <td class="ks_total_text_size ks_total_text_color">
+                                                <span class="ks_total_text_size ks_total_text_color" t-field="o.amount"
+                                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div t-if="res_config.ks_amount_in_words" class="col-6 offset-6 ks_amount_in_words">
+                                <p t-field="o.ks_total_amount_in_words"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+            <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                <t t-set="ks_style" t-value="'ks_style_4'"/>
+            </t>
+        </template>
+        <template id="ks_report_payment_style_5">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="ks_header header">
+                <style t-raw="res_config.get_report_header_color()"/>
+                <div class="custom-container ks_style_5">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="ks_tagline ">
+                                <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid d-block mx-auto ks_company_logo_font_size"
+                                     t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                <div t-if="res_config.ks_show_company">
+                                    <p class="ks_show_tagline mb-0">
+                                    <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                    </span>
+                                    <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span t-field="company.name"/>
+                                    </span>
+                                    <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                        <t t-if="company.report_header">
+                                            <span t-field="company.report_header"/>
+                                        </t>
+                                        <t t-else="">
+                                            Company Tag Line
+                                        </t>
+                                    </span>
+                                </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 pr-0 ks_invoice">
+                            <h3 class="ks_company_name_color ks_company_name_bold ks_company_font_size "
+                                t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                            <p t-if="res_config.ks_address and res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p t-if="res_config.ks_address and not res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                UEN No:
+                                <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                            </p>
+                            <ul>
+                                <li t-if="company.partner_id.phone and res_config.phone">
+                                    <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                        <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                        <span t-field="company.partner_id.phone"/>
+                                    </a>
+                                </li>
+                                <li t-if="company.partner_id.email and res_config.email">
+                                    <a class=""
+                                       t-attf-href="mailto:{{ company.partner_id.email }}">
+                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                        <span t-field="company.partner_id.email"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-3">
+                            <div class="ks_invoice_number">
+                                <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">Payment Receipt
+                                    <span class="text-uppercase" t-if="is_payment_duplicate">[Duplicate]</span>
+                                </h3>
+                                <h6>
+                                    <span class="font_10" t-field="o.name"/>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                    <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                    <t t-set="company" t-value="company"/>
+                </t>
+            </div>
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <t t-if="is_payment_duplicate">
+                    <span>Payment Receipt Duplicate</span>
+                </t>
+                <section class="ks_style_5 ks_address py-5">
+                    <div class="custom-container border-top py-2 border-bottom">
+                        <div class="row">
+                            <div t-if="o.amount" class="col-4 ks_invoice_number">
+                                <div class="ks_total">
+                                    <p class="mb-0 text_font_color">Payment Amount:</p>
+                                    <h4 class="ks_total_value_font_size ks_total_value_color">
+                                        <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <div class="row ks_details" t-if="o.partner_type">
+                                    <t>
+                                        <t t-if="o.partner_type == 'customer'">
+                                            <p class="col-4 font_9">Payer:</p>
+                                        </t>
+                                        <t t-if="o.partner_type == 'supplier'">
+                                            <p class="col-4">Payee:</p>
+                                        </t>
+                                        <p class="ks_company_name_color font_10 col-8  ks_company_bold "
+                                           t-field="o.partner_id"/>
+                                    </t>
+                                </div>
+                                <div t-if="o.date" class="row ks_details">
+                                    <p class="text_font_color font_9 col-4 text-nowrap">Payment Date:</p>
+                                    <p class=" col-8 font_10" t-field="o.date"/>
+                                </div>
+                                <div t-if="o.payment_method_id" class="row ks_details">
+                                    <p class="text_font_color font_9 mb-0 col-4 text-nowrap">Payment Method:</p>
+                                    <p class=" font_10 col-8 mb-0" t-field="o.payment_method_id.name"/>
+                                </div>
+                                <div t-if="o.ref" class="row ks_details">
+                                    <p class="col-4 text_font_color font_9 mb-0" >Memo:</p>
+                                    <p class="col-8 font_10 mb-0" t-field="o.ref"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_payment_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_5'"/>
+                </t>
+                <section class="ks_style_5 ks_history_nd_total">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row">
+                            <div class="col-4 offset-8 position-relative">
+                                <table class="ks_total_table">
+                                    <tbody>
+                                        <tr class="ks_subtotal">
+                                            <td class="ks_total_text_color ">Grand Total</td>
+                                        </tr>
+                                        <tr class="ks_total_bckgrnd_color ks_grnad_total">
+
+                                            <td class="ks_total_text_size ks_total_text_color">
+                                                <span class="ks_total_text_size ks_total_text_color" t-field="o.amount"
+                                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div t-if="res_config.ks_amount_in_words" class="col-5 offset-7 ks_amount_in_words">
+                                <p t-field="o.ks_total_amount_in_words"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+            <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                <t t-set="ks_style" t-value="'ks_style_5'"/>
+            </t>
+        </template>
+        <template id="ks_report_payment_style_6">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="ks_header header">
+                <style t-raw="res_config.get_report_header_color()"/>
+                <div class="custom-container ks_style_6">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="ks_tagline text-center">
+                                <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid ks_company_logo_font_size"
+                                     t-att-src="image_data_uri(company.logo)"
+                                     style="max-height:40px" alt="Logo"/>
+                                <div t-if="res_config.ks_show_company">
+                                <p class="pb-2 ks_show_tagline mb-0">
+                                    <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                    </span>
+                                    <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span t-field="company.name"/>
+                                    </span>
+                                    <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                        <t t-if="company.report_header">
+                                            <span t-field="company.report_header"/>
+                                        </t>
+                                        <t t-else="">
+                                            Company Tag Line
+                                        </t>
+                                    </span>
+                                </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 pr-0 ks_invoice">
+                            <h3 class=" ks_company_name_color ks_company_name_bold ks_company_font_size "
+                                t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                            <p class="pr-4" t-if="res_config.ks_address and res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p class="pr-4" t-if="res_config.ks_address and not res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                             <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                UEN No:
+                                <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                            </p>
+                            <ul>
+                                <li t-if="company.partner_id.phone and res_config.phone">
+                                    <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                        <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                        <span t-field="company.partner_id.phone"/>
+                                    </a>
+                                </li>
+                                <li t-if="company.partner_id.email and res_config.email">|</li>
+                                <li t-if="company.partner_id.email and res_config.email">
+                                    <a t-attf-href="mailto:{{ company.partner_id.email }}">
+                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                        <span t-field="company.partner_id.email"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div t-if="o.amount" class="col-3  ks_invoice_number">
+                            <div class="ks_total text-right">
+                                <p class="mb-0 text_font_color">Payment Amount:</p>
+                                <h4 class="ks_total_value_font_size ks_total_value_color">
+                                    <span t-field="o.amount"
+                                          t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                    <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                    <t t-set="company" t-value="company"/>
+                </t>
+            </div>
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <section class="ks_style_6 ks_address pb-5">
+                    <div class="custom-container">
+                        <div class="row py-4">
+                            <div class="col-5">
+                                <div class="row ks_details" t-if="o.partner_type">
+                                    <t>
+                                        <t t-if="o.partner_type == 'customer'">
+                                            <p class="col-6 font_9">Payer:</p>
+                                        </t>
+                                        <t t-if="o.partner_type == 'supplier'">
+                                            <p class="col-6">Payee:</p>
+                                        </t>
+                                        <p class="ks_company_name_color font_10 col-6  ks_company_bold"
+                                           t-field="o.partner_id"/>
+                                    </t>
+                                </div>
+                                <div t-if="o.date" class="row ks_details">
+                                    <p class="text_font_color font_9 col-6" >Payment Date:</p>
+                                    <p class=" col-6 font_10" t-field="o.date"/>
+                                </div>
+                                <div t-if="o.payment_method_id" class="row ks_details">
+                                    <p class="text_font_color font_9 mb-0 col-6" >Payment Method:</p>
+                                    <p class="font_10 col-6 mb-0" t-field="o.payment_method_id.name"/>
+                                </div>
+                                <div t-if="o.ref" class="row ks_details">
+                                    <p class="col-6 text_font_color font_9 mb-0">Memo:</p>
+                                    <p class="col-6  font_10 mb-0" t-field="o.ref"/>
+                                </div>
+                            </div>
+                            <div class="col-4 offset-3 ">
+                                <div class="row">
+                                    <div class="col-12 ks_invoice_number ks_details">
+                                        <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">Payment Receipt
+                                            <span class="text-uppercase" t-if="is_payment_duplicate">[Duplicate]</span>
+                                        </h3>
+                                        <h6>
+                                            <span class=" font_10" t-field="o.name"/>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_payment_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_6'"/>
+                </t>
+                <section class="ks_style_6 ks_history_nd_total">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row">
+                            <div class="col-4 offset-8 position-relative">
+                                <table class="ks_total_table">
+                                    <tbody>
+                                        <tr class="ks_total_bckgrnd_color ks_grnad_total">
+                                            <td class="ks_total_text_size ks_total_text_color">Grand Total</td>
+                                            <td class="ks_total_text_size ks_total_text_color">
+                                                <span class="ks_total_text_size ks_total_text_color" t-field="o.amount"
+                                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div t-if="res_config.ks_amount_in_words" class="col-5 offset-7 ks_amount_in_words">
+                                <p t-field="o.ks_total_amount_in_words"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+            <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                <t t-set="ks_style" t-value="'ks_style_6'"/>
+            </t>
+        </template>
+        <template id="ks_report_payment_style_7">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="ks_header header">
+                <style t-raw="res_config.get_report_header_color()"/>
+                <div class="custom-container ks_style_7">
+                    <div class="row mt-1">
+                        <div class="col-3">
+                            <div class="ks_tagline text-center">
+                                <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid ks_company_logo_font_size"
+                                     t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                <div t-if="res_config.ks_show_company">
+                                <p class="pb-2 ks_show_tagline mb-0">
+                                    <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                    </span>
+                                    <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span t-field="company.name"/>
+                                    </span>
+                                    <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                        <t t-if="company.report_header">
+                                            <span t-field="company.report_header"/>
+                                        </t>
+                                        <t t-else="">
+                                            Company Tag Line
+                                        </t>
+                                    </span>
+                                </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 pr-0 ks_invoice">
+                            <h3 class="ks_company_name_color ks_company_name_bold ks_company_font_size "
+                                t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                            <p class="pr-4" t-if="res_config.ks_address and res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p class="pr-4" t-if="res_config.ks_address and not res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                UEN No:
+                                <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                            </p>
+                            <ul>
+                                <li t-if="company.partner_id.phone and res_config.phone">
+                                    <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                        <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                        <span t-field="company.partner_id.phone"/>
+                                    </a>
+                                </li>
+<!--                                <li t-if="company.partner_id.email">|</li>-->
+                                <li t-if="company.partner_id.email and res_config.email">
+                                    <a t-attf-href="mailto:{{ company.partner_id.email }}">
+                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                        <span t-field="company.partner_id.email"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col-12 ks_invoice_number ks_details">
+                                    <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">Payment Receipt
+                                        <t t-if="is_payment_duplicate"><span class="text-uppercase">[Duplicate]</span></t>
+                                    </h3>
+                                    <h6>
+                                        <span class=" font_10" t-field="o.name"/>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                    <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                    <t t-set="company" t-value="company"/>
+                </t>
+            </div>
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <section class="ks_style_7 ks_address pb-3">
+                    <div class="custom-container">
+                        <div class="row my-4 py-2 border-top border-bottom">
+                            <div class="col-2 border-right  text-left ks_details  " t-if="o.partner_type">
+                                <t>
+                                    <t t-if="o.partner_type == 'customer'">
+                                        <p class=" font_9 ">Payer:</p>
+                                    </t>
+                                    <t t-if="o.partner_type == 'supplier'">
+                                        <p class="font_9  ">Payee:</p>
+                                    </t>
+                                    <p class="ks_company_name_color font_10 ks_company_bold "
+                                       t-field="o.partner_id.name"/>
+                                </t>
+                            </div>
+                            <div t-if="o.date" class="col-2 border-right  text-left ks_details">
+                                <p class="text_font_color font_9">Payment Date:</p>
+                                <p class=" font_10" t-field="o.date"/>
+                            </div>
+                            <div t-if="o.payment_method_id" class="col-2 border-right  text-left ks_details">
+                                <p class="text_font_color font_9">Payment Method:</p>
+                                <p class="font_10" t-field="o.payment_method_id.name"/>
+                            </div>
+                            <div t-if="o.ref" class="col-2 border-right text-left ks_details">
+                                <p class="text_font_color font_9">Memo:</p>
+                                <p class=" font_10" t-field="o.ref"/>
+                            </div>
+                            <div t-if="o.amount" class="col-4 ks_details text-right">
+                                <div class="ks_total">
+                                    <p class="mb-0">Payment Amount:</p>
+                                    <h4 class="ks_total_value_color ks_total_value_font_size ">
+                                        <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_payment_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_7'"/>
+                    <t t-set="ks_height" t-value="True"/>
+                </t>
+                <section class="ks_style_7 ks_history_nd_total">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row">
+                            <div class="col-4 offset-8 position-relative">
+                                <table class="ks_total_table">
+                                    <tbody>
+                                        <tr class=" ks_grnad_total">
+                                            <td class="ks_total_bckgrnd_color ks_total_text_size ks_total_text_color ks_table_design_4 pr-4">Grand Total
+                                                <span class=" ks_total_bckgrnd_color ks_hide_design_4"></span>
+                                                <span class=" ks_total_bckgrnd_color ks_hide_design_4"></span>
+                                            </td>
+                                            <td class="ks_total_bckgrnd_color ks_total_text_size ks_total_text_color">
+                                                <span class="ks_total_text_size ks_total_text_color" t-field="o.amount"
+                                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div t-if="res_config.ks_amount_in_words" class="col-5 offset-7 ks_amount_in_words">
+                                <p t-field="o.ks_total_amount_in_words"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+            <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                <t t-set="ks_style" t-value="'ks_style_7'"/>
+            </t>
+        </template>
+        <template id="ks_report_payment_style_8">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="ks_header header">
+                <style t-raw="res_config.get_report_header_color()"/>
+                <div class="custom-container ks_style_8">
+                    <div class="row">
+                        <div class="col-3 ks_invoice_number">
+                            <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">Payment Receipt
+                                <t t-if="is_payment_duplicate">
+                                    <span class="text-uppercase">[Duplicate]</span>
+                                </t>
+                            </h3>
+                            <h6>
+                                <span t-field="o.name"/>
+                            </h6>
+                        </div>
+                        <div class="col-3">
+                            <div class="ks_tagline" style="width:100%">
+                                <div t-if="res_config.ks_show_logo" class="text-center">
+                                    <img t-if="company.logo" class="img-fluid ks_company_logo_font_size"
+                                         t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                </div>
+                                <div t-if="res_config.ks_show_company" class="text-center">
+                                    <p class="ks_show_tagline mb-0">
+                                        <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                        </span>
+                                        <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-field="company.name"/>
+                                        </span>
+                                        <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                            <t t-if="company.report_header">
+                                                <span t-field="company.report_header"/>
+                                            </t>
+                                            <t t-else="">
+                                                Company Tag Line
+                                            </t>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 ks_invoice">
+                            <h3 class=" ks_company_name_color ks_company_name_bold ks_company_font_size "
+                                t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                            <p class="pr-4" t-if="res_config.ks_address and res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p class="pr-4" t-if="res_config.ks_address and not res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                UEN No:
+                                <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                            </p>
+                            <ul>
+                                <li t-if="company.partner_id.phone and res_config.phone">
+                                    <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                        <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                        <span t-field="company.partner_id.phone"/>
+                                    </a>
+                                </li>
+                                <li t-if="company.partner_id.email and res_config.email">
+                                    <a t-attf-href="mailto:{{ company.partner_id.email }}">
+                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                        <span t-field="company.partner_id.email"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                    <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                    <t t-set="company" t-value="company"/>
+                </t>
+            </div>
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <section class="ks_style_8  ks_address">
+                    <div class="custom-container">
+                        <div class="ks_white_bg">
+                            <div t-if="o.amount" class="mt-3 pt-3 border-top  row">
+                                <div class="ks_invoice">
+                                    <div class="ks_total my-3">
+                                        <h4>
+                                            <span>Payment Amount:</span>
+                                            <span class="ks_total_feild  ks_total_value_color ks_total_value_font_size ">
+                                                <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </span>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-4 py-2 ">
+                                <div class="col-3 border-right  text-left ks_details" t-if="o.partner_type">
+                                    <t>
+                                        <t t-if="o.partner_type == 'customer'">
+                                            <p class=" font_9 ">Payer:</p>
+                                        </t>
+                                        <t t-if="o.partner_type == 'supplier'">
+                                            <p class="font_9  ">Payee:</p>
+                                        </t>
+                                        <p class="ks_company_name_color font_10 ks_company_bold "
+                                           t-field="o.partner_id"/>
+                                    </t>
+                                </div>
+                                <div t-if="o.date" class="col-3 border-right  text-left ks_details">
+                                    <p class="text_font_color font_9">Payment Date:</p>
+                                    <p class=" font_10" t-field="o.date"/>
+                                </div>
+                                <div t-if="o.payment_method_id" class="col-3 border-right  text-left ks_details">
+                                    <p class="text_font_color font_9">Payment Method:</p>
+                                    <p class="font_10" t-field="o.payment_method_id.name"/>
+                                </div>
+                                <div t-if="o.ref" class="col-3 border-right  text-left ks_details">
+                                    <p class="text_font_color font_9">Memo:</p>
+                                    <p class=" font_10" t-field="o.ref"/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_payment_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_8'"/>
+                </t>
+                <section class="ks_style_8 ks_history_nd_total">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row">
+                            <div class="col-4 offset-8 position-relative">
+                                <table class="ks_total_table">
+                                    <tbody>
+                                        <tr class="ks_total_bckgrnd_color ks_grnad_total">
+                                            <td class="ks_total_text_size ks_total_text_color">Grand Total</td>
+                                            <td class="ks_total_text_size ks_total_text_color">
+                                                <span class="ks_total_text_size ks_total_text_color" t-field="o.amount"
+                                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div t-if="res_config.ks_amount_in_words" class="col-5 offset-7 ks_amount_in_words">
+                                <p t-field="o.ks_total_amount_in_words"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+            <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                <t t-set="ks_style" t-value="'ks_style_8'"/>
+            </t>
+        </template>
+        <template id="ks_report_payment_style_9">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="ks_header header">
+                <style t-raw="res_config.get_report_header_color()"/>
+                <div class="custom-container ks_style_9">
+                    <div class="row mt-1">
+                        <div class="col-4">
+                            <div class="d-flex justify-content-start  ks_tagline ">
+                                <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid ks_company_logo_font_size"
+                                     t-att-src="image_data_uri(company.logo)"
+                                     style="max-height:40px" alt="Logo"/>
+                                <div t-if="res_config.ks_show_company">
+                                    <p class="pl-2 ks_show_tagline mb-0">
+                                    <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                    </span>
+                                    <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span t-field="company.name"/>
+                                    </span>
+                                    <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                        <t t-if="company.report_header">
+                                            <span t-field="company.report_header"/>
+                                        </t>
+                                        <t t-else="">
+                                            Company Tag Line
+                                        </t>
+                                    </span>
+                                </p>
+                                </div>
+                            </div>
+                            <div class="py-1">
+                                <div class="ks_invoice_number">
+                                    <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">Payment Receipt
+                                        <t t-if="is_payment_duplicate">
+                                            <span class="text-uppercase">[Duplicate]</span>
+                                        </t>
+                                    </h3>
+                                    <h6>
+                                        <span t-field="o.name"/>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8 offset-1 ks_invoice">
+                            <h3 class=" ks_company_name_color ks_company_name_bold ks_company_font_size "
+                                t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                            <p t-if="res_config.ks_address and res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p t-if="res_config.ks_address and not res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                             <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                UEN No:
+                                <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                            </p>
+                            <ul>
+                                <li t-if="company.partner_id.phone and res_config.phone">
+                                    <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                        <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                        <span t-field="company.partner_id.phone"/>
+                                    </a>
+                                </li>
+                                <li t-if="company.partner_id.email and res_config.email">
+                                    <a t-attf-href="mailto:{{ company.partner_id.email }}">
+                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                        <span t-field="company.partner_id.email"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                    <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                    <t t-set="company" t-value="company"/>
+                </t>
+            </div>
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <section class="ks_style_9 ks_address">
+                    <div class="custom-container">
+                        <div class="row mt-1 ks_bg_9_row">
+                            <div class="col-5 py-3 ">
+                                <div class=" ks_details text-left " t-if="o.partner_type">
+                                    <t>
+                                        <t t-if="o.partner_type == 'customer'">
+                                            <p class=" font_9">Payer:</p>
+                                        </t>
+                                        <t t-if="o.partner_type == 'supplier'">
+                                            <p class="font_9">Payee:</p>
+                                        </t>
+                                        <p class="ks_company_name_color font_10 ks_company_bold "
+                                           t-field="o.partner_id"/>
+                                    </t>
+                                </div>
+                                <div t-if="o.date" class="ks_details text-left">
+                                    <p class="text_font_color font_9">Payment Date:</p>
+                                    <p class=" font_10" t-field="o.date"/>
+                                </div>
+                                <div t-if="o.payment_method_id" class="ks_details text-left">
+                                    <p class="text_font_color font_9" >Payment Method:</p>
+                                    <p class="font_10" t-field="o.payment_method_id.name"/>
+                                </div>
+                                <div t-if="o.ref" class="ks_details text-left">
+                                    <p class="text_font_color font_9">Memo:</p>
+                                    <p class="font_10" t-field="o.ref"/>
+                                </div>
+                            </div>
+                            <div t-if="o.amount" class="ks_total py-5 px-3 col-7 text-left">
+                                <p class="mb-0">Payment Amount:</p>
+                                <h4 class="ks_total_value_color ks_total_value_font_size " >
+                                    <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_payment_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_9'"/>
+                </t>
+                <section class="ks_style_9 ks_history_nd_total">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row">
+                            <div class="col-12 position-relative">
+                                <table class="ks_total_table">
+                                    <tbody>
+                                        <tr class="ks_subtotal">
+                                            <td class="d-block text-right ks_total_text_color">Grand Total</td>
+
+                                        </tr>
+                                         <tr class="ks_subtotal ks_grnad_total ks_total_bckgrnd_color">
+                                            <td class="ks_total_text_size  ks_total_bckgrnd_color text-right d-block ks_total_text_color">
+                                                <span class="ks_total_text_size ks_total_text_color" t-field="o.amount"
+                                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div t-if="res_config.ks_amount_in_words" class="col-12 text-left ks_amount_in_words">
+                                <p t-field="o.ks_total_amount_in_words"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+            <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                <t t-set="ks_style" t-value="'ks_style_9'"/>
+            </t>
+        </template>
+        <template id="ks_report_payment_style_10">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <div class="ks_header header">
+                <style t-raw="res_config.get_report_header_color()"/>
+                <div class="custom-container ks_style_10">
+                    <div class="row mt-1">
+                        <div class="col-3 py-1">
+                            <div class="float-left ks_tagline " style="width:100%">
+                                <div t-if="res_config.ks_show_logo" style="width:30%" class="float-left">
+                                    <img t-if="company.logo" class="img-fluid ks_company_logo_font_size"
+                                         t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                </div>
+                                <div t-if="res_config.ks_show_company" style="width:70%" class="float-left">
+                                    <p class="pl-1 ks_show_tagline mb-0">
+                                        <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                        </span>
+                                        <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-field="company.name"/>
+                                        </span>
+                                        <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                            <t t-if="company.report_header">
+                                                <span t-field="company.report_header"/>
+                                            </t>
+                                            <t t-else="">
+                                                Company Tag Line
+                                            </t>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 ks_invoice_number">
+                            <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">Payment Receipt
+                                <t t-if="is_payment_duplicate">
+                                    <span class="text-uppercase">[Duplicate]</span>
+                                </t>
+                            </h3>
+                            <h6>
+                                <span t-field="o.name"/>
+                            </h6>
+                        </div>
+                        <div class="col-6 ks_invoice">
+                            <h3 class=" ks_company_name_color ks_company_name_bold ks_company_font_size "
+                                t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                            <p class="pr-4" t-if="res_config.ks_address and res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                            <p class="pr-4" t-if="res_config.ks_address and not res_config.show_comma">
+                                <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                            </p>
+                             <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                            </p>
+                            <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                UEN No:
+                                <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                            </p>
+                            <ul>
+                                <li t-if="company.partner_id.phone and res_config.phone">
+                                    <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                        <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                        <span t-field="company.partner_id.phone"/>
+                                    </a>
+                                </li>
+                                <li t-if="company.partner_id.email and res_config.email">
+                                    <a t-attf-href="mailto:{{ company.partner_id.email }}">
+                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                        <span t-field="company.partner_id.email"/>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                    <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                    <t t-set="company" t-value="company"/>
+                </t>
+            </div>
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <section class="ks_style_10 ks_address">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row mt-5">
+                            <div class="ks_total">
+                                <p class="mb-0">Payment Amount:</p>
+                                <h4 class="ks_total_value_color ks_total_value_font_size">
+                                    <span class="" t-field="o.amount"
+                                          t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="row  mt-2 py-2 ">
+                            <div class="col-3 border-right  text-left ks_details  " t-if="o.partner_type">
+                                <t>
+                                    <t t-if="o.partner_type == 'customer'">
+                                        <p class=" font_9">Payer:</p>
+                                    </t>
+                                    <t t-if="o.partner_type == 'supplier'">
+                                        <p class="font_9">Payee:</p>
+                                    </t>
+                                    <p class=""
+                                       t-field="o.partner_id"/>
+                                </t>
+                            </div>
+                            <div t-if="o.date" class="col-3 border-right  text-left ks_details">
+                                <p class="font_9">Payment Date:</p>
+                                <p class="font_10" t-field="o.date"/>
+                            </div>
+                            <div t-if="o.payment_method_id" class="col-3 border-right  text-left ks_details">
+                                <p class="font_9" >Payment Method:</p>
+                                <p class="font_10" t-field="o.payment_method_id.name"/>
+                            </div>
+                            <div t-if="o.ref" class="col-3 border-right  text-left ks_details">
+                                <p class="text_font_color font_9" >Memo:</p>
+                                <p class=" font_10" t-field="o.ref"/>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_payment_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_10'"/>
+                </t>
+                <section class="ks_style_10 ks_history_nd_total">
+                    <div class="custom-container">
+                        <div t-if="o.amount" class="row">
+                            <div class="col-4 offset-8 position-relative">
+                                <table class="ks_total_table">
+                                    <tbody>
+                                        <tr class="ks_total_bckgrnd_color ks_grnad_total">
+                                            <td class="ks_total_text_size ks_total_text_color">Grand Total</td>
+                                            <td class="ks_total_text_size ks_total_text_color">
+                                                <span class="ks_total_text_size ks_total_text_color" t-field="o.amount"
+                                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div t-if="res_config.ks_amount_in_words" class="col-5 offset-7 ks_amount_in_words">
+                                <p t-field="o.ks_total_amount_in_words"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+            <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                <t t-set="ks_style" t-value="'ks_style_10'"/>
+            </t>
+        </template>
+
+        <template id="ks_payment_report_table">
+            <t t-set="reconciled_invoices" t-value="o.move_id._get_reconciled_invoices_partials()"/>
+            <t t-if="reconciled_invoices">
+                <section t-attf-class="#{ks_style or ''} ks_table_section">
+                <div class="custom-container">
+                    <table class="ks_table">
+                        <thead t-attf-class="#{'border-top border-bottom' if ks_style == 'ks_style_10' else ''}  #{'custom-table-header' if ks_style == 'ks_style_4' else ''}">
+                            <tr>
+                                <th class="ks_table_head_backgrnd_color ks_table_head_text_color
+                                ks_table_head_text_size" width="7%" scope="col">Sr. No.
+                                </th>
+                                <th class="ks_table_head_backgrnd_color ks_table_head_text_color
+                                ks_table_head_text_size" width="10%" scope="col">Invoice Date
+                                </th>
+                                <th class="ks_table_head_backgrnd_color ks_table_head_text_color
+                                ks_table_head_text_size " width="10%" scope="col">Invoice Number
+                                </th>
+                                <th t-attf-class="#{'ks_table_design_4' if ks_style in ['ks_style_4','ks_style_7'] else ''}
+                                                  ks_table_head_backgrnd_color ks_table_head_text_color ks_table_head_text_size"
+                                    width="10%" scope="col">Reference
+                                    <t t-if="ks_style in ['ks_style_4','ks_style_7']">
+                                        <span class="ks_hide_design_4 ks_table_head_backgrnd_color"/>
+                                    </t>
+                                </th>
+                                <th class=" ks_table_head_backgrnd_color ks_table_head_text_color ks_table_head_text_size"
+                                    width="15%" scope="col">Original Amount
+                                </th>
+                                <th class="ks_table_head_backgrnd_color ks_table_head_text_color ks_table_head_text_size"
+                                    width="12%" scope="col">Amount Paid
+                                </th>
+                                <th class="ks_table_head_backgrnd_color ks_table_head_text_color ks_table_head_text_size"
+                                    width="9%" scope="col">Balance
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="count" t-value="1"/>
+                            <tr t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}"
+                                t-foreach="o.move_id._get_reconciled_invoices_partials()" t-as="rec">
+                                <t t-set="amount" t-value="rec[1]"/>
+                                <t t-set="inv" t-value="rec[2].move_id"/>
+                                <td>
+                                    <span t-esc="count"/>
+                                </td>
+                                <td t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}">
+                                    <span t-field="inv.invoice_date"/>
+                                </td>
+                                <td t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}">
+                                    <span t-field="inv.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="inv.ref"/>
+                                </td>
+                                <td>
+                                    <span t-field="inv.amount_total"/>
+                                </td>
+                                <td>
+                                    <span t-esc="amount"
+                                          t-options="{'widget': 'monetary', 'display_currency': inv.currency_id}"/>
+                                </td>
+                                <td>
+                                    <span t-field="inv.amount_residual"/>
+                                </td>
+                                <t t-set="count" t-value="count+1"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div t-if="ks_table_head_color_class" class="ks_table_left_design"/>
+                    <div t-if="ks_height" class="ks_height ks_table_odd_color"/>
+                </div>
+            </section>
+            </t>
+        </template>
+    </data>
+</odoo>

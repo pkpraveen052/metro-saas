@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[@class='pos-receipt-order-data']/div[2]" position="after">
+            <br/>
+            <br/>
+            <div style="text-align:center;font-size:20px;">
+                <t t-if="env.pos.config.display_token_no">
+                    <!-- Print the pos_receipt_sequence directly from the order object -->
+                    <b><t t-esc="env.pos.get_order().pos_receipt_sequence"/></b>
+                </t>
+            </div>
+        </xpath>
+        <xpath expr="//div[@class='pos-receipt-contact']" position="attributes">
+            <attribute name="style">font-size: 15px;</attribute>
+        </xpath>
+        <xpath expr="//div[@class='pos-receipt-order-data']" position="attributes">
+            <attribute name="style">font-size: 15px;</attribute>
+        </xpath>
+    </t>
+</templates>

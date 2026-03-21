@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Receive Money sequences -->
+        <record id="sequence_receive_money" model="ir.sequence">
+            <field name="name">Receive Money</field>
+            <field name="code">account.move.receive</field>
+            <field name="prefix">RM/%(range_year)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+        <!-- Spend Money sequences -->
+        <record id="sequence_spend_money" model="ir.sequence">
+            <field name="name">Spend Money</field>
+            <field name="code">account.move.spend</field>
+            <field name="prefix">SM/%(range_year)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">4</field>
+        </record>
+
+        <!-- SERVER ACTION -->
+        <record id="action_create_sequence_date_range" model="ir.actions.server">
+            <field name="name">Create Sequence Date Range</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_ir_sequence"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    record.create_create_sequence_date_range()
+            </field>
+        </record>
+    </data>
+</odoo>

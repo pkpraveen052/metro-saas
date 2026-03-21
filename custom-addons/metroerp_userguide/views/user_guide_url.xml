@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+<!--        form view-->
+        <record id="users_guide_url_form_view" model="ir.ui.view">
+            <field name="name">user.guide.url.form.view</field>
+            <field name="model">user.guide.url</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="tags_ids" widget="many2many_tags"/>
+                            <field name="href" widget="url"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--  Tree view-->
+        <record id="users_guide_url_list_view" model="ir.ui.view">
+            <field name="name">user.guide.url.list.view</field>
+            <field name="model">user.guide.url</field>
+            <field name="arch" type="xml">
+                <tree string="User Guide" js_class="button_in_tree">
+                    <field name="name"/>
+                    <field name="href" widget="url" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <!--Search View-->
+        <record id="users_guide_url_search_view" model="ir.ui.view">
+            <field name="name">user.guide.url.search</field>
+            <field name="model">user.guide.url</field>
+            <field name="arch" type="xml">
+                <search string="Search User Guide">
+                    <field name="name" string="User Guide" filter_domain="[('name', 'ilike', self)]"/>
+                    <filter string="Account" name="filter_account" domain="[('tags_ids', 'ilike', 'account')]"/>
+                    <filter string="Sales" name="filter_sales" domain="[('tags_ids', 'ilike', 'sales')]"/>
+                    <filter string="Purchase" name="filter_purchase" domain="[('tags_ids', 'ilike', 'purchase')]"/>
+                    <filter string="Inventory" name="filter_inventory" domain="[('tags_ids', 'ilike', 'inventory')]"/>
+                    <filter string="Peppol" name="filter_peppol" domain="[('tags_ids', 'ilike', 'peppol')]"/>
+                    <filter string="Contacts" name="filter_contacts" domain="[('tags_ids', 'ilike', 'contacts')]"/>
+                    <field name="tags_ids" widget="many2many_tags"/>
+                    <field name="href" filter_domain="[('href', 'ilike', self)]"/>
+                    <separator/>
+                </search>
+            </field>
+        </record>
+<!--        Action-->
+        <record id="action_user_guide_form_url" model="ir.actions.act_window">
+            <field name="name">User Guide List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">user.guide.url</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="metroerp_userguide.users_guide_url_search_view"/>
+        </record>
+        <!--user guide account action-->
+        <record id="action_user_guide_url_account" model="ir.actions.act_window">
+            <field name="name">User Guide List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">user.guide.url</field>
+            <field name="domain">[('tags_ids', 'ilike', 'account')]</field>
+            <field name="context">{'search_default_filter_account': 1}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="metroerp_userguide.users_guide_url_search_view"/>
+        </record>
+        <!--User Guide Sales Action-->
+        <record id="action_user_guide_url_sales" model="ir.actions.act_window">
+            <field name="name">User Guide List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">user.guide.url</field>
+            <field name="domain">[('tags_ids', 'ilike', 'sales')]</field>
+            <field name="context">{'search_default_filter_sales': 1}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="metroerp_userguide.users_guide_url_search_view"/>
+        </record>
+        <!--User Guide Purchase Action-->
+        <record id="action_user_guide_url_purchase" model="ir.actions.act_window">
+            <field name="name">User Guide List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">user.guide.url</field>
+            <field name="domain">[('tags_ids', 'ilike', 'purchase')]</field>
+            <field name="context">{'search_default_filter_purchase': 1}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="metroerp_userguide.users_guide_url_search_view"/>
+        </record>
+        <!--User Guide Inventory Action-->
+        <record id="action_user_guide_url_inventory" model="ir.actions.act_window">
+            <field name="name">User Guide List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">user.guide.url</field>
+            <field name="domain">[('tags_ids', 'ilike', 'inventory')]</field>
+            <field name="context">{'search_default_filter_inventory': 1}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="metroerp_userguide.users_guide_url_search_view"/>
+        </record>
+        <!--User Guide Peppol Action-->
+        <record id="action_user_guide_url_peppol" model="ir.actions.act_window">
+            <field name="name">User Guide List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">user.guide.url</field>
+            <field name="domain">[('tags_ids', 'ilike', 'peppol')]</field>
+            <field name="context">{'search_default_filter_peppol': 1}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="metroerp_userguide.users_guide_url_search_view"/>
+        </record>
+        <!--User Guide Contacts Action-->
+        <record id="action_user_guide_url_contacts" model="ir.actions.act_window">
+            <field name="name">User Guide List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">user.guide.url</field>
+            <field name="domain">[('tags_ids', 'ilike', 'contacts')]</field>
+            <field name="context">{'search_default_filter_contacts': 1}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="metroerp_userguide.users_guide_url_search_view"/>
+        </record>
+    </data>
+</odoo>

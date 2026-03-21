@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_c5_activation_tree" model="ir.ui.view">
+        <field name="name">c5.activation.tree</field>
+        <field name="model">c5.activation</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="peppol_id"/>
+                <field name="signer_name"/>
+                <field name="signer_email"/>
+                <field name="initiated_date"/>
+                <field name="signed_date"/>
+                <field name="status" widget="badge"
+                decoration-success="status == 'activated'"
+                decoration-warning="status == 'kyc_pending'"
+                decoration-danger="status == 'initiated_deactivation'"
+                decoration-info="status == 'initiated_activation'"
+                optional="show"/>
+                <field name="company_id" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_c5_activation_form" model="ir.ui.view">
+        <field name="name">c5.activation.form</field>
+        <field name="model">c5.activation</field>
+        <field name="arch" type="xml">
+            <form string="GST InvoiceNow Activation">
+                <header>
+                   <!-- <button name="check_gst_register" type="object" string="Check GSTN via IRAS" class="oe_highlight"
+                        attrs="{'invisible': [('registration_status', '=','registered')]}"/> -->
+
+                    <button name="initiate_activation" type="object" string="Initiate Activation" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'draft')]}"/>
+                    <button name="check_status" type="object" string="Check Status" class="oe_highlight" attrs="{'invisible': [('status', 'not in', ['initiated_activation','kyc_pending','initiated_deactivation'])]}"/>
+                    <button name="resend_email" type="object" string="Resend Email" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'initiated_activation')]}"/>
+                    <button name="initiated_deactivation" type="object" string="Initiate Deactivation" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'activated')]}"/>
+                    <button name="reset_to_draft" type="object" string="Reset To Draft" class="oe_highlight" attrs="{'invisible': [('status', '!=', 'deactivated')]}"/>
+
+<!--                    <button name="activate_c5" type="object" string="Activate GST InvoiceNow" class="oe_highlight"-->
+<!--                        attrs="{'invisible': [('status', 'in', ['activated', 'initiated_activation'])]}"/>-->
+
+<!--                    <button name="deactivate_c5" type="object" string="Deactivate GST InvoiceNow" class="oe_highlight"-->
+<!--                        attrs="{'invisible': [('status', 'in', ['draft','initiated_deactivation', 'kyc_pending'])]}"/>-->
+
+<!--                    <button name="cancel_c5" type="object" string="Cancel GST InvoiceNow" class="oe_highlight"-->
+<!--                        attrs="{'invisible': [('status', 'in', ['draft'])]}"/>-->
+
+
+<!--                   <button name="action_send_mail" type="object" string="Send Email" class="oe_highlight"/>-->
+                   <field name="status" widget="statusbar" statusbar_visible="draft,initiated_activation,kyc_pending,initiated_deactivation,activated" clickable="0"/>
+                </header>
+                <div class="alert alert-info" role="alert" style="margin-bottom:0px;text-align: center;font-weight: bold;" attrs="{'invisible': [('status','!=','initiated_activation')]}">
+                    Thank you. Your GST InvoiceNow activation request has been received. We will share the setup steps via email within 4 working hours.
+                </div>
+                <div class="alert alert-info" role="alert" style="margin-bottom:0px;text-align: center;font-weight: bold;" attrs="{'invisible': [('status','!=','initiated_deactivation')]}">
+                    Your GST InvoiceNow deactivation request has been received. It will be processed, and we will get back to you within 1 working day.
+                </div>
+                <sheet>
+                    <group>
+                        <group>
+                            <!-- <field name="reg_id" placeholder="Enter Unique Entity Number/ GST Registration Number/ NRIC"/>
+                            <field name="peppol_id" attrs="{'invisible':[('is_registration_via_iras','=',False)]}"/>
+                            <field name="signer_name" placeholder="Enter Signer's Full Name"
+                                attrs="{'invisible':[('status','=','draft')]}"/>
+                            <field name="signer_email" placeholder="Enter Signer's Email Address"
+                                attrs="{'invisible':[('status','=','draft')]}"/> -->
+                            <field name="peppol_id" required="1"/>    
+                            <field name="signer_name" placeholder="Enter Signer's Full Name" required="0"/>
+                            <field name="signer_email" placeholder="Enter Signer's Email Address" required="0"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <!-- <field name="is_registration_via_iras" invisible="1"/> -->
+                            <field name="active" invisible="1"/>
+                            <field name="color" invisible="1"/>
+                            <field name="last_c5_action" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': [('status', '=', 'draft')]}">
+                    <page string="Response" attrs="{'invisible': [('response_status_code', '=', False)]}">
+                        <group>
+                            <group>
+                                <field name="signing_link" widget="url" readonly="1" attrs="{'invisible': [('signing_link', '=', False)]}"/>
+                                <field name="signed_date" readonly="1" attrs="{'invisible': [('signed_date', '=', False)]}"/>
+                                <field name="initiated_date" readonly="1" attrs="{'invisible': [('initiated_date', '=', False)]}"/>
+                                <field name="signed" attrs="{'invisible': [('signed', '=', False)]}"/> 
+                            </group>
+                            <group>
+                                <field name="response_status_code" readonly="1" attrs="{'invisible': [('response_status_code', '=', False)]}"/>
+                                <field name="response_message" readonly="1" attrs="{'invisible': [('response_message', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <field name="actual_signer_name" attrs="{'invisible': [('actual_signer_name', '=', False)]}"/>
+                                <field name="actual_signer_email" attrs="{'invisible': [('actual_signer_email', '=', False)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                    <!-- <page name="GST_registration" string="GST Registration">
+                        <group string="GST Reg Details">
+                            <group>
+                                <field name="registration_status" readonly="1"/>
+                                <field name="registered_from" readonly="1"/>
+                                <field name="remark" readonly="1"/>
+                                <field name="return_code" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="registered_name" readonly="1"/>
+                                <field name="registration_id" readonly="1"/>
+                            </group>                            
+                        </group>
+                    </page> -->
+                </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_c5_activation_kanban" model="ir.ui.view">
+            <field name="name">c5.activation.kanban.view</field>
+            <field name="model">c5.activation</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <kanban sample="1">
+                <field name="peppol_id"/>
+                <field name="signer_name"/>
+                <field name="signer_email"/>
+                <field name="initiated_date"/>
+                <field name="signing_link"/>
+                <field name="signed_date"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                            <!-- Dropdown Menu -->
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </t>
+                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                </div>
+                            </div>
+                            
+                            <!-- Main Content -->
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_title">
+                                    <h4><field name="peppol_id"/></h4>
+                                </div>
+                                <div class="o-kanban-partner-info">
+                                    <!-- <div>
+                                        <b>Peppol ID: </b><field name="peppol_id"/>
+                                    </div> -->
+                                    <div>
+                                        <b>Signer Name: </b><field name="signer_name"/>
+                                    </div>
+                                    <div>
+                                        <b>Signer Email: </b><field name="signer_email" />
+                                    </div>
+                                    <div>
+                                        <b>Initiated Date: </b><field name="initiated_date"/>
+                                    </div>
+                                    <div>
+                                        <b>Signed Date: </b><field name="signed_date" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+                </kanban>
+            </field>
+        </record>
+
+    <!-- Search View -->
+    <record id="view_c5_activation_search" model="ir.ui.view">
+        <field name="name">c5.activation.search</field>
+        <field name="model">c5.activation</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- Searchable Fields -->
+                <field name="peppol_id"/>
+                <field name="status"/>
+                <field name="company_id"/>
+                <field name="signer_name"/>
+                <field name="signer_email"/>
+
+                <!-- Group By Options -->
+                <group expand="0" string="Group By">
+                    <filter name="group_by_status" string="Status" domain="[]" context="{'group_by': 'status'}"/>
+                    <filter name="group_by_company" string="Company" domain="[]" context="{'group_by': 'company_id'}"/>
+                </group>
+
+                <!-- Filter Options -->
+                <filter name="filter_activated" string="Activated" domain="[('status', '=', 'activated')]" help="Show only activated records"/>
+                <filter name="filter_kyc_pending" string="KYC Pending" domain="[('status', '=', 'kyc_pending')]" help="Show records where KYC is pending"/>
+                <filter name="filter_initiated_activation" string="Initiated Activation" domain="[('status', '=', 'initiated_activation')]" help="Show records in activation process"/>
+                <filter name="filter_initiated_deactivation" string="Initiated Deactivation" domain="[('status', '=', 'initiated_deactivation')]" help="Show records in deactivation process"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_c5_activation" model="ir.actions.act_window">
+        <field name="name">GST InvoiceNow Activation/Deactivation</field>
+        <field name="res_model">c5.activation</field>
+        <field name="view_mode">tree,form,search,kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Activations yet. Start by creating a new activation record.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu & Submenu -->
+<!--    <menuitem id="menu_c5_activation_root" name="C5" parent="menu_peppol_root" sequence="4" groups="metro_einvoice_datapost.group_c5_submitter"/>-->
+    <menuitem id="menu_c5_activation_main" name="GST InvoiceNow Activation/Deactivation" parent="menu_peppol_root" sequence="3" action="action_c5_activation"/>
+</odoo>

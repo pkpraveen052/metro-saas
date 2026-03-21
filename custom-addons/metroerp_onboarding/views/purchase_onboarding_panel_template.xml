@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="onboarding_purchase_tc_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Purchase Terms and Conditions</t>
+            <t t-set="description">Show standard tc on RFQ.</t>
+            <t t-set="done_icon" t-value="'fa-star'"/>
+            <t t-set="done_text">Looks great!</t>
+            <t t-set="btn_text">Customize</t>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="method" t-value="'action_open_custom_purchase_tc'"/>
+            <t t-set="state" t-value="state.get('purchase_onboarding_tc_state')"/>
+        </t>
+    </template>
+
+    <template id="onboarding_rfq_layout_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">RFQ Layout</t>
+            <t t-set="description">Customize the look of your RFQ layout</t>
+            <t t-set="done_icon" t-value="'fa-star'"/>
+            <t t-set="done_text">Looks great!</t>
+            <t t-set="btn_text">Customize</t>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="method" t-value="'action_open_custom_rfq_layout'"/>
+            <t t-set="state" t-value="state.get('purchase_onboarding_rfq_layout_state')"/>
+        </t>
+    </template>
+
+    <template id="onboarding_po_layout_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Purchase Order Layout</t>
+            <t t-set="description">Customize the look of your purchase order.</t>
+            <t t-set="done_icon" t-value="'fa-star'"/>
+            <t t-set="done_text">Looks great!</t>
+            <t t-set="btn_text">Customize</t>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="method" t-value="'action_open_custom_po_layout'"/>
+            <t t-set="state" t-value="state.get('purchase_onboarding_po_layout_state')"/>
+        </t>
+    </template>
+
+    <template id="onboarding_purchase_bill_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Bill Layout</t>
+            <t t-set="description">Customize the look of your purchase bill.</t>
+            <t t-set="done_icon" t-value="'fa-star'"/>
+            <t t-set="done_text">Looks great!</t>
+            <t t-set="btn_text">Customize</t>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="method" t-value="'action_open_custom_bill_popup_purchase'"/>
+            <t t-set="state" t-value="state.get('purchase_onboarding_bill_state')"/>
+        </t>
+    </template>
+
+    <template id="onboarding_purchase_create_your_first_partner_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Create First Vendor</t>
+            <t t-set="description">Create your first vendor for sample RFQ.</t>
+            <t t-set="done_icon" t-value="'fa-star'"/>
+            <t t-set="done_text">Looks great!</t>
+            <t t-set="btn_text">First Customer</t>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="method" t-value="'action_open_custom_partner_popup_purchase'"/>
+            <t t-set="state" t-value="state.get('purchase_onboarding_partner_state')"/>
+        </t>
+    </template>
+
+    <template id="purchasee_onboarding_sample_quotation_step_custom">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Create Your First RFQ</t>
+            <t t-set="description">Send a quotation to test the vendor portal.</t>
+            <t t-set="btn_text">Send sample</t>
+            <t t-set="method" t-value="'action_open_purchase_onboarding_sample_quotation'"/>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="state" t-value="state.get('purchase_onboarding_sample_order_state')"/>
+        </t>
+    </template>
+
+
+    <template id="purchase_dashboard_onboarding_panel" name="purchase.dashboard.onboarding.panel">
+        <t t-call="base.onboarding_container">
+            <t t-set="classes" t-value="'o_onboarding_orange'"/>
+            <t t-set="bg_image" t-value="'/metroerp_onboarding/static/src/img/account_dashboard_onboarding_bg.jpg'"/>
+            <t t-set="close_method" t-value="'action_close_purchase_dashboard_onboarding'"/>
+            <t t-set="close_model" t-value="'res.company'"/>
+
+            <t t-call="metroerp_onboarding.onboarding_purchase_tc_step" name="purchase_tc_step"/>
+            <t t-call="metroerp_onboarding.onboarding_rfq_layout_step" name="rfq_step" />
+            <t t-call="metroerp_onboarding.onboarding_po_layout_step" name="po_step" />
+            <t t-call="metroerp_onboarding.onboarding_purchase_bill_step" name="purchase_bill_step" />
+            <t t-call="metroerp_onboarding.onboarding_purchase_create_your_first_partner_step" name="purchase_partner_step" />
+            <t t-call="metroerp_onboarding.purchasee_onboarding_sample_quotation_step_custom" name="sample_rfq_step" />
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="peppol_manual_send_wizard_form_view" model="ir.ui.view">
+        <field name="name">peppol.manual.send.wizard.form</field>
+        <field name="model">peppol.manual.send.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="mode" invisible="1"/>
+                <group>
+                    <field name="message" nolabel="1"/>
+                </group>
+                <group>
+                    <group>
+                        <field name="send_as_Bulk" groups="metro_einvoice_datapost.group_c5_submitter"/>
+                        <field name="is_both" invisible="1"/>
+                        <field name="invoice_send_type" attrs="{'invisible': [('is_both','=',False)]}"/>
+                        <field name="is_sale_credit" invisible="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Send" name="button_inv_send" type="object" class="oe_highlight"/>
+<!--                    <button string="Send" name="button_sale_credit_send" type="object" class="oe_highlight" attrs="{'invisible': [('is_sale_credit','=', False)]}"/>-->
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_peppol_manual_send_wizard" model="ir.actions.act_window">
+        <field name="name">Send to InvoiceNow</field>
+        <field name="res_model">peppol.manual.send.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="peppol_manual_send_wizard_form_view"/>
+    </record>
+
+    <record id="peppol_manual_nosend_wizard_simple" model="ir.ui.view">
+        <field name="name">peppol.manual.nosend.wizard.form</field>
+        <field name="model">peppol.manual.send.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="mode" invisible="1"/>
+                <group>
+                    <field name="message" nolabel="1"/>
+                </group>
+                <footer>
+                    <button string="Close" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_peppol_manual_nosend_wizard" model="ir.actions.act_window">
+        <field name="name">Message</field>
+        <field name="res_model">peppol.manual.send.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="peppol_manual_nosend_wizard_simple"/>
+    </record>
+
+</odoo>

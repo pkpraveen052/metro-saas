@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ks_water_mark">
+        <div class="ks_sec_watermark">
+            <t t-set="ks_rotate_angle" t-value="str(record.ks_rotate_angle) if record.ks_rotate_image and record.ks_rotate_angle else ''"/>
+            <t t-set="ks_temp_font_size" t-value="str(record.ks_temp_font_size) if record.ks_temp_font_size else '20'"/>
+            <div t-if="record.ks_watermark_option == 'backgroundimage'"
+                 t-att-style="'opacity:' + str(record.ks_report_transparency) + '; transform: scale('+ str(record.ks_report_scale) + '); -webkit-transform: scale('+ str(record.ks_report_scale) + ');'" class="ks_watermark">
+                <img class="img-fluid" t-if="record.ks_upload_image" style="max-height:550px;"
+                     t-att-src="'/web/content/' + str(ks_upload_image_id) if ks_upload_image_id else image_data_uri(record.ks_upload_image)"/>
+                <div class="ks_cname">
+                    <div t-field="record.ks_mark_text"
+                         t-att-style="'transform:rotate(' + ks_rotate_angle + 'deg); -webkit-transform:rotate(' + ks_rotate_angle + 'deg);font-size: '+ ks_temp_font_size + 'px; color: '+ record.ks_font_color +';'"/>
+                </div>
+            </div>
+            <div t-if="record.ks_watermark_option == 'logo'" class="ks_watermark"
+                 t-att-style="'opacity:' + str(record.ks_report_transparency) + '; transform: scale('+ str(record.ks_report_scale) + '); -webkit-transform: scale('+ str(record.ks_report_scale) + ');'">
+                <div>
+                    <img class="img-fluid" t-if="company.logo" style="max-height:550px;"
+                         t-att-src="'/web/content/' + str(ks_logo_id) if ks_logo_id else image_data_uri(company.logo)"/>
+                </div>
+            </div>
+            <div t-if="record.ks_watermark_option == 'name'" class="ks_watermark"
+                    t-att-style="'opacity:' + str(record.ks_report_transparency) + '; transform: scale('+ str(record.ks_report_scale) + '); -webkit-transform: scale('+ str(record.ks_report_scale) + ');'">
+                <div class="ks_cname">
+                    <div t-field="company.name"
+                         t-att-style="'transform:rotate(' + ks_rotate_angle + ' deg); -webkit-transform:rotate(' + ks_rotate_angle + 'deg);font-size: '+ ks_temp_font_size + 'px; color: '+ record.ks_font_color +';'"/>
+                </div>
+            </div>
+            <div t-if="record.ks_watermark_option == 'watermark_text'" class="ks_watermark"
+                 t-att-style="'opacity:' + str(record.ks_report_transparency) + '; transform: scale('+ str(record.ks_report_scale) + '); -webkit-transform: scale('+ str(record.ks_report_scale) + ');'">
+                <div class="ks_cname">
+                    <div t-field="record.ks_mark_text"
+                         t-att-style="'transform:rotate(' + ks_rotate_angle + ' deg); -webkit-transform:rotate(' + ks_rotate_angle + 'deg);font-size: '+ ks_temp_font_size + 'px; color: '+ record.ks_font_color +';'"/>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

@@ -1,0 +1,63 @@
+<odoo>
+    <data noupdate="1">
+
+       <!-- Notification to Purchase Representative when a new Invoice received from Peppol -->
+       <record id="incoming_invoice_mapped_notification" model="mail.template">
+           <field name="name">Peppol Incoming Invoice Mapped</field>
+           <field name="model_id" ref="purchase.model_purchase_order"/>
+           <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+           <field name="email_to" >${object.user_id.email}</field>
+           <field name="subject">A new invoice received from Peppol and mapped against PO '${object.name}'</field>
+           <field name="auto_delete" eval="False"/>
+           <field name="lang">${object.user_id.lang}</field>
+           <field name="body_html"><![CDATA[
+                <p>Hello</p>
+                <p>A new Invoice has been received from the Peppol network and mapped against the Purchase Order <b>${object.name}</b>. Please click on the below button to view the document.</p>
+                <div class="footer" style="text-align:center;display:flex;padding-top: 10px;">
+                    % set website_url = object.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                    <div>
+                        <a target="_blank" role="button" class="btn btn-primary" href="${website_url}/web#id=${ctx['document_id']}&action=${ctx['action_id']}&model=peppol.log.sg&view_type=form" style="background-color: #41ac4d;padding: 8px 16px 8px 16px;text-decoration: none;color: #fff;border-radius: 5px;font-size:13px;">View Invoice</a>
+                    </div>
+                </div>
+                 ]]>
+           </field>
+       </record>
+
+	<!-- Notification to Purchase Admin and Account Admin when a new Incoming Invoice received -->
+       <record id="incoming_invoice_document_notification" model="mail.template">
+           <field name="name">Peppol Incoming Invoice Document</field>
+           <field name="model_id" ref="account_peppol_sg.model_peppol_log_sg"/>
+           <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+           <field name="email_to" >${ctx['email_to']}</field>
+           <field name="subject">New e-Invoice '${object.invoice_no}' received</field>
+           <field name="auto_delete" eval="False"/>
+           <field name="lang">${object.company_id.lang}</field>
+           <field name="body_html"><![CDATA[
+                <p>Hi</p><br/>
+                <p>
+                    A new e-Invoice is received with status <b>
+                    % if object.subtype == 'success':
+                        Mapped
+                    % elif object.subtype == 'sent_to_process':
+                        Unmapped
+                    % elif object.subtype == 'error':
+                        Failed
+                    % endif
+                    </b>.
+                </p>
+                % if object.subtype == 'success':
+                    <p>Invoice Mapped to the PO <b>${object.po_id.name}</b>.</p>
+                % endif
+                <br/>
+                <div class="footer" style="text-align:center;display:flex;padding-top: 10px;">
+                    % set website_url = object.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                    <div>
+                        <a target="_blank" role="button" class="btn btn-primary" href="${website_url}/web#id=${ctx['document_id']}&action=${ctx['action_id']}&model=peppol.log.sg&view_type=form" style="background-color: #41ac4d;padding: 8px 16px 8px 16px;text-decoration: none;color: #fff;border-radius: 5px;font-size:13px;">View Invoice</a>
+                    </div>
+                </div>
+                 ]]>
+           </field>
+       </record>
+
+    </data>
+</odoo>

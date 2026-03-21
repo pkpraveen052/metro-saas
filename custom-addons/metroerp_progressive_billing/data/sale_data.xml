@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Share Button in action menu -->
+        <record id="model_progressive_billing_action_share" model="ir.actions.server">
+            <field name="name">Share</field>
+            <field name="model_id" ref="metroerp_progressive_billing.model_progressive_billing_qt"/>
+            <field name="binding_model_id" ref="metroerp_progressive_billing.model_progressive_billing_qt"/>
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="code">action = records.action_share()</field>
+        </record>
+
+        <record id="default_progressive_billing_confirmation_template" model="ir.config_parameter">
+            <field name="key">metroerp_progressive_billing.default_progressive_billing_confirmation_template</field>
+            <field name="value" ref="metroerp_progressive_billing.mail_template_progressive_billing_confirmation"/>
+        </record>
+    </data>
+</odoo>

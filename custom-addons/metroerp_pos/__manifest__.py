@@ -1,0 +1,32 @@
+# -*- coding: utf-8 -*-
+{
+    'name': "MetroERP POS Customizations",
+    'version': '1.0.0',
+    'author': 'Metro Group',
+    'category': 'Sales/Point of Sale',
+    'summary': 'MetroERP POS Customizations',
+    'description': "",
+    'website': 'https://metrogroup.solutions/',
+    'depends': [
+                'metroerp_customizations',
+                'point_of_sale','account',
+                ],
+    'data': [
+        'data/data.xml',
+        'views/res_users.xml',
+        'views/pos_category_views.xml',
+        'security/ir_rule.xml',
+        'security/ir.model.access.csv',
+        'views/templates.xml',
+        'reports/custom_layout.xml',
+        'reports/paper_format.xml',
+        'reports/pos_sales_details_report_inherit.xml',
+        'wizard/pos_details.xml',
+        'wizard/view_pos_payment_change_wizard.xml',
+        'wizard/cancel_confirm_wizard.xml',
+        'views/view_pos_order.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

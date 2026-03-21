@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <record id="inherited_schedule_activity_form_view" model="ir.ui.view">
+            <field name="name">inherited.schedule.activity.form.view</field>
+            <field name="model">mail.activity</field>
+            <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+            <field name="arch" type="xml">
+                <xpath expr="//footer/button[@name='action_close_dialog']" position="after">
+                    <button string="Save &amp; Schedule Next" name="action_save_and_next" type="object" class="btn-secondary"
+                            attrs="{'invisible': [('id', '!=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherited_activity_type_form_view" model="ir.ui.view">
+            <field name="name">inherited.activity.type.form.view</field>
+            <field name="model">mail.activity.type</field>
+            <field name="inherit_id" ref="mail.mail_activity_type_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='default_user_id']" position="attributes">
+                    <attribute name="domain">[('share', '=', False), ('company_id', '=', current_company_id)]</attribute>
+                </xpath>
+            </field>
+        </record>
+</odoo>

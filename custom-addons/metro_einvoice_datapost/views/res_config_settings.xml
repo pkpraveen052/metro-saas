@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+
+    <record id="res_config_settings_view_peppol_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.peppol</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="40"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Peppol" string="Peppol" data-key="metro_einvoice_datapost">
+                        <h2>DataPost</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-6 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="endpoint"/>
+                                    <div class="text-muted">
+                                        Default End point applied on the Access Point
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="endpoint" style="width: 100%;"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="api_version" string="Version"/>
+                                    <div class="text-muted">
+                                        Default API Version
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="api_version"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="api_timeout" string="Timeout"/>
+                                    <div class="text-muted">
+                                        Default API Timeout (In Secs)
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="api_timeout"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="token_url" string="Token URL"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="token_url"/>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Peppol Lookup Directory</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-6 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="peppol_endpoint"/>
+                                    <div class="text-muted">
+                                        Default End point applied on the Access Point
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="peppol_endpoint" style="width: 100%;"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="peppol_apikey" string="Authorization API Key"/>
+                                    <div class="text-muted">
+                                        Default Bearer token value
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="peppol_apikey" style="width: 100%;"/>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>SG Electronic Address Scheme</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-6 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        Scheme Numerical Code
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="electronic_address_scheme"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        Scheme Identifier
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="electronic_address_scheme_identifier"/>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Mail Template for Business Registration</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-12 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="business_register_template_id"/>
+                                    <div class="text-muted">
+                                        Default Template used to send Email
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="business_register_template_id" required="1"/>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Choose Document Type</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-12 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="peppol_document_type"/>
+                                    <div class="text-muted">
+                                        Default Document Type to be used
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="peppol_document_type" required="1"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-12 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="convert_to_purchase_invoice_bill"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="convert_to_purchase_invoice_bill"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-12 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="is_peppol"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="is_peppol"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <h2>Invoice Notifications</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-12 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="grp_name_ids"/>
+                                    <div class="text-muted">
+                                        Default Groups for Incoming Invoice
+                                    </div>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <field name="grp_name_ids" widget="many2many_tags"/>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="action_peppol_config" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'metro_einvoice_datapost', 'bin_size': False}</field>
+    </record>
+
+    <menuitem id="menu_peppol_settings"
+        action="action_peppol_config"
+        name="Settings"
+        parent="metro_einvoice_datapost.menu_peppol_configuration"
+	sequence="1"
+	groups="base.group_system"/>
+
+</odoo>

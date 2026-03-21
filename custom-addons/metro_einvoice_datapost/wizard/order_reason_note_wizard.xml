@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="order_reason_note_wizard_form_view" model="ir.ui.view">
+        <field name="name">order.reason.note.wizard.form</field>
+        <field name="model">order.reason.note.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="document_type"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Send" name="action_send" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

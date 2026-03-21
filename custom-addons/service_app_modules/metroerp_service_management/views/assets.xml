@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="assets_backend" name="FS assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/metroerp_service_management/static/src/scss/fs.scss"/>
+            <script type="text/javascript" src="/metroerp_service_management/static/lib/html2canvas/html2canvas.min.js"></script>
+        </xpath>
+    </template>
+</odoo>

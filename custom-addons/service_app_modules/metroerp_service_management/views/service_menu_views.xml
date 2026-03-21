@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!-- Top menu item -->
+        <menuitem id="menu_service_root"
+            name="Services"
+            web_icon="metroerp_service_management,static/description/icon.png"
+            sequence="13"/>
+
+        <menuitem id="menu_service_dashboard" action="metroerp_service_management.action_service_template_dashboard"
+              sequence="1" parent="metroerp_service_management.menu_service_root" name="Dashboard"/>
+
+        <menuitem name="Service" id="menu_service" parent="menu_service_root" sequence="2" />
+
+        <menuitem name="Configuration" id="menu_service_configuration" parent="menu_service_root" sequence="3" />
+
+        <menuitem name="Service Request" id="menu_service_form" parent="menu_service" action="action_service_management_button"/>
+
+        <menuitem name="Service Template" id="menu_service_template" parent="menu_service_configuration" action="action_service_template_button" sequence="2"/>
+
+<!--        Menu for fields and group-->
+
+        <menuitem id="menu_dynamic_group_service" parent="menu_service_configuration" name="Create Group" action="all_in_one_dynamic_custom_fields.action_field_dynamic_group_button" sequence="3"/>
+
+        <menuitem id="dynamic_fields_menu_create_service"
+              name="Create Fields"
+              parent="menu_service_configuration"
+              action="all_in_one_dynamic_custom_fields.dynamic_fields_action"
+              sequence="2"/>
+
+
+
+</odoo>

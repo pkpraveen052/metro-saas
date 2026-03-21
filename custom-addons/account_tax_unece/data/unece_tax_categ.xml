@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+    
+    <record id="tax_categ_sr" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">SR</field>
+        <field name="name">Standard rated</field>
+        <field name="description">
+            Local supply of goods and services.
+        </field>
+    </record>
+
+    <record id="tax_categ_sra" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">SRCA-S</field>
+        <field name="name">Standard rated</field>
+        <field name="description">
+            Customer accounting supply made by the supplier.
+        </field>
+    </record>
+
+    <record id="tax_categ_srb" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">SRCA-C</field>
+        <field name="name">Standard rated</field>
+        <field name="description">
+            Customer accounting supply made by the customer on supplier’s behalf.
+        </field>
+    </record>
+
+    <record id="tax_categ_zr" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">ZR</field>
+        <field name="name">Zero rated</field>
+        <field name="description">
+            Supplies involving goods for export/ provision of international services.
+        </field>
+    </record>
+
+    <record id="tax_categ_es" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">ES33</field>
+        <field name="name">Exempt</field>
+        <field name="description">
+            Specific categories of exempt supplies listed under regulation 33 of the GST (General) Regulations.
+        </field>
+    </record>
+
+    <record id="tax_categ_esa" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">ESN33</field>
+        <field name="name">Exempt</field>
+        <field name="description">
+            Exempt supplies other than those listed under regulation 33 of the GST (General) Regulations.
+        </field>
+    </record>
+
+    <record id="tax_categ_ds" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">DS</field>
+        <field name="name">Deemed supplies</field>
+        <field name="description">
+            Supplies required to be reported pursuant to the GST legislation.
+        </field>
+    </record>
+
+    <record id="tax_categ_os" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">OS</field>
+        <field name="name">Out-of-Scope supplies</field>
+        <field name="description">
+            Supplies outside the scope of the GST Act.
+        </field>
+    </record>
+
+    <record id="tax_categ_ng" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">NG</field>
+        <field name="name">Supplies from Non GST registered company</field>
+        <field name="description">
+            Supplies from a company which is not registered for GST.
+        </field>
+    </record>
+
+    <record id="tax_categ_srovr" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">SROVR</field>
+        <field name="name">Overseas Vendor Registration, digital services</field>
+        <field name="description">
+            Overseas vendor registration regime for Business-to-Consumer (“B2C”) supplies of imported digital services.
+        </field>
+    </record>
+
+    <record id="tax_categ_srrc" model="unece.code.list">
+        <field name="type">tax_categ</field>
+        <field name="code">SRRC</field>
+        <field name="name">Reverse Charge</field>
+        <field name="description">
+            Reverse charge regime for Business-to-Business (“B2B”) supplies of imported services.
+        </field>
+    </record>
+    
+</odoo>

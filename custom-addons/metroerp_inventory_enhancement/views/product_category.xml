@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_product_category_form_inherit_cogs" model="ir.ui.view">
+        <field name="name">product.category.form.inherit.cogs</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="stock_account.view_category_property_form"/>
+        <field name="arch" type="xml">
+            <!-- Place the new field under Account Stock Properties -->
+            <xpath expr="//field[@name='property_stock_account_output_categ_id']" position="after">
+                <field name="cogs_account_id" attrs="{'required':[ ('property_valuation', '=', 'real_time')]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

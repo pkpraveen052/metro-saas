@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="cs_document_tree" model="ir.ui.view">
+            <field name="name">cs.document.tree</field>
+            <field name="model">cs.document</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="company_uen" string="UEN"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="cs_document_form" model="ir.ui.view">
+            <field name="name">cs.document.form</field>
+            <field name="model">cs.document</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_print_report" type="object" string="Print Report" class="btn-primary" attrs="{'invisible': [('id','=',False)]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="type_of_doc" readonly='1'/>
+                                <field name="company_uen" string="UEN" placeholder="Please type UEN here"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                            <group>             
+                                <field name="passed_on_date" required="1"/>  
+                                <field name="effective_date" required="1"/>
+                                <field name="id" invisible="1"/>      
+                            </group>
+                            <group>
+                                <field name="appointed_person" required="1" placeholder="Enter the Name"/> 
+                            </group>
+                            <group>
+                                <field name="prepared_by" required="1"/>
+                                <field name="role" required="1"/>
+                            </group>
+                        </group>
+		    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="cs_document_action">
+            <field name="name">CS Document</field>
+            <field name="res_model">cs.document</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id="menu_cs_document"
+              parent="menu_main_director_statement"
+              action="cs_document_action"
+              sequence="1"/>
+
+    </data>
+</odoo>

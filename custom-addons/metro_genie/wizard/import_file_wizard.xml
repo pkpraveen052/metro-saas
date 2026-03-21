@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="import_file_wizard_form" model="ir.ui.view">
+        <field name="name">metro.sample.file.wizard</field>
+        <field name="model">metro.sample.file.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Files">
+                <sheet>
+                    <group>
+                        <div class="o_row">
+                            <field name="attachment_id"
+                                   options="{'no_create': True}"
+                                   placeholder="Select sample file" required="1"/>
+
+                            <button name="action_download_file"
+                                    type="object"
+                                    class="btn btn-link o_inline_button"
+                                    title="Download">
+                                <i class="fa fa-download"/>
+                            </button>
+                        </div>
+                    </group>
+
+                    <footer>
+                        <button string="Cancel"
+                                special="cancel"
+                                class="btn-secondary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

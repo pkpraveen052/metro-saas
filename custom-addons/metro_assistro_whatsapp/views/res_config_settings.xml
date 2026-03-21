@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_assistro_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.assistro</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="40"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Assistro Whatsapp" string="Assistro Whatsapp" data-key="metro_assistro_whatsapp">
+                        <h2>Assistro Whatsapp</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-6 col-md-6 o_setting_box" groups="base.group_system">
+                                <div class="o_setting_right_pane">
+                                    <label for="url" string="URL"/>
+                                    <field name="url" style="width: 100%;" placeholder="Enter API URL (e.g., https://api.assistro.com)"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                  <label for="client_id" string="Client ID"/>
+                                    <field name="client_id" style="width: 100%;" placeholder="Enter your Client ID"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                  <label for="client_secret" string="Client Secret"/>
+                                    <field name="client_secret" style="width: 100%;" placeholder="Enter your Client Secret"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                  <label for="redirect_url"/>
+                                    <field name="redirect_url" style="width: 100%;" placeholder="Enter Redirect URL (e.g., https://yourdomain.com/callback)"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="auth_code"/>
+                                    <field name="auth_code" style="width: 100%;" placeholder="Authorization Code (generated after authentication)"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="access_token"/>
+                                    <field name="access_token" style="width: 100%;" placeholder="OAuth Access Token (auto-filled)"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="refresh_token"/>
+                                    <field name="refresh_token" style="width: 100%;" placeholder="OAuth Refresh Token (auto-filled)"/>
+                                </div>
+                                <br/>
+                                <div class="o_setting_right_pane" style="gap: 10px; display: flex;">
+                                    <button type="object" name="generate_oauth_url" string="Authorize" class="oe_highlight"/>
+                                    <button type="object" name="fetch_tokens" string="Fetch Token" class="oe_highlight"/>
+                                    <button type="object" name="action_refresh_token" string="Refresh Token" class="oe_highlight"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-md-6 o_setting_box" groups="metroerp_customizations.sub_admin_group,base.group_system">
+                                <div class="o_setting_right_pane">
+                                    <label for="use_assistro"/>
+                                    <field name="use_assistro" style="width: 100%;"/>
+                                </div>
+                                <div class="o_setting_right_pane" attrs="{'invisible': [('use_assistro', '=', False)]}">
+                                    <button type="object" name="signup_url_action" string="Sign Up" class="btn-link" icon="fa-arrow-right"/>
+                                </div>
+                                <br/>
+                            </div>
+                        </div>
+                        <h2>Settings</h2>
+                        <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="whatsapp_tempalte_preview">
+                            <div class="o_setting_right_pane">
+                                <div class="text-muted">
+                                    Configure Whatsapp Templates
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt8">
+                                        <button name="%(metro_assistro_whatsapp.assistro_whatsapp_template_action_window)d"
+                                                string="Whatsapp Template Settings" type="action" class="oe_link"
+                                                icon="fa-arrow-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </xpath>
+            </field>
+    </record>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="stock_quant_inherited_search_view" model="ir.ui.view">
+            <field name="name">stock.quant.search.view</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.quant_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                </xpath>
+            </field>
+        </record>
+
+<!--         <record id="stock.dashboard_open_quants" model="ir.actions.act_window">
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="context" eval="{'search_default_active': 1}"/>
+        </record> -->
+    </data>
+</odoo>

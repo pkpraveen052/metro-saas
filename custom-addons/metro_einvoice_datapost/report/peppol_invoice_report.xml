@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="peppol_invoice_report_tree" model="ir.ui.view">
+        <field name="name">peppol.invoice.report.tree</field>
+        <field name="model">peppol.invoice.report</field>
+        <field name="arch" type="xml">
+            <tree string="Peppol Invoice Report">
+                <field name="invname"/>
+                <field name="partner_name"/>
+                <field name="date"/>
+                <field name="type"/>
+            </tree>
+        </field>
+     </record>
+
+     <record id="peppol_invoice_report_pivot" model="ir.ui.view">
+        <field name="name">peppol.invoice.report.pivot</field>
+        <field name="model">peppol.invoice.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Peppol Invoice Report">
+                <field name="date" type="row"/>
+                <field name="status" type="col" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="peppol_invoice_report_search" model="ir.ui.view">
+        <field name="name">peppol.invoice.report.search</field>
+        <field name="model">peppol.invoice.report</field>
+        <field name="arch" type="xml">
+            <search string="Peppol Invoices Analysis">
+                <field name="partner_name"/>
+                <field name="invname"/>
+                <filter string="Received" name="incominginv" domain="[('type','=', 'incoming')]"/>
+                <separator/>
+                <filter string="Sent" name="outgoinginv" domain="[('type','=', 'outgoing')]"/>
+                <separator/>
+                <group expand="1" string="Group By">
+                    <filter string="Partner" name="partner_name" context="{'group_by':'partner_name'}"/>
+                    <filter string="Type" name="type" context="{'group_by':'type'}"/>
+                    <filter string="Date" name="date" context="{'group_by':'date'}"/>
+                    <filter string="State" name="State" context="{'group_by':'status'}"/>
+                    <filter string="Company" name="company_id" context="{'group_by':'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_peppol_invoice_report" model="ir.actions.act_window">
+        <field name="name">Document Analysis</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">peppol.invoice.report</field>
+        <field name="view_mode">pivot,tree</field>
+        <field name="context">{'search_default_incominginv':1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_peppol_invoice_report"
+              action="action_peppol_invoice_report"
+              name="Document Analysis"
+              parent="menu_peppol_invoice_dashboard"
+              sequence="1"/>
+
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_company_partner_bank_form_inherit_metro" model="ir.ui.view">
+        <field name="name">company.res.partner.bank.form.inherit.metro</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('company_id', '=', company_id)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

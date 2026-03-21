@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="pre_approved_visitor_tree_view" model="ir.ui.view">
+            <field name="name">pre.approved.visitor.list.view</field>
+            <field name="model">pre.approved.visitor</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="location_id"/>
+                    <field name="ic_number_id"/>
+                    <field name="name"/>
+                    <field name="phone" optional="show"/>
+                    <field name="check_in_type"  optional="show"/>
+                    <field name="pass_number" optional="show"/>
+                    <field name="visit_category_id" optional="hide"/>
+                    <field name="visit_type_id" optional="hide"/>
+                    <field name="check_in"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="pre_approved_visitor_form_view" model="ir.ui.view">
+            <field name="name">pre.approved.visitor.form.view</field>
+            <field name="model">pre.approved.visitor</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar" class="oe_highlight" clickable="1"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="visitor_code" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group string="Pre-Approved Visitor Details">
+                                <field name="location_id" placeholder="Select a Location"/>
+                                <field name="ic_number_id" placeholder="Search here"/>
+                                <field name="name"  placeholder="Enter the name"/>
+                                <field name="phone" placeholder="Enter the phone number"/>
+                                <field name="email" placeholder="Enter the email address"/>
+                                <!-- <field name="visitor_company_id" placeholder="Select or create a company"/> -->
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                            <group string="Check-In Details">
+                                <field name="check_in_type" widget="radio"/>
+                                <!-- <field name="visitor_vehicle_id" placeholder="Select or create a vehicle"/> -->
+                                <field name="vehicle_number" attrs="{'invisible': [('check_in_type', '!=', 'vehicle')]}" placeholder="Enter vehicle number"/>
+                                <field name="visit_type_id" placeholder="Select or create a new type"/>
+                                <field name="visit_category_id" placeholder="Select or create a new category"/>
+                                <field name="pass_number" placeholder="e.g., 2343242"/>
+                            </group>
+                            <group string="Location Details">
+                                <field name="unit_location_id" domain="[('security_location_id', '=', location_id)]" widget="many2one" placeholder="Select a block, floor, or unit"/>
+                                <field name="owner"/>
+                                <field name="partner_id" invisible="1"/>
+                                <field name="user_id"/>
+                            </group>
+                            <group string="Visit Timing">
+                                <field name="check_in" placeholder="Select Check-In Date and Time"/>
+                            </group>
+                            <group>
+                                <field name="qr_code" widget="image" class="oe_avatar" style="height:300px;width:300px;"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+    <record id="pre_approved_visitor_action_window" model="ir.actions.act_window">
+        <field name="name">Pre Approved Visitor</field>
+        <field name="res_model">pre.approved.visitor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <!-- <menuitem id="pre_approved_visitor_root"
+        parent="configuration_menu"
+        action="pre_approved_visitor_action_window"
+        name="Pre Approved Visitor"/> -->
+
+    </data>
+</odoo>

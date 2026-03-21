@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    <!-- Add custom group to the main 'Invoicing' menu -->
+        <record id="account.menu_finance" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user')), (4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+        </record>
+
+        <record id="account.menu_board_journal_1" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+        </record>
+      
+        <record id="account.menu_finance_reports" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+        </record>
+        <record id="account.menu_finance_entries" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="account.menu_action_move_journal_line_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="om_account_followup.menu_finance_followup" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="om_account_followup.om_account_followup_print_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="om_account_followup.menu_sale_followup" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="om_account_followup.menu_action_followup_stat_follow" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="account.menu_action_account_moves_journal_sales" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="account.menu_action_account_moves_journal_purchase" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="account.menu_action_account_moves_journal_bank_cash" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="account.menu_action_account_moves_journal_misc" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="account.menu_action_account_moves_ledger_general" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="account.menu_action_account_moves_ledger_partner" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="account.menu_finance_entries_management" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="om_account_budget.menu_act_crossovered_budget_view" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+         <record id="om_account_asset.menu_action_account_asset_asset_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        <record id="account.menu_finance_entries_actions" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+
+        <record id="metroerp_iras.menu_iras_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+
+        <record id="metroerp_iras.menu_iras_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+
+        <record id="metroerp_iras.form_cs_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+
+        <record id="metroerp_iras.gst_returns_f5f8_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+
+        <record id="metroerp_iras.gst_returns_f7_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+
+        <record id="account.account_reports_legal_statements_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user'))]"/>
+        </record>
+        	
+    </data>	
+</odoo>

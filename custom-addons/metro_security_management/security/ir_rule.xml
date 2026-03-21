@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+        <record id="security_contract_checkpoint_company_rule" model="ir.rule">
+            <field name="name">Security Contract Checkpoint Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_security_contract_checkpoint"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        
+        <record id="security_contract_multi_company_rule" model="ir.rule">
+            <field name="name">Security Contract Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_security_contract"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="security_location_multi_company_rule" model="ir.rule">
+            <field name="name">Security Location Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_security_location"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="security_responses_multi_company_rule" model="ir.rule">
+            <field name="name">Security Responses Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_security_responses"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="visitor_details_multi_company_rule" model="ir.rule">
+            <field name="name">Visitor Details Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_visitor_details"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="visitor_category_multi_company_rule" model="ir.rule">
+            <field name="name">Visitor Category Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_visitor_category"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="visitor_type_multi_company_rule" model="ir.rule">
+            <field name="name">Visitor Type Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_visitor_type"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="security_person_multi_company_rule" model="ir.rule">
+            <field name="name">Security Person Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_security_person"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="ic_number_multi_company_rule" model="ir.rule">
+            <field name="name">IC Number Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_ic_number"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="block_location_multi_company_rule" model="ir.rule">
+            <field name="name">Block Location Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_block_location"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="block_list_multi_company_rule" model="ir.rule">
+            <field name="name">Block List Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_block_list"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="visitor_company_multi_company_rule" model="ir.rule">
+            <field name="name">Visitor Company Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_visitor_company"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="visitor_vehicle_multi_company_rule" model="ir.rule">
+            <field name="name">Visitor Vehicle Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_visitor_vehicle"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="pre_approved_visitor_multi_company_rule" model="ir.rule">
+            <field name="name">Pre Approved Visitor Multi-Company Rule</field>
+            <field name="model_id" ref="metro_security_management.model_pre_approved_visitor"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        
+	</data>
+</odoo>

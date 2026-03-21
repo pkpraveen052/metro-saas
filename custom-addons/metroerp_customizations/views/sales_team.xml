@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="sales_team_inherit_form_view_metroerp" model="ir.ui.view">
+        <field name="name">sales.team.inherit.form.view.metroerp</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="domain">[('share', '=', False),('company_id', '=', company_id)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sales_team_inherit_tree_view_metroerp" model="ir.ui.view">
+        <field name="name">sales.team.inherit.tree.view.metroerp</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="domain">[('share', '=', False),('company_id', '=', company_id)]</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

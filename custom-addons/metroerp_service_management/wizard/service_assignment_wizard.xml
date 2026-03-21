@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_service_assignment_wizard_form" model="ir.ui.view">
+        <field name="name">service.assignment.wizard.form</field>
+        <field name="model">service.assignment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Assign Services">
+                <group>
+                    <field name="service_template_id" readonly="1"/>
+                    <field name="partner_id" required="1"/>
+                    <field name="number_of_services" required="1"/>
+                </group>
+                <footer>
+                    <button string="Assign" type="object" name="action_assign_services" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="service_assignment_wizard_action" model="ir.actions.act_window">
+        <field name="name">Assign Services</field>
+        <field name="res_model">service.assignment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

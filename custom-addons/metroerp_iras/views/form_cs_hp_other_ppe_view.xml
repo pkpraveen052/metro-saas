@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    hp.other.ppe.form   -->
+    <record id="hp_other_ppe_form" model="ir.ui.view">
+        <field name="name">hp.other.ppe.form</field>
+        <field name="model">hp.other.ppe</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="grp_main">
+                        <div></div>
+                        <field name="descriptionEachAsset"/>
+                        <field name="yaOfPurchaseEachAsset"/>
+                        <field name="costEachAsset"/>
+                        <field name="salesProceedEachAsset"/>
+                        <field name="yaOfDisposalEachAsset"/>
+                        <field name="depositOrPrincipalExcluding"/>
+                        <field name="depositOrPrincipalMinus1"/>
+                        <field name="depositOrPrincipalMinus2"/>
+                        <field name="totalPrincipalTillDateEachAsset"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="hp_other_ppe_tree" model="ir.ui.view">
+        <field name="name">hp.other.ppe.tree</field>
+        <field name="model">hp.other.ppe</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="descriptionEachAsset"/>
+                <field name="yaOfPurchaseEachAsset"/>
+                <field name="costEachAsset"/>
+                <field name="salesProceedEachAsset"/>
+                <field name="yaOfDisposalEachAsset"/>
+                <field name="depositOrPrincipalExcluding"/>
+                <field name="depositOrPrincipalMinus1"/>
+                <field name="depositOrPrincipalMinus2"/>
+                <field name="totalPrincipalTillDateEachAsset"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hp_other_ppe_action" model="ir.actions.act_window">
+        <field name="name">HP Other PPE</field>
+        <field name="res_model">hp.other.ppe</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    <menuitem id="hp_other_ppe_menu"-->
+<!--        action="hp_other_ppe_action"-->
+<!--        parent="menu_iras_master_root"-->
+<!--        sequence="1" />-->
+
+
+    <!--    non.hp.compcommequipment.form   -->
+    <record id="non_hp_compcommequipment_form" model="ir.ui.view">
+        <field name="name">non.hp.compcommequipment.form</field>
+        <field name="model">non.hp.compcommequipment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="grp_main">
+                        <div></div>
+                        <field name="descriptionEachAsset"/>
+                        <field name="yaOfPurchaseEachAsset"/>
+                        <field name="costEachAsset"/>
+                        <field name="salesProceedEachAsset"/>
+                        <field name="yaOfDisposalEachAsset"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="non_hp_compcommequipment_tree" model="ir.ui.view">
+        <field name="name">non.hp.compcommequipment.tree</field>
+        <field name="model">non.hp.compcommequipment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="descriptionEachAsset"/>
+                <field name="yaOfPurchaseEachAsset"/>
+                <field name="costEachAsset"/>
+                <field name="salesProceedEachAsset"/>
+                <field name="yaOfDisposalEachAsset"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="non_hp_compcommequipment_action" model="ir.actions.act_window">
+        <field name="name">Non HP CompCommEquipment</field>
+        <field name="res_model">non.hp.compcommequipment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    <menuitem id="non_hp_compcommequipment_menu"-->
+<!--        action="non_hp_compcommequipment_action"-->
+<!--        parent="menu_iras_master_root"-->
+<!--        sequence="2" />-->
+
+     <!--    non.hp.other.ppe.form   -->
+    <record id="non_hp_other_ppe_form" model="ir.ui.view">
+        <field name="name">non.hp.other.ppe.form</field>
+        <field name="model">non.hp.other.ppe</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="grp_main">
+                        <div></div>
+                        <field name="descriptionEachAsset"/>
+                        <field name="yaOfPurchaseEachAsset"/>
+                        <field name="costEachAsset"/>
+                        <field name="salesProceedEachAsset"/>
+                        <field name="yaOfDisposalEachAsset"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="non_hp_other_ppe_tree" model="ir.ui.view">
+        <field name="name">non.hp.other.ppe.tree</field>
+        <field name="model">non.hp.other.ppe</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="descriptionEachAsset"/>
+                <field name="yaOfPurchaseEachAsset"/>
+                <field name="costEachAsset"/>
+                <field name="salesProceedEachAsset"/>
+                <field name="yaOfDisposalEachAsset"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="non_hp_other_ppe_action" model="ir.actions.act_window">
+        <field name="name">Non HP Other PPE</field>
+        <field name="res_model">non.hp.other.ppe</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    <menuitem id="non_hp_other_ppe_menu"-->
+<!--        action="non_hp_other_ppe_action"-->
+<!--        parent="menu_iras_master_root"-->
+<!--        sequence="3" />-->
+
+    <!--  non.hp.other.ppe.lowvalueasset  -->
+    <record id="non_hp_other_ppe_lowvalueasset_form" model="ir.ui.view">
+        <field name="name">non.hp.other.ppe.lowvalueasset.form</field>
+        <field name="model">non.hp.other.ppe.lowvalueasset</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group name="grp_main">
+                        <div></div>
+                        <field name="descriptionEachAsset"/>
+                        <field name="yaOfPurchaseEachAsset"/>
+                        <field name="costEachAsset"/>
+                        <field name="salesProceedEachAsset"/>
+                        <field name="yaOfDisposalEachAsset"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="non_hp_other_ppe_lowvalueasset_tree" model="ir.ui.view">
+        <field name="name">non.hp.other.ppe.lowvalueasset.tree</field>
+        <field name="model">non.hp.other.ppe.lowvalueasset</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="descriptionEachAsset"/>
+                <field name="yaOfPurchaseEachAsset"/>
+                <field name="costEachAsset"/>
+                <field name="salesProceedEachAsset"/>
+                <field name="yaOfDisposalEachAsset"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="non_hp_other_ppe_lowvalueasset_action" model="ir.actions.act_window">
+        <field name="name">Non HP Other PPE Low Value Asset</field>
+        <field name="res_model">non.hp.other.ppe.lowvalueasset</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    <menuitem id="non_hp_other_ppe_lowvalueasset_menu"-->
+<!--        action="non_hp_other_ppe_lowvalueasset_action"-->
+<!--        parent="menu_iras_master_root"-->
+<!--        sequence="4" />-->
+</odoo>

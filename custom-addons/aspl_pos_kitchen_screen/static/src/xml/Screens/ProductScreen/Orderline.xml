@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+        <xpath expr="//ul[hasclass('info-list')]" position="inside">
+            <!-- Metro tag below -->
+            <t t-if="props.line.send_to_kitchen and props.line.state === 'Waiting'">
+                <span style="color: green; font-size: 14px; font-weight: bold; background: bisque">🛎️ Sent</span>
+            </t>
+            <li t-if="props.line.state == 'Waiting'" class="info">
+                <t t-esc="props.line.state"/>
+            </li>
+            <li t-else="" class="info" t-attf-style="color:{{addStateColor}}">
+                <t t-esc="props.line.state"/>
+            </li>
+        </xpath>
+        <xpath expr="//span[hasclass('product-name')]" position="inside">
+            <t t-if="env.pos.user.is_delete_order_line and props.line.state != 'Waiting'">
+                <i t-on-click.stop="DeleteLineFromOrder(props.line)"
+                   class="oe_link_icon fa fa-trash oe_icon line-lot-icon oe_red"
+                   aria-label="Valid product lot"
+                   role="img"
+                   title="Valid product lot"
+                />
+            </t>
+        </xpath>
+    </t>
+</templates>

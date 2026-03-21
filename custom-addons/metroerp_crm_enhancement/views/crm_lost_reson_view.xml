@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="inherited_crm_lost_reason_list_view" model="ir.ui.view">
+            <field name="name">inherited.crm.lost.reason.view</field>
+            <field name="model">crm.lost.reason</field>
+            <field name="inherit_id" ref="crm.crm_lost_reason_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="company_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

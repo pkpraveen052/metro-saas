@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_journal_entries">
+            <t t-call="accounting_pdf_reports.custom_external_journal_layout">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="font-family: 'Open Sans', Arial, sans-serif; font-size:10.0pt;">
+                        <t t-set="company" t-value="res_company"/>
+				        <div class="oe_structure"/>
+                        <div>
+                            <h3>
+                                <span t-field="o.name"/>
+                            </h3>
+                        </div>
+                        <br></br>
+                        <style>
+                            .table-bordered {
+                                border-collapse: collapse;
+                                width: 100%;
+                            }
+                        
+                            .table-bordered th, .table-bordered td {
+                                padding: 8px;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                            }
+                        
+                            .text-right {
+                                text-align: right;
+                            }
+                        </style>
+                        <div class="row">
+                            <table class="table-bordered">
+                                <tr>
+                                    <td>Journal: <span t-field="o.journal_id.name"/></td>
+                                    <td>Date: <span t-field="o.date" t-options="{'widget': 'date'}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Partner: <span t-field="o.partner_id.display_name"/></td>
+                                    <td>Reference: <span t-field="o.ref"/></td>
+                                </tr>
+                            </table>
+                        </div><br/>
+                        <div class="row">
+                            <table class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Account</th>
+                                        <th>Date</th>
+                                        <th>Partner</th>
+                                        <th>Label</th>
+                                        <th>Analytic Account</th>
+                                        <th>Debit</th>
+                                        <th>Credit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="total_credit" t-value="0"/>
+                                    <t t-set="total_debit" t-value="0"/>
+                                    <t t-foreach="o.line_ids" t-as="line">
+                                        <tr>
+                                            <td><span t-field="line.account_id.name"/></td>
+                                            <td><span t-field="line.date" t-options="{'widget': 'date'}"/></td>
+                                            <td><span t-field="line.partner_id.display_name"/></td>
+                                            <td><span t-field="line.name"/></td>
+                                            <td><span t-field="line.analytic_account_id.display_name"/></td>
+                                            <td class="text-right">
+                                                <span t-field="line.debit" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.credit" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                            </td>
+                                            <t t-set="total_credit" t-value="total_credit + line.credit"/>
+                                            <t t-set="total_debit" t-value="total_debit + line.debit"/>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5"></td>
+                                        <td class="text-right">
+                                            <span t-esc="total_debit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="total_credit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+        </t>
+    </template>
+
+    <template id="report_custom_journal">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="accounting_pdf_reports.report_journal_entries" t-lang="o.partner_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

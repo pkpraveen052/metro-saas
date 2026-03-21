@@ -1,0 +1,399 @@
+<odoo>
+  <data>
+    <!-- Settings -->
+    <menuitem name="Settings"
+          id="base.menu_administration"
+          web_icon="base,static/description/settings.png"
+          sequence="500"
+          groups="base.group_erp_manager,metroerp_customizations.sub_admin_group"/>
+
+    <!-- General Settings -->
+    <menuitem
+            id="base_setup.menu_config"
+            name="General Settings"
+            parent="base.menu_administration"
+            sequence="0"
+            action="base_setup.action_general_configuration"
+            groups="base.group_system,sub_admin_group"/>
+
+    <!-- Technical -->
+<!--    <menuitem-->
+<!--      id="base.menu_custom"-->
+<!--      name="Technical"-->
+<!--      parent="base.menu_administration"-->
+<!--      sequence="110"-->
+<!--      groups="metroerp_customizations.sub_admin_group"/>-->
+
+    <!-- Discuss -->
+    <menuitem name="Messages"
+            id="mail.menu_mail_message"
+            parent="mail.mail_menu_technical"
+            action="mail.action_view_mail_message"
+            sequence="1"
+            groups="base.group_no_one"/>
+
+    <menuitem name="Subtypes"
+            id="mail.menu_message_subtype"
+            parent="mail.mail_menu_technical"
+            action="mail.action_view_message_subtype"
+            sequence="4"
+            groups="base.group_no_one"/>
+
+    <menuitem
+            id="mail.menu_mail_activity_type"
+            action="mail.mail_activity_type_action"
+            parent="mail.mail_menu_technical"
+            sequence="10"
+            groups="base.group_no_one"/>
+    <menuitem
+            id="mail.menu_mail_activities"
+            action="mail.mail_activity_action"
+            parent="mail.mail_menu_technical"
+            sequence="11"
+            groups="base.group_no_one"/>
+
+    <!-- Email -->
+
+    <menuitem id="base.menu_email" name="Email" parent="base.menu_custom" sequence="1" groups="base.group_no_one"/>
+
+    <menuitem id="digest.digest_menu"
+        action="digest.digest_digest_action"
+        parent="base.menu_email"
+        groups="base.group_erp_manager,base.group_no_one"
+        sequence="80"/>
+
+    <menuitem id="digest.digest_tip_menu"
+        action="digest.digest_tip_action"
+        parent="base.menu_email"
+        groups="base.group_erp_manager,base.group_no_one"
+        sequence="81"/>
+
+
+    <menuitem 
+            name="Emails"
+            id="mail.menu_mail_mail"
+            parent="base.menu_email"
+            action="mail.action_view_mail_mail"
+            sequence="1"
+            groups="base.group_no_one"/>
+
+    <menuitem 
+            id="base.menu_mail_servers" 
+            parent="base.menu_email" 
+            action="base.action_ir_mail_server_list" 
+            sequence="5" 
+            groups="base.group_no_one,metroerp_customizations.sub_admin_group"/>
+    <menuitem
+            parent="base.menu_email"
+            id="fetchmail.menu_action_fetchmail_server_tree"
+            action="fetchmail.action_email_server_tree"
+            name="Incoming Mail Servers"
+            sequence="6"
+            groups="base.group_no_one,metroerp_customizations.sub_admin_group"/>
+
+  <menuitem id="mail.menu_email_templates" 
+            parent="base.menu_email" 
+            action="mail.action_email_template_tree_all"
+            sequence="10"
+            groups="base.group_no_one"/>
+  <menuitem name="Channel Moderation"
+            id="mail.mail_moderation_menu"
+            parent="base.menu_email"
+            sequence="22"
+            action="mail.mail_moderation_action"
+            groups="base.group_no_one"/>
+  <menuitem id="snailmail.menu_snailmail_letters" 
+            parent="base.menu_email" 
+            action="snailmail.action_mail_letters"
+            sequence="50"
+            groups="base.group_no_one"/>
+
+  <!-- Phone / SMS -->
+
+  <!-- <menuitem 
+        id="sms.sms_template_menu"
+        name="SMS Templates"
+        parent="phone_validation.phone_menu_main"
+        sequence="2"
+        action="sms.sms_template_action"
+        groups="base.group_no_one"/> -->
+
+
+  <!-- Actions -->
+
+  <menuitem 
+          action="base.ir_action_report" 
+          id="base.menu_ir_action_report" 
+          parent="base.next_id_6"
+          groups="base.group_no_one"/>
+<menuitem 
+          action="base.ir_default_menu_action" 
+          id="base.ir_default_menu" 
+          parent="base.next_id_6"
+          groups="base.group_no_one"/>
+<menuitem 
+    id="base.menu_ir_actions_todo_form" 
+    action="base.act_ir_actions_todo_form" 
+    parent="base.next_id_6"
+    groups="base.group_no_one"/>
+
+<menuitem 
+        action="base.action_server_action" 
+        id="base.menu_server_action" 
+        parent="base.next_id_6"
+        groups="base.group_no_one"/>
+
+
+
+<!-- User Interface -->
+
+<menuitem parent="base.next_id_2" 
+          name="User-defined Filters"
+          id="base.menu_ir_filters" 
+          action="base.actions_ir_filters_view" 
+          sequence="5"
+          groups="base.group_no_one"/>
+
+<menuitem 
+        action="base.grant_menu_access" 
+        id="base.menu_grant_menu_access" 
+        parent="base.next_id_2" 
+        sequence="1"
+        groups="base.group_no_one"/>
+
+<menuitem 
+        id="base.menu_action_ui_view_custom" 
+        action="base.action_ui_view_custom" 
+        parent="base.next_id_2" 
+        sequence="3"
+        groups="base.group_no_one"/>
+
+<menuitem 
+        action="web_tour.edit_tour_action" 
+        id="web_tour.menu_tour_action" 
+        parent="base.next_id_2" 
+        sequence="5"
+        groups="base.group_no_one"/>
+
+<menuitem 
+        action="base.action_ui_view" 
+        id="base.menu_action_ui_view" 
+        parent="base.next_id_2" 
+        sequence="2"
+        groups="base.group_no_one"/>
+
+<menuitem 
+        action="base.ir_action_window" 
+        id="base.menu_ir_action_window" 
+        parent="base.next_id_6"
+        groups="base.group_no_one"/>
+
+
+<!-- Database Structure -->
+
+<menuitem
+        parent="base.next_id_9"
+        id="base.menu_decimal_precision_form"
+        action="base.action_decimal_precision_form"
+        groups="base.group_no_one"/>
+
+<menuitem 
+        action="base.action_model_model" 
+        id="base.ir_model_model_menu" 
+        parent="base.next_id_9"
+        groups="base.group_no_one"/>
+
+<menuitem 
+      action="base.action_model_fields" 
+      id="base.ir_model_model_fields" 
+      parent="base.next_id_9"
+      groups="base.group_no_one"/>
+
+<menuitem 
+      action="base.action_model_fields_selection" 
+      id="base.ir_model_model_fields_selection" 
+      parent="base.next_id_9"
+      groups="base.group_no_one"/>
+
+ <menuitem 
+      action="base.action_attachment" 
+      id="base.menu_action_attachment" 
+      parent="base.next_id_9"
+      groups="base.group_no_one"/>
+
+<menuitem 
+      parent="base.next_id_9" 
+      id="base.ir_logging_all_menu" 
+      action="base.ir_logging_all_act"
+      groups="base.group_no_one"/>
+
+<!-- Security -->
+
+<menuitem 
+      action="base.action_rule" 
+      id="base.menu_action_rule" 
+      parent="base.menu_security" 
+      sequence="3"
+      groups="base.group_no_one"/>
+
+<menuitem 
+      action="base.ir_access_act" 
+      id="base.menu_ir_access_act" 
+      parent="base.menu_security"
+      groups="base.group_no_one"/>
+
+
+<!-- Resource -->
+
+<menuitem 
+      id="resource.menu_resource_config" 
+      name="Resource"
+      parent="base.menu_custom"
+      sequence="30"
+      groups="base.group_no_one"/>
+<menuitem 
+      id="resource.menu_resource_calendar"
+      parent="resource.menu_resource_config"
+      action="resource.action_resource_calendar_form"
+      sequence="1"
+      groups="base.group_no_one"/>
+<menuitem 
+      id="resource.menu_view_resource_calendar_leaves_search"
+      parent="resource.menu_resource_config"
+      action="resource.action_resource_calendar_leave_tree"
+      sequence="2"
+      groups="base.group_no_one"/>
+<menuitem 
+      id="resource.menu_resource_resource"
+      parent="resource.menu_resource_config"
+      action="resource.action_resource_resource_tree"
+      sequence="3"
+      groups="base.group_no_one"/>
+
+
+<!-- Reporting -->
+    <record id="base.reporting_menuitem" model="ir.ui.menu">
+      <field name="groups_id" eval="[(3,ref('metroerp_customizations.sub_admin_group'))]"/>
+    </record>
+
+<!-- Automation -->
+
+<menuitem 
+        id="base.menu_ir_cron_act" 
+        action="base.ir_cron_act" 
+        parent="base.menu_automation"
+        groups="base.group_no_one,metroerp_customizations.sub_admin_group"/>
+
+<!-- Sequnces -->
+<menuitem
+      id="base.next_id_5"
+      name="Sequences &amp; Identifiers"
+      parent="base.menu_custom"
+      sequence="21"
+      groups="base.group_no_one,metroerp_customizations.sub_admin_group"/>
+
+<menuitem
+      action="base.ir_sequence_form"
+      id="base.menu_ir_sequence_form"
+      parent="base.next_id_5"
+      groups="base.group_no_one,metroerp_customizations.sub_admin_group"/>
+
+<!-- Parameters -->
+
+<menuitem 
+    id="base.ir_config_menu" 
+    name="System Parameters" 
+    parent="base.menu_ir_property" 
+    action="base.ir_config_list_action"
+    groups="base.group_no_one"/>
+
+<!-- Translations -->
+
+<!-- <menuitem
+    id="base.menu_translation"
+    name="Translations"
+    parent="base.menu_administration"
+    sequence="2"
+    groups="base.group_no_one,base.group_system"/> -->
+
+<!--    Automation-->
+    <menuitem id="base.menu_automation" name="Automation" parent="base.menu_custom" groups="base.group_no_one"/>
+    <menuitem id="base.menu_ir_cron_act" action="base.ir_cron_act" parent="base.menu_automation" groups="base.group_no_one"/>
+
+<!--      Technical Menu-->
+    <record model="ir.ui.menu" id="base.menu_custom">
+        <field name="groups_id" eval="[(6,0, [ref('metroerp_customizations.sub_admin_group'),ref('base.group_no_one')])]"/>
+    </record>
+
+    <!-- Translation Menu -->
+    <record model="ir.ui.menu" id="base.menu_translation">
+        <field name="groups_id" eval="[(6,0, [ref('base.group_erp_manager')])]"/>
+    </record>
+
+
+<!-- Journal Item-->
+    <record id="account.menu_action_account_moves_all" model="ir.ui.menu">
+      <field name="groups_id" eval="[(3,ref('base.group_no_one'))]"/>
+    </record>
+
+    <record id="account.menu_action_incoterm_open" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6,0, [ref('base.group_system')])]"/>
+    </record>
+
+
+<!--Hiding IAP Account For ERP Admin-->	
+
+<record id="iap.iap_root_menu" model="ir.ui.menu">
+     <field name="groups_id" eval="[(6,0, [ref('base.group_system')])]"/>
+</record>
+
+<record id="iap.iap_account_menu" model="ir.ui.menu">
+     <field name="groups_id" eval="[(6,0, [ref('base.group_system')])]"/>
+</record>
+
+<!--Contact Configuration Menu Menu-->
+
+   <record id="contacts.menu_action_res_bank_form" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6,0, [ref('base.group_system')])]"/>
+    </record>
+
+   <record id="contacts.res_partner_menu_config" model="ir.ui.menu">
+      <field name="groups_id" eval="[(4,ref('metroerp_customizations.sub_admin_group'))]"/>
+    </record>
+
+  <menuitem id="contacts.menu_partner_category_form"
+    action="base.action_partner_category_form"
+    name="Contact Tags"
+    sequence="1" parent="contacts.res_partner_menu_config"
+    groups="base.group_no_one,metroerp_customizations.sub_admin_group"/>
+
+    <menuitem id="contacts.menu_partner_title_contact"
+        action="base.action_partner_title_contact"
+        name="Contact Titles" parent="contacts.res_partner_menu_config"
+        sequence="3"
+        groups="base.group_no_one"/>
+
+    <menuitem id="contacts.res_partner_industry_menu" name="Industries"
+        action="base.res_partner_industry_action" parent="contacts.res_partner_menu_config"
+        sequence="4"
+        groups="base.group_no_one"/>
+
+   <menuitem id="contacts.menu_localisation" name="Localization"
+        parent="contacts.res_partner_menu_config" sequence="5"
+        groups="base.group_no_one"/>
+
+   <menuitem id="contacts.menu_config_bank_accounts"
+        name="Bank Accounts"
+        parent="contacts.res_partner_menu_config"
+        sequence="6"
+        groups="base.group_no_one,metroerp_customizations.sub_admin_group"/>
+
+   <menuitem id="contacts.menu_action_res_partner_bank_form"
+        action="base.action_res_partner_bank_account_form"
+        parent="contacts.menu_config_bank_accounts"
+        sequence="2"
+        groups="base.group_no_one,metroerp_customizations.sub_admin_group"/>
+
+
+  </data>
+</odoo>

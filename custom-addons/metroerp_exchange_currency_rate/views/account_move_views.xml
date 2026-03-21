@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_move_form_exchange_rate" model="ir.ui.view">
+        <field name="name">account.move.form.exchange.rate</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//div[@name='journal_div']"
+                       position='after'>
+                <field name="is_company_currency" invisible="1"/>
+                <field name="exchange_rate" digits="[12,12]" attrs="{'invisible': [('is_company_currency', '=', True)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='currency_id']" position="attributes">
+                <attribute name="options">{'no_create_edit':True, 'no_create': True}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

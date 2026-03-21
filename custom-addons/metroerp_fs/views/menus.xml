@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+	    <menuitem id="menu_main_director_statement"
+	        name="Corporate Docs"
+	        sequence="22"
+	        parent="account.menu_finance"
+	        groups="account.group_account_manager"/>
+
+	    <menuitem id="menu_main_director_statement_config"
+	        name="Configuration"
+	        sequence="2"
+	        parent="menu_main_director_statement"/>
+
+    </data>
+</odoo>

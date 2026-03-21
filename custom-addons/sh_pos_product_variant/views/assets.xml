@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="sh_product_variant_assets_frontend" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/sh_pos_product_variant/static/src/js/pos.js" />
+            <script type="text/javascript" src="/sh_pos_product_variant/static/src/js/variant_pos.js" />
+            <script type="text/javascript" src="/sh_pos_product_variant/static/src/js/variant_list.js" />
+            <link type="text/css" rel="stylesheet" href="/sh_pos_product_variant/static/src/css/pos.css" />
+        </xpath>
+    </template>
+</odoo>

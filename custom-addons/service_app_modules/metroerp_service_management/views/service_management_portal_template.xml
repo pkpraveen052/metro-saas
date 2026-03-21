@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_menu_service" name="Portal layout : service menu entries"
+              inherit_id="portal.portal_breadcrumbs" priority="20">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="service" class="breadcrumb-item active">
+                <t t-esc="service.name"/>
+            </li>
+        </xpath>
+    </template>
+
+
+    <!-- Complete page of the sale_order -->
+    <template id="service_portal_template" name="Service Portal Template" inherit_id="portal.portal_sidebar"
+              primary="True">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <t t-set="o_portal_fullwidth_alert">
+                <!--                <t t-call="portal.portal_back_in_edit_mode">-->
+                <!--                    <t t-set="backend_url" t-value="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (service._name, service.id, action.id)"/>-->
+                <!--                </t>-->
+            </t>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row mt16 o_portal_service_sidebar">
+                        <!-- Sidebar -->
+                        <t t-call="portal.portal_record_sidebar">
+                            <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+                            <t t-set="entries">
+                                <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                    <li class="list-group-item flex-grow-1">
+                                        <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                            <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                                <a class="btn btn-secondary btn-block o_download_btn"
+                                                   t-att-href="'/my/service_management/download/%s' % service.id"
+                                                   title="Download">
+                                                    <i class="fa fa-download"/>
+                                                    Download
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div id="portal_service_content">
+                        <t t-call="metroerp_service_management.service_management_portal_template"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <!--
+    Sales Order content : intro, informations, order lines, remarks, descriptions ....
+    This template should contains all the printable element of the SO. This is the
+    template rendered in PDF with the report engine.
+    -->
+    <template id="service_management_portal_template" name="Service Portal Content">
+        <!-- Intro -->
+        <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+            <h2 class="my-0">
+                <em t-esc="service.name"/>
+            </h2>
+        </div>
+
+        <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
+            <!-- Informations -->
+            <div id="informations">
+
+                <div class="row" id="service_info">
+                    <div class="mb-3 col-6">
+                        <strong>Customer:</strong>
+                        <t t-esc="service.partner_id.name"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-6">
+                            <strong> Address: </strong>
+                            <t t-if="service.partner_id.street">
+                                <span t-field="service.partner_id.street"/>,
+                            </t>
+                            <t t-if="service.partner_id.street2">
+                                <span t-field="service.partner_id.street2"/>,
+                            </t>
+                            <t t-if="service.partner_id.street or service.partner_id.street2">
+                                <br/>
+                            </t>
+                            <t t-if="service.partner_id.city">
+                                <span t-field="service.partner_id.city"/>,
+                            </t>
+                            <t t-if="service.partner_id.state_id">
+                                <span t-field="service.partner_id.state_id.name"/>,
+                            </t>
+                            <t t-if="service.partner_id.zip">
+                                <span t-field="service.partner_id.zip"/>,
+                            </t>
+                            <t t-if="service.partner_id.country_id">
+                                <span t-field="service.partner_id.country_id.name"/>
+                            </t>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-6">
+                        <strong> Service Template: </strong> <span t-field="service.template_id.name"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-6">
+                        <strong> Assigned Technician: </strong> <span t-field="service.assigned_to.name"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-6">
+                        <strong> Status: </strong> <span t-field="service.state"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+</odoo>

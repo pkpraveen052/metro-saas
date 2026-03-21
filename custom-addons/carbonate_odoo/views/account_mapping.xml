@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="account_mapping_tree" model="ir.ui.view">
+            <field name="name">account.mapping.tree</field>
+            <field name="model">account.mapping</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+    		    <tree string="Account Mapping">
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="credit_account"/>
+                    <field name="debit_account"/>
+                    <field name="need_separate_cpf"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id = "account_mapping_form_view" model="ir.ui.view">
+            <field name="name">Account Mapping</field>
+            <field name="model">account.mapping</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+<!--                                 <field name="c_account_code" placeholder="eg: 249"/>
+                                <field name="c_account_name" placeholder="eg: Basic Salary"/>
+ -->                                
+                                <field name="active" widget="boolean_toggle"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                            <group string="Default Accounts">
+                                <field name="credit_account" string="Credit Account (Salary)"/>
+                                <field name="debit_account" string="Debit Account (Salary)"/>
+                            </group>
+                            <group>
+                                <field name="need_separate_cpf"/>
+                            </group>
+                            <group/>
+                        </group>
+                        <notebook>
+                            <page string="CPF Lines" attrs="{'invisible': [('need_separate_cpf','=',False)]}">
+                                <field name="cpf_lines">
+                                    <tree editable="top">
+                                        <field name="code" placeholder="eg: 249"/>
+                                        <field name="name" placeholder="Basic Salary"/>
+                                        <field name="credit_account"/>
+                                        <field name="debit_account"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+
+        <record id="account_mapping_action" model="ir.actions.act_window">
+            <field name="name">Account mapping</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.mapping</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+         <menuitem id="carbonate_account_config_menu_root"
+            name="Carbonate"
+            parent="account.menu_finance_configuration"
+            sequence="600"/>
+
+        <menuitem id="carbonate_account_submenu"
+            name="Account Mapping"
+            action = "account_mapping_action"
+            parent="carbonate_account_config_menu_root"
+            sequence="100"/>
+    </data>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--    account move    -->
+        <record id="account_move_form_metroerp" model="ir.ui.view">
+            <field name="name">metroerp.discount.account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='line_ids']//field[@name='price_unit']" position="after">
+                    <field name='discount_type' class="text-center" invisible="1"/>
+                    <!-- <field name="discount_rate"/> -->
+                 </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']//field[@name='price_unit']" position="after">
+                    <field name='discount_type' class="text-center"/>
+                    <!-- <field name="discount_rate"/> -->
+                </xpath>
+<!--                 <xpath expr="//field[@name='line_ids']//field[@name='discount']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']//field[@name='discount']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath> -->
+
+<!--                <xpath expr="//field[@name='line_ids']//field[@name='discount']" position="attributes">-->
+<!--                    <attribute name="string">Disc.</attribute>-->
+<!--                    <attribute name="optional">show</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='invoice_line_ids']//field[@name='discount']" position="attributes">
+                    <attribute name="string">Disc.</attribute>
+                    <attribute name="optional">show</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_untaxed']" position="before">
+                    <field name="discount_total" groups="product.group_discount_per_so_line"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

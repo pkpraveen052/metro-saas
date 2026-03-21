@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gst_returns_prompt_wizard_view_sn7" model="ir.ui.view">
+        <field name="name">GST Return Prompt</field>
+        <field name="model">gst.returns.prompt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="GST Return Prompt">
+                <div>
+                    <strong>
+                        Standard-rated supplies is in positive value, output tax should not be in negative value. Please re-enter the value of output tax due.
+                        Otherwise, please indicate reasons by clicking on the following:
+                    </strong>
+                </div><br/>
+                <group>
+                    <div>
+                        <field name="gstOnBadDebtRecoveryChk"/>
+                        <label for="gstOnBadDebtRecoveryChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="gstCollectedPriorToRegistrationChk"/>
+                        <label for="gstCollectedPriorToRegistrationChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="otherReasonsChk" attrs="{'readonly': [('set_others_readonly','!=',False)]}" force_save="1"/>
+                        <label for="otherReasonsChk"/>
+                    </div><br/>
+                    <field name="others_reason" attrs="{'required': [('otherReasonsChk', '=',True)],'invisible': [('otherReasonsChk', '!=', True)]}"/>
+                    <field name="set_others_readonly" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Proceed" name="action_proceed_sn7" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gst_returns_prompt_wizard_view_sn8" model="ir.ui.view">
+        <field name="name">GST Return Prompt</field>
+        <field name="model">gst.returns.prompt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="GST Return Prompt">
+                <div>
+                    <strong>
+                        Standard-rated supplies is completed, output tax should not be NIL. Please re-enter the value of output tax due.
+                        Otherwise, please indicate reasons by clicking on the following:
+                    </strong>
+                </div><br/>
+                <group>
+                    <div>
+                        <field name="gstOnBadDebtRecoveryChk"/>
+                        <label for="gstOnBadDebtRecoveryChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="gstCollectedPriorToRegistrationChk"/>
+                        <label for="gstCollectedPriorToRegistrationChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="otherReasonsChk" attrs="{'readonly': [('set_others_readonly','!=',False)]}" force_save="1"/>
+                        <label for="otherReasonsChk"/>
+                    </div><br/>
+                    <field name="others_reason" attrs="{'required': [('otherReasonsChk', '=',True)],'invisible': [('otherReasonsChk', '!=', True)]}"/>
+                    <field name="set_others_readonly" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Proceed" name="action_proceed_sn8" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gst_returns_prompt_wizard_view_sn9" model="ir.ui.view">
+        <field name="name">GST Return Prompt</field>
+        <field name="model">gst.returns.prompt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="GST Return Prompt">
+                <div>
+                    <strong>
+                        As output tax is completed, standard-rated supplies should not be NIL. Please re-enter the value of standard-rated supplies.
+                        Otherwise, please indicate reasons by clicking on the following:
+                    </strong>
+                </div><br/>
+                <group>
+                    <div>
+                        <field name="gstOnBadDebtRecoveryChk"/>
+                        <label for="gstOnBadDebtRecoveryChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="gstCollectedPriorToRegistrationChk"/>
+                        <label for="gstCollectedPriorToRegistrationChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="otherReasonsChk" attrs="{'readonly': [('set_others_readonly','!=',False)]}" force_save="1"/>
+                        <label for="otherReasonsChk"/>
+                    </div><br/>
+                    <field name="others_reason" attrs="{'required': [('otherReasonsChk', '=',True)],'invisible': [('otherReasonsChk', '!=', True)]}"/>
+                    <field name="set_others_readonly" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Proceed" name="action_proceed_sn9" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gst_returns_prompt_wizard_view_sn10" model="ir.ui.view">
+        <field name="name">GST Return Prompt</field>
+        <field name="model">gst.returns.prompt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="GST Return Prompt">
+                <div>
+                    <strong>
+                        Output tax should be less than standard-rated supplies. Please re-enter the value of output tax due.
+                        Otherwise, please indicate reasons by clicking on the following:
+                    </strong>
+                </div><br/>
+                <group>
+                    <div>
+                        <field name="gstOnBadDebtRecoveryChk"/>
+                        <label for="gstOnBadDebtRecoveryChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="gstCollectedPriorToRegistrationChk"/>
+                        <label for="gstCollectedPriorToRegistrationChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="otherReasonsChk" attrs="{'readonly': [('set_others_readonly','!=',False)]}" force_save="1"/>
+                        <label for="otherReasonsChk"/>
+                    </div><br/>
+                    <field name="others_reason" attrs="{'required': [('otherReasonsChk', '=',True)],'invisible': [('otherReasonsChk', '!=', True)]}"/>
+                    <field name="set_others_readonly" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Proceed" name="action_proceed_sn10" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gst_returns_prompt_wizard_view_sn11" model="ir.ui.view">
+        <field name="name">GST Return Prompt</field>
+        <field name="model">gst.returns.prompt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="GST Return Prompt">
+                <div>
+                    <strong>
+                        Input tax and refunds claimed should be less than taxable purchases. Please re-enter the value of input tax and refunds claimed.
+                        Otherwise, please indicate reasons by clicking on the following:
+                    </strong>
+                </div><br/>
+                <group>
+                    <div>
+                        <field name="touristRefundChk"/>
+                        <label for="touristRefundChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="badDebtsReliefChk"/>
+                        <label for="badDebtsReliefChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="creditNotesChk"/>
+                        <label for="creditNotesChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="otherReasonsChk" attrs="{'readonly': [('set_others_readonly','!=',False)]}" force_save="1"/>
+                        <label for="otherReasonsChk"/>
+                    </div><br/>
+                    <field name="others_reason" attrs="{'required': [('otherReasonsChk', '=',True)],'invisible': [('otherReasonsChk', '!=', True)]}"/>
+                    <field name="set_others_readonly" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Proceed" name="action_proceed_sn11" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gst_returns_prompt_wizard_view_sn12" model="ir.ui.view">
+        <field name="name">GST Return Prompt</field>
+        <field name="model">gst.returns.prompt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="GST Return Prompt">
+                <div>
+                    <strong>
+                        Input tax and refunds claimed has been completed, taxable purchases should not be NIL. Please reenter the value of taxable purchases.
+                        Otherwise, please indicate reasons by clicking on the following:
+                    </strong>
+                </div><br/>
+                <group>
+                    <div>
+                        <field name="touristRefundChk"/>
+                        <label for="touristRefundChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="badDebtsReliefChk"/>
+                        <label for="badDebtsReliefChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="creditNotesChk"/>
+                        <label for="creditNotesChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="otherReasonsChk" attrs="{'readonly': [('set_others_readonly','!=',False)]}" force_save="1"/>
+                        <label for="otherReasonsChk"/>
+                    </div><br/>
+                    <field name="others_reason" attrs="{'required': [('otherReasonsChk', '=',True)],'invisible': [('otherReasonsChk', '!=', True)]}"/>
+                    <field name="set_others_readonly" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Proceed" name="action_proceed_sn12" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gst_returns_prompt_wizard_view_sn13" model="ir.ui.view">
+        <field name="name">GST Return Prompt</field>
+        <field name="model">gst.returns.prompt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="GST Return Prompt">
+                <div>
+                    <strong>
+                        Input tax and refunds claimed should be NIL as you had declared the same value in taxable purchases and MES/3PL/Other Approves Schemes. Please reenter the value of input tax and refunds claimed.
+                        Otherwise, please indicate reasons by clicking on the following:
+                    </strong>
+                </div><br/>
+                <group>
+                    <div>
+                        <field name="touristRefundChk"/>
+                        <label for="touristRefundChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="badDebtsReliefChk"/>
+                        <label for="badDebtsReliefChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="creditNotesChk"/>
+                        <label for="creditNotesChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="otherReasonsChk" attrs="{'readonly': [('set_others_readonly','!=',False)]}" force_save="1"/>
+                        <label for="otherReasonsChk"/>
+                    </div><br/>
+                    <field name="others_reason" attrs="{'required': [('otherReasonsChk', '=',True)],'invisible': [('otherReasonsChk', '!=', True)]}"/>
+                    <field name="set_others_readonly" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Proceed" name="action_proceed_sn13" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gst_returns_prompt_wizard_view_sn14" model="ir.ui.view">
+        <field name="name">GST Return Prompt</field>
+        <field name="model">gst.returns.prompt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="GST Return Prompt">
+                <div>
+                    <strong>
+                        Taxable purchases should include MES/3PL/Other Approved Schemes and therefore be greater than MES/3PL/Other Approved Schemes figures. Please re-enter the value of taxable purchases.
+                        Otherwise, please indicate reasons by clicking on the following:
+                    </strong>
+                </div><br/>
+                <group>
+                    <div>
+                        <field name="creditNotesChk"/>
+                        <label for="creditNotesChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="otherReasonsChk" attrs="{'readonly': [('set_others_readonly','!=',False)]}" force_save="1"/>
+                        <label for="otherReasonsChk"/>
+                    </div><br/>
+                    <field name="others_reason" attrs="{'required': [('otherReasonsChk', '=',True)],'invisible': [('otherReasonsChk', '!=', True)]}"/>
+                    <field name="set_others_readonly" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Proceed" name="action_proceed_sn14" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+<!--     <record id="gst_returns_prompt_wizard_view_f7_sn16" model="ir.ui.view">
+        <field name="name">GST Return Prompt</field>
+        <field name="model">gst.returns.prompt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="GST Return Prompt">
+                <div>
+                    <strong>
+                        Input tax and refunds claimed should be NIL as you had declared the same value in taxable purchases and MES/3PL/Other Approves Schemes. Please reenter the value of input tax and refunds claimed.
+                        Otherwise, please indicate reasons by clicking on the following:
+                    </strong>
+                </div><br/>
+                <group>
+                    <div>
+                        <field name="touristRefundChk"/>
+                        <label for="touristRefundChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="badDebtsReliefChk"/>
+                        <label for="badDebtsReliefChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="creditNotesChk"/>
+                        <label for="creditNotesChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="otherReasonsChk" attrs="{'readonly': [('set_others_readonly','!=',False)]}" force_save="1"/>
+                        <label for="otherReasonsChk"/>
+                    </div><br/>
+                    <field name="others_reason" attrs="{'required': [('otherReasonsChk', '=',True)],'invisible': [('otherReasonsChk', '!=', True)]}"/>
+                    <field name="set_others_readonly" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Proceed" name="action_proceed_f7_sn16" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record> -->
+
+<!--     <record id="gst_returns_prompt_wizard_view_f7_sn17" model="ir.ui.view">
+        <field name="name">GST Return Prompt</field>
+        <field name="model">gst.returns.prompt.wizard</field>
+        <field name="arch" type="xml">
+            <form string="GST Return Prompt">
+                <div>
+                    <strong>
+                        Taxable purchases should include MES/3PL/Other Approved Schemes and therefore be greater than MES/3PL/Other Approved Schemes figures. Please re-enter the value of taxable purchases.
+                        Otherwise, please indicate reasons by clicking on the following:
+                    </strong>
+                </div><br/>
+                <group>
+                    <div>
+                        <field name="creditNotesChk"/>
+                        <label for="creditNotesChk"/>
+                    </div><br/>
+                    <div>
+                        <field name="otherReasonsChk" attrs="{'readonly': [('set_others_readonly','!=',False)]}" force_save="1"/>
+                        <label for="otherReasonsChk"/>
+                    </div><br/>
+                    <field name="others_reason" attrs="{'required': [('otherReasonsChk', '=',True)],'invisible': [('otherReasonsChk', '!=', True)]}"/>
+                    <field name="set_others_readonly" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Proceed" name="action_proceed_sn17" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record> -->
+
+    <record id="gst_returns_prompt_wizard_action" model="ir.actions.act_window">
+        <field name="name">GST Return Prompt</field>
+        <field name="res_model">gst.returns.prompt.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

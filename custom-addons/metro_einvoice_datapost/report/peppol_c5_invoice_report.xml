@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="peppol_c5_invoice_report_tree" model="ir.ui.view">
+        <field name="name">peppol.c5.invoice.report.tree</field>
+        <field name="model">peppol.c5.invoice.report</field>
+        <field name="arch" type="xml">
+            <tree string="GST InvoiceNow Report">
+                <field name="doc_name"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="type"/>
+            </tree>
+        </field>
+     </record>
+
+     <record id="peppol_c5_invoice_report_pivot" model="ir.ui.view">
+        <field name="name">peppol.c5.invoice.report.pivot</field>
+        <field name="model">peppol.c5.invoice.report</field>
+        <field name="arch" type="xml">
+            <pivot string="GST InvoiceNow Report">
+                <field name="date" type="row"/>
+                <field name="status" type="col" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="peppol_c5_invoice_report_search" model="ir.ui.view">
+        <field name="name">peppol.c5.invoice.report.search</field>
+        <field name="model">peppol.c5.invoice.report</field>
+        <field name="arch" type="xml">
+            <search string="GST InvoiceNow Analysis">
+                <field name="partner_id"/>
+                <field name="doc_name"/>
+                <filter string="Sent" name="outgoinginv" domain="[('type','=', 'outgoing')]"/>
+                <filter string="Received" name="incominginv" domain="[('type','=', 'incoming')]"/>
+                <separator/>
+                <filter string="Sent Success" name="sent_success" domain="[('status','in', ['Send Success', 'Completed'])]"/>
+                <filter string="Failed" name="failed" domain="[('status','in', ['Send Error', 'error'])]"/>
+                <separator/>
+                <group expand="1" string="Group By">
+                    <filter string="Partner" name="partner_name" context="{'group_by':'partner_id'}"/>
+                    <filter string="State" name="State" context="{'group_by':'status'}"/>
+                    <filter string="Invoice Type" name="doc_type" context="{'group_by':'invoice_type'}"/>
+                    <filter string="Peppol Document Type" name="peppol_document_type" context="{'group_by':'peppol_document_type'}"/>
+                    <filter string="Type" name="type" context="{'group_by':'type'}"/>
+                    <filter string="Receiver" name="receiver_id" context="{'group_by':'receiver_id'}"/>
+                    <filter string="Created By" name="created_by" context="{'group_by':'created_by'}"/>
+                    <filter string="Date" name="date" context="{'group_by':'date'}"/>
+                    <!-- <filter string="Company" name="company_id" context="{'group_by':'company_id'}"/> -->
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_peppol_c5_invoice_report" model="ir.actions.act_window">
+        <field name="name">GST InvoiceNow Analysis</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">peppol.c5.invoice.report</field>
+        <field name="view_mode">pivot,tree</field>
+        <!-- <field name="context">{'search_default_incominginv':1}</field> -->
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+          </p>
+        </field>
+    </record> 
+
+    <menuitem id="menu_peppol_c5_invoice_report"
+              action="action_peppol_c5_invoice_report"
+              name="GST InvoiceNow Analysis"
+              parent="menu_peppol_invoice_dashboard"
+              sequence="2" groups="metro_einvoice_datapost.group_c5_submitter"/>
+
+</odoo>

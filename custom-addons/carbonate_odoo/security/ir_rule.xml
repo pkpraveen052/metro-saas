@@ -1,0 +1,31 @@
+<odoo>
+	<data>
+         <record id="account_mapping_multi_company_rule" model="ir.rule">
+            <field name="name">Account Mapping multi company rule</field>
+            <field name="model_id" ref="model_account_mapping"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+        </record>
+
+        <record id="account_mapping_admin_user_rule" model="ir.rule">
+            <field name="name">Account Mapping - Super Admin</field>
+            <field ref="model_account_mapping" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+
+        <record id="carbonate_log_multi_company_rule" model="ir.rule">
+            <field name="name">Carbonate Log multi company rule</field>
+            <field name="model_id" ref="model_carbonate_log"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+        </record>
+
+        <record id="carbonate_admin_user_rule" model="ir.rule">
+            <field name="name">Carbonate Log - Super Admin</field>
+            <field ref="model_carbonate_log" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+	</data>
+</odoo>

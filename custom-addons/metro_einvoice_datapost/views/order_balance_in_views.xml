@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="order_balance_in_form" model="ir.ui.view">
+        <field name="name">order.balance.in.form</field>
+        <field name="model">order.balance.in</field>
+        <field name="arch" type="xml">
+            <form string="Incoming Balance Order Document" create="false" edit="false" delete="true">
+                <script>
+                    document.getElementById("copy_response_id").onclick = copyTextResponse;
+                    function copyTextResponse(response_id) {
+                        let element = document.getElementById("response_id");
+                        let elementText = element.textContent;
+                        copyText(elementText);
+                    }
+                    function copyText(text) {
+                         navigator.clipboard.writeText(text);
+                    }
+                </script>
+                <header>
+                    <button name="action_retry" icon="fa-repeat" type="object" string="Retry" attrs="{'invisible': [('state', '!=','error')]}"/>       
+                    <button name="action_view_orders" type="object" string="Inspect &amp; Match SO" class="oe_highlight" attrs="{'invisible': [('state','!=','sent_to_process')]}"/>
+                    <button name="action_cancel" icon="fa-times" type="object" string="Cancel" attrs="{'invisible': [('state', '=','cancelled')]}"/>
+                    <button name="action_order_advance_response_out" string=" Send a Response" type="object" icon="fa-mail-reply-all" help="Send Invoice Response"/>
+                    <field name="state" widget="statusbar" options="{'fold_field': 'fold'}" statusbar_visible="received"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_order_response_queue_out" type="object" class="oe_stat_button" icon="fa-list" style="width:200px;">
+                            <field string="Sent Responses" name="sent_order_responses_count" class="o_stat_value" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title" attrs="{'invisible': [('order_no','=',False)]}">
+                        <span class="o_form_label">Order Ref</span>
+                        <h1>
+                            <field name="order_no" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                           <field name="client_ref"/>
+                        </group>
+                    </group>
+                    <div attrs="{'invisible': [('state','not in',['received','error'])]}">
+                        <group>
+                            <group>
+                                <field name="extracted_docno"/>
+                                <field name="extracted_totamount"/>
+                            </group>
+                            <group>                    
+                                <field name="invalidated" attrs="{'invisible': [('invalidated', '=', False)]}"/>
+                                <field name="instance_id" attrs="{'invisible': [('instance_id', '=', False)]}"/>
+                                <field name="status_message" attrs="{'invisible': ['|',('status_message', '=', ''),('status_message', '=', False)]}"/>
+                            </group>
+                        </group>
+                    </div>
+                    <div attrs="{'invisible': [('state','=','received')]}">
+                        <group name="grp_main">
+                            <group name="grp_left" attrs="{'invisible': [('so_id','=',False)]}">
+                                <field name="so_id"/>
+                            </group>
+                            <group name="grp_right">
+                                <field name="error_type" invisible="1"/>
+                            </group>
+                            <group name="grp_right" invisible="1">                          
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Customer" attrs="{'invisible': [('state', '=','error')]}">
+                                <field name="sender_party_name"/>
+                                <label for="sender_address_line1" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="sender_address_line1" class="o_address_street"/>
+                                    <field name="sender_address_line2" class="o_address_street"/>
+                                    <field name="sender_address_city" class="o_address_city"/>
+                                    <field name="sender_address_county" class="o_address_county"/>
+                                    <field name="sender_address_zip" class="o_address_zip"/>
+                                    <field name="sender_address_country" class="o_address_country"/>
+                                </div>
+                                <label for="sender_contact_name" string="Contact"/>
+                                <div class="o_address_format">
+                                    <field name="sender_contact_name" class="o_address_street"/>
+                                    <field name="sender_contact_phone" class="o_address_street"/>
+                                    <field name="sender_contact_email" class="o_address_street"/>
+                                </div>
+                            </group>
+                            <group string="">
+                                <separator/><separator/><br/>
+                                <field name="create_date" string="Created On"/>
+                                <field name="issue_date" attrs="{'invisible': [('state', '=','error')]}"/>
+                                <field name="validity_date" attrs="{'invisible': [('state', '=','error')]}"/>
+                                <field name="document_currency_code" attrs="{'invisible': [('state', '=','error')]}"/>
+                                <field name="sale_order_ref" attrs="{'invisible': ['|',('state', '=','error'),('sale_order_ref','=',False)]}"/>
+                                <field name="buyer_reference" attrs="{'invisible': ['|',('state', '=','error'),('buyer_reference','=',False)]}"/>
+                                <field name="order_reference" attrs="{'invisible': ['|',('state', '=','error'),('order_reference','=',False)]}"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                            <group string="Customer's GST/TAX Details" attrs="{'invisible': [('state', '=','error')]}">
+                                <field name="sender_party_tax_scheme_companyid" string="Tax Registration ID"/>
+                                <field name="sender_party_tax_scheme_id" string="ID"/>
+                            </group>
+                            <group>
+                                <separator/><separator/><br/>
+                                <field name="extracted_senderid" string="Sender Peppol ID"/>
+                                <field name="extracted_receiverid" string="Receiver Peppol ID"/>
+                            </group>
+                            <group string="Delivery Location" attrs="{'invisible': ['|',('delivery_location_street1','=',False),('state', '=','error')]}">
+                                <field name="delivery_location_id" attrs="{'invisible': [('delivery_location_id', '=',False)]}" string="Location ID"/>
+                                <field name="delivery_location_name" attrs="{'invisible': [('delivery_location_name', '=',False)]}" string="Name"/>
+                                <label for="delivery_location_street1" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="delivery_location_street1" class="o_address_street"/>
+                                    <field name="delivery_location_street2" class="o_address_street"/>
+                                    <field name="delivery_location_city" class="o_address_city"/>
+                                    <field name="delivery_location_zip" class="o_address_zip"/>
+                                    <field name="delivery_location_country" class="o_address_country"/>
+                                </div>
+                            </group>
+                            <group string="Delivery Party" attrs="{'invisible': ['|',('delivery_party_name','=',False),('state', '=','error')]}">
+                                <field name="delivery_party_id" attrs="{'invisible': [('delivery_party_id', '=',False)]}" string="Party ID"/>
+                                <field name="delivery_party_name" string="Party Name"/>
+                                <label for="delivery_party_street1" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="delivery_party_street1" class="o_address_street"/>
+                                    <field name="delivery_party_street2" class="o_address_street"/>
+                                    <field name="delivery_party_city" class="o_address_city"/>
+                                    <field name="delivery_party_zip" class="o_address_zip"/>
+                                    <field name="delivery_party_country" class="o_address_country"/>
+                                </div>
+                                <label for="delivery_party_contact_name" string="Contact" attrs="{'invisible': [('delivery_party_contact_name', '=',False)]}"/>
+                                <div class="o_address_format" attrs="{'invisible': [('delivery_party_contact_name', '=',False)]}">
+                                    <field name="delivery_party_contact_name" class="o_address_street"/>
+                                    <field name="delivery_party_contact_phone" class="o_address_street"/>
+                                    <field name="delivery_party_contact_email" class="o_address_street"/>
+                                </div>
+                            </group>
+                            <group string="Requested Delivery Period" attrs="{'invisible': [('requested_delivery_startdate', '=',False),('requested_delivery_enddate', '=',False)]}">
+                                <field name="requested_delivery_startdate" attrs="{'invisible': [('requested_delivery_startdate', '=',False)]}" string="Start Date"/>
+                                <field name="requested_delivery_enddate" attrs="{'invisible': [('requested_delivery_enddate', '=',False)]}" string="End Date"/>
+                            </group>
+                            <group string="Payment Terms" attrs="{'invisible': ['|',('state', '=','error'),('payment_terms','=',False)]}">
+                                <field name="payment_terms"/>
+                            </group>
+                            <group string="Payment Means" attrs="{'invisible': ['|',('state', '=','error'),('payment_means','=',False)]}">
+                                <field name="payment_means" nolabel="1" style="overflow-x: auto;"/>
+                            </group>
+                        </group>
+                        <separator string="Detailed Information"/>
+                        <field name="message" nolabel="1" decoration-success="state=='success'"/>
+                        <notebook>
+                            <page string="Order Lines" attrs="{'invisible': [('state', '=','error')]}">
+                                <field name="order_line_ids">
+                                    <tree>
+                                        <field name="line_item_id" string="Item ID"/>
+                                        <field name="name"/>
+                                        <field name="description"/>
+                                        <field name="quantity"/>
+                                        <field name="unit_code" string="UoM"/>
+                                        <field name="price_amount" string="Unit Price"/>
+                                        <field name="allowance_charges" string="Discount" optional="hide"/>
+                                        <field name="tax_type" optional="hide"/>
+                                        <field name="tax_percentage"/>
+                                        <field name="tax_category_code" optional="hide"/>
+                                        <field name="amount_excluding_tax" string="Amount (Exclu. Tax)"/>
+                                        <field name="note" optional="hide"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="amt_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="taxed_amt" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="discount_amt" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="amt_including_tax" string="Total(Inc. tax)"/>
+                                    </div>
+                                    <field name="amt_including_tax" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                            </page>
+                            <page string="Other Info" attrs="{'invisible': [('state', '=','error')]}">
+                                <group>
+                                    <group string="Receiver Details">
+                                        <field name="company_id"/>
+                                    </group>
+                                    <group string="Additional Documents">
+                                        <field name="document_ids" widget="many2many_binary"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Technical">
+                                <separator string="Error Exception" attrs="{'invisible': [('error_exception','=',False)]}"/>
+                                <button style="font-size: 80%;" name="action_copy" id="copy_exception_id" string=" Copy to Clipboard" attrs="{'invisible': [('error_exception','=',False)]}" icon="fa-copy"/><br/>
+                                <div id="exception_id" style="overflow-x: auto;height: 200px;" attrs="{'invisible': [('error_exception','=',False)]}">
+                                    <field name="error_exception" nolabel="1"/>
+                                </div>
+                                <separator string="XML Order Data" attrs="{'invisible': [('xml_data','=',False)]}"/>
+                                <button style="font-size: 80%;" name="action_copy" id="copy_response_id" string=" Copy to Clipboard" attrs="{'invisible': [('xml_data','=',False)]}" icon="fa-copy"/><br/>
+                                <div id="response_id" style="overflow-x: auto;height: 200px;" attrs="{'invisible': [('xml_data','=',False)]}">
+                                    <field name="xml_data" nolabel="1"/>
+                                </div>                            
+                            </page>
+                        </notebook>
+                        <group>
+                            <label for="note" attrs="{'invisible': [('note','=',False)]}"/>
+                            <field name="note" readonly="1" nolabel="1"/>
+                        </group>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="order_balance_in_tree" model="ir.ui.view">
+        <field name="name">order.balance.in.tree</field>
+        <field name="model">order.balance.in</field>
+        <field name="arch" type="xml">
+            <tree string="Incoming Balance Order Documents" decoration-danger="state=='error'" decoration-success="state=='success'" decoration-info="state=='sent_to_process'" create="false" edit="true">
+                <field name="order_no" string="Order Ref"/>
+                <field name="sender_party_name"/>
+                <field name="issue_date"/>
+                <field name="validity_date"/>
+                <field name="create_date"/>              
+                <field name="currency_id" invisible="1"/>
+                <field name="order_reference" optional="hide"/>
+                <field name="extracted_senderid" optional="hide"/>
+                <field name="extracted_receiverid" optional="hide"/>
+                <field name="amt_untaxed" optional="show" widget="monetary" options="{'currency_field': 'currency_id'}" string="Tax Excluded"/>                               
+                <field name="discount_amt" optional="hide" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="taxed_amt" optional="hide" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="amt_including_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="state" decoration-bf="1"/>  
+                <button name="action_retry" type="object" icon="fa-repeat" string="Retry" attrs="{'invisible': [('state', '!=','error')]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="order_balance_in_search">
+        <field name="name">order.balance.in.search</field>
+        <field name="model">order.balance.in</field>
+        <field name="arch" type="xml">
+            <search string="Incoming Balance Order Documents">
+                <field name="order_no"/>
+                <field name="sender_party_name"/>
+                <field name="state"/>
+                <field name="company_id"/>
+                <separator/>
+                <filter string="Success" name="Mapped" domain="[('state', '=', 'success')]"/>
+                <filter string="Unmapped" name="sent_to_process" domain="[('state', '=', 'sent_to_process')]"/>
+                <filter string="Failed" name="Failed" domain="[('state', '=', 'error')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Vendor" name="sender" domain="[]" context="{'group_by': 'sender_party_name'}"/>
+                    <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Issue Date" name="issuedate" domain="[]" context="{'group_by': 'issue_date'}" help="Issue Date"/>
+                    <filter string="Due Date" name="duedate" domain="[]" context="{'group_by': 'validity_date'}" help="Validity Date"/>
+                    <filter string="Company" name="company" domain="[]" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_order_balance_in_view" model="ir.actions.act_window">
+        <field name="name">Incoming Balance Orders</field>
+        <field name="res_model">order.balance.in</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="order_balance_in_search"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+    </record>
+
+
+     <menuitem id="menu_order_balance_in"
+        parent="menu_advance_order_documents"
+        action="action_order_balance_in_view"
+        sequence="5"/>
+
+</odoo>

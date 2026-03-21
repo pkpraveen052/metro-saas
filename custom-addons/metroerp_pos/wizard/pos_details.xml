@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_details_wizard_form_inherit" model="ir.ui.view">
+        <field name="name">pos.details.wizard.inherit.form</field>
+        <field name="model">pos.details.wizard</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_details_wizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]" position="replace">
+                <group>
+                    <field name="start_date" widget="date"/>
+                    <field name="end_date" widget="date"/>
+                </group>
+                <group>
+                    <field name="paper_type" widget="radio"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

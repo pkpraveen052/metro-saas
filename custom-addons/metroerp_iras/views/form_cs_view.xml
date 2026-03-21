@@ -1,0 +1,1480 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- FORM-1 -->
+    <record id="form_cs_form" model="ir.ui.view">
+        <field name="name">form.cs.form</field>
+        <field name="model">form.cs</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form delete="false">
+                <header>
+                    <button name="proceed" string="Proceed" type="object"
+                            attrs="{'invisible': [('state', '!=', 'new')]}" class="oe_highlight"/>
+                    <button name="action_perform_corppass" string="Get CIT Pre-fill" type="object" class="oe_highlight"
+                            attrs="{'invisible':['&amp;',('access_token','!=',True),('state','!=', 'pre_fill')]}"/>
+                    <button name="action_fetch" string="Fetch COA" type="object" attrs="{'invisible': ['|','|',('state', '!=', 'conversion'),('is_fetched','=',False),('current_accounting','=',False)]}" placeholder="Performs the mapping of the fields from the Chart of Accounts" confirm="Performing this action will reset all the Detailed Profit &amp; Loss values if they are already fetched. Please continue to proceed if you still want to make this happen."/>
+                    <button name="action_fetch" string="Fetch COA" type="object" attrs="{'invisible': ['|','|',('state', '!=', 'conversion'),('is_fetched','=',True),('current_accounting','=',False)]}" class="oe_highlight" placeholder="Performs the mapping of the fields from the Chart of Accounts" confirm="Performing this action will reset all the Detailed Profit &amp; Loss values if they are already fetched. Please continue to proceed if you still want to make this happen."/>
+                    <button name="action_go_back" string="Go Back" type="object"
+                            attrs="{'invisible': [('state', 'not in', ['conversion','cs_submission'])]}"/>
+                    <button name="action_cit_conversion" string="Get CIT Conversion" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'conversion')]}"/>
+                    <button name="action_cs_submit" string="Ready to Submit" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'cs_submission')]}"/><!--confirm="You have reviewed all the details. Do you confirm the action?"-->
+                    <button name="action_view_acknowledgement" string="View Acknowledgement" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'submitted')]}"/>
+                    <button name="action_generate_acknowledgment_report" string="Print Acknowledgement" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'submitted')]}"/>
+                    <field name="state" widget="statusbar" clickable="0" statusbar_visible="pre_fill,conversion,cs_submission,submitted"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="is_fetched" invisible="1"/>
+                            <field name="ya_int" invisible="1"/>
+                            <field name="company_id" invisible="1"/>                            
+                            <field name="uen" attrs="{'readonly': [('state', 'not in', ['new','pre_fill'])]}"/>
+                            <field name="uenType" attrs="{'readonly': [('state', 'not in', ['new','pre_fill'])]}"/>
+                        </group>
+                        <group>
+                            <field name="ya" attrs="{'readonly': [('state', 'not in', ['new','pre_fill'])]}"/>
+                            <field name="basisPeriodFrom" attrs="{'readonly': [('state', 'not in', ['new','pre_fill'])]}"/>
+                            <field name="basisPeriodTo" attrs="{'readonly': [('state', 'not in', ['new','pre_fill'])]}"/>
+                            <field name="months_difference" invisible="1"/>                            
+                        </group>
+                    </group>
+                    <group>
+                        <div>
+                            <field name="taxReturnChk" attrs="{'readonly': [('state', 'not in', ['new','pre_fill'])]}"/>
+                            <label style="font-weight: 900;" for="taxReturnChk"/>
+                        </div><br/>
+                        <div>
+                            <field name="current_accounting"/>
+                            <label style="font-weight: 900;" for="current_accounting"/>
+                        </div>
+                        <field name="isFullAndTrueAccOfCompInc" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="access_token" invisible="1"/>
+                        <field name="access_token_datetime" invisible="1"/>
+                        <field name="access_token_expired" invisible="1"/>
+                        <field name="is_foreigner" invisible="1"/>
+                        <field name="skip_tax_conversion" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Tax Prefill" attrs="{'invisible': [('state', 'in', ['new'])]}">
+                            <group>
+                                <field name="declarantRefNo" attrs="{'readonly': [('state', 'not in', ['new','pre_fill'])], 'required': [('is_foreigner', '=', True),('state','=','pre_fill')]}"  placeholder="e.g. AxxxxxxxZ"/>
+                                <br/>
+                                <field name="fsPrep"  attrs="{'required': [('taxReturnChk', '=',True),('months_difference','>',12)],'readonly': [('state', 'not in', ['new','pre_fill'])]}"/>
+                                <br/>
+                                <field name="firstFYE" attrs="{'required': [('fsPrep', '=','2')],'readonly': [('state', 'not in', ['new','pre_fill'])]}"/>
+                                <br/>
+                                <field name="prevFYE" attrs="{'required': [('taxReturnChk', '=',False),('months_difference','>',12)], 'readonly': [('state', 'not in', ['new','pre_fill'])]}"/>
+                                <br/><br/>
+                                <field name="unutilCABFNorm" attrs="{'readonly': [('state', 'not in', ['new','pre_fill','conversion'])]}"/>
+                                <field name="unutilLossBFNorm" attrs="{'readonly': [('state', 'not in', ['new','pre_fill','conversion'])]}"/>
+                                <field name="unutilDonationBFNorm" attrs="{'readonly': [('state', 'not in', ['new','pre_fill','conversion'])]}"/>
+                                <field name="cyDonation" attrs="{'readonly': [('state', 'not in', ['new','pre_fill','conversion'])]}"/>  
+                            </group>
+                        </page>
+                        <page string="Tax Conversion" attrs="{'invisible': [('state', 'in', ['new', 'pre_fill'])]}">
+                            <separator string="Declaration"/>
+                            <div class="row" style="margin: 5px 0;">
+                                <div>
+                                    <field name="isQualifiedToUseConvFormCS" nolabel="1" class="oe_inline" attrs="{'readonly': [('state', 'not in', ['conversion'])]}"/>
+                                </div>
+                                <div>
+                                    <span>The company maintains Singapore dollar as its functional/ presentation currency.</span><br/>
+                                    <span>The company is not an investment holding company or a service company that provides only related party services.</span><br/>
+                                    <span>The company does not own subsidiaries, associates or joint ventures, and has no investment in intangibles.</span>
+                                </div>
+                            </div>
+                            <group>
+                                <!-- Show the fields if required to show on temporary basis -->
+<!--                                 <field name="sepSrcIncome"/>
+                                <field name="receiptNotTxAmt"/>
+                                <field name="c1_NTDeductibleExp"/>
+                                <field name="adjPLBefDed"/>
+                                <field name="renoWorksExpS14Q"/>
+                                <field name="sgAdjPLAft"/>
+                                <field name="c1_BC"/>
+                                <field name="cyCANorm"/>
+                                <field name="c1_DedExp"/>
+                                <field name="sgRent"/>
+                                <field name="totSgFI"/>
+                                <field name="ci"/>
+                                <field name="unutilCACFNorm"/>
+                                <field name="unutilLossCFNorm"/>
+                                <field name="unutilDonationCFNorm"/>
+                                <field name="directorFee"/>
+                                <field name="totRemuneration"/>
+                                <field name="medicalExp"/> -->
+<!--                                <br/>-->
+                            </group>
+                            <group>
+                                <br/><br/>
+                                <field name="c1_FurtherDed" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <field name="uCALDChangePrinAct" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <field name="sholderChange" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <field name="fullTxX" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <field name="unutilCALDClaimS23S37" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <br/>
+                                <field name="expRD" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <field name="expRDSG" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <field name="enhanceDeductRD" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <!-- <field name="furtherDeductRD" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/> -->
+                                <field name="appStockConvAsset" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <br/>
+                                <field name="c1_EnhancedEISDed" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}" style="padding-bottom:5px;"/>
+                                <br/>
+                                <field name="enhancedEISCA" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+				<!-- Jun2025 -->                                
+				<br/><br/>
+                                <span style="color:#2d8dbc;"><b>Gains/ Losses from the Sale or Disposal of Foreign Assets - Section 10L</b></span>
+                                <field name="foreignAssetsSaleGainLoss" attrs="{'readonly': [('state', 'not in', ['conversion'])]}"/>
+                                <field name="foreignSourceSaleGainsRemit" attrs="{'readonly': [('state', 'not in', ['conversion'])]}"/>
+                                <field name="foreignSourceSaleNotTax" attrs="{'readonly': [('state', 'not in', ['conversion'])]}"/>
+                                <br/><br/>
+                                <span style="color:#2d8dbc;"><b>Enterprise Innovation Scheme (EIS)</b></span>
+                                <field name="eis_ClaimCashPayout" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <field name="eis_ClaimDedAll" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('state','=','conversion')]}"/>
+                                <br/><br/>
+                                <span style="color:#2d8dbc;"><b>Training</b></span>
+                                <field name="eis_TrainTotCost" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <field name="eis_TrainDedAll" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <br/><br/>
+                                <span style="color:#2d8dbc;"><b>Innovation Projects Carried Out with Partner Institutions</b></span>
+                                <field name="eis_InnoProjTotCost" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <field name="eis_InnoProjDedAll" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <br/><br/>
+                                <span style="color:#2d8dbc;"><b>Acquisition of Intellectual Property Rights (IPRs)</b></span>
+                                <field name="eis_AcqIPRTotCost" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <field name="eis_AcqIPRDedAll" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <br/><br/>
+                                <span style="color:#2d8dbc;"><b>Licensing of Intellectual Property Rights (IPRs)</b></span>
+                                <field name="eis_LicensIPRTotCost" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <field name="eis_LicensIPRDedAll" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <br/><br/>
+                                <span style="color:#2d8dbc;"><b>Registration of Intellectual Property (IPs)</b></span>
+                                <field name="eis_RegIPTotCost" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <field name="eis_RegIPDedAll" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <br/><br/>
+                                <span style="color:#2d8dbc;"><b>Qualifying Research and Development (R&amp;D) Undertaken in Singapore</b></span>
+                                <field name="eis_RDSgTotCost" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <field name="eis_RDSgDedAll" attrs="{'readonly': [('state', 'not in', ['conversion'])], 'required': [('eis_ClaimDedAll','=','1')]}"/>
+                                <br/>
+                                <field name="inventories" attrs="{'readonly': [('current_accounting', '=', True)]}"/>
+                                <field name="tradeReceivables" attrs="{'readonly': [('current_accounting', '=', True)]}"/>
+                                <br/>
+                                <div/>
+                                <separator string="Renovation &amp; Refurbishment Schedule"/>
+                                <field name="theLeaseholdImprovementsAndRenoCost" attrs="{'readonly': [('state', 'not in', ['conversion'])]}"/>
+                                <field name="firstYAInWhichS14QDeductionClaimed" attrs="{'readonly': [('state', 'not in', ['conversion'])]}"/>
+                                <div style="margin-top: 10px;">
+                                    <field name="renovation_refurbishment_sch_ids" attrs="{'readonly': [('state', 'not in', ['conversion'])]}" nolabel="1">
+                                        <tree create="false" editable="1" delete="false">
+                                            <field name="ya" readonly="1"/>
+                                            <field name="leaseholdImprovementsAndRenoCostIncurred"/>
+                                            <!-- <field name="qualifyingRAndRCosts" readonly="1"/>
+                                            <field name="s14QDeduction" readonly="1"/> -->
+                                        </tree>
+                                    </field>                                    
+                                </div>
+                                <br/>
+                                <field name="iaAaPriorSeamlessFiling" attrs="{'readonly': [('state', 'not in', ['conversion'])]}"/>
+                                <field name="baPriorSeamlessFiling" attrs="{'readonly': [('state', 'not in', ['conversion'])]}"/>
+                                <field name="bcPriorSeamlessFiling" attrs="{'readonly': [('state', 'not in', ['conversion'])]}"/>
+                            </group>
+                            <separator string="Other Property, Plant and Equipment (HP)"/>
+                            <field name="hpOtherPPE_ids" attrs="{'readonly': [('state', 'not in', ['conversion'])]}">
+                                <tree editable="1">
+                                    <field name="descriptionEachAsset" required="1"/>
+                                    <field name="yaOfPurchaseEachAsset" required="0"/>
+                                    <field name="costEachAsset" required="1" sum="Total"/>
+                                    <field name="salesProceedEachAsset" required="1" sum="Total"/>
+                                    <field name="yaOfDisposalEachAsset" required="0"/>
+                                    <field name="depositOrPrincipalExcluding" required="1"/>
+                                    <field name="depositOrPrincipalMinus1" required="1"/>
+                                    <field name="depositOrPrincipalMinus2" required="1"/>
+                                    <field name="totalPrincipalTillDateEachAsset" required="1"/>
+                                </tree>
+                            </field>
+                            <separator string="Computer And Communication Equipment (Non-HP)"/>
+                            <field name="nonHPCompCommEquipment_ids" attrs="{'readonly': [('state', 'not in', ['conversion'])]}">
+                                <tree editable="1">
+                                    <field name="descriptionEachAsset" required="1"/>
+                                    <field name="yaOfPurchaseEachAsset" required="0"/>
+                                    <field name="costEachAsset" required="1" sum="Total"/>
+                                    <field name="salesProceedEachAsset" required="1" sum="Total"/>
+                                    <field name="yaOfDisposalEachAsset" required="0"/>
+                                </tree>
+                            </field>
+                            <separator string="Other Property, Plant and Equipment (Non-HP)"/>
+                            <field name="nonHpOtherPPE_ids" attrs="{'readonly': [('state', 'not in', ['conversion'])]}">
+                                <tree editable="1">
+                                    <field name="descriptionEachAsset" required="1"/>
+                                    <field name="yaOfPurchaseEachAsset" required="0"/>
+                                    <field name="costEachAsset" required="1" sum="Total"/>
+                                    <field name="salesProceedEachAsset" required="1" sum="Total"/>
+                                    <field name="yaOfDisposalEachAsset" required="0"/>
+                                </tree>
+                            </field>
+                            <separator string="Other Property, Plant and Equipment (Non-HP)(Low Value Assets)"/>
+                            <field name="nonHpOtherPPElowvalueasset_ids" attrs="{'readonly': [('state', 'not in', ['conversion'])]}">
+                                <tree editable="1">
+                                    <field name="descriptionEachAsset" required="1"/>
+                                    <field name="yaOfPurchaseEachAsset" required="0"/>
+                                    <field name="costEachAsset" required="1" sum="Total"/>
+                                    <field name="salesProceedEachAsset" required="1" sum="Total"/>
+                                    <field name="yaOfDisposalEachAsset" required="0"/>
+                                </tree>
+                            </field>
+                            <br/>
+                            <label class="o_form_label oe_bold" string="Please review the following Detailed Profit &amp; Loss, Tax Computation &amp; Other Schedules" for="nonHpOtherPPElowvalueasset_ids"
+                            style="font-size:22px;"/>
+                            <br></br>
+                            <group>
+                                <group>
+                                    <field name="display_ya" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="display_basisPeriodFrom" readonly="1"/>
+                                    <field name="display_basisPeriodTo" readonly="1"/>
+                                </group>
+                            </group>
+                            <br/>                               
+                            <table style="width:60%">
+                                <tr>
+                                    <th colspan="5" style="width:80%;font-size:20px;color: #7C7BAD;">Detailed Profit &amp; Loss</th>
+                                </tr>
+                                <tr>
+                                    <td style="width:7%;"></td>
+                                    <td></td>
+                                    <td style="border-bottom:1px solid black;"><center><b>S$</b></center></td>
+                                    <td style="width:7%;"></td>
+                                    <td style="border-bottom:1px solid black;"><center><b>S$</b></center></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Total Revenue</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:right;"><field name="totalRevenue" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Less :</td>
+                                    <td>Cost of Goods Sold</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:right;border-bottom:1px solid black;"><field name="costOfGoodsSold" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Gross Profit/ Loss</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:right;"><field name="grossPL" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Add :</td>
+                                    <td>Interest income</td>
+                                    <td style="text-align:right;"><field name="sgIntDisc" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Dividend Income - One-tier/ Tax Exempt </td>
+                                    <td style="text-align:right;"><field name="oneTierTaxDividendIncome" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Gross Rental Income</td>
+                                    <td style="text-align:right;"><field name="c1_GrossRent" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Other Taxable Income</td>
+                                    <td style="text-align:right;"><field name="sgOtherI" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Other non Taxable Income</td>
+                                    <td style="text-align:right;"><field name="otherNonTaxableIncome" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Total Other Income</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:right;"><field name="totalOtherIncome" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Less :</td>
+                                    <td><u>Operating Expenses</u></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Bank Charges</td>
+                                    <td style="text-align:right;"><field name="bankCharges" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Commission (Other than Expenses incurred to derive Rental Income)</td>
+                                    <td style="text-align:right;"><field name="commissionOther" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Depreciation Expense</td>
+                                    <td style="text-align:right;"><field name="depreciationExpense" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Director's fees</td>
+                                    <td style="text-align:right;"><field name="directorsFees" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Director's Remuneration (excluding Director's fees)</td>
+                                    <td style="text-align:right;"><field name="directorsRemunerationExcludingDirectorsFees" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Donations</td>
+                                    <td style="text-align:right;"><field name="donations" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>CPF contribution</td>
+                                    <td style="text-align:right;"><field name="cpfContribution" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Entertainment Expenses</td>
+                                    <td style="text-align:right;"><field name="c1_EntertainExp" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Commission</td>
+                                    <td style="text-align:right;"><field name="commissionExpRentalIncome" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Insurance</td>
+                                    <td style="text-align:right;"><field name="insuranceExpRentalIncome" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Interest</td>
+                                    <td style="text-align:right;"><field name="interestExpRentalIncome" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Property tax</td>
+                                    <td style="text-align:right;"><field name="propertyTaxExpRentalIncome" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Repair and maintenance</td>
+                                    <td style="text-align:right;"><field name="repairMaintenanceExpRentalIncome" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Others</td>
+                                    <td style="text-align:right;"><field name="otherExpRentalIncome" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Fixed assets expensed off</td>
+                                    <td style="text-align:right;"><field name="fixedAssetsExpdOff" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Amortisation Expense</td>
+                                    <td style="text-align:right;"><field name="amortisationExpense" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Insurance (other than medical expenses and expenses incurred to derive Rental Income)</td>
+                                    <td style="text-align:right;"><field name="insuranceExpOther" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Interest expenses (other than expenses incurred to derive rental Income)</td>
+                                    <td style="text-align:right;"><field name="interestExpOther" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Impairment loss/ reversal of impairment loss for bad debts</td>
+                                    <td style="text-align:right;"><field name="impairmentLossReversalOfImpairmentLossForBadDebts" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Medical expenses (including medical insurance)</td>
+                                    <td style="text-align:right;"><field name="medicalExpIncludingMedicalInsurance" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Net Gains/ Losses on disposal of property, plant and equipment</td>
+                                    <td style="text-align:right;"><field name="netGainsOrLossesOnDisposalOfPPE" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Net Gains/ Losses on foreign exchange adjustment</td>
+                                    <td style="text-align:right;"><field name="netGainsOrLossesOnForex" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Net Gains/ Losses on Other Items</td>
+                                    <td style="text-align:right;"><field name="netGainsOrLossesOnOtherItems" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Miscellaneous Expenses</td>
+                                    <td style="text-align:right;"><field name="miscExp" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Other private/ capital expenses</td>
+                                    <td style="text-align:right;"><field name="otherPrivateOrCapitalExp" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Other Finance Cost</td>
+                                    <td style="text-align:right;"><field name="otherFinanceCost" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Penalties/ Fine</td>
+                                    <td style="text-align:right;"><field name="penaltiesOrFine" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Professional fees</td>
+                                    <td style="text-align:right;"><field name="professionalFees" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Property tax (other than expenses incurred to derive rental income)</td>
+                                    <td style="text-align:right;"><field name="propertyTaxOther" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Rent expense</td>
+                                    <td style="text-align:right;"><field name="rentExp" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Repairs and Maintenance (excluding private motor vehicles and expenses incurred to derive rental income)</td>
+                                    <td style="text-align:right;"><field name="repairMaintenanceExcludingUpkeepOfPrivateVehiclesAndExp" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Repairs and Maintenance (private motor vehicles)</td>
+                                    <td style="text-align:right;"><field name="repairsMaintenanceForPrivateVehicles" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Sales and Marketing</td>
+                                    <td style="text-align:right;"><field name="salesAndMarketingExpense" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Skills Development Levy/ Foreign Worker Levy</td>
+                                    <td style="text-align:right;"><field name="skillsDevelopmentForeignWorkerLevy" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Staff remuneration (other than director's remuneration)</td>
+                                    <td style="text-align:right;"><field name="staffRemunerationOtherThanDirectorsRemuneration" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Staff Welfare</td>
+                                    <td style="text-align:right;"><field name="staffWelfare" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Telecommunication/ Utilities</td>
+                                    <td style="text-align:right;"><field name="telecommunicationOrUtilities" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Training</td>
+                                    <td style="text-align:right;"><field name="training" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Transport/ Travelling Expenses</td>
+                                    <td style="text-align:right;"><field name="c1_TransportExp" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Upkeep Of Non-private Motor Vehicles</td>
+                                    <td style="text-align:right;"><field name="upkeepNonPrivateVehicles" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Upkeep Of Private Motor Vehicles - Private</td>
+                                    <td style="text-align:right;border-bottom:1px solid black;"><field name="upkeepPrivateVehicles" attrs="{'readonly': [('current_accounting', '=', True)]}"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Total expenses</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:right;border-bottom:1px solid black;"><field name="totalExpenses" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Profit/ (loss) before taxation</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="text-align:right;border-bottom-style: double;"><field name="profitLossBeforeTaxation" readonly="1"/></td>
+                                </tr>
+                            </table>
+                            <br/><br/>
+                            <table style="width:60%">
+                                <tr>
+                                    <th colspan="5" style="width:80%;font-size:20px;color: #7C7BAD;">Tax Computation Schedule</th>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="border-bottom:1px solid black;"><center><b>S$</b></center></td>
+                                    <td style="width:5%;"></td>
+                                    <td style="border-bottom:1px solid black;"><center><b>S$</b></center></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Profit/ (loss) before taxation</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_profitLossBeforeTaxation" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Less:</td>
+                                    <td><u>Separate source income</u></td>
+                                    <td></td><td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Interest Income</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_sgIntDisc" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Gross Rental income</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_c1_GrossRent" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Other Taxable Income</td>
+                                    <td style="border-bottom:1px solid black;text-align: center;"><field name="DataTCSch_sgOtherI" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Separate source income</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_sepSrcIncome" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Less:</td>
+                                    <td><u>Non-taxable income</u></td>
+                                    <td></td><td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Dividend Income - One-tier/ Tax Exempt</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_oneTierTaxDividendIncome" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Other non-taxable income</td>
+                                    <td style="border-bottom:1px solid black;text-align: center;"><field name="DataTCSch_otherNonTaxableIncome" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Total non-taxable income</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_receiptNotTxAmt" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Add:</td>
+                                    <td><u>Non-tax deductible expenses</u></td>
+                                    <td></td><td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Amortisation Expense</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_amortisationExpense" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Depreciation Expense</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_depreciationExpense" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Donations</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_donations" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive rental income - Commission</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_commissionExpRentalIncome" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive rental income - Insurance</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_insuranceExpRentalIncome" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive rental income - Interest</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_interestExpRentalIncome" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive rental income - Property tax</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_propertyTaxExpRentalIncome" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive rental income - Repair and maintenance</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_repairMaintenanceExpRentalIncome" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive rental income - Others</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_otherExpRentalIncome" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Fixed assets expensed off</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_fixedAssetsExpdOff" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Net Gains/ Losses on disposal of property, plant and equipment</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_netGainsOrLossesOnDisposalOfPPE" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Net Gains/ Losses on Other Items</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_netGainsOrLossesOnOtherItems" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Other private/ capital expenses </td>
+                                    <td style="text-align: center;"><field name="DataTCSch_otherPrivateOrCapitalExp" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Penalties/ Fine</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_penaltiesOrFine" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Repairs &amp; Maintenance (private motor vehicles)</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_repairsMaintenanceForPrivateVehicles" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Upkeep Of Private Motor Vehicles</td>
+                                    <td style="text-align: center;"><field name="DataTCSch_upkeepPrivateVehicles" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Medical expenses disallowed</td>
+                                    <td style="text-align: center;border-bottom:1px solid black;"><field name="DataTCSch_medicalExpDisallowed" readonly="1"/></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Non-tax deductible expenses</td>
+                                    <td></td><td></td>
+                                    <td  style="text-align: center;border-bottom:1px solid black;"><field name="DataTCSch_c1_NTDeductibleExp" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Adjusted Profit/ Loss before Other deductions</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_adjPLBefDed" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Less:</td>
+                                    <td>Total Section 14N deduction</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_renoWorksExpS14Q" readonly="1"/></td>
+                                </tr>
+                                <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                    <td></td>
+                                    <td >Enhanced Deductions under Enterprise Innovation Scheme (EIS) <br/><span style="font-size: 11px;
+">for Training; Innovation Projects carried out with Partner Institutions; Licensing of Intellectual Property Rights; Registration of Intellectual Property; Qualfiying R&amp;D undertaken in Singapore</span></td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_c1_EnhancedEISDed" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Further deductions/ Other deductions</td>
+                                    <td></td><td></td>
+                                    <td  style="text-align: center;border-bottom:1px solid black;"><field name="DataTCSch_c1_FurtherDed" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Adjusted profit/ Loss before capital allowances</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_sgAdjPLAft" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Add:</td>
+                                    <td>Balancing charge (Non-HP &amp; HP)</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_c1_BC" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Less:</td>
+                                    <td>Unutilised capital allowances b/f</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_unutilCABFNorm" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Current Year capital allowances (Non-HP &amp; HP)</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_currentYearCapitalAllowancesNonHPAndHP" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Balancing allowances (Non-HP &amp; HP)</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_balancingAllowancesNonHPandHP" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Less:</td>
+                                    <td>Unutilised losses b/f</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;border-bottom:1px solid black;"><field name="DataTCSch_unutilLossBFNorm" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Adjusted Profit/ loss after capital allowance and unutilised losses brought forward</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_adjustedProfitOrLossAfterCapAllowAndUnutilisedLosBF" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Add:</td>
+                                    <td><u>Separate source income</u></td>
+                                    <td></td><td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Net Rental income</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_sgRent" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Interest Income</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_sgIntDisc" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Other types of income-taxable income</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;border-bottom:1px solid black;"><field name="DataTCSch_sgOtherI" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Total income/ losses before donations</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_totSgFI" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Less:</td>
+                                    <td>Unutilised donations b/f</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_unutilDonationBFNorm" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Current year donations</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;border-bottom:1px solid black;"><field name="DataTCSch_cyDonation" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Chargeable income (before tax exempt amount)</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_chargeableIncomeBefTaxExemptAmt" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Less:</td>
+                                    <td>Tax exempt amount</td>
+                                    <td></td><td></td>
+                                    <td  style="text-align: center;border-bottom:1px solid black;"><field name="DataTCSch_taxExemptAmount" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Chargeable income (after tax exempt amount)</td>
+                                    <td></td><td></td>
+                                    <td  style="text-align: center;border-bottom-style: double;"><field name="DataTCSch_chargeableIncomeAftTaxExemptAmt" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td></td>
+                                    <td>Tax Payable</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_taxPayable" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Less:</td>
+                                    <td>Tax Rebate</td>
+                                    <td></td><td></td>
+                                    <td  style="text-align: center;border-bottom:1px solid black;"><field name="DataTCSch_taxRebate" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Net Tax Payable</td>
+                                    <td></td><td></td>
+                                    <td  style="text-align: center;border-bottom-style: double;"><field name="DataTCSch_netTaxPayable" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td></td>
+                                    <td>Unutilised capital allowances c/f</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_unutilCACFNorm" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Unutilised losses c/f</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_unutilLossCFNorm" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Unutilised donations c/f</td>
+                                    <td></td><td></td>
+                                    <td style="text-align: center;"><field name="DataTCSch_unutilDonationCFNorm" readonly="1"/></td>
+                                </tr>
+                            </table>
+                            <br/><br/>
+                            <table style="width:60%">
+                                <tr>
+                                    <th colspan="2" style="width:100%;font-size:20px;color: #7C7BAD;">Medical Expenses Schedule</th>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td style="border-bottom:1px solid black;"><center><b>S$</b></center></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Director's Remuneration (excluding Director's fees)</td>
+                                    <td style="text-align: center;"><field name="DataMedExpSch_directorsRemExclDirectorsFees" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Staff Remuneration (other than Director's remuneration)</td>
+                                    <td style="text-align: center;"><field name="DataMedExpSch_staffRemOtherThanDirectorsRem" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td>CPF contribution</td>
+                                    <td style="text-align: center;border-bottom:1px solid black;"><field name="DataMedExpSch_cpfContribution" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Total remunueration</td>
+                                    <td style="text-align: center;border-bottom:1px solid black;"><field name="DataMedExpSch_totalRemuneration" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Computation of disallowed medical expenses:</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Medical expenses (including medical insurance)</td>
+                                    <td style="text-align: center;"><field name="DataMedExpSch_medicalExpIncludingMedicalInsurance" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Less: 1% of total remuneration</td>
+                                    <td style="text-align: center;border-bottom:1px solid black;"><field name="DataMedExpSch_onePercentOfTotalRemuneration" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Medical expenses disallowed</td>
+                                    <td style="text-align: center;border-bottom-style: double;"><field name="DataMedExpSch_medicalExpDisallowed" readonly="1"/></td>
+                                </tr>
+                            </table>
+                            <br/><br/>
+                            <table style="width:60%">
+                                <tr>
+                                    <th colspan="3" style="width:100%;font-size:20px;color: #7C7BAD;">Rental Schedule</th>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="border-bottom:1px solid black;"><center><b>S$</b></center></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td></td>
+                                    <td>Rental income (Gross)</td>
+                                    <td style="text-align: center;"><field name="DataRentalSch_c1_GrossRent" readonly="1"/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>Less:</td>
+                                    <td><u>Deductible expenses</u></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Commission</td>
+                                    <td style="text-align: center;"><field name="DataRentalSch_commissionExpRentalIncome" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Insurance</td>
+                                    <td style="text-align: center;"><field name="DataRentalSch_insuranceExpRentalIncome" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Interest</td>
+                                    <td style="text-align: center;"><field name="DataRentalSch_interestExpRentalIncome" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Property tax</td>
+                                    <td style="text-align: center;"><field name="DataRentalSch_propertyTaxExpRentalIncome" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Repair and maintenance</td>
+                                    <td style="text-align: center;"><field name="DataRentalSch_repairMaintenanceExpRentalIncome" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Expenses incurred to derive Rental Income - Others</td>
+                                    <td style="text-align: center;border-bottom:1px solid black;"><field name="DataRentalSch_otherExpRentalIncome" readonly="1"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Net Rental income</td>
+                                    <td style="text-align: center;border-bottom-style: double;"><field name="DataRentalSch_sgRent" readonly="1"/></td>
+                                </tr>
+                            </table>
+                            <br/><br/>
+                            <separator string="Renovations &amp; Refurbishment Schedule"/>
+                            <p>The leasehold improvements and renovation cost do not require the approval of the Commissioner of Building Control under the Building Control Act</p>                            
+                            <field name="renovation_refurbishment_sch_resp_ids" readonly="1" nolabel="1">
+                                <tree create="false" editable="1" delete="false">
+                                    <field name="ya"/>
+                                    <field name="leaseholdImprovementsAndRenoCostIncurred"/>
+                                    <field name="qualifyingRAndRCosts"/>
+                                    <field name="s14QDeduction"/>
+                                </tree>
+                            </field>
+                            <br/>
+                            <table style="width:100%">
+                                <tr>
+                                    <td style="padding-right: 5%;text-align: left;width:80%;font-size:14px;"><b>Total Section 14N deduction</b></td>
+                                    <td style="text-align: right;width: 5%;border-bottom-style: double;border-top:1px solid black;"><field name="DataRRSch_renoWorksExpS14Q" readonly="1"/></td>
+                                </tr>
+                            </table>
+                            <br></br>
+                            <separator string="Capital Allowances Schedule"/>
+                            <br></br>
+                            <separator string="Non-HP Assets - Additions during the current YA"/>
+                            <br></br>
+                            <label class="o_form_label oe_bold" string="Other Property, Plant and Equipment (Non-HP) Group" for="nonHpOtherPPE_nonHPAddsDuringTheYear_ids"
+                            style="font-size:15px;background: #ededed;"/>
+                            <br></br>
+                            <div style="margin-top:10px;">
+                                <field name="nonHpOtherPPE_nonHPAddsDuringTheYear_ids" readonly="1"> <!-- attrs="{'readonly': [('state', 'not in', ['new'])]}" -->
+                                    <tree editable="1">
+                                        <field name="descriptionEachAsset" readonly="1"/>
+                                        <field name="yaOfPurchaseEachAsset" readonly="1"/>
+                                        <field name="costEachAsset" readonly="1"/>
+                                        <field name="noOfYearsOfWorkingLifeBFEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueBFEachAsset" readonly="1"/>
+                                        <field name="annualAllowanceEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueCFEachAsset" readonly="1"/>
+                                        <field name="salesProceedEachAsset" readonly="1"/>
+                                        <field name="yaOfDisposalEachAsset" readonly="1"/>
+                                        <field name="balancingChargeEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="balancingAllowanceEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="deposit_OrPrincipal_ExcInterest_IncDownpay_EachAsset" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <br></br>
+                            <label class="o_form_label oe_bold" string="Other Property, Plant and Equipment (Non-HP)(Low Value Assets) Group" for="nonHpOtherPPE_LowValAsset_nonHPAddsDuringTheYear_ids"
+                            style="font-size:15px;background: #ededed;"/>
+                            <br></br>
+                            <div style="margin-top:10px;">
+                                <field name="nonHpOtherPPE_LowValAsset_nonHPAddsDuringTheYear_ids" readonly="1"> <!-- attrs="{'readonly': [('state', 'not in', ['new'])]}" -->
+                                    <tree editable="1">
+                                        <field name="descriptionEachAsset" readonly="1"/>
+                                        <field name="yaOfPurchaseEachAsset" readonly="1"/>
+                                        <field name="costEachAsset" readonly="1"/>
+                                        <field name="noOfYearsOfWorkingLifeBFEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueBFEachAsset" readonly="1"/>
+                                        <field name="annualAllowanceEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueCFEachAsset" readonly="1"/>
+                                        <field name="salesProceedEachAsset" readonly="1"/>
+                                        <field name="yaOfDisposalEachAsset" readonly="1"/>
+                                        <field name="balancingChargeEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="balancingAllowanceEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="deposit_OrPrincipal_ExcInterest_IncDownpay_EachAsset" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <br></br>
+                            <label class="o_form_label oe_bold" string="Computer and Communication Equipment (Non-HP) Group" for="nonHPCompCommEquipment_nonHPAddsDuringTheYear_ids"
+                            style="font-size:15px;background: #ededed;"/>
+                            <br></br>
+                            <div style="margin-top:10px;">
+                                <field name="nonHPCompCommEquipment_nonHPAddsDuringTheYear_ids" readonly="1"> <!-- attrs="{'readonly': [('state', 'not in', ['new'])]}" -->
+                                    <tree> <!--  editable="1" -->
+                                        <field name="descriptionEachAsset" readonly="1"/>
+                                        <field name="yaOfPurchaseEachAsset" readonly="1"/>
+                                        <field name="costEachAsset" readonly="1"/>
+                                        <field name="noOfYearsOfWorkingLifeBFEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueBFEachAsset" readonly="1"/>
+                                        <field name="annualAllowanceEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueCFEachAsset" readonly="1"/>
+                                        <field name="salesProceedEachAsset" readonly="1"/>
+                                        <field name="yaOfDisposalEachAsset" readonly="1"/>
+                                        <field name="balancingChargeEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="balancingAllowanceEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="deposit_OrPrincipal_ExcInterest_IncDownpay_EachAsset" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <br></br>
+                            <separator string="HP Assets - Additions during the current YA"/>
+                            <br></br>
+                            <label class="o_form_label oe_bold" string="Other Property, Plant and Equipment (HP) Group" for="hpOtherPPE_hpAddsDuringTheYear_ids"
+                            style="font-size:15px;background: #ededed;"/>
+                            <br></br>
+                            <div style="margin-top:10px;">
+                                <field name="hpOtherPPE_hpAddsDuringTheYear_ids" readonly="1"> <!-- attrs="{'readonly': [('state', 'not in', ['new'])]}" -->
+                                    <tree editable="1">
+                                        <field name="descriptionEachAsset" readonly="1"/>
+                                        <field name="yaOfPurchaseEachAsset" readonly="1"/>
+                                        <field name="costEachAsset" readonly="1"/>
+                                        <field name="noOfYearsOfWorkingLifeBFEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueBFEachAsset" readonly="1"/>
+                                        <field name="annualAllowanceEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueCFEachAsset" readonly="1"/>
+                                        <field name="salesProceedEachAsset" readonly="1"/>
+                                        <field name="yaOfDisposalEachAsset" readonly="1"/>
+                                        <field name="balancingChargeEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="balancingAllowanceEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="deposit_OrPrincipal_ExcInterest_IncDownpay_EachAsset" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <br></br>
+                            <separator string="Non-HP Assets - Prior YA Additions"/>
+                            <br></br>
+                            <label class="o_form_label oe_bold" string="Other Property, Plant and Equipment (Non-HP) Group" for="nonHpOtherPPE_nonHPPriorYearAdds_ids"
+                            style="font-size:15px;background: #ededed;"/>
+                            <br></br>
+                            <div style="margin-top:10px;">
+                                <field name="nonHpOtherPPE_nonHPPriorYearAdds_ids" readonly="1"> <!-- attrs="{'readonly': [('state', 'not in', ['new'])]}" -->
+                                    <tree editable="1">
+                                        <field name="descriptionEachAsset" readonly="1"/>
+                                        <field name="yaOfPurchaseEachAsset" readonly="1"/>
+                                        <field name="costEachAsset" readonly="1"/>
+                                        <field name="noOfYearsOfWorkingLifeBFEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueBFEachAsset" readonly="1"/>
+                                        <field name="annualAllowanceEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueCFEachAsset" readonly="1"/>
+                                        <field name="salesProceedEachAsset" readonly="1"/>
+                                        <field name="yaOfDisposalEachAsset" readonly="1"/>
+                                        <field name="balancingChargeEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="balancingAllowanceEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="deposit_OrPrincipal_ExcInterest_IncDownpay_EachAsset" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <br></br>
+                            <separator string="HP Assets - Prior YA Additions"/>
+                            <br></br>
+                            <label class="o_form_label oe_bold" string="Other Property, Plant and Equipment (HP) Group" for="hpOtherPPE_hpPriorYearAdditions_ids"
+                            style="font-size:15px;background: #ededed;"/>
+                            <br></br>
+                            <div style="margin-top:10px;">
+                                <field name="hpOtherPPE_hpPriorYearAdditions_ids" readonly="1"> <!-- attrs="{'readonly': [('state', 'not in', ['new'])]}" -->
+                                    <tree editable="1">
+                                        <field name="descriptionEachAsset" readonly="1"/>
+                                        <field name="yaOfPurchaseEachAsset" readonly="1"/>
+                                        <field name="costEachAsset" readonly="1"/>
+                                        <field name="noOfYearsOfWorkingLifeBFEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueBFEachAsset" readonly="1"/>
+                                        <field name="annualAllowanceEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueCFEachAsset" readonly="1"/>
+                                        <field name="salesProceedEachAsset" readonly="1"/>
+                                        <field name="yaOfDisposalEachAsset" readonly="1"/>
+                                        <field name="balancingChargeEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="balancingAllowanceEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="deposit_OrPrincipal_ExcInterest_IncDownpay_EachAsset" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <br></br>
+                            <separator string="Non-HP Assets - Disposals during the current YA"/>
+                            <br></br>
+                            <label class="o_form_label oe_bold" string="Computer and Communication Equipment (Non-HP) Group" for="nonHPCompCommEquipment_nonHPDispDuringTheYear_ids"
+                            style="font-size:15px;background: #ededed;"/>
+                            <br></br>
+                            <div style="margin-top:10px;">
+                                <field name="nonHPCompCommEquipment_nonHPDispDuringTheYear_ids" readonly="1"> <!-- attrs="{'readonly': [('state', 'not in', ['new'])]}" -->
+                                    <tree editable="1">
+                                        <field name="descriptionEachAsset" readonly="1"/>
+                                        <field name="yaOfPurchaseEachAsset" readonly="1"/>
+                                        <field name="costEachAsset" readonly="1"/>
+                                        <field name="noOfYearsOfWorkingLifeBFEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueBFEachAsset" readonly="1"/>
+                                        <field name="annualAllowanceEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueCFEachAsset" readonly="1"/>
+                                        <field name="salesProceedEachAsset" readonly="1"/>
+                                        <field name="yaOfDisposalEachAsset" readonly="1"/>
+                                        <field name="balancingChargeEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="balancingAllowanceEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="deposit_OrPrincipal_ExcInterest_IncDownpay_EachAsset" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <br></br>
+                            <label class="o_form_label oe_bold" string="Other Property, Plant and Equipment (Non-HP)(Low Value Assets) Group" for="nonHpOtherPPE_LowValAsset_nonHPDispDuringTheYear_ids"
+                            style="font-size:15px;background: #ededed;"/>
+                            <br></br>
+                            <div style="margin-top:10px;">
+                                <field name="nonHpOtherPPE_LowValAsset_nonHPDispDuringTheYear_ids" readonly="1"> <!-- attrs="{'readonly': [('state', 'not in', ['new'])]}"-->
+                                    <tree editable="1">
+                                        <field name="descriptionEachAsset" readonly="1"/>
+                                        <field name="yaOfPurchaseEachAsset" readonly="1"/>
+                                        <field name="costEachAsset" readonly="1"/>
+                                        <field name="noOfYearsOfWorkingLifeBFEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueBFEachAsset" readonly="1"/>
+                                        <field name="annualAllowanceEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueCFEachAsset" readonly="1"/>
+                                        <field name="salesProceedEachAsset" readonly="1"/>
+                                        <field name="yaOfDisposalEachAsset" readonly="1"/>
+                                        <field name="balancingChargeEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="balancingAllowanceEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="deposit_OrPrincipal_ExcInterest_IncDownpay_EachAsset" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <br></br>
+                            <label class="o_form_label oe_bold" string="Other Property, Plant and Equipment (Non-HP) Group" for="nonHpOtherPPE_nonHPDispDuringTheYear_ids"
+                            style="font-size:15px;background: #ededed;"/>
+                            <br></br>
+                            <div style="margin-top:10px;">
+                                <field name="nonHpOtherPPE_nonHPDispDuringTheYear_ids" readonly="1"> <!-- attrs="{'readonly': [('state', 'not in', ['new'])]}"-->
+                                    <tree > <!-- editable="1" -->
+                                        <field name="descriptionEachAsset" readonly="1"/>
+                                        <field name="yaOfPurchaseEachAsset" readonly="1"/>
+                                        <field name="costEachAsset" readonly="1"/>
+                                        <field name="noOfYearsOfWorkingLifeBFEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueBFEachAsset" readonly="1"/>
+                                        <field name="annualAllowanceEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueCFEachAsset" readonly="1"/>
+                                        <field name="salesProceedEachAsset" readonly="1"/>
+                                        <field name="yaOfDisposalEachAsset" readonly="1"/>
+                                        <field name="balancingChargeEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="balancingAllowanceEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="deposit_OrPrincipal_ExcInterest_IncDownpay_EachAsset" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                            <br></br>
+                            <separator string="HP Assets - Disposals during the current YA"/>
+                            <br></br>
+                            <label class="o_form_label oe_bold" string="Other Property, Plant and Equipment (HP) Group" for="hpOtherPPE_hpDispDuringTheYear_ids"
+                            style="font-size:15px;background: #ededed;"/>
+                            <br></br>
+                            <div style="margin-top:10px;">
+                                <field name="hpOtherPPE_hpDispDuringTheYear_ids" readonly="1"> <!-- attrs="{'readonly': [('state', 'not in', ['new'])]}" -->
+                                    <tree editable="1">
+                                        <field name="descriptionEachAsset" readonly="1"/>
+                                        <field name="yaOfPurchaseEachAsset" readonly="1"/>
+                                        <field name="costEachAsset" readonly="1"/>
+                                        <field name="noOfYearsOfWorkingLifeBFEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueBFEachAsset" readonly="1"/>
+                                        <field name="annualAllowanceEachAsset" readonly="1"/>
+                                        <field name="taxWrittenDownValueCFEachAsset" readonly="1"/>
+                                        <field name="salesProceedEachAsset" readonly="1"/>
+                                        <field name="yaOfDisposalEachAsset" readonly="1"/>
+                                        <field name="balancingChargeEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="balancingAllowanceEachAssetDisposedOfOrWrittenOff" readonly="1"/>
+                                        <field name="deposit_OrPrincipal_ExcInterest_IncDownpay_EachAsset" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </page>
+                        <page string="Tax Submission" attrs="{'invisible': [('state', 'not in', ['cs_submission','submitted'])]}">
+                            <group string="Response Data">
+                                <field name="acknowledgementNo" string='Acknowledgment No.' readonly="1"/>
+                                <field name="timestamp_str" readonly="1"/>
+                                <field name="estTaxPayable" readonly="1" string="Estimated Tax Payable"/>
+                            </group>
+                            <group string="Other Data">
+                                <field name="submitted_by_thirdparty" readonly="1"/>                               
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="form_cs_tree" model="ir.ui.view">
+        <field name="name">form.cs.tree</field>
+        <field name="model">form.cs</field>
+        <field name="arch" type="xml">
+            <tree
+                  decoration-muted="state in ('submitted')" delete="false">                
+                <field name="uen"/>
+                <field name="uenType" optional="hide"/>
+                <field name="ya"/>
+                <field name="basisPeriodFrom"/>
+                <field name="basisPeriodTo"/>
+                <field name="create_date"/>
+                <field name="create_uid"/>
+                <field name="state"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="current_accounting" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="form_cs_kanban" model="ir.ui.view">
+            <field name="name">form.cs.kanban</field>
+            <field name="model">form.cs</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" delete="false">
+                    <field name="company_id"/>
+                    <field name="uen"/>
+                    <field name="uenType"/>
+                    <field name="basisPeriodFrom"/>
+                    <field name="basisPeriodTo"/>
+                    <field name="state"/>
+                    <field name="ya"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{!selection_mode ? kanban_color(record.company_id) : ''} oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_title">
+                                        <h3>UEN: <field name="uen" string="Unique Entity No"/></h3>
+                                    </div>
+                                    <div class="o_kanban_record_subtitle">
+                                        <strong>Assessment Year:</strong>
+                                        <span><field name="ya"/></span><br/>
+                                        <strong>Start Period Date:</strong>
+                                        <span><field name="basisPeriodFrom"/></span><br/>
+                                        <strong>End Period Date:</strong>
+                                        <span><field name="basisPeriodTo"/></span>
+                                    </div>
+                                    <div class="o_kanban_record_subtitle" style="margin-top: 5.5px !important;">                 
+                                        <strong>State:</strong>
+                                        <u><span><field name="state"/></span></u><br/>
+                                        <strong>Created On:</strong>
+                                        <span><field name="create_date"/></span><br/>
+                                        <strong>Created By:</strong>
+                                        <span><field name="create_uid"/></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+    </record>
+
+    <record id="form_cs_search" model="ir.ui.view">
+        <field name="name">form.cs.search</field>
+        <field name="model">form.cs</field>
+        <field name="arch" type="xml">
+            <search string="Form C-S">                
+                <field name="uen"/>
+                <field name="uenType"/>
+                <field name="basisPeriodFrom"/>
+                <field name="basisPeriodTo"/>
+                <field name="state"/>
+                <field name="company_id"/>
+                <separator/>
+                <filter string="New" name="filter_state_new" domain="[('state', '=', 'new')]"/>
+                <filter string="CIT Pre-fill" name="filter_state_prefill" domain="[('state', '=', 'pre_fill')]"/>
+                <filter string="CIT Conversion" name="filter_state_conversion" domain="[('state', '=', 'conversion')]"/>
+                <filter string="Form C-S" name="filter_state_cs_submission" domain="[('state', '=', 'cs_submission')]"/>
+                <filter string="Submitted" name="filter_state_submitted" domain="[('state', '=', 'submitted')]"/>
+                <separator/>
+                <filter string="Archived" name="filter_active_false" domain="[('active', '=',False)]"/>
+                <separator/>
+                <group expand="1" string="Group By">
+                    <filter string="UEN No." name="uen" context="{'group_by':'uen'}"/>
+                    <filter string="UEN Type" name="uenType" context="{'group_by':'uenType'}"/>
+                    <filter string="Status" name="Status" context="{'group_by':'state'}"/>
+                    <filter string="Company" name="company_id" context="{'group_by':'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="form_cs_action" model="ir.actions.act_window">
+        <field name="name">Form C-S</field>
+        <field name="res_model">form.cs</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <menuitem id="form_cs_menu"
+        action="form_cs_action"
+        parent="menu_iras_root"
+        sequence="3" />
+
+</odoo>

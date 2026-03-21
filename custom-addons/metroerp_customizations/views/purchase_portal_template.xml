@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="purchase_portal_extended_template_id" inherit_id="purchase.portal_my_purchase_order">
+            <xpath expr="//td" position="replace">
+                <td>
+                    <img t-att-src="image_data_uri(resize_to_48(ol.product_id.image_1024))" alt="Product" class="d-none d-lg-inline"/>
+                    <span t-field="ol.product_id.name"/><br/><span t-esc="ol.name"/>
+                  </td>
+            </xpath>
+            <xpath expr="//div[@id='purchase_order_communication']" position="before">
+             <div class="text-center" style="font-size:15px; margin-top:10px; font-weight: bold; color: #555; display: flex; align-items: center; justify-content: center;">
+                <span>Powered by</span>
+                <a target="_blank" href="https://www.metrogroup.solutions/solutions/accounting-system" title="Metro Accounting System" style="color: #007bff; text-decoration: none; font-weight: bold; margin: 0 5px;">
+                    Metro Accounting System
+                </a>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

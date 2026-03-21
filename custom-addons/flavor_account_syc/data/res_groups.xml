@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="group_flavor_sync" model="res.groups">
+            <field name="name">Flavor Sync Enabled</field>
+        </record>
+    </data>
+</odoo>

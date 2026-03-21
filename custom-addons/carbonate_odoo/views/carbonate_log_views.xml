@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="carbonate_log_logs_tree_view" model="ir.ui.view">
+            <field name="name">carbonate.log.tree</field>
+            <field name="model">carbonate.log</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false" decoration-danger="status == 'fail'"
+                decoration-success="status == 'success'">
+                    <field name="company_id"/>
+                    <field name="name"/>
+                    <field name="create_date"/>
+                    <field name="message"/>
+                    <field name="status"/>
+                    <field name="status_code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="carbonate_log_logs_form_view" model="ir.ui.view">
+            <field name="name">carbonate.log.form</field>
+            <field name="model">carbonate.log</field>
+            <field name="arch" type="xml">
+                <form create="false" delete="false" edit="false">
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="success,fail" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                       <group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="name"/>
+                                <field name="create_date"/>
+                                <field name="status_code"/>
+                            </group>
+                            <group string="Description">
+                                <field name="json_data"/>
+                                 <field name="message"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- <record id="carbonate_log_logs_search_view" model="ir.ui.view">
+            <field name="name">carbonate.log.search.view</field>
+            <field name="model">carbonate.log</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="company_name" filter_domain="[('company_name','ilike',self)]"/>
+                    <filter name="filter_success" string="Success" domain="[('state','=','success')]" />
+                    <filter name="filter_error" string="Error" domain="[('state','=','error')]" />
+                    <separator/>
+                    <group expand="0" string="Group By">
+                    <filter string="State" name="group_by_state" context="{'group_by':'state'}" />
+                    <filter string="Company" name="group_by_company" context="{'group_by':'company_name'}" />
+                    </group>
+                </search>
+            </field>
+        </record> -->
+
+        <record id="carbonate_log_logs_action_window" model="ir.actions.act_window">
+            <field name="name">Carbonate Logs</field>
+            <field name="res_model">carbonate.log</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                      Create new tags for your opportunities
+                </p>
+            </field>
+        </record>
+        
+
+       <menuitem id="carbonate_logs_menu_root"
+                  name="Carbonate Logs"
+                  parent="base.menu_custom"
+                  sequence="200"/>
+        
+        <menuitem id="carbonate_logs_menu"
+                name="Carbonate Logs"
+                parent="carbonate_logs_menu_root"
+                action="carbonate_log_logs_action_window"
+                groups="base.group_system"/>
+
+       
+</data>
+</odoo>

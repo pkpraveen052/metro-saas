@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="invoice_ocr_logs_form" model="ir.ui.view">
+    <field name="name">invoice.ocr.logs.form</field>
+    <field name="model">invoice.ocr.logs</field>
+    <field name="arch" type="xml">
+        <form string="Logs" create="false" edit="false">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="token_id"/>
+                        <field name="json_response"/>
+                        <field name="create_date"/>
+                    </group>
+                    <group>
+                        <field name="message"/>
+                        <field name="company_id"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="invoice_ocr_logs_tree" model="ir.ui.view">
+    <field name="name">invoice.ocr.logs.tree</field>
+    <field name="model">invoice.ocr.logs</field>
+    <field name="arch" type="xml">
+        <tree string="Logs" create="false">
+             <field name="create_date"/>
+            <field name="token_id"/>
+            <field name="message"/>
+            <field name="company_id"/>
+        </tree>
+    </field>
+</record>
+
+<record id="invoice_ocr_logs_action" model="ir.actions.act_window">
+    <field name="name">Invoice Ocr Logs</field>
+    <field name="res_model">invoice.ocr.logs</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="menu_invoice_ocr_logs" name="Invoice Ocr Logs" parent="base.menu_custom" groups="base.group_system"/>
+
+<menuitem id="invoice_ocr_logs_menu"
+    name="Invoice Ocr Logs"
+    action="invoice_ocr_logs_action"
+    groups="base.group_system"
+    parent="menu_invoice_ocr_logs"
+    sequence="1"/>
+
+
+</odoo>

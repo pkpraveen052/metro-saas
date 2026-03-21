@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_decimal_precision_form_inherit" model="ir.ui.view">
+            <field name="name">decimal.precision.form.view.inherit</field>
+            <field name="model">decimal.precision</field>
+            <field name="inherit_id" ref="base.view_decimal_precision_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='digits']" position="after">
+                    <field name="company_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

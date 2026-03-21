@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ks_sale_styles_1" model="ks.sale.styles">
+            <field name="name">Contemporary</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview1.png"/>
+        </record>
+        <record id="ks_sale_styles_2" model="ks.sale.styles">
+            <field name="name">Clean</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview2.png"/>
+        </record>
+
+        <record id="ks_sale_styles_3" model="ks.sale.styles">
+            <field name="name">Professional</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_4" model="ks.sale.styles">
+            <field name="name">Advanced</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_5" model="ks.sale.styles">
+            <field name="name">Exclusive</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_6" model="ks.sale.styles">
+            <field name="name">Elegant</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_7" model="ks.sale.styles">
+            <field name="name">Retro</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_8" model="ks.sale.styles">
+            <field name="name">Modern</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_9" model="ks.sale.styles">
+            <field name="name">Classic</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_10" model="ks.sale.styles">
+            <field name="name">Slim</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_9" model="ks.sale.styles">
+            <field name="name">Classic</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_10" model="ks.sale.styles">
+            <field name="name">Slim</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_11" model="ks.sale.styles">
+            <field name="name">Minimalist</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+        
+        <record id="ks_sale_styles_12" model="ks.sale.styles">
+            <field name="name">MCT</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+        <record id="ks_sale_styles_13" model="ks.sale.styles">
+            <field name="name">Lite</field>
+            <field name="ks_images" type="base64"
+                   file="ks_custom_report_layouts/static/sale_preview_images/preview3.png"/>
+        </record>
+
+<!--        <record id="sale_order_001" model="sale.order">-->
+<!--            <field name="partner_id" ref="base.res_partner_3"/>-->
+<!--            <field name="partner_invoice_id" ref="base.res_partner_address_11"/>-->
+<!--            <field name="partner_shipping_id" ref="base.res_partner_address_25"/>-->
+<!--            <field name="user_id" ref="base.user_admin"/>-->
+<!--            <field name="pricelist_id" ref="product.list0"/>-->
+<!--            <field name="team_id" ref="sales_team.team_sales_department"/>-->
+<!--            <field name="campaign_id" ref="utm.utm_campaign_email_campaign_products"/>-->
+<!--            <field name="medium_id" ref="utm.utm_medium_email"/>-->
+<!--            <field name="source_id" ref="sale.utm_source_sale_order_0"/>-->
+<!--            <field name="tag_ids" eval="[(4, ref('sales_team.categ_oppor4'))]"/>-->
+<!--        </record>-->
+    </data>
+
+</odoo>

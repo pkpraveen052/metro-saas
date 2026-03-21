@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ministries_statuary_boards_view" model="ir.ui.view">
+        <field name="name">ministries.statuary.boards.view</field>
+        <field name="model">ministries.statuary.boards</field>
+        <field name="arch" type="xml">
+            <form string="List of Ministries / Statutory Boards">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="ministry_statutory_board"/>
+                            <field name="department"/>
+                            <field name="business_unit"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="ministries_statuary_boards_tree_view" model="ir.ui.view">
+        <field name="name">ministries.statuary.boards.tree.view</field>
+        <field name="model">ministries.statuary.boards</field>
+        <field name="arch" type="xml">
+            <tree string="List of Ministries / Statutory Boards">
+                <field name="ministry_statutory_board"/>
+                <field name="department"/>
+                <field name="business_unit"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    <record model="ir.ui.view" id="ministries_statuary_boards_view">-->
+<!--        <field name="name">ministries.statuary.boards.search.view</field>-->
+<!--        <field name="model">ministries.statuary.boards</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="List of Ministries / Statutory Boards">-->
+<!--                <field name="ministry_statutory_board"/>-->
+<!--                <field name="department"/>-->
+<!--                <field name="business_unit"/>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="action_ministries_statuary_boards" model="ir.actions.act_window">
+        <field name="name">Ministries / Statutory Boards</field>
+        <field name="res_model">ministries.statuary.boards</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_ministries_statuary_boards"
+              name="Ministries / Statutory Boards"
+              parent="account.menu_finance_configuration"
+              action="action_ministries_statuary_boards"
+              sequence="40"/>
+
+</odoo>

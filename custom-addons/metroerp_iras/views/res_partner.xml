@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+       <record id="res_partner_inherited_form_view" model="ir.ui.view">
+           <field name="name">res.partner.form.inherit</field>
+           <field name="model">res.partner</field>
+           <field name="inherit_id" ref="base.view_partner_form"/>
+           <field name="arch" type="xml">
+               <xpath expr="//field[@name='category_id']" position="after">
+                   <field name="singpass_id" invisible="1"/>
+                   <label for="is_foreigner"/>
+                   <div class="oe_inline">
+                       <field name="is_foreigner"/>
+                       <field name="tax_ref_iras" attrs="{'invisible': [('is_foreigner','=',False)], 'required': [('is_foreigner','=',True)]}" placeholder="eg: A399999A (IRAS assigned Tax Reference Number.)"/>
+                   </div>
+               </xpath>
+           </field>
+       </record>
+   </data>
+</odoo>

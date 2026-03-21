@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+        <record id="peppol_c5_invoice_report_multi_company" model="ir.rule">
+            <field name="name">Peppol C5 Invoice RReport - Multi-Company Rule</field>
+            <field name="model_id" ref="metro_einvoice_datapost.model_peppol_c5_invoice_report"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        
+        <record id="peppol_invoice_multi_company_rule" model="ir.rule">
+            <field name="name">Peppol Invoice Out Multi-Company Rule</field>
+            <field name="model_id" ref="metro_einvoice_datapost.model_peppol_queue_out"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="peppol_c5_invoice_multi_company_rule" model="ir.rule">
+            <field name="name">Peppol C5 Invoice Out Multi-Company Rule</field>
+            <field name="model_id" ref="metro_einvoice_datapost.model_peppol_queue_c5_out"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="b2c_outgoing_invoices_multi_company_rule" model="ir.rule">
+            <field name="name">POS/STI outgoing Invoices Multi-Company Rule</field>
+            <field name="model_id" ref="metro_einvoice_datapost.model_b2c_outgoing_invoices"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="pcp_outgoing_invoices_multi_company_rule" model="ir.rule">
+            <field name="name">PCP Outgoing Invoices Out Multi-Company Rule</field>
+            <field name="model_id" ref="metro_einvoice_datapost.model_pcp_outgoing_invoices"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="peppol_queue_in_multi_company_rule" model="ir.rule">
+            <field name="name">Peppol Invoice In Multi-Company Rule</field>
+            <field name="model_id" ref="metro_einvoice_datapost.model_peppol_queue_in"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+	</data>
+</odoo>

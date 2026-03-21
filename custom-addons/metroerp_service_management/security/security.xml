@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Added two user groups for dynamic custom field creation -->
+<odoo>
+
+      <record id="service_template_group_company_rule" model="ir.rule">
+        <field name="name">Service Template Group Multi-Company</field>
+        <field name="model_id" ref="model_service_template"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="service_management_company_rule" model="ir.rule">
+        <field name="name">Service Management Multi-Company</field>
+        <field name="model_id" ref="model_service_management"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_peppol_queue_out_all,peppol.queue.out.all,model_peppol_queue_out,base.group_user,1,1,1,0
+access_peppol_manual_send_wizard,peppol.manual.send.wizard.all,model_peppol_manual_send_wizard,base.group_user,1,1,1,1
+access_peppol_acces_point_id,peppol.access.point.sg,model_peppol_access_point_sg,,1,1,1,1
+access_inv_submission_action_evidence,invoice.submission.action.evidence,model_invoice_submission_action_evidence,,1,1,1,1
+access_peppol_log_sg_id,peppol.log.sg,model_peppol_log_sg,,1,1,1,0
+access_peppol_log_sg_erpmanager,peppol.log.sg.erpmanager,model_peppol_log_sg,base.group_erp_manager,1,1,1,1
+access_peppol_invoice_report_id,peppol.invoice.report,model_peppol_invoice_report,,1,1,1,1
+access_peppol_api_search_wizard,peppol.api.search.wizard.all,model_peppol_api_search_wizard,base.group_user,1,1,1,1
+access_ppeppol_api_search_wizard_lines,peppol.api.search.wizard.lines.all,model_peppol_api_search_wizard_lines,base.group_user,1,1,1,1
+access_peppol_info_message_wizard,peppol.info.message.all,model_peppol_info_message,base.group_user,1,1,1,1
+access_incoming_invoice_lines,incoming.invoice.lines,model_incoming_invoice_lines,,1,1,1,1
+access_peppol_warning_wizard,peppol.warning.wizard.all,model_peppol_warning_wizard,base.group_user,1,1,1,1

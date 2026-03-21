@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+
+        <record model="ir.ui.view" id="account.partner_view_buttons">
+            <field name="name">partner.view.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="12"/>
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice')), (4, ref('account.group_account_readonly')),(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_partner_invoices"
+                        context="{'default_partner_id': active_id}">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="currency_id" invisible="1"/>
+                                <field name="total_invoiced" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            </span>
+                            <span class="o_stat_text">Invoiced</span>
+                        </div>
+                    </button>
+                </div>
+
+                <page name="internal_notes" position="inside">
+                    <group colspan="2" col="2" groups="account.group_warning_account">
+                        <separator string="Warning on the Invoice" colspan="4"/>
+                        <field name="invoice_warn" nolabel="1" />
+                        <field name="invoice_warn_msg" colspan="3" nolabel="1"
+                                attrs="{'required':[('invoice_warn', '!=', False), ('invoice_warn','!=','no-message')],'readonly':[('invoice_warn','=','no-message')]}"/>
+                    </group>
+                </page>
+            </field>
+        </record>
+
+        <record id="purchase.res_partner_view_purchase_account_buttons" model="ir.ui.view">
+            <field name="name">res.partner.view.purchase.account.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="13"/>
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice')),(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" name="%(purchase.act_res_partner_2_supplier_invoices)d" type="action"
+                        icon="fa-pencil-square-o" help="Vendor Bills">
+                        <field string="Vendor Bills" name="supplier_invoice_count" widget="statinfo"/>
+                    </button>
+                </div>
+            </field>
+        </record>
+
+        <record id="view_partner_property_form_custom" model="ir.ui.view">
+            <field name="name">res.partner.property.form.inherit.custom</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <!-- Add custom group to the Invoicing page -->
+                <page name="accounting" position="attributes">
+                    <attribute name="groups">account.group_account_invoice,account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </page>
+
+                <!-- Add custom group to the Bank Accounts section -->
+                <group name="banks" position="attributes">
+                    <attribute name="groups">account.group_account_invoice,account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </group>
+
+                <!-- Add custom group to the Fiscal Information section -->
+                <group name="fiscal_information" position="attributes">
+                    <attribute name="groups">account.group_account_invoice,account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </group>
+
+                <!-- Add custom group to the Payment Terms (Sale) -->
+                <field name="property_payment_term_id" position="attributes">
+                    <attribute name="groups">account.group_account_invoice,account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </field>
+
+                <!-- Add custom group to the Payment Terms (Purchase) -->
+                <field name="property_supplier_payment_term_id" position="attributes">
+                    <attribute name="groups">account.group_account_invoice,account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </field>
+            </field>
+        </record>
+   </data>
+</odoo>

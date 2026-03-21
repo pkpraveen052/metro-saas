@@ -1,0 +1,2424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="ks_report_delivery_style_1">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="ks_header header">
+                    <style t-raw="res_config.get_report_header_color()"/>
+                    <div class="custom-container ks_style_1">
+                        <div class="row mt-1">
+                            <div class="col-3 ks_invoice_number">
+                                <h3 class="ks_h1_font_color  ks_head_delivery ks_h1_font_size ks_heading_bold ">
+                                    <span t-field="o.name"/>
+                                    <span t-if="is_deliveryslip_duplicate">[Duplicate]</span>
+                                </h3>
+                            </div>
+                            <div class="col-3  text-right">
+                                <div class="float-left ks_tagline" style="width:100%">
+                                    <div t-if="res_config.ks_show_logo" style="width:20%" class="float-left">
+                                        <img t-if="company.logo" class="img-fluid ks_company_logo_font_size" t-att-src="image_data_uri(company.logo)"
+                                             style="max-height:40px" alt="Logo"/>
+                                    </div>
+                                    <div t-if="res_config.ks_show_company" style="width:78%" class="float-left">
+                                        <p class="pl-2 ks_show_tagline mb-0">
+                                            <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                            </span>
+                                            <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                <span t-field="company.name"/>
+                                            </span>
+                                            <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                                <t t-if="company.report_header">
+                                                    <span t-field="company.report_header"/>
+                                                </t>
+                                                <t t-else="">
+                                                    Company Tag Line
+                                                </t>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6  pr-0 ks_invoice">
+                                <h3 class="ks_company_name_color ks_company_name_bold ks_company_font_size" t-if="res_config.ks_display_company"
+                                    t-field="company.partner_id.name"/>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and not res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN No:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                                </p>
+                                <ul>
+                                    <li t-if="company.partner_id.phone and res_config.phone">
+                                        <a class="ks_company_add_color "
+                                           t-attf-href="tel:{{company.partner_id.phone}}">
+                                           <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                            <span t-field="company.partner_id.phone"/>
+                                        </a>
+                                    </li>
+                                    <li t-if="company.partner_id.email and res_config.email">
+                                        <a class=" ks_company_add_color "
+                                           t-attf-href="mailto:{{ company.partner_id.email }}">
+                                            <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                            <span t-field="company.partner_id.email"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                        <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                        <t t-set="company" t-value="company"/>
+                    </t>
+                </div>
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                     t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                     t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <style t-raw="res_config.get_report_table_color()"/>
+                    <section class="ks_style_1 ks_address">
+                        <div class="custom-container">
+                            <div class="row">
+                                <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                                <div t-if="partner" class="col-5 ks_invoice">
+                                    <t t-if="o.partner_id.company_type == 'company'">
+                                        <h3 t-field="o.partner_id.name"/>
+                                    </t>
+                                    <t t-if="o.partner_id.company_type == 'person'">
+                                        <t t-if="o.partner_id.parent_id.name">
+                                            <h3 t-field="o.partner_id.parent_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <h3 t-field="o.partner_id.name"/>
+                                        </t>
+                                    </t>
+                                    <div style="font-size:14px;" class="ks_company_add_color" t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id">
+                                        Attn: <span t-field="o.partner_id.name"/>
+                                    </div>
+                                    <p class="pr-5">
+                                        <t t-if="partner.street">
+                                            <t t-esc="partner.street"/>,
+                                        </t>
+                                        <t t-if="partner.street2">
+                                            <t t-esc="partner.street2"/>,
+                                        </t>
+                                        <t t-if="partner.city">
+                                            <t t-esc="partner.city"/>,
+                                        </t>
+                                        <t t-if="partner.zip">
+                                            <t t-esc="partner.zip"/>,
+                                        </t>
+                                        <t t-if="partner.state_id">
+                                            <t t-esc="partner.state_id.name"/>,
+                                        </t>
+                                        <t t-if="partner.country_id">
+                                            <t t-esc="partner.country_id.name"/>.
+                                        </t>
+                                    </p>                                    
+                                    <ul>
+                                        <li t-if="partner.phone">
+                                            <a t-attf-href="tel:{{partner.phone}}">
+                                               <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                <span t-field="partner.phone"/>
+                                            </a>
+                                        </li>
+                                        <li t-if="partner.email">|</li>
+                                        <li t-if="partner.email">
+                                            <a t-attf-href="mailto:{{ partner.email }}">
+                                             <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                <span t-field="partner.email"/>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row my-4 ks_info_dates">
+                                <ul class="ks_dummy_ul">
+                                    <li t-if="o.origin" class="border-right pr-4  ks_details text-left"
+                                        name="div_origin">
+                                        <p class="text_font_color font_9">Order:</p>
+                                        <p class="font_10" t-field="o.origin"/>
+                                    </li>
+                                    <li t-if="o.state" class="pl-4 pr-5 ks_details text-left" name="div_sched_date">
+                                        <p class="text_font_color font_9">Shipping Date:</p>
+                                        <t t-if="o.state == 'done'">
+                                            <p class=" font_10" t-field="o.date_done"/>
+                                        </t>
+                                        <t t-if="o.state != 'done'">
+                                            <p class=" font_10" t-field="o.scheduled_date"/>
+                                        </t>
+                                    </li>
+                                    <li class="pl-4 pr-5 ks_details text-left" t-if="o.sudo().sale_id.client_order_ref">
+                                        <p class="text_font_color font_9">Customer Reference:</p>
+                                        <p class="font_10" t-field="o.sudo().sale_id.client_order_ref"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                    <t t-call="ks_custom_report_layouts.ks_delivery_report_table">
+                        <t t-set="ks_style" t-value="'ks_style_1'"/>
+                    </t>
+                    <br/><br/>
+                    <t t-if="o.note">
+                        <div class="row" style="page-break-inside: avoid; white-space: nowrap;">
+                            <div class="col-7 text-left">
+                                <strong style="color: black;">Note:</strong><br/>
+                                <span t-field="o.note"/>
+                           </div>
+                           <div class="col-5"/>
+                        </div>
+                        <br/><br/>
+                    </t>
+                    <section>
+                        <div class="custom-container" style="margin-top:100px;">
+                            <t t-if="o.picking_type_id.code=='outgoing'">
+                                <t t-call="ks_custom_report_layouts.ks_metro_sign_dynamic_on_delivery"/>
+                            </t>
+                            <t t-if="o.picking_type_id.code in ['incoming','internal']">
+                                <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+                <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_1'"/>
+                </t>
+            </t>
+        </template>
+        <template id="ks_report_delivery_style_2">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="ks_header header">
+                    <style t-raw="res_config.get_report_header_color()"/>
+                    <div class="custom-container ks_style_2">
+                        <div class="row mt-1">
+                            <div class="col-3 ks_invoice_number">
+                                <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold ">
+                                    <span t-field="o.name"/>
+                                    <span t-if="is_deliveryslip_duplicate">[Duplicate]</span>
+                                </h3>
+                            </div>
+                            <div class="col-3 text-right">
+                                <div class="float-left ks_tagline" style="width:100%">
+                                    <div t-if="res_config.ks_show_logo" style="width:20%" class="float-left">
+                                        <img t-if="company.logo" class="img-fluid ks_company_logo_font_size" t-att-src="image_data_uri(company.logo)"
+                                             style="max-height:45px;max-width:45px" alt="Logo"/>
+                                    </div>
+                                    <div t-if="res_config.ks_show_company" style="width:78%" class="float-left">
+                                        <p class="pl-2 ks_show_tagline mb-0">
+                                            <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                            </span>
+                                            <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                <span t-field="company.name"/>
+                                            </span>
+                                            <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                                <t t-if="company.report_header">
+                                                    <span t-field="company.report_header"/>
+                                                </t>
+                                                <t t-else="">
+                                                    Company Tag Line
+                                                </t>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 ks_invoice">
+                                <h3 class="ks_company_name_color ks_company_name_bold ks_company_font_size" t-if="res_config.ks_display_company"
+                                    t-field="company.partner_id.name"/>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and not res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN No:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                                </p>
+                                <ul>
+                                    <li t-if="company.partner_id.phone and res_config.phone">
+                                        <a t-attf-href="tel:{{company.partner_id.phone}}">
+                                           <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                            <span t-field="company.partner_id.phone"/>
+                                        </a>
+                                    </li>
+                                    <li t-if="company.partner_id.email and res_config.email">
+                                        <a class=" ks_company_add_color "
+                                           t-attf-href="mailto:{{ company.partner_id.email }}">
+                                            <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                            <span t-field="company.partner_id.email"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                        <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                        <t t-set="company" t-value="company"/>
+                    </t>
+                </div>
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <style t-raw="res_config.get_report_table_color()"/>
+                    <section class="ks_style_2 ks_address">
+                        <div class="custom-container">
+                           <div>
+                            <div class="row py-3 border-top border-bottom ">
+                                <t t-set="partner"
+                                   t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                                <div t-if="partner" class="col-5 ks_invoice">
+                                    <t t-if="o.partner_id.company_type == 'company'">
+                                        <h3 t-field="o.partner_id.name"/>
+                                    </t>
+                                    <t t-if="o.partner_id.company_type == 'person'">
+                                        <t t-if="o.partner_id.parent_id.name">
+                                            <h3 t-field="o.partner_id.parent_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <h3 t-field="o.partner_id.name"/>
+                                        </t>
+                                    </t>
+                                    <div style="font-size:14px;" class="ks_company_add_color" t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id">
+                                        Attn: <span t-field="o.partner_id.name"/>
+                                    </div>
+                                    <p>
+                                        <t t-if="partner.street">
+                                            <t t-esc="partner.street"/>,
+                                        </t>
+                                        <t t-if="partner.street2">
+                                            <t t-esc="partner.street2"/>,
+                                        </t>
+                                        <t t-if="partner.city">
+                                            <t t-esc="partner.city"/>,
+                                        </t>
+                                        <t t-if="partner.zip">
+                                            <t t-esc="partner.zip"/>,
+                                        </t>
+                                        <t t-if="partner.state_id">
+                                            <t t-esc="partner.state_id.name"/>,
+                                        </t>
+                                        <t t-if="partner.country_id">
+                                            <t t-esc="partner.country_id.name"/>.
+                                        </t>
+                                    </p>                                    
+                                    <ul>
+                                        <li t-if="partner.phone">
+                                            <a t-attf-href="tel:{{partner.phone}}">
+                                               <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                <span t-field="partner.phone"/>
+                                            </a>
+                                        </li>
+                                        <li>|</li>
+                                        <li t-if="partner.email">
+                                            <a t-attf-href="mailto:{{ partner.email }}">
+                                             <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                <span t-field="partner.email"/>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                           </div>
+                            <div class="row my-4 ks_info_dates">
+                                <ul class="ks_dummy_ul">
+                                    <li t-if="o.origin" class="ks_details text-left" name="div_origin">
+                                        <p class="text_font_color font_9">Order:</p>
+                                        <p class="font_10" t-field="o.origin"/>
+                                    </li>
+                                    <li t-if="o.state" class=" ks_details text-left" name="div_sched_date">
+                                        <p class="text_font_color font_9">Shipping Date:</p>
+                                        <t t-if="o.state == 'done'">
+                                            <p class=" font_10" t-field="o.date_done"/>
+                                        </t>
+                                        <t t-if="o.state != 'done'">
+                                            <p class=" font_10" t-field="o.scheduled_date"/>
+                                        </t>
+                                    </li>
+                                    <li class="ks_details text-left" t-if="o.sudo().sale_id.client_order_ref">
+                                        <p class="text_font_color font_9">Customer Reference:</p>
+                                        <p class="font_10" t-field="o.sudo().sale_id.client_order_ref"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                    <t t-call="ks_custom_report_layouts.ks_delivery_report_table">
+                        <t t-set="ks_style" t-value="'ks_style_2'"/>
+                    </t>
+                    <br/><br/>
+                    <t t-if="o.note">
+                        <div class="row" style="page-break-inside: avoid; white-space: nowrap;">
+                            <div class="col-7 text-left">
+                                <strong style="color: black;">Note:</strong><br/>
+                                <span t-field="o.note"/>
+                           </div>
+                           <div class="col-5"/>
+                        </div>
+                        <br/><br/>
+                    </t>
+                    <section>
+                        <div class="custom-container" style="margin-top:100px;">
+                            <t t-if="o.picking_type_id.code=='outgoing'">
+                                <t t-call="ks_custom_report_layouts.ks_metro_sign_dynamic_on_delivery"/>
+                            </t>
+                            <t t-if="o.picking_type_id.code in ['incoming','internal']">
+                                <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+                <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_2'"/>
+                </t>
+            </t>
+        </template>
+        <template id="ks_report_delivery_style_3">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="ks_header header">
+                    <style t-raw="res_config.get_report_header_color()"/>
+                    <div class="custom-container ks_style_3">
+                        <div class="row mt-1">
+                            <div class="col-3 text-right">
+                                <div class="float-left ks_tagline" style="width:100%">
+                                    <div t-if="res_config.ks_show_logo" style="width:30%" class="px-1 float-left">
+                                        <img t-if="company.logo" class="img-fluid ks_company_logo_font_size"
+                                             t-att-src="image_data_uri(company.logo)" style="max-height:45px" alt="Logo"/>
+                                    </div>
+                                    <div t-if="res_config.ks_show_company" style="width:70%" class="float-left">
+                                        <p class="ks_show_tagline mb-0">
+                                            <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                            </span>
+                                            <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                <span t-field="company.name"/>
+                                            </span>
+                                            <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                                <t t-if="company.report_header">
+                                                    <span t-field="company.report_header"/>
+                                                </t>
+                                                <t t-else="">
+                                                    Company Tag Line
+                                                </t>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 ks_invoice">
+                                <h3 class="ks_company_name_color ks_company_name_bold ks_company_font_size"
+                                    t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and not res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN No:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                                </p>
+                                <ul>
+                                    <li t-if="company.partner_id.phone and res_config.phone">
+                                        <a class="ks_company_add_color "
+                                           t-attf-href="tel:{{company.partner_id.phone}}">
+                                           <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                            <span t-field="company.partner_id.phone"/>
+                                        </a>
+                                    </li>
+                                    <li t-if="company.partner_id.email and res_config.email">
+                                        <a class=" ks_company_add_color "
+                                           t-attf-href="mailto:{{ company.partner_id.email }}">
+                                            <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                            <span t-field="company.partner_id.email"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-3 ks_invoice_number">
+                                <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">
+                                    <span t-field="o.name"/>
+                                    <span t-if="is_deliveryslip_duplicate">[Duplicate]</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                        <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                        <t t-set="company" t-value="company"/>
+                    </t>
+                </div>
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <style t-raw="res_config.get_report_table_color()"/>
+                    <section class="ks_style_3 ks_address mb-3">
+                        <div class="custom-container">
+                           <div>
+                            <div class="row  py-3   ks_bg_add_3">
+                                <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                                <div t-if="partner" class="col-8 border-right ks_invoice">
+                                    <t t-if="o.partner_id.company_type == 'company'">
+                                        <h3 t-field="o.partner_id.name"/>
+                                    </t>
+                                    <t t-if="o.partner_id.company_type == 'person'">
+                                        <t t-if="o.partner_id.parent_id.name">
+                                            <h3 t-field="o.partner_id.parent_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <h3 t-field="o.partner_id.name"/>
+                                        </t>
+                                    </t>
+                                    <div style="font-size:14px;" class="ks_company_add_color" t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id">
+                                        Attn: <span t-field="o.partner_id.name"/>
+                                    </div>
+                                    <p>
+                                        <t t-if="partner.street">
+                                            <t t-esc="partner.street"/>,
+                                        </t>
+                                        <t t-if="partner.street2">
+                                            <t t-esc="partner.street2"/>,
+                                        </t>
+                                        <t t-if="partner.city">
+                                            <t t-esc="partner.city"/>,
+                                        </t>
+                                        <t t-if="partner.zip">
+                                            <t t-esc="partner.zip"/>,
+                                        </t>
+                                        <t t-if="partner.state_id">
+                                            <t t-esc="partner.state_id.name"/>,
+                                        </t>
+                                        <t t-if="partner.country_id">
+                                            <t t-esc="partner.country_id.name"/>.
+                                        </t>
+                                    </p>                                    
+                                    <ul>
+                                        <li t-if="partner.phone">
+                                            <a t-attf-href="tel:{{partner.phone}}">
+                                               <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                <span t-field="partner.phone"/>
+                                            </a>
+                                        </li>
+                                        <li t-if="partner.email">
+                                            <a t-attf-href="mailto:{{ partner.email }}">
+                                             <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                <span t-field="partner.email"/>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-4">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <div t-if="o.origin" class="ks_details" name="div_origin">
+                                                <p class="text_font_color font_9">Order:</p>
+                                                <p class=" font_10" t-field="o.origin"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <div t-if="o.state" class=" ks_details" name="div_sched_date">
+                                                <p class="text_font_color font_9">Shipping Date:</p>
+                                                <t t-if="o.state == 'done'">
+                                                    <p class=" font_10" t-field="o.date_done"/>
+                                                </t>
+                                                <t t-if="o.state != 'done'">
+                                                    <p class=" font_10"
+                                                       t-field="o.scheduled_date"/>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div  class="row">
+                                           <div class="col-6 text-left">
+                                            <div t-if="o.sudo().sale_id.client_order_ref" class="ks_details" name="div_ref">
+                                                <p class="text_font_color font_9">Customer Reference:</p>
+                                                <p class=" font_10" t-field="o.sudo().sale_id.client_order_ref"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                           </div>
+                        </div>
+                    </section>
+                    <t t-call="ks_custom_report_layouts.ks_delivery_report_table">
+                        <t t-set="ks_style" t-value="'ks_style_3'"/>
+                    </t>
+                    <br/><br/>
+                    <t t-if="o.note">
+                        <div class="row" style="page-break-inside: avoid; white-space: nowrap;">
+                            <div class="col-7 text-left">
+                                <strong style="color: black;">Note:</strong><br/>
+                                <span t-field="o.note"/>
+                           </div>
+                           <div class="col-5"/>
+                        </div>
+                        <br/><br/>
+                    </t>
+                     <section>
+                        <div class="custom-container" style="margin-top:100px;">
+                            <t t-if="o.picking_type_id.code=='outgoing'">
+                                <t t-call="ks_custom_report_layouts.ks_metro_sign_dynamic_on_delivery"/>
+                            </t>
+                            <t t-if="o.picking_type_id.code in ['incoming','internal']">
+                                <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+                <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_3'"/>
+                </t>
+            </t>
+        </template>
+        <template id="ks_report_delivery_style_4">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="ks_header header">
+                    <style t-raw="res_config.get_report_header_color()"/>
+                    <div class="custom-container ks_style_4">
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="ks_tagline text-center">
+                                    <p>
+                                        <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid d-block mx-auto ks_company_logo_font_size"
+                                         t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                    </p>
+                                    <div t-if="res_config.ks_show_company">
+                                        <p class="ks_show_tagline mb-0">
+                                            <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                            </span>
+                                            <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                <span t-field="company.name"/>
+                                            </span>
+                                            <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                                <t t-if="company.report_header">
+                                                    <span t-field="company.report_header"/>
+                                                </t>
+                                                <t t-else="">
+                                                    Company Tag Line
+                                                </t>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 pr-0 ks_invoice">
+                                <h3 class=" ks_company_name_color ks_company_name_bold ks_company_font_size" t-field="company.partner_id.name" t-if="res_config.ks_display_company"/>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and not res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN No:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                                </p>
+                                <ul>
+                                    <li t-if="company.partner_id.phone and res_config.phone">
+                                        <a class="ks_company_add_color "
+                                           t-attf-href="tel:{{company.partner_id.phone}}">
+                                           <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                            <span t-field="company.partner_id.phone"/>
+                                        </a>
+                                    </li>
+                                    <li t-if="company.partner_id.email and res_config.email">
+                                        <a class=" ks_company_add_color "
+                                           t-attf-href="mailto:{{ company.partner_id.email }}">
+                                            <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                            <span t-field="company.partner_id.email"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-6 text-left">
+                                        <div t-if="o.origin" class="ks_details" name="div_origin">
+                                            <p class="text_font_color font_9">Order:</p>
+                                            <p class=" font_10" t-field="o.origin"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 text-left">
+                                        <div t-if="o.state" class=" ks_details" name="div_sched_date">
+                                            <p class="text_font_color font_9">Shipping Date:</p>
+                                            <t t-if="o.state == 'done'">
+                                                <p class=" font_10" t-field="o.date_done"/>
+                                            </t>
+                                            <t t-if="o.state != 'done'">
+                                                <p class=" font_10"
+                                                   t-field="o.scheduled_date"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-12 text-left">
+                                        <div t-if="o.sudo().sale_id.client_order_ref" class="ks_details" name="div_ref">
+                                            <p class="text_font_color font_9">Customer Reference:</p>
+                                            <p class="font_10" t-field="o.sudo().sale_id.client_order_ref"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                        <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                        <t t-set="company" t-value="company"/>
+                    </t>
+                </div>
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                     t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                     t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <style t-raw="res_config.get_report_table_color()"/>
+                    <section class="ks_style_4  ks_address">
+                        <div class="custom-container">
+                            <div>
+                                <div class="row  py-3 border-top">
+                                    <div class="col-7 ks_invoice_number">
+                                        <h3  class="ks_h1_font_color ks_h1_font_size ks_heading_bold">
+                                            <span t-field="o.name"/>
+                                            <span t-if="is_deliveryslip_duplicate">[Duplicate]</span>
+                                        </h3>
+                                    </div>
+                                    <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                                    <div t-if="partner" class="col-5 text-right ks_invoice">
+                                        <h3 class="ks_company_name_color ks_company_name_bold ks_company_font_size" t-field="partner.name"/>
+                                        <p>
+                                            <t t-if="partner.street">
+                                                <t t-esc="partner.street"/>,
+                                            </t>
+                                            <t t-if="partner.street2">
+                                                <t t-esc="partner.street2"/>,
+                                            </t>
+                                            <t t-if="partner.city">
+                                                <t t-esc="partner.city"/>,
+                                            </t>
+                                            <t t-if="partner.zip">
+                                                <t t-esc="partner.zip"/>,
+                                            </t>
+                                            <t t-if="partner.state_id">
+                                                <t t-esc="partner.state_id.name"/>,
+                                            </t>
+                                            <t t-if="partner.country_id">
+                                                <t t-esc="partner.country_id.name"/>.
+                                            </t>
+                                        </p>                                        
+                                        <ul>
+                                            <li t-if="partner.phone">
+                                                <a t-attf-href="tel:{{partner.phone}}">
+                                                   <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                    <span t-field="partner.phone"/>
+                                                </a>
+                                            </li>
+                                            <li t-if="partner.email">
+                                                <a t-attf-href="mailto:{{ partner.email }}">
+                                                 <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                    <span t-field="partner.email"/>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <t t-call="ks_custom_report_layouts.ks_delivery_report_table">
+                        <t t-set="ks_style" t-value="'ks_style_4'"/>
+                    </t>
+                    <br/><br/>
+                    <t t-if="o.note">
+                        <div class="row" style="page-break-inside: avoid; white-space: nowrap;">
+                            <div class="col-7 text-left">
+                                <strong style="color: black;">Note:</strong><br/>
+                                <span t-field="o.note"/>
+                           </div>
+                           <div class="col-5"/>
+                        </div>
+                        <br/><br/>
+                    </t>
+                    <section>
+                        <div class="custom-container" style="margin-top:100px;">
+                            <t t-if="o.picking_type_id.code=='outgoing'">
+                                <t t-call="ks_custom_report_layouts.ks_metro_sign_dynamic_on_delivery"/>
+                            </t>
+                            <t t-if="o.picking_type_id.code in ['incoming','internal']">
+                                <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+                <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_4'"/>
+                </t>
+            </t>
+        </template>
+        <template id="ks_report_delivery_style_5">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="ks_header header">
+                    <style t-raw="res_config.get_report_header_color()"/>
+                    <div class="custom-container ks_style_5">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="ks_tagline text-center">
+                                    <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid d-block mx-auto ks_company_logo_font_size"
+                                         t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                    <div t-if="res_config.ks_show_company">
+                                    <p class="ks_show_tagline mb-0">
+                                        <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                        </span>
+                                        <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-field="company.name"/>
+                                        </span>
+                                        <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                            <t t-if="company.report_header">
+                                                <span t-field="company.report_header"/>
+                                            </t>
+                                            <t t-else="">
+                                                Company Tag Line
+                                            </t>
+                                        </span>
+                                    </p>
+                                    </div>  
+                                </div>
+                            </div>
+                            <div class="col-5 pr-0 ks_invoice">
+                                <h3 class=" ks_company_name_color ks_company_name_bold ks_company_font_size" t-if="res_config.ks_display_company"
+                                    t-field="company.partner_id.name"/>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and not res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN No:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                                </p>
+                                <ul>
+                                    <li t-if="company.partner_id.phone and res_config.phone">
+                                        <a class="ks_company_add_color "
+                                           t-attf-href="tel:{{company.partner_id.phone}}">
+                                           <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                            <span t-field="company.partner_id.phone"/>
+                                        </a>
+                                    </li>
+                                    <li t-if="company.partner_id.email and res_config.email">
+                                        <a class=" ks_company_add_color "
+                                           t-attf-href="mailto:{{ company.partner_id.email }}">
+                                            <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                            <span t-field="company.partner_id.email"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-4 ks_invoice_number">
+                                <h3 class="ks_h1_font_color  ks_heading_bold  ks_h1_font_size ">
+                                    <span t-field="o.name"/>
+                                    <span t-if="is_deliveryslip_duplicate">[Duplicate]</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                        <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                        <t t-set="company" t-value="company"/>
+                    </t>
+                </div>
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                     t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                     t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <style t-raw="res_config.get_report_table_color()"/>
+                    <section class="ks_style_5 ks_address pb-3">
+                        <div class="custom-container">
+                           <div>
+                            <div class="row  py-3">
+                                <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                                <div t-if="partner" class="col-8  ks_invoice">
+                                    <t t-if="o.partner_id.company_type == 'company'">
+                                        <h3 t-field="o.partner_id.name"/>
+                                    </t>
+                                    <t t-if="o.partner_id.company_type == 'person'">
+                                        <t t-if="o.partner_id.parent_id.name">
+                                            <h3 t-field="o.partner_id.parent_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <h3 t-field="o.partner_id.name"/>
+                                        </t>
+                                    </t>
+                                    <div style="font-size:14px;" class="ks_company_add_color" t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id">
+                                        Attn: <span t-field="o.partner_id.name"/>
+                                    </div>
+                                    <p>
+                                        <t t-if="partner.street">
+                                            <t t-esc="partner.street"/>,
+                                        </t>
+                                        <t t-if="partner.street2">
+                                            <t t-esc="partner.street2"/>,
+                                        </t>
+                                        <t t-if="partner.city">
+                                            <t t-esc="partner.city"/>,
+                                        </t>
+                                        <t t-if="partner.zip">
+                                            <t t-esc="partner.zip"/>,
+                                        </t>
+                                        <t t-if="partner.state_id">
+                                            <t t-esc="partner.state_id.name"/>,
+                                        </t>
+                                        <t t-if="partner.country_id">
+                                            <t t-esc="partner.country_id.name"/>.
+                                        </t>
+                                    </p>                                    
+                                    <ul>
+                                        <li t-if="partner.phone">
+                                            <a t-attf-href="tel:{{partner.phone}}">
+                                               <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                <span t-field="partner.phone"/>
+                                            </a>
+                                        </li>
+                                        <li t-if="partner.email">
+                                            <a t-attf-href="mailto:{{ partner.email }}">
+                                             <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                <span t-field="partner.email"/>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-4">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <div t-if="o.origin" class="ks_details" name="div_origin">
+                                                <p class="text_font_color font_9">Order:</p>
+                                                <p class=" font_10" t-field="o.origin"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <div t-if="o.state" class=" ks_details" name="div_sched_date">
+                                                <p class="text_font_color font_9">Shipping Date:</p>
+                                                <t t-if="o.state == 'done'">
+                                                    <p class=" font_10" t-field="o.date_done"/>
+                                                </t>
+                                                <t t-if="o.state != 'done'">
+                                                    <p class=" font_10"
+                                                       t-field="o.scheduled_date"/>
+                                                </t>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                         <div class="col-6 text-left">
+                                            <div t-if="o.sudo().sale_id.client_order_ref" class="ks_details" name="div_ref">
+                                                <p class="text_font_color font_9">Customer Reference:</p>
+                                                <p class=" font_10" t-field="o.sudo().sale_id.client_order_ref"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+                        </div>
+                    </section>
+                    <t t-call="ks_custom_report_layouts.ks_delivery_report_table">
+                        <t t-set="ks_style" t-value="'ks_style_5'"/>
+                    </t>
+                    <br/><br/>
+                    <t t-if="o.note">
+                        <div class="row" style="page-break-inside: avoid; white-space: nowrap;">
+                            <div class="col-7 text-left">
+                                <strong style="color: black;">Note:</strong><br/>
+                                <span t-field="o.note"/>
+                           </div>
+                           <div class="col-5"/>
+                        </div>
+                        <br/><br/>
+                    </t>
+                    <section>
+                        <div class="custom-container" style="margin-top:100px;">
+                            <t t-if="o.picking_type_id.code=='outgoing'">
+                                <t t-call="ks_custom_report_layouts.ks_metro_sign_dynamic_on_delivery"/>
+                            </t>
+                            <t t-if="o.picking_type_id.code in ['incoming','internal']">
+                                <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+                <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_5'"/>
+                </t>
+            </t>
+        </template>
+        <template id="ks_report_delivery_style_6">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="ks_header header">
+                    <style t-raw="res_config.get_report_header_color()"/>
+                    <div class="custom-container ks_style_6">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class=" ks_tagline text-center">
+                                    <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid ks_company_logo_font_size"
+                                         t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                    <div t-if="res_config.ks_show_company">
+                                    <p class="pl-2 ks_show_tagline text-center mb-0">
+                                        <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                        </span>
+                                        <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-field="company.name"/>
+                                        </span>
+                                        <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                            <t t-if="company.report_header">
+                                                <span t-field="company.report_header"/>
+                                            </t>
+                                            <t t-else="">
+                                                Company Tag Line
+                                            </t>
+                                        </span>
+                                    </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 pr-0 ks_invoice">
+                                <h3 class="ks_company_name_color ks_company_name_bold ks_company_font_size" t-if="res_config.ks_display_company"
+                                    t-field="company.partner_id.name"/>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and not res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN No:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                                </p>
+                                <ul>
+                                    <li t-if="company.partner_id.phone and res_config.phone">
+                                        <a class="ks_company_add_color "
+                                           t-attf-href="tel:{{company.partner_id.phone}}">
+                                           <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                            <span t-field="company.partner_id.phone"/>
+                                        </a>
+                                    </li>
+                                    <li t-if="company.partner_id.email and res_config.email">
+                                        <a class=" ks_company_add_color "
+                                           t-attf-href="mailto:{{ company.partner_id.email }}">
+                                            <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                            <span t-field="company.partner_id.email"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-3 ks_invoice_number">
+                                <h3 class="ks_h1_font_color  ks_heading_bold  ks_h1_font_size ">
+                                    <span t-field="o.name"/>
+                                      <span t-if="is_deliveryslip_duplicate">[Duplicate]</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                        <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                        <t t-set="company" t-value="company"/>
+                    </t>
+                </div>
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                     t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                     t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <style t-raw="res_config.get_report_table_color()"/>
+                    <section class="ks_style_6 ks_address pb-3">
+                        <div class="custom-container">
+                           <div>
+                            <div class="row  py-3">
+                                <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                                <div t-if="partner" class="col-8  ks_invoice">
+                                    <t t-if="o.partner_id.company_type == 'company'">
+                                        <h3 t-field="o.partner_id.name"/>
+                                    </t>
+                                    <t t-if="o.partner_id.company_type == 'person'">
+                                        <t t-if="o.partner_id.parent_id.name">
+                                            <h3 t-field="o.partner_id.parent_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <h3 t-field="o.partner_id.name"/>
+                                        </t>
+                                    </t>
+                                    <div style="font-size:14px;" class="ks_company_add_color" t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id">
+                                        Attn: <span t-field="o.partner_id.name"/>
+                                    </div>
+                                    <p class="">
+                                        <t t-if="partner.street">
+                                            <t t-esc="partner.street"/>,
+                                        </t>
+                                        <t t-if="partner.street2">
+                                            <t t-esc="partner.street2"/>,
+                                        </t>
+                                        <t t-if="partner.city">
+                                            <t t-esc="partner.city"/>,
+                                        </t>
+                                        <t t-if="partner.zip">
+                                            <t t-esc="partner.zip"/>,
+                                        </t>
+                                        <t t-if="partner.state_id">
+                                            <t t-esc="partner.state_id.name"/>,
+                                        </t>
+                                        <t t-if="partner.country_id">
+                                            <t t-esc="partner.country_id.name"/>.
+                                        </t>
+                                    </p>                                    
+                                    <ul>
+                                        <li t-if="partner.phone">
+                                            <a t-attf-href="tel:{{partner.phone}}">
+                                               <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                <span t-field="partner.phone"/>
+                                            </a>
+                                        </li>
+                                        <li t-if="partner.email">
+                                            <a t-attf-href="mailto:{{ partner.email }}">
+                                             <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                <span t-field="partner.email"/>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-4">
+                                    <div class="row">
+                                        <div class="col-6 text-left">
+                                            <div t-if="o.origin" class="ks_details" name="div_origin">
+                                                <p class="text_font_color font_9">Order:</p>
+                                                <p class=" font_10" t-field="o.origin"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <div t-if="o.state" class=" ks_details" name="div_sched_date">
+                                                <p class="text_font_color font_9">Shipping Date:</p>
+                                                <t t-if="o.state == 'done'">
+                                                    <p class=" font_10" t-field="o.date_done"/>
+                                                </t>
+                                                <t t-if="o.state != 'done'">
+                                                    <p class=" font_10"
+                                                       t-field="o.scheduled_date"/>
+                                                </t>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                         <div class="col-6 text-left">
+                                            <div t-if="o.sudo().sale_id.client_order_ref" class="ks_details" name="div_ref">
+                                                <p class="text_font_color font_9">Customer Reference:</p>
+                                                <p class=" font_10" t-field="o.sudo().sale_id.client_order_ref"/>
+                                            </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                           </div>
+                        </div>
+                    </section>
+                    <t t-call="ks_custom_report_layouts.ks_delivery_report_table">
+                        <t t-set="ks_style" t-value="'ks_style_6'"/>
+                    </t>
+                    <br/><br/>
+                    <t t-if="o.note">
+                        <div class="row" style="page-break-inside: avoid; white-space: nowrap;">
+                            <div class="col-7 text-left">
+                                <strong style="color: black;">Note:</strong><br/>
+                                <span t-field="o.note"/>
+                           </div>
+                           <div class="col-5"/>
+                        </div>
+                        <br/><br/>
+                    </t>
+                    <section>
+                        <div class="custom-container" style="margin-top:100px;">
+                            <t t-if="o.picking_type_id.code=='outgoing'">
+                                <t t-call="ks_custom_report_layouts.ks_metro_sign_dynamic_on_delivery"/>
+                            </t>
+                            <t t-if="o.picking_type_id.code in ['incoming','internal']">
+                                <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+                <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_6'"/>
+                </t>
+            </t>
+        </template>
+        <template id="ks_report_delivery_style_7">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="ks_header header">
+                    <style t-raw="res_config.get_report_header_color()"/>
+                    <div class="custom-container ks_style_7">
+                        <div class="row pt-2">
+                            <div class="col-3">
+                                <div class=" d-block text-center ks_tagline ">
+                                    <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid ks_company_logo_font_size"
+                                         t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                    <div t-if="res_config.ks_show_company">
+                                    <p class="pl-2 ks_show_tagline mb-0">   
+                                        <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                        </span>
+                                        <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-field="company.name"/>
+                                        </span>
+                                        <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                            <t t-if="company.report_header">
+                                                <span t-field="company.report_header"/>
+                                            </t>
+                                            <t t-else="">
+                                                Company Tag Line
+                                            </t>
+                                        </span>
+                                    </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 pr-0 ks_invoice">
+                                <h3 class=" ks_company_name_color ks_company_name_bold ks_company_font_size" t-if="res_config.ks_display_company"
+                                    t-field="company.partner_id.name"/>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and not res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN No:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                                </p>
+                                <ul>
+                                    <li t-if="company.partner_id.phone and res_config.phone">
+                                        <a class="ks_company_add_color "
+                                           t-attf-href="tel:{{company.partner_id.phone}}">
+                                           <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                            <span t-field="company.partner_id.phone"/>
+                                        </a>
+                                    </li>
+                                    <li t-if="company.partner_id.email and res_config.email">
+                                        <a class=" ks_company_add_color "
+                                           t-attf-href="mailto:{{ company.partner_id.email }}">
+                                            <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                            <span t-field="company.partner_id.email"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-3 ks_invoice_number">
+                                <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">
+                                    <span t-field="o.name"/>
+                                    <span t-if="is_deliveryslip_duplicate">[Duplicate]</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                        <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                        <t t-set="company" t-value="company"/>
+                    </t>
+                </div>
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                     t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                     t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <style t-raw="res_config.get_report_table_color()"/>
+                    <section class="ks_style_7 ks_address pb-3">
+                        <div class="custom-container">
+                            <div>
+                                <div class="row py-2 border-top border-bottom">
+                                    <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                                    <div t-if="partner" class="col-8 border-right ks_invoice">
+                                        <t t-if="o.partner_id.company_type == 'company'">
+                                            <h3 t-field="o.partner_id.name"/>
+                                        </t>
+                                        <t t-if="o.partner_id.company_type == 'person'">
+                                            <t t-if="o.partner_id.parent_id.name">
+                                                <h3 t-field="o.partner_id.parent_id.name"/>
+                                            </t>
+                                            <t t-else="">
+                                                <h3 t-field="o.partner_id.name"/>
+                                            </t>
+                                        </t>
+                                        <div style="font-size:14px;" class="ks_company_add_color" t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id">
+                                            Attn: <span t-field="o.partner_id.name"/>
+                                        </div>
+                                        <p>
+                                            <t t-if="partner.street">
+                                                <t t-esc="partner.street"/>,
+                                            </t>
+                                            <t t-if="partner.street2">
+                                                <t t-esc="partner.street2"/>,
+                                            </t>
+                                            <t t-if="partner.city">
+                                                <t t-esc="partner.city"/>,
+                                            </t>
+                                            <t t-if="partner.zip">
+                                                <t t-esc="partner.zip"/>,
+                                            </t>
+                                            <t t-if="partner.state_id">
+                                                <t t-esc="partner.state_id.name"/>,
+                                            </t>
+                                            <t t-if="partner.country_id">
+                                                <t t-esc="partner.country_id.name"/>.
+                                            </t>
+                                        </p>                                        
+                                        <ul>
+                                            <li t-if="partner.phone">
+                                                <a t-attf-href="tel:{{partner.phone}}">
+                                                   <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                    <span t-field="partner.phone"/>
+                                                </a>
+                                            </li>
+                                            <li t-if="partner.email">
+                                                <a t-attf-href="mailto:{{ partner.email }}">
+                                                 <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                    <span t-field="partner.email"/>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="row">
+                                            <div class="col-6 text-left">
+                                                <div t-if="o.origin" class="ks_details" name="div_origin">
+                                                    <p class="text_font_color font_9">Order:</p>
+                                                    <p class=" font_10" t-field="o.origin"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 text-left">
+                                                <div t-if="o.state" class=" ks_details" name="div_sched_date">
+                                                    <p class="text_font_color font_9">Shipping Date:</p>
+                                                    <t t-if="o.state == 'done'">
+                                                        <p class=" font_10" t-field="o.date_done"/>
+                                                    </t>
+                                                    <t t-if="o.state != 'done'">
+                                                        <p class=" font_10"
+                                                           t-field="o.scheduled_date"/>
+                                                    </t>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                        <div class="row">
+                                           <div class="col-6 text-left">
+                                                <div t-if="o.sudo().sale_id.client_order_ref" class="ks_details" name="div_ref">
+                                                    <p class="text_font_color font_9">Customer Reference:</p>
+                                                    <p class=" font_10" t-field="o.sudo().sale_id.client_order_ref"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <t t-call="ks_custom_report_layouts.ks_delivery_report_table">
+                        <t t-set="ks_style" t-value="'ks_style_7'"/>
+                        <t t-set="ks_height" t-value="True"/>
+                    </t>
+                    <br/><br/>
+                    <t t-if="o.note">
+                        <div class="row" style="page-break-inside: avoid; white-space: nowrap;">
+                            <div class="col-7 text-left">
+                                <strong style="color: black;">Note:</strong><br/>
+                                <span t-field="o.note"/>
+                           </div>
+                           <div class="col-5"/>
+                        </div>
+                        <br/><br/>
+                    </t>
+                    <section>
+                        <div class="custom-container" style="margin-top:100px;">
+                            <t t-if="o.picking_type_id.code=='outgoing'">
+                                <t t-call="ks_custom_report_layouts.ks_metro_sign_dynamic_on_delivery"/>
+                            </t>
+                            <t t-if="o.picking_type_id.code in ['incoming','internal']">
+                                <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+                <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_7'"/>
+                </t>
+            </t>
+        </template>
+        <template id="ks_report_delivery_style_8">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="ks_header header">
+                    <style t-raw="res_config.get_report_header_color()"/>
+                    <div class="custom-container  ks_style_8">
+                        <div class="ks_white_bg">
+                            <div class="row">
+                                <div class="col-3 ks_invoice_number">
+                                    <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">
+                                        <span t-field="o.name"/>
+                                        <span t-if="is_deliveryslip_duplicate">[Duplicate]</span>
+                                    </h3>
+                                </div>
+                                <div class="col-3">
+                                    <div class=" d-block text-center ks_tagline ">
+                                        <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid ks_company_logo_font_size"
+                                             t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                        <div t-if="res_config.ks_show_company">
+                                            <p class="ks_show_tagline mb-0">
+                                            <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                            </span> 
+                                            <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                <span t-field="company.name"/>
+                                            </span>
+                                            <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                                <t t-if="company.report_header">
+                                                    <span t-field="company.report_header"/>
+                                                </t>
+                                                <t t-else="">
+                                                    Company Tag Line
+                                                </t>
+                                            </span>
+                                        </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 ks_invoice">
+                                    <h3 class="ks_company_name_color ks_company_name_bold ks_company_font_size" t-if="res_config.ks_display_company"
+                                        t-field="company.partner_id.name"/>
+                                    <p class="ks_company_add_color" t-if="res_config.ks_address and res_config.show_comma">
+                                        <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                        <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                        <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                        <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                        <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                        <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                    </p>
+                                    <p class="ks_company_add_color" t-if="res_config.ks_address and not res_config.show_comma">
+                                        <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                        <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                        <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                        <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                        <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                        <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                    </p>
+                                    <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                        <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                        <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                                    </p>
+                                    <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                        UEN No:
+                                        <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                                    </p>
+                                    <ul>
+                                        <li t-if="company.partner_id.phone and res_config.phone">
+                                            <a class="ks_company_add_color "
+                                               t-attf-href="tel:{{company.partner_id.phone}}">
+                                               <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                <span t-field="company.partner_id.phone"/>
+                                            </a>
+                                        </li>
+                                        <li t-if="company.partner_id.email and res_config.email">
+                                            <a class=" ks_company_add_color "
+                                               t-attf-href="mailto:{{ company.partner_id.email }}">
+                                             <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                <span t-field="company.partner_id.email"/>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                        <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                        <t t-set="company" t-value="company"/>
+                    </t>
+                </div>
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                     t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                     t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <style t-raw="res_config.get_report_table_color()"/>
+                    <section class="ks_style_8 ks_address">
+                        <div class="custom-container">
+                            <div class="ks_white_bg">
+                                <div>
+                                    <div class="row py-2 ">
+                                        <div class="col-4">
+                                            <div class="row">
+                                                <div class="col-6 text-left">
+                                                    <div t-if="o.origin" class="ks_details" name="div_origin">
+                                                        <p class="text_font_color font_9">Order:</p>
+                                                        <p class=" font_10" t-field="o.origin"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 text-left">
+                                                    <div t-if="o.state" class=" ks_details" name="div_sched_date">
+                                                        <p class="text_font_color font_9">Shipping Date:</p>
+                                                        <t t-if="o.state == 'done'">
+                                                            <p class=" font_10" t-field="o.date_done"/>
+                                                        </t>
+                                                        <t t-if="o.state != 'done'">
+                                                            <p class=" font_10"
+                                                               t-field="o.scheduled_date"/>
+                                                        </t>
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+                                            <div class="row">
+                                                 <div class="col-6 text-left">
+                                                    <div t-if="o.sudo().sale_id.client_order_ref" class="ks_details" name="div_ref">
+                                                        <p class="text_font_color font_9">Customer Reference:</p>
+                                                        <p class=" font_10" t-field="o.sudo().sale_id.client_order_ref"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                                        <div t-if="partner" class="col-4 offset-4 ks_invoice">
+                                            <t t-if="o.partner_id.company_type == 'company'">
+                                                <h3 t-field="o.partner_id.name"/>
+                                            </t>
+                                            <t t-if="o.partner_id.company_type == 'person'">
+                                                <t t-if="o.partner_id.parent_id.name">
+                                                    <h3 t-field="o.partner_id.parent_id.name"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <h3 t-field="o.partner_id.name"/>
+                                                </t>
+                                            </t>
+                                            <div style="font-size:14px;" class="ks_company_add_color" t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id">
+                                                Attn: <span t-field="o.partner_id.name"/>
+                                            </div>
+                                            <p>
+                                                <t t-if="partner.street">
+                                                    <t t-esc="partner.street"/>,
+                                                </t>
+                                                <t t-if="partner.street2">
+                                                    <t t-esc="partner.street2"/>,
+                                                </t>
+                                                <t t-if="partner.city">
+                                                    <t t-esc="partner.city"/>,
+                                                </t>
+                                                <t t-if="partner.zip">
+                                                    <t t-esc="partner.zip"/>,
+                                                </t>
+                                                <t t-if="partner.state_id">
+                                                    <t t-esc="partner.state_id.name"/>,
+                                                </t>
+                                                <t t-if="partner.country_id">
+                                                    <t t-esc="partner.country_id.name"/>.
+                                                </t>
+                                            </p>                                            
+                                            <ul>
+                                                <li t-if="partner.phone">
+                                                    <a t-attf-href="tel:{{partner.phone}}">
+                                                       <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                        <span t-field="partner.phone"/>
+                                                    </a>
+                                                </li>
+                                                <li t-if="partner.email">
+                                                    <a t-attf-href="mailto:{{ partner.email }}">
+                                                     <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                        <span t-field="partner.email"/>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <t t-call="ks_custom_report_layouts.ks_delivery_report_table">
+                        <t t-set="ks_style" t-value="'ks_style_8'"/>
+                    </t>
+                    <br/><br/>
+                    <t t-if="o.note">
+                        <div class="row" style="page-break-inside: avoid; white-space: nowrap;">
+                            <div class="col-7 text-left">
+                                <strong style="color: black;">Note:</strong><br/>
+                                <span t-field="o.note"/>
+                           </div>
+                           <div class="col-5"/>
+                        </div>
+                        <br/><br/>
+                    </t>
+                    <section>
+                        <div class="custom-container" style="margin-top:100px;">
+                            <t t-if="o.picking_type_id.code=='outgoing'">
+                                <t t-call="ks_custom_report_layouts.ks_metro_sign_dynamic_on_delivery"/>
+                            </t>
+                            <t t-if="o.picking_type_id.code in ['incoming','internal']">
+                                <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+                <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_8'"/>
+                </t>
+            </t>
+        </template>
+        <template id="ks_report_delivery_style_9">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="ks_header header">
+                    <style t-raw="res_config.get_report_header_color()"/>
+                    <div class="custom-container ks_style_9">
+                        <div class="row mt-1">
+                            <div class="col-4">
+                                <div>
+                                    <div class="float-left ks_tagline" style="width:100%">
+                                        <div t-if="res_config.ks_show_logo" style="width:30%" class="float-left">
+                                            <img t-if="company.logo" class="img-fluid ks_company_logo_font_size"
+                                                 t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                        </div>
+                                        <div t-if="res_config.ks_show_company" style="width:70%" class="float-left">
+                                            <p class="pl-2 ks_show_tagline mb-0">
+                                                <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                    <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                                </span>
+                                                <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                                    <span t-field="company.name"/>
+                                                </span>
+                                                <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                                    <t t-if="company.report_header">
+                                                        <span t-field="company.report_header"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        Company Tag Line
+                                                    </t>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="py-2 ks_invoice_number">
+                                    <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">
+                                        <span t-field="o.name"/>
+                                        <span t-if="is_deliveryslip_duplicate">[Duplicate]</span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="col-8 offset-1 pr-0 ks_invoice">
+                                <h3 class="ks_company_name_color ks_company_name_bold ks_company_font_size" t-if="res_config.ks_display_company"
+                                    t-field="company.partner_id.name"/>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and not res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN No:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                                </p>
+                                <ul>
+                                    <li t-if="company.partner_id.phone and res_config.phone">
+                                        <a class="ks_company_add_color "
+                                           t-attf-href="tel:{{company.partner_id.phone}}">
+                                           <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                            <span t-field="company.partner_id.phone"/>
+                                        </a>
+                                    </li>
+                                    <li t-if="company.partner_id.email and res_config.email">
+                                        <a class=" ks_company_add_color "
+                                           t-attf-href="mailto:{{ company.partner_id.email }}">
+                                            <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                            <span t-field="company.partner_id.email"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                        <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                        <t t-set="company" t-value="company"/>
+                    </t>
+                </div>
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                     t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                     t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <style t-raw="res_config.get_report_table_color()"/>
+                    <section class="ks_style_9 ks_address">
+                        <div class="custom-container">
+                            <div>
+                                <div class="row py-2 ">
+                                    <div class="col-4">
+                                        <div class="row">
+                                            <div class="col-6 text-left">
+                                                <div t-if="o.origin" class="ks_details" name="div_origin">
+                                                    <p class="text_font_color font_9">Order:</p>
+                                                    <p class=" font_10" t-field="o.origin"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 text-left">
+                                                <div t-if="o.state" class=" ks_details" name="div_sched_date">
+                                                    <p class="text_font_color font_9">Shipping Date:</p>
+                                                    <t t-if="o.state == 'done'">
+                                                        <p class=" font_10" t-field="o.date_done"/>
+                                                    </t>
+                                                    <t t-if="o.state != 'done'">
+                                                        <p class=" font_10"
+                                                           t-field="o.scheduled_date"/>
+                                                    </t>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 text-left">
+                                                <div t-if="o.sudo().sale_id.client_order_ref" class="ks_details" name="div_ref">
+                                                    <p class="text_font_color font_9">Customer Reference:</p>
+                                                    <p class=" font_10" t-field="o.sudo().sale_id.client_order_ref"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                                    <div t-if="partner" class="col-4 offset-4 ks_invoice">
+                                        <t t-if="o.partner_id.company_type == 'company'">
+                                            <h3 t-field="o.partner_id.name"/>
+                                        </t>
+                                        <t t-if="o.partner_id.company_type == 'person'">
+                                            <t t-if="o.partner_id.parent_id.name">
+                                                <h3 t-field="o.partner_id.parent_id.name"/>
+                                            </t>
+                                            <t t-else="">
+                                                <h3 t-field="o.partner_id.name"/>
+                                            </t>
+                                        </t>
+                                        <div style="font-size:14px;" class="ks_company_add_color" t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id">
+                                            Attn: <span t-field="o.partner_id.name"/>
+                                        </div>
+                                        <p>
+                                            <t t-if="partner.street">
+                                                <t t-esc="partner.street"/>,
+                                            </t>
+                                            <t t-if="partner.street2">
+                                                <t t-esc="partner.street2"/>,
+                                            </t>
+                                            <t t-if="partner.city">
+                                                <t t-esc="partner.city"/>,
+                                            </t>
+                                            <t t-if="partner.zip">
+                                                <t t-esc="partner.zip"/>,
+                                            </t>
+                                            <t t-if="partner.state_id">
+                                                <t t-esc="partner.state_id.name"/>,
+                                            </t>
+                                            <t t-if="partner.country_id">
+                                                <t t-esc="partner.country_id.name"/>.
+                                            </t>
+                                        </p>                                        
+                                        <ul>
+                                            <li t-if="partner.phone">
+                                                <a t-attf-href="tel:{{partner.phone}}">
+                                                   <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                    <span t-field="partner.phone"/>
+                                                </a>
+                                            </li>
+                                            <li t-if="partner.email">
+                                                <a t-attf-href="mailto:{{ partner.email }}">
+                                                 <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                    <span t-field="partner.email"/>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <t t-call="ks_custom_report_layouts.ks_delivery_report_table">
+                        <t t-set="ks_style" t-value="'ks_style_9'"/>
+                    </t>
+                    <br/><br/>
+                    <t t-if="o.note">
+                        <div class="row" style="page-break-inside: avoid; white-space: nowrap;">
+                            <div class="col-7 text-left">
+                                <strong style="color: black;">Note:</strong><br/>
+                                <span t-field="o.note"/>
+                           </div>
+                           <div class="col-5"/>
+                        </div>
+                        <br/><br/>
+                    </t>
+                    <section>
+                        <div class="custom-container" style="margin-top:100px;">
+                            <t t-if="o.picking_type_id.code=='outgoing'">
+                                <t t-call="ks_custom_report_layouts.ks_metro_sign_dynamic_on_delivery"/>
+                            </t>
+                            <t t-if="o.picking_type_id.code in ['incoming','internal']">
+                                <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+                <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_9'"/>
+                </t>
+            </t>
+        </template>
+        <template id="ks_report_delivery_style_10">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="ks_header header">
+                    <style t-raw="res_config.get_report_header_color()"/>
+                    <div class="custom-container ks_style_10">
+                        <div class="row mt-1">
+                            <div class="col-4">
+                                <div class="d-flex justify-content-end  ks_tagline ">
+                                    <img t-if="company.logo and res_config.ks_show_logo" class="img-fluid ks_company_logo_font_size" t-att-src="image_data_uri(company.logo)" style="max-height:40px" alt="Logo"/>
+                                    <div t-if="res_config.ks_show_company">
+                                    <p class="pl-1 ks_show_tagline mb-0">
+                                        <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-esc="res_config.company_id.ks_report_company_title"/>
+                                        </span>
+                                        <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                            <span t-field="company.name"/>
+                                        </span>
+                                        <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                            <t t-if="company.report_header">
+                                                <span t-field="company.report_header"/>
+                                            </t>
+                                            <t t-else="">
+                                                Company Tag Line
+                                            </t>
+                                        </span>
+                                    </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 offset-2 pr-0 ks_invoice">
+                                <h3 class="ks_company_name_color ks_company_name_bold ks_company_font_size" t-if="res_config.ks_display_company" t-field="company.partner_id.name"/>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/><t t-if="company.partner_id.street2 or company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/><t t-if="company.partner_id.city or company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/><t t-if="company.partner_id.zip or company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/><t t-if="company.partner_id.state_id or company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/><t t-if="company.partner_id.country_id and res_config.show_country">, </t></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p class="ks_company_add_color" t-if="res_config.ks_address and not res_config.show_comma">
+                                    <t t-if="company.partner_id.street"><t t-esc="company.partner_id.street"/></t>
+                                    <t t-if="company.partner_id.street2"><t t-esc="company.partner_id.street2"/></t>
+                                    <t t-if="company.partner_id.city"><t t-esc="company.partner_id.city"/></t>
+                                    <t t-if="company.partner_id.zip"><t t-esc="company.partner_id.zip"/></t>
+                                    <t t-if="company.partner_id.state_id"><t t-esc="company.partner_id.state_id.name"/></t>
+                                    <t t-if="company.partner_id.country_id and res_config.show_country"><t t-esc="company.partner_id.country_id.name"/></t>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.vat"/>
+                                </p>
+                                <p t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN No:
+                                    <span class="ks_company_add_color" t-field="company.partner_id.l10n_sg_unique_entity_number"/>
+                                </p>
+                                <ul>
+                                    <li t-if="company.partner_id.phone and res_config.phone">
+                                        <a class="ks_company_add_color " t-attf-href="tel:{{company.partner_id.phone}}">
+                                           <img style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                            <span t-field="company.partner_id.phone"/>
+                                        </a>
+                                    </li>
+                                    <li t-if="company.partner_id.email and res_config.email">
+                                        <a class=" ks_company_add_color " t-attf-href="mailto:{{ company.partner_id.email }}">
+                                            <img style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                            <span t-field="company.partner_id.email"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <t t-if="res_config.is_watermark" t-call="ks_custom_report_layouts.ks_water_mark">
+                        <t t-set="record" t-value="res_config if res_config.ks_custom_water_mark_setting else company"/>
+                        <t t-set="company" t-value="company"/>
+                    </t>
+                </div>
+                <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                     t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                     t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <style t-raw="res_config.get_report_table_color()"/>
+                    <section class="ks_style_10 ks_address pb-3">
+                        <div class="custom-container">
+                            <div>
+                                <div class="row mt-4">
+                                    <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                                    <div t-if="partner" class="col-5  ks_invoice">
+                                        <t t-if="o.partner_id.company_type == 'company'">
+                                            <h3 t-field="o.partner_id.name"/>
+                                        </t>
+                                        <t t-if="o.partner_id.company_type == 'person'">
+                                            <t t-if="o.partner_id.parent_id.name">
+                                                <h3 t-field="o.partner_id.parent_id.name"/>
+                                            </t>
+                                            <t t-else="">
+                                                <h3 t-field="o.partner_id.name"/>
+                                            </t>
+                                        </t>
+                                        <div style="font-size:14px;" class="ks_company_add_color" t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id">
+                                            Attn: <span t-field="o.partner_id.name"/>
+                                        </div>
+                                        <p class="">
+                                            <t t-if="partner.street">
+                                                <t t-esc="partner.street"/>,
+                                            </t>
+                                            <t t-if="partner.street2">
+                                                <t t-esc="partner.street2"/>,
+                                            </t>
+                                            <t t-if="partner.city">
+                                                <t t-esc="partner.city"/>,
+                                            </t>
+                                            <t t-if="partner.zip">
+                                                <t t-esc="partner.zip"/>,
+                                            </t>
+                                            <t t-if="partner.state_id">
+                                                <t t-esc="partner.state_id.name"/>,
+                                            </t>
+                                            <t t-if="partner.country_id">
+                                                <t t-esc="partner.country_id.name"/>.
+                                            </t>
+                                        </p>
+                                        <ul>
+                                            <li t-if="partner.phone">
+                                                <a t-attf-href="tel:{{partner.phone}}">
+                                                   <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/phone.png"/>
+                                                    <span t-field="partner.phone"/>
+                                                </a>
+                                            </li>
+                                            <li t-if="partner.email">
+                                                <a t-attf-href="mailto:{{ partner.email }}">
+                                                 <img  style="padding-right:3px;margin-top:-7px;" src="/ks_custom_report_layouts/static/images/mail.png"/>
+                                                    <span t-field="partner.email"/>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-4 offset-3 ks_invoice_number">
+                                        <h3 class="ks_h1_font_color ks_h1_font_size ks_heading_bold">
+                                            <span t-field="o.name"/>
+                                            <span class="text-uppercase" t-if="is_deliveryslip_duplicate">[Duplicate]</span>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="ks_style_10 ks_address ks_address_10">
+                        <div class="custom-container">
+                            <div class="row my-3 ks_info_dates">
+                                <div t-if="o.origin" class="col-3  ks_details text-left" name="div_origin">
+                                    <div class="border-right">
+                                        <p class="text_font_color font_9">Order:</p>
+                                        <p class="  font_10" t-field="o.origin"/>
+                                    </div>
+                                </div>
+                                <div t-if="o.state" class="col-3  ks_details text-left" name="div_sched_date">
+                                    <p class="text_font_color font_9">Shipping Date:</p>
+                                    <t t-if="o.state == 'done'">
+                                        <p class=" font_10" t-field="o.date_done"/>
+                                    </t>
+                                    <t t-if="o.state != 'done'">
+                                        <p class=" font_10" t-field="o.scheduled_date"/>
+                                    </t>
+                                </div>
+                                <div t-if="o.sudo().sale_id.client_order_ref" class="col-3  ks_details text-left" name="div_ref">
+                                    <div class="border-right">
+                                        <p class="text_font_color font_9">Customer Reference:</p>
+                                        <p class="font_10" t-field="o.sudo().sale_id.client_order_ref"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <t t-call="ks_custom_report_layouts.ks_delivery_report_table">
+                        <t t-set="ks_style" t-value="'ks_style_10'"/>
+                    </t>
+                    <br/><br/>
+                    <t t-if="o.note">
+                        <div class="row" style="page-break-inside: avoid; white-space: nowrap;">
+                            <div class="col-7 text-left">
+                                <strong style="color: black;">Note:</strong><br/>
+                                <span t-field="o.note"/>
+                           </div>
+                           <div class="col-5"/>
+                        </div>
+                        <br/><br/>
+                    </t>
+                    <section>
+                        <div class="custom-container" style="margin-top:100px;">
+                            <t t-if="o.picking_type_id.code=='outgoing'">
+                                <t t-call="ks_custom_report_layouts.ks_metro_sign_dynamic_on_delivery"/>
+                            </t>
+                            <t t-if="o.picking_type_id.code in ['incoming','internal']">
+                                <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+                <t t-call="ks_custom_report_layouts.ks_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_10'"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="ks_delivery_report_table">
+            <section t-attf-class="#{ks_style or ''} ks_table_section">
+                <div class="custom-container">
+                    <table t-attf-class="#{'ks_table_pick-1' if ks_style == 'ks_style_4' else 'ks_table_pick' if ks_style == 'ks_style_7' else ''} #{'ks_table' if ks_style not in [ 'ks_style_4', 'ks_style_7'] else ''}" t-if="o.state!='done'" name="stock_move_table">
+                        <thead t-attf-class="#{'border-top border-bottom' if ks_style == 'ks_style_10' else ''} #{'custom-table-header' if ks_style == 'ks_style_4' else ''}">
+                            <tr>
+                                <th class="ks_table_head_backgrnd_color ks_table_head_text_color
+                                           ks_table_head_text_size" width="7%" scope="col">Sr. No.
+                                </th>
+                                <th t-if="res_config.ks_product_desc"
+                                    t-attf-class="#{'ks_table_design_4' if ks_style in ['ks_style_4','ks_style_7'] else ''}
+                                                  ks_table_head_backgrnd_color ks_table_head_text_color ks_table_head_text_size
+                                                  ks_product_desc" width="10%" scope="col" name="th_sm_product">Product
+                                    <t t-if="ks_style in ['ks_style_4','ks_style_7']">
+                                        <span class="ks_hide_design_4 ks_table_head_backgrnd_color"/>
+                                    </t>
+                                </th>
+                                <th t-attf-class="ks_table_head_backgrnd_color ks_table_head_text_color
+                                ks_table_head_text_size" width="15%" scope="col" name="th_sm_quantity">Quantity
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="printed_lines" t-value="[]"/>
+                                                 
+                            <t t-set="count" t-value="1"/>
+                            <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)"/>
+                            <t t-foreach="lines" t-as="move">
+                                <t t-if="res_config.display_note_section and move.sale_line_id">
+                                <t t-foreach="move.sale_line_id._get_line_headers_for_product()" t-as="prev_line">
+                                    <t t-if="prev_line.id not in printed_lines">
+                                        <tr t-att-class="'font-weight-bold o_line_section' if prev_line.display_type=='line_section' else 'font-italic o_line_note'">
+                                            <td colspan="3" 
+                                                t-att-style="'background-color:#6F7172;' if prev_line.display_type=='line_section' else 'background-color:transparent;'">
+                                                <span t-esc="prev_line.name"/>
+                                            </td>
+                                        </tr>
+                                        <t t-set="printed_lines" t-value="printed_lines + [prev_line.id]"/>
+                                    </t>
+                                </t>
+                            </t>
+
+                            <tr t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}">
+                                <td t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}" >
+                                    <span t-esc="count"/>
+                                </td>
+                                <td  t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}"  t-if="res_config.ks_product_desc">
+                                    <p t-if="not res_config.display_internal_ref">
+                                        <span t-field="move.product_id.name"/>
+                                    </p>
+                                    <p t-if="res_config.display_internal_ref">
+                                        <span t-field="move.product_id"/>
+                                    </p>
+                                    <p t-if="move.description_picking != move.product_id.name">
+                                        <span t-field="move.description_picking"/>
+                                    </p>
+                                </td>
+                                <td t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}" >
+                                    <t t-if="res_config.display_qty_as_integer">
+                                        <span t-esc="int(move.product_uom_qty)"/>
+                                    </t>
+                                    <t t-if="not res_config.display_qty_as_integer">
+                                        <span t-field="move.product_uom_qty"/>
+                                    </t>
+                                    <span t-field="move.product_uom"/>
+                                </td>
+                                <t t-set="count" t-value="count+1"/>
+                            </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <table t-attf-class="#{'ks_table_pick-1' if ks_style == 'ks_style_4' else 'ks_table_pick' if ks_style == 'ks_style_7' else ''} #{'ks_table' if ks_style not in [ 'ks_style_4', 'ks_style_7'] else ''}" t-if="o.move_line_ids and o.state=='done'" name="stock_move_line_table">
+                        <t t-set="has_serial_number" t-value="False"/>
+                        <t t-set="has_serial_number" t-value="o.move_line_ids.mapped('lot_id')" groups="stock.group_lot_on_delivery_slip"/>
+                        <thead t-attf-class="#{'border-top border-bottom' if ks_style == 'ks_style_10' else ''} #{'custom-table-header' if ks_style == 'ks_style_4' else ''}">
+                            <tr>
+                                <th class="ks_table_head_backgrnd_color ks_table_head_text_color
+                                ks_table_head_text_size" width="7%" scope="col">Sr. No.
+                                </th>
+                                <th t-attf-class="#{'ks_table_design_4' if ks_style in ['ks_style_4','ks_style_7'] else ''}
+                                     ks_product_desc ks_table_head_backgrnd_color ks_table_head_text_color ks_table_head_text_size"
+                                    width="12%" scope="col" name="th_sml_product">Product
+                                    <t t-if="ks_style in ['ks_style_4','ks_style_7']">
+                                        <span class="ks_hide_design_4 ks_table_head_backgrnd_color"/>
+                                    </t>
+                                </th>
+                                <t name="lot_serial" t-if="has_serial_number">
+                                    <th class="ks_table_head_backgrnd_color ks_table_head_text_color
+                                        ks_table_head_text_size" width="10%" scope="col">Lot/Serial Number
+                                    </th>
+                                </t>
+                                <th class="ks_table_head_backgrnd_color ks_table_head_text_color
+                                ks_table_head_text_size" width="10%" scope="col" name="th_sml_quantity">Quantity
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="count" t-value="1"/>
+                            <t t-if="o.has_packages" name="has_packages">
+                                <t t-set="packages" t-value="o.move_line_ids.mapped('result_package_id')"/>
+                                <t t-foreach="packages" t-as="package">
+                                    <t t-call="stock.stock_report_delivery_package_section_line"/>
+                                    <t t-set="package_move_lines" t-value="o.move_line_ids.filtered(lambda l: l.result_package_id == package)"/>
+                                    <!-- If printing lots/serial numbers => keep products in original lines -->
+                                    <t t-if="has_serial_number">
+                                        <tr t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}" t-foreach="package_move_lines" t-as="move_line">
+                                            <t t-call="stock.stock_report_delivery_has_serial_move_line"/>
+                                            <t t-set="count" t-value="count+1"/>
+                                        </tr>
+                                    </t>
+                                    <!-- If not printing lots/serial numbers => merge lines with same product+description+uom -->
+                                    <t t-else="">
+                                        <t t-set="aggregated_lines" t-value="package_move_lines._get_aggregated_product_quantities()"/>
+                                        <t t-call="stock.stock_report_delivery_aggregated_move_lines"/>
+                                        <t t-set="count" t-value="count+1"/>
+                                    </t>
+                                </t>
+                                <!-- Make sure we do another section for package-less products if they exist -->
+                                <t t-set="move_lines" t-value="o.move_line_ids.filtered(lambda l: not l.result_package_id)"/>
+                                <t t-if="move_lines" name="no_package_move_lines">
+                                    <t t-call="stock.stock_report_delivery_no_package_section_line" name="no_package_section"/>
+                                    <t t-if="has_serial_number">
+                                        <tr t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}" t-foreach="move_lines" t-as="move_line">
+                                            <t t-call="stock.stock_report_delivery_has_serial_move_line"/>
+                                            <t t-set="count" t-value="count+1"/>
+                                        </tr>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="aggregated_lines" t-value="move_lines._get_aggregated_product_quantities()"/>
+                                        <t t-if="aggregated_lines">
+                                            <t t-call="stock.stock_report_delivery_aggregated_move_lines"/>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <!-- No destination packages -->
+                            <t t-else="">
+                                <!-- If printing lots/serial numbers => keep products in original lines -->
+                                <t t-if="has_serial_number">
+                                    <tr t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}" t-foreach="o.move_line_ids" t-as="move_line">
+                                        <t t-call="stock.stock_report_delivery_has_serial_move_line"/>
+                                        <t t-set="count" t-value="count+1"/>
+                                    </tr>
+                                </t>
+                                <!-- If not printing lots/serial numbers => merge lines with same product -->
+                                <t t-else="" name="aggregated_move_lines">
+                                    <t t-set="aggregated_lines" t-value="o.move_line_ids._get_aggregated_product_quantities()"/>
+                                    <t t-call="stock.stock_report_delivery_aggregated_move_lines"/>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                    <t t-set="backorders" t-value="o.backorder_ids.filtered(lambda x: x.state not in ('done', 'cancel'))"/>
+                    <t t-if="o.backorder_ids and backorders">
+                        <p>
+                            <span>All items couldn't be shipped, the following items will be shipped as soon as they become available.</span>
+                        </p>
+                        <table t-attf-class="#{'ks_table_pick-1' if ks_style == 'ks_style_4' else ''} #{'ks_table_pick' if ks_style == 'ks_style_7' else 'ks_table'}" name="stock_backorder_table">
+                            <thead t-attf-class="#{'border-top border-bottom' if ks_style == 'ks_style_10' else ''}">
+                                <tr>
+                                    <th class="ks_table_head_backgrnd_color ks_table_head_text_color
+                                     ks_table_head_text_size" width="7%" scope="col">Sr. No.
+                                    </th>
+                                    <th t-if="res_config.ks_product_desc" t-attf-class="#{'ks_table_design_4' if ks_style in ['ks_style_4','ks_style_7'] else ''}
+                                                  ks_product_desc ks_table_head_backgrnd_color ks_table_head_text_color ks_table_head_text_size" width="10%" scope="col" name="th_sb_product">Product
+                                        <t t-if="ks_style in ['ks_style_4','ks_style_7']">
+                                            <span class="ks_hide_design_4 ks_table_even_color"/>
+                                        </t>
+                                    </th>
+                                    <th class="ks_table_head_backgrnd_color ks_table_head_text_color
+                                        ks_table_head_text_size" width="10%" scope="col" name="th_sb_quantity">Quantity
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="count" t-value="1"/>
+                                <t t-set="printed_lines" t-value="[]"/>
+                                <t t-foreach="backorders" t-as="backorder">
+                                    <t t-set="bo_lines"
+                                       t-value="backorder.move_lines.filtered(lambda x: x.product_uom_qty)"/>
+                                    <tr t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}" t-foreach="bo_lines" t-as="bo_line">
+                                        <!-- Print preceding sections/notes for this backorder line -->
+                                        <t t-if="res_config.display_note_section and bo_line.sale_line_id">
+                                            <t t-foreach="bo_line.sale_line_id._get_line_headers_for_product()" t-as="prev_line">
+                                                <t t-if="prev_line.id not in printed_lines">
+                                                    <tr t-att-class="'bg-200 font-weight-bold o_line_section' if prev_line.display_type=='line_section' else 'font-italic o_line_note'">
+                                                        <td colspan="3" t-att-style="'background-color:#6F7172;' if prev_line.display_type=='line_section' else 'background-color:transparent;'">
+                                                            <span t-esc="prev_line.name"/>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-set="printed_lines" t-value="printed_lines + [prev_line.id]"/>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <td t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}" >
+                                            <span t-esc="count"/>
+                                        </td>
+                                        <td t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}"  t-if="res_config.ks_product_desc">
+                                            <span t-field="bo_line.product_id"/>
+                                            <p t-if="bo_line.description_picking != bo_line.product_id.name">
+                                                <span t-field="bo_line.description_picking"/>
+                                            </p>
+                                        </td>
+                                        <td t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}" >
+                                            <t t-if="res_config.display_qty_as_integer">
+                                                <span t-esc="int(bo_line.product_uom_qty)"/>
+                                            </t>
+                                            <t t-if="not res_config.display_qty_as_integer">
+                                                <span t-field="bo_line.product_uom_qty"/>
+                                            </t>
+                                            <span t-field="bo_line.product_uom"/>
+                                        </td>
+                                        <t t-set="count" t-value="count+1"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </section>
+        </template>
+
+
+        <template id="ks_delivery_has_serial_move_line" inherit_id="stock.stock_report_delivery_has_serial_move_line">
+            <xpath expr="//td[1]" position="before">
+                <td>
+                    <span t-esc="count"/>
+                </td>
+            </xpath>
+            <xpath expr="//td[@name='move_line_lot_qty_done']" position="replace">
+                <td class="text-center" name="move_line_lot_qty_done">
+                    <t t-if="res_config.display_qty_as_integer">
+                        <span t-esc="int(move_line.qty_done)"/>
+                    </t>
+                    <t t-if="not res_config.display_qty_as_integer">
+                        <span t-field="move_line.qty_done"/>
+                    </t>
+                    <span t-field="move_line.product_uom_id"/>
+                </td>
+            </xpath>
+            
+        </template>
+
+        <template id="ks_delivery_package_section_line" inherit_id="stock.stock_report_delivery_package_section_line">
+            <xpath expr="//tr[1]" position="attributes">
+                <attribute name="t-attf-class">#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'} 'bg-200 font-weight-bold o_line_section'</attribute>
+            </xpath>
+
+            <xpath expr="//td[1]" position="before">
+                <td>
+                    <span t-esc="count"/>
+                    <t t-set="count" t-value="count+1"/>
+                </td>
+            </xpath>
+        </template>
+
+
+        <template id="ks_delivery_aggregated_move_lines" inherit_id="stock.stock_report_delivery_aggregated_move_lines">
+
+            <!-- Initialize helpers -->
+            <xpath expr="//tr[1]" position="before">
+                <t t-set="printed_lines" t-value="[]"/>
+                <t t-set="sorted_lines" t-value="sorted(aggregated_lines.keys())"/>
+                <t t-set="count" t-value="1"/>
+            </xpath>
+
+            <!-- Replace the main foreach loop -->
+            <xpath expr="//tr[@t-foreach='aggregated_lines']" position="replace">
+                <t t-foreach="sorted_lines" t-as="line">
+                    <t t-set="agg_line" t-value="aggregated_lines.get(line, {})"/>
+                    <t t-set="so_line" t-value="agg_line.get('sale_line_id')"/>
+
+                    <!-- SECTION + NOTE above product -->
+                    <t t-if="res_config.display_note_section and so_line">
+                        <t t-foreach="so_line._get_line_headers_for_product()" t-as="prev_line">
+                            <t t-if="prev_line.id not in printed_lines">
+                                <tr t-att-class="'bg-200 font-weight-bold o_line_section' if prev_line.display_type=='line_section' else 'font-italic o_line_note'">
+                                    <td colspan="4"
+                                        t-att-style="'background-color:#6F7172;' if prev_line.display_type=='line_section' else 'background-color:transparent;'">
+                                        <span t-esc="prev_line.name"/>
+                                    </td>
+                                </tr>
+                                <t t-set="printed_lines" t-value="printed_lines + [prev_line.id]"/>
+                            </t>
+                        </t>
+                    </t>
+
+                    <!-- PRODUCT ROW -->
+                    <tr t-attf-class="#{'ks_table_even_color' if count%2 == 0 else 'ks_table_odd_color'}">
+                        <!-- Sr.No -->
+                        <td>
+                            <span t-esc="count"/>
+                            <t t-set="count" t-value="count+1"/>
+                        </td>
+
+                        <!-- Product/Internal Reference -->
+                        <td t-if="res_config.display_internal_ref">
+                            <span t-esc="agg_line.get('name')"/>
+                            <p t-if="agg_line.get('description')">
+                                <span t-esc="agg_line.get('description')"/>
+                            </p>
+                        </td>
+                        <td t-if="not res_config.display_internal_ref">
+                            <span t-esc="agg_line.get('product_name')"/>
+                            <p t-if="agg_line.get('description')">
+                                <span t-esc="agg_line.get('description')"/>
+                            </p>
+                        </td>
+
+                        <!-- Quantity -->
+                        <td class="text-left" name="move_line_aggregated_qty_done">
+                            <t t-if="res_config.display_qty_as_integer">
+                                <span t-esc="int(agg_line.get('qty_done', 0))"/>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="agg_line.get('qty_done', 0)"
+                                    t-options="{'widget': 'float', 'decimal_precision': 'Product Unit of Measure'}"/>
+                            </t>
+                            <span t-esc="agg_line.get('product_uom')"/>
+                        </td>
+                    </tr>
+                </t>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

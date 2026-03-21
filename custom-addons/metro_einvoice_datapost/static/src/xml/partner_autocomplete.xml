@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <div t-name="partner_peppol_autocomplete.dropdown" class="o_partner_autocomplete_dropdown_peppol dropdown-menu show" role="menu">
+        <t t-foreach="suggestions" t-as="info">
+          <a role="menuitem" href="#"
+              t-attf-class="dropdown-item o_partner_autocomplete_suggestion_peppol clearfix#{info_index == 0 and ' active' or ''}"
+              t-att-data-index="info_index">
+              <!-- <img t-att-src="info['logo']" onerror="this.src='/base/static/img/company_image.png'" alt="Placeholder"/> -->
+                <div class="o_partner_autocomplete_info_peppol" role="menuitem">
+                    <strong><t t-esc="info['description']"/></strong>
+                    <div><t t-esc="info['label']"/></div>
+                </div>
+                </a>
+
+        </t>
+    </div>
+
+
+
+</templates>

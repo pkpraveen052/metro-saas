@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_om_account_followup_print_inherit_invoice_user" model="ir.ui.view">
+            <field name="name">account.followup.print.form.inherit.invoice.user</field>
+            <field name="model">followup.print</field>
+            <field name="inherit_id" ref="om_account_followup.view_om_account_followup_print"/>
+            <field name="arch" type="xml">
+
+                <!-- Add Invoice User Group -->
+                <xpath expr="//field[@name='date']" position="attributes">
+                    <attribute name="groups">
+                        metroerp_customizations.sub_admin_group,
+                        base.group_system,
+                        metro_invoice_user.group_account_invoice_user
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='followup_id']" position="attributes">
+                    <attribute name="groups">
+                        metroerp_customizations.sub_admin_group,
+                        base.group_system,
+                        metro_invoice_user.group_account_invoice_user
+                    </attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

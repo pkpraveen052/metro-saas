@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_vendor_not_found_wizard,vendor.not.found.wizard,model_vendor_not_found_wizard,,1,1,1,0
+access_invoice_upload_wizard,invoice.upload.wizard,model_invoice_upload_wizard,,1,1,1,1
+access_mismatch_warning_wizard_user,mismatch.warning.wizard.user,model_mismatch_warning_wizard,base.group_user,1,1,1,1
+access_invoice_ocr_logs_user,invoice.ocr.logs.user,model_invoice_ocr_logs,base.group_user,1,1,1,1

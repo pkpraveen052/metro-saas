@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <menuitem id="om_account_accountant.menu_account_tag"
+			action="om_account_accountant.action_account_account_tag"
+			sequence="40"
+			parent="account.account_account_menu"
+			groups="base.group_system"/>
+
+</odoo>

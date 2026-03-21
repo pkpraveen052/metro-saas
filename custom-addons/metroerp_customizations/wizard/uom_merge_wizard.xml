@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- UoM Merge Wizard Form -->
+    <record id="uom_merge_automatic_wizard_form" model="ir.ui.view">
+        <field name="name">uom.merge.automatic.wizard</field>
+        <field name="model">uom.merge.automatic.wizard</field>
+        <field name="arch" type="xml">
+            <form string="UoM Merge Wizard">
+                <sheet>
+                    <group>
+                        <p class="oe_grey">
+                            Selected UoMs will be merged together.
+                            All documents linked to one of these UoMs
+                            will be redirected to the destination UoM.
+                            You can remove UoMs from this list to avoid merging them.
+                        </p>
+                        <group col="2">
+                            <field name="dst_uom_id" domain="[('id', 'in', uom_ids or False)]" required="1"/>
+                        </group>
+                        <field name="uom_ids" nolabel="1">
+                            <tree string="Units of Measure">
+                                <field name="id"/>
+                                <field name="name"/>
+                                <field name="category_id"/>
+                                <field name="uom_type"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_merge" string="Merge UoMs"
+                        class="oe_highlight" type="object"/>
+                    <button special="cancel" string="Cancel" type="object"
+                        class="btn btn-secondary oe_inline"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+       <!-- Action to open UoM Merge Wizard -->
+    <record id="action_uom_merge" model="ir.actions.act_window">
+        <field name="name">Merge UoMs</field>
+        <field name="res_model">uom.merge.automatic.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="uom.model_uom_uom"/>
+        <field name="binding_view_types">list</field>
+    </record>
+</odoo>

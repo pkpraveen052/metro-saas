@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_company_peppolsg_inherit" model="ir.ui.view">
+        <field name="name">view.company.peppol.sg.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_info']" position="after">
+                <page name="peppol_identifier" string="e-Invoice">
+                    <group>
+                        <group string="Peppol Identifier">
+                            <group colspan="2">
+                                <label for="peppol_identifier" string="Identifier"/>
+                                <div>
+                                    <field name="peppol_identifier" class="oe_inline" placeholder="eg: sguen201316807h"/>
+                                </div>
+                                <label for="peppol_scheme" string="Scheme"/>
+                                <div>
+                                  <field name="peppol_scheme" class="oe_inline" placeholder="eg: 0195" string="Scheme"/>
+                                </div>
+                                <field name="peppol_superscheme" readonly="1" string="Superscheme"/>
+                            </group>
+                        </group>
+                        <group string="Invoice Document">
+                            <field name="embed_pdf_in_ubl_xml_invoice"/>
+                        </group>
+                        <group string="Order Document">
+                            <field name="embed_pdf_in_ubl_xml_order"/>
+                        </group>
+                        <group/>
+                    </group>
+                    <field name="register_email_sent" invisible="1"/>
+                    <p attrs="{'invisible': [('register_email_sent','=',False)]}" style="color: green;font-style: italic;" class="fa fa-check">Mail sent to register in Peppol. Click on 'Resend' to perform the same action</p><br/>
+                    <button name="register_in_peppol" type="object" string="Resend" help="Register in Peppol" confirm="Are you sure you want to perform the action? This will send an Email to the configured recipients." attrs="{'invisible': [('register_email_sent','=',False)]}"/>
+                </page>
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="register_in_peppol" type="object" string="Register in Peppol" help="Register in Peppol" class="oe_highlight" confirm="Are you sure you want to perform the action? This will send an Email to the configured recipients." attrs="{'invisible': [('register_email_sent','=',True)]}"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

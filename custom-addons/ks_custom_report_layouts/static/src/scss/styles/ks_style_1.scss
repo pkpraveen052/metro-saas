@@ -1,0 +1,371 @@
+/*.ks_style_1 {
+	font-family:"Poppins Medium","Poppins", "Poppins Black", "Poppins Light", "Poppins Thin","Poppins Bold","Poppins ExtraBold ","Poppins SemiBold";
+}*/
+
+.ks_header .ks_style_1 {
+  padding: 4px 10px;
+  .ks_invoice {
+    h3 {
+      color: $second_text_color;
+      font-size: $ks_mid_font;
+      @extend %midium_font;
+    }
+
+    p {
+      color: $font_text_clr_7;
+      font-size: $ks_extra_small_font;
+      @include mb_0;
+      line-height: 21px;
+      @extend %regular_font;
+    }
+    ul {
+      @include horizontal-list;
+      font-size: $ks_extra_small_font;
+      line-height: 21px;
+      margin: 3px 0px;
+      @extend %regular_font;
+
+      li {
+        color: $third_text_color;
+        a {
+          color: $third_text_color;
+          @extend %regular_font;
+        }
+      }
+    }
+  }
+  .ks_invoice_number {
+    h3 {
+      color: $theme_color;
+      font-size: $ks_large_font;
+      @extend %upper_case;
+      text-transform: uppercase;
+      @extend %regular_font;
+    }
+    .ks_head_delivery {
+      @extend %midium_font;
+    }
+    h6 {
+      color: $fourth_text_color;
+      font-size: $font_18;
+      @extend %regular_font;
+    }
+  }
+  .ks_invoice_number_rfq {
+    h3 {
+      font-size: $font_20;
+    }
+  }
+  .ks_tagline {
+    @extend %text-left;
+    p {
+      @include mb_0;
+      .ks_company_name {
+        @include ks_company_name;
+
+        @extend %extra_strong_font;
+      }
+      .ks_company_tagline {
+        @include ks_company_tagline;
+        @extend %extra_light_font;
+      }
+    }
+  }
+  .ks_total {
+    @extend %text-right;
+    p {
+      color: $third_text_color;
+      @extend %regular_font;
+    }
+    h4 {
+      color: $theme_color;
+      font-size: $ks_mid_font;
+      @extend %strong_font;
+    }
+  }
+}
+
+.ks_style_1.ks_address {
+  .custom-container {
+    padding: 5px 10px;
+  }
+  .ks_invoice {
+    h3 {
+      color: $third_text_color;
+      font-size: $ks_mid_font;
+      @extend %midium_font;
+    }
+    p {
+      color: $font_text_clr_7;
+      font-size: $ks_extra_small_font;
+      @include mb_0;
+      line-height: 22px;
+      @extend %regular_font;
+    }
+    ul {
+      @include horizontal-list;
+      font-size: $very_low_font;
+      @extend %regular_font;
+      line-height: 20px;
+      margin-top: 10px;
+      li {
+        margin-right: 2px;
+
+        color: $third_text_color;
+        a {
+          color: $third_text_color;
+        }
+      }
+    }
+    .ks_table {
+      tbody {
+        tr {
+          td {
+            line-height: 20px;
+            a {
+              color: $third_text_color;
+              font-size: $very_low_font;
+            }
+          }
+        }
+      }
+    }
+  }
+  .ks_details {
+    p {
+      @include mb_0;
+    }
+    .font_9 {
+      @extend %regular_font;
+      color: $font_text_clr_7;
+    }
+    .font_10 {
+      font-weight: 600 !important;
+      color: $font_text_6;
+    }
+    @extend %text-right;
+  }
+  .ks_total {
+    p {
+      color: $font_text_clr_7;
+      @extend %regular_font;
+    }
+    @extend %text-right;
+    h4 {
+      color: $theme_color;
+      font-size: $ks_mid_font;
+      @extend %strong_font;
+    }
+  }
+}
+
+.ks_style_1.ks_table_section {
+  .custom-container {
+    padding: 4px 10px;
+  }
+
+  table {
+    @extend %ks_table;
+    thead {
+      th {
+        font-size: $font_11;
+        font-weight: 600 !important;
+        @extend %pad_8;
+        color: $first_text_color;
+      }
+    }
+    tbody {
+      tr:nth-child(odd) {
+        background-color: $light_bg_theme;
+      }
+      .ks_table_img {
+        @extend %text-left;
+        span {
+          img {
+            @include ks_table_img;
+          }
+        }
+      }
+      tr {
+        td {
+          font-size: $font_13;
+          color: $first_text_color;
+          padding: 8px 8px;
+          display: table-cell;
+          vertical-align: middle;
+          p {
+           @include mb_0;
+            @extend %table-description;
+          }
+          strong {
+             @extend %strong-text;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ks_style_1.ks_history_nd_total {
+  .custom-container {
+    padding: 4px 10px;
+  }
+  h6 {
+    @include ks_heading;
+    color: $font_text_clr_7;
+    @extend %regular_font;
+  }
+  .ks_total_table {
+    @extend %ks_table;
+    tbody {
+      tr {
+        td {
+          @extend %border_0;
+          @extend %text-right;
+          padding: 5px 8px;
+        }
+      }
+      .ks_subtotal {
+        td {
+          color: $theme_9clr;
+          font-size: $font_11;
+          font-weight: 600 !important;
+        }
+      }
+      .ks_text_rate {
+        td {
+          color: $theme_9clr;
+          font-size: $font_11;
+          font-weight: 600 !important;
+        }
+      }
+
+      .ks_grnad_total {
+        background: $light_bg_theme;
+
+        td {
+          @extend %semi_bold_font;
+
+          color: $theme_color;
+          font-size: $font_11;
+          padding: 13px 8px !important;
+        }
+      }
+      .ks_amount_due {
+        font-size: $font_18;
+        font-weight: 600 !important;
+      }
+    }
+  }
+  .ks_history_details {
+    background: $light_bg_theme;
+    padding: 5px 8px;
+    @extend %border_rad_5;
+    .ks_list_text {
+      p {
+        font-size: $font_6;
+        color: $third_text_color;
+      }
+    }
+    p {
+      @include mb_0;
+      word-break: break-all;
+      font-size: $ks_extra_small_font;
+      font-weight: 900;
+
+      .round_shape {
+        font-weight: 600;
+      }
+    }
+  }
+  .ks_amount_in_words {
+    p {
+      @include ks_amount_in_words;
+      @include mb_0;
+    }
+  }
+}
+
+.ks_payment_term_sign {
+  .custom-container {
+    padding: 4px 10px;
+  }
+  h6 {
+    /*@include ks_heading;*/
+    color: $font_text_clr_7;
+    @extend %regular_font;
+    font-size: $very_low_font;
+  }
+  h5 {
+    @extend %midium_font;
+    color: $font_text_clr_7;
+    font-size: $very_low_font;
+  }
+  p {
+    font-size: $font_7;
+    @include mb_0;
+    color: $theme_text10;
+  }
+  span {
+    color: $theme_text10;
+  }
+  .sign_img {
+    max-height: 60px;
+  }
+  .ks_option_des {
+    h4 {
+      @extend %midium_font;
+      color: $font_text_6;
+      font-size: $font_11;
+    }
+    span {
+      display: block;
+      font-size: $font_10;
+      color: $font_text_clr_7;
+      margin-bottom: 8px;
+      @extend %regular_font;
+    }
+    p {
+      font-size: $font_10;
+      color: $theme_text10;
+      margin-bottom: 6px;
+      @extend %light_font;
+    }
+  }
+}
+
+.ks_style_1.ks_footer {
+  .custom-container {
+    padding: 4px 10px;
+  }
+  ul {
+    @include horizontal-list;
+
+    @extend %text-center;
+    li {
+      margin-right: 15px !important;
+      a {
+        color: $second_text_color;
+        font-size: $very_low_font;
+        font-weight: 500 !important;
+      }
+    }
+  }
+  .ks_custom_footer {
+    color: $second_text_color;
+  }
+  p {
+    @extend %text-center;
+    font-size: $very_low_font;
+  }
+}
+.ks_style_1 .ks_duplicate_text {
+  background: $light_bg_theme;
+  color: $first_text_color;
+}
+.ks_deladd {
+  ul li {
+    display: inline-block !important;
+  }
+}
+

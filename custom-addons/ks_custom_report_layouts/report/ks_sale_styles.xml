@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        Quotation Sale Order-->
+        <template id="ks_quotation_custom_report_saleorder">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                        <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="doc and 'company_id' in doc">
+                        <t t-set="company" t-value="doc.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+
+                    <t t-set="res_config" t-value="doc.env['ks.report.configuration'].search([('ks_record_status','=', 'sale_order'),('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <t t-if="res_config.sale_report_style_id.name == 'Contemporary'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_1"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_2"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_3"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_4"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_5"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_6"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_7"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_8"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_9"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_10"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.report_saleorder_inherit_document" t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'MCT'">
+                            <t t-call="ks_custom_report_layouts.metro_custom_sale_report_style_2" t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Lite'">
+                            <t t-call="ks_custom_report_layouts.metro_custom_sale_report_style_3" t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="sale.report_saleorder_document" t-lang="doc.partner_id.lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="sale.report_saleorder_document" t-lang="doc.partner_id.lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="ks_quotation_custom_report_saleorder_delivery">
+            <t t-call="ks_custom_report_layouts.ks_quotation_custom_report_saleorder"></t>
+        </template>
+
+        <template id="ks_duplicate_report_saleorder">
+            <t t-set="is_order_duplicate" t-value="True"/>
+            <t t-call="ks_custom_report_layouts.ks_quotation_custom_report_saleorder"/>
+        </template>
+
+         <record id="ks_action_report_saleorder_delivery" model="ir.actions.report">
+            <field name="name">Sales-Delivery</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_quotation_custom_report_saleorder_delivery</field>
+            <field name="report_file">ks_custom_report_layouts.ks_quotation_custom_report_saleorder_delivery</field>
+            <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_dynamic_sales_order"/>
+        </record>
+
+        <record id="sale.action_report_saleorder" model="ir.actions.report">
+            <field name="name">Quotation / Order</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_quotation_custom_report_saleorder</field>
+            <field name="report_file">ks_custom_report_layouts.ks_quotation_custom_report_saleorder</field>
+            <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_sale_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_dynamic_sales_order"/>
+        </record>
+
+        <record id="ks_action_report_saleorder" model="ir.actions.report">
+            <field name="name">Quotation / Order Duplicate</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_duplicate_report_saleorder</field>
+            <field name="report_file">ks_custom_report_layouts.ks_duplicate_report_saleorder</field>
+            <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)
+            </field>
+<!--             <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field> -->
+        </record>
+
+<!--        Performa Invoice-->
+        <template id="ks_performa_custom_report_saleorder">
+            <t t-call="web.html_container">
+                <t t-set="is_pro_forma" t-value="True"/>
+                <t t-foreach="docs" t-as="doc">
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="doc and 'company_id' in doc">
+                        <t t-set="company" t-value="doc.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+
+                    <t t-set="res_config" t-value="doc.env['ks.report.configuration'].search([('ks_record_status','=', 'sale_order'),('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <t t-if="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Contemporary'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_1"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_2"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_3"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_4"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_5"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_6"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_7"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_8"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_9"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_sale_report_style_10"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.ks_model_id.model == 'sale.order' and res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.report_saleorder_inherit_document"
+                               t-lang="doc.partner_id.lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="sale.report_saleorder_document" t-lang="doc.partner_id.lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="sale.report_saleorder_document" t-lang="doc.partner_id.lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="ks_duplicate_report_sale_performa">
+            <t t-set="is_performa_duplicate" t-value="True"/>
+            <t t-set="is_pro_forma" t-value="True"/>
+            <t t-call="ks_custom_report_layouts.ks_performa_custom_report_saleorder"/>
+        </template>
+
+        <record id="sale.action_report_pro_forma_invoice" model="ir.actions.report">
+            <field name="name">PRO-FORMA Invoice</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_performa_custom_report_saleorder</field>
+            <field name="report_file">ks_custom_report_layouts.ks_performa_custom_report_saleorder</field>
+            <field name="print_report_name">'PRO-FORMA - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_sale_order"/>
+            <field name="binding_type">report</field>
+            <field name="groups_id" eval="[(4, ref('sale.group_proforma_sales'))]"/>
+            <field name="paperformat_id" ref="paperformat_dynamic_sales_order"/>
+        </record>
+
+        <record id="ks_duplicated_action_report_pro_forma_invoice" model="ir.actions.report">
+            <field name="name">PRO-FORMA Invoice Duplicate</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_duplicate_report_sale_performa</field>
+            <field name="report_file">ks_custom_report_layouts.ks_duplicate_report_sale_performa</field>
+            <field name="print_report_name">'PRO-FORMA - %s' % (object.name)</field>
+<!--             <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field> -->
+            <field name="groups_id" eval="[(4, ref('sale.group_proforma_sales'))]"/>
+            <!-- <field name="paperformat_id" ref="paperformat_dynamic_sales_order"/> -->
+        </record>
+
+    </data>
+</odoo>

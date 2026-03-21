@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+       <record id="inherited_account_tax_template_views" model="ir.ui.view">
+            <field name="name">account.tax.template.form.view</field>
+            <field name="model">account.tax.template</field>
+            <field name="inherit_id" ref="account.view_account_tax_template_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='tax_configuration']" position="after">
+                    <group>
+                        <field name="for_IRAS" attrs="{'invisible': [('type_tax_use', '!=', 'sale')]}"/>
+                        <field name="iras_supplies_type" widget="radio" attrs="{'invisible': [('for_IRAS', '!=', True)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

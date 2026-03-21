@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+<t t-extend="KanbanView.buttons" t-name="SearchKanbanView.buttons">
+    <t t-jquery="button" t-operation="after">
+        <button type="button" class="btn btn-secondary o_button_search_partner">
+            <span>
+                <img width="22" height="22" alt="PEPPOL" src="/account_peppol_sg/static/description/peppol.png"/>
+            </span>
+            Peppol Directory
+        </button>
+    </t>
+</t>
+
+</templates>

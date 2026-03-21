@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="vendor_list_peppol_form" model="ir.ui.view">
+        <field name="name">vendor.list.peppol.form</field>
+        <field name="model">vendor.list.peppol</field>
+        <field name="arch" type="xml">
+            <form string="Vendor List For Peppol">
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <field name="company_logo" widget="image"  class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="company_name" placeholder="Company Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_uen"/>
+                            <field name="contact_person"/>
+                            <field name="contact_email"/>
+                            <field name="vendor_business_category"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="marketplace_uenNo" invisible="1"/>
+                        </group>
+                        <group>
+                            <button name="action_purchase_now" icon="fa-shopping-cart" type="object" string="Purchase Now" style="background:lightgreen;border: solid #0aab55 2px;border-radius:40px;"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="vendor_list_peppol_tree">
+        <field name="name">vendor.list.peppol.tree</field>
+        <field name="model">vendor.list.peppol</field>
+        <field name="arch" type="xml">
+            <tree string="Vendor List For Peppol">
+                <field name="company_name"/>
+                <field name="company_uen"/>
+                <field name="contact_person"/>
+                <field name="contact_email"/>
+                <field name="vendor_business_category"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="vendor_list_peppol_kanban_view">
+            <field name="name">vendor.list.peppol.kanban</field>
+            <field name="model">vendor.list.peppol</field>
+            <field name="arch" type="xml">
+                <kanban class="o_res_partner_kanban" sample="1">
+                    <field name="id"/>
+                    <field name="company_logo" widget="image"  class="oe_avatar"/>
+                    <field name="company_name"/>
+                    <field name="company_uen"/>
+                    <field name="contact_person"/>
+                    <field name="contact_email"/>
+                    <field name="vendor_business_category"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="o_kanban_image_fill_left o_kanban_image_full" t-attf-style="background-image:url('#{kanban_image('vendor.list.peppol', 'company_logo', record.id.raw_value,  placeholder)}')"/>
+                                <div class="oe_kanban_details d-flex flex-column">
+                                    <strong class="o_kanban_record_title oe_partner_heading"><field name="company_name"/></strong>
+                                    <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+                                    <ul>
+                                        <li t-if="record.contact_person" attrs="{'invisible': [('contact_person', '=', False)]}" class="o_text_overflow"><i class="fa fa-address-book" role="img" aria-label="Contact"/> <field name="contact_person"/></li><br/>
+                                        <li t-if="record.contact_email" attrs="{'invisible': [('contact_email', '=', False)]}" class="o_text_overflow"><i class="fa fa-envelope" role="img" aria-label="Email"/> <field name="contact_email"/></li><br/>
+                                        <li t-if="record.vendor_business_category" attrs="{'invisible': [('vendor_business_category', '=', False)]}" class="o_text_overflow"><i class="fa fa-briefcase" role="img" aria-label="Business"/> <field name="vendor_business_category"/></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    <record id="action_vendor_list_peppol" model="ir.actions.act_window">
+        <field name="name">Vendor List For Peppol</field>
+        <field name="res_model">vendor.list.peppol</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+              No Documents found.
+          </p>
+        </field>
+    </record>
+
+    <menuitem id="vendor_list_peppol_id"
+        name="Vendor List For Peppol"
+        action="action_vendor_list_peppol"
+        parent="main_menu_vendor_list_peppol"
+        sequence="2"/>
+
+</odoo>

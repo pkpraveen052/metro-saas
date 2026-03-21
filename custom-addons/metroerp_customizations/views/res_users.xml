@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+		
+		<record id="res_users_inherited_1" model="ir.ui.view">
+			<field name="name">res.users.inherited</field>
+			<field name="model">res.users</field>
+			<field name="inherit_id" ref="base.view_users_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='signature']" position="after">
+				    <field name="is_admin_flag" invisible="1"/>
+				</xpath>
+				<xpath expr="//notebook/page[@name='access_rights']/group[1]" position="replace">
+					<group string="Multi Companies">
+						<field string="Allowed Companies" name="company_ids" widget="many2many_tags" options="{'no_create': True}"/>
+						<field string="Default Company" name="company_id" context="{'user_preference': 0}"/>
+						<field string="Companies count" name="companies_count" invisible="1"/>
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="res_users_inherited_2" model="ir.ui.view">
+			<field name="name">res.users.inherited.tree.view</field>
+			<field name="model">res.users</field>
+			<field name="inherit_id" ref="base.view_users_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='company_id']" position="after">
+				    <field name="company_ids" widget="many2many_tags"/>
+				</xpath>
+				<xpath expr="//field[@name='totp_enabled']" position="attributes">
+					<attribute name="optional">hide</attribute>
+				</xpath>
+				<xpath expr="//field[@name='company_id']" position="attributes">
+                    <attribute name="string">Default Company</attribute>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

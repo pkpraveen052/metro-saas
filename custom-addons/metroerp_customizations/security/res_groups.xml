@@ -1,0 +1,66 @@
+<odoo>
+    <data>
+
+        <record model="ir.module.category" id="module_main_category_sub_admin">
+            <field name="name">ERP Administration</field>
+            <field name="sequence">1</field>
+            <field name="parent_id" eval="False"/>
+        </record>
+
+        <record model="ir.module.category" id="module_category_sub_admin">
+            <field name="name">ERP Administration</field>
+            <field name="parent_id" ref="module_main_category_sub_admin"/>
+        </record>
+
+        <record model="res.groups" id="sub_admin_group">
+            <field name="name">ERP Admin</field>
+            <field name="category_id" ref="module_category_sub_admin"/>
+        </record>
+
+        <record model="ir.module.category" id="module_main_category_developer_tools">
+            <field name="name">Developer Tools</field>
+            <field name="sequence">2</field>
+            <field name="parent_id" eval="False"/>
+        </record>
+
+        <record model="ir.module.category" id="module_category_debug_mode">
+            <field name="name">Developer Tools</field>
+            <field name="parent_id" ref="module_main_category_developer_tools"/>
+        </record>
+
+        <record model="res.groups" id="group_debug_mode_enable">
+            <field name="category_id" ref="metroerp_customizations.module_category_debug_mode"/>
+            <field name="name">Enable debug mode</field>
+        </record>
+
+
+<!--        Billing Administrator inheriting the Group Accounting-Full Entries-->
+        <record id="account.group_account_manager" model="res.groups">
+            <field name="name">Billing Administrator</field>
+            <field name="category_id" ref="base.module_category_accounting_accounting"/>
+            <field name="implied_ids" eval="[(4, ref('account.group_account_invoice')),(4, ref('base.group_private_addresses')),(4, ref('account.group_account_user'))]"/>
+        </record>
+
+<!--        sales setting group-->
+        <record id="group_quotation_validity" model="res.groups">
+            <field name="name">Default Quotation Validity</field>
+        </record>
+
+        <record id="group_automatic_invoice" model="res.groups">
+            <field name="name">Automatic Invoice</field>
+        </record>
+<!--        inventory setting Group-->
+         <record id="group_module_stock_picking_batch" model="res.groups">
+            <field name="name">Batch Pickings</field>
+        </record>
+        <!--        inventory setting Group-->
+         <record id="group_module_stock_landed_costs" model="res.groups">
+            <field name="name">Landed Costs</field>
+        </record>
+
+        <record id="group_hide_cost_price" model="res.groups">
+            <field name="name">Hide Product Cost Price</field>
+        </record>
+
+    </data>
+</odoo>

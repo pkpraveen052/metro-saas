@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="inherited_crm_stage_form_view" model="ir.ui.view">
+            <field name="name">inherited.crm.stage.form.view</field>
+            <field name="model">crm.stage</field>
+            <field name="inherit_id" ref="crm.crm_stage_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fold']" position="after">
+                    <field name="company_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherited_crm_stage_tree_view" model="ir.ui.view">
+            <field name="name">inherited.crm.stage.tree.view</field>
+            <field name="model">crm.stage</field>
+            <field name="inherit_id" ref="crm.crm_stage_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="company_id"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- <record model="ir.ui.view" id="crm_stage_form">
+            <field name="name">crm.stage.form (in crm_stage_multi_company)</field>
+            <field name="model">crm.stage</field>
+            <field name="inherit_id" ref="crm.crm_stage_form"/>
+            <field name="arch" type="xml">
+                <field name="team_id" position="before">
+                    <field name="company_id" options="{'no_open': True, 'no_create': True}" groups="base.group_multi_company"/>
+                </field>
+            </field>
+        </record> -->
+    </data>
+</odoo>

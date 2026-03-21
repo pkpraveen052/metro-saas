@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="security_person_tree_view" model="ir.ui.view">
+            <field name="name">security.person.list.view</field>
+            <field name="model">security.person</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" placeholder="Enter Name"/>
+                    <field name="phone" placeholder="Enter Phone Number"/>
+                    <field name="email" placeholder="Enter Email Address"/>
+                    <field name="company_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="security_person_action_window" model="ir.actions.act_window">
+            <field name="name">Security Personnel</field>
+            <field name="res_model">security.person</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+    <menuitem id="security_person_menu_root"
+        parent="configuration_menu_root"
+        name="Security"
+        sequence="1"/>
+
+    <menuitem id="security_person_menu"
+        parent="security_person_menu_root"
+        name="Security Personnel"
+        action="security_person_action_window"/>
+
+    </data>
+</odoo>

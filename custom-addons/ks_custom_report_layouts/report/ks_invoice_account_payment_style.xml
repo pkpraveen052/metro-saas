@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="ks_custom_payment_receipt_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+                <t t-set="res_config" t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'payment'), ('company_id','=', company.id)], limit=1)"/>
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-if="res_config and res_config.ks_is_custom_layout">
+                    <t t-if="res_config.sale_report_style_id.name == 'Contemporary' ">
+                        <t t-call="ks_custom_report_layouts.ks_report_payment_style_1"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                        <t t-call="ks_custom_report_layouts.ks_report_payment_style_2"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                        <t t-call="ks_custom_report_layouts.ks_report_payment_style_3"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                        <t t-call="ks_custom_report_layouts.ks_report_payment_style_4"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                        <t t-call="ks_custom_report_layouts.ks_report_payment_style_5"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                        <t t-call="ks_custom_report_layouts.ks_report_payment_style_6"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                        <t t-call="ks_custom_report_layouts.ks_report_payment_style_7"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                        <t t-call="ks_custom_report_layouts.ks_report_payment_style_8"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                        <t t-call="ks_custom_report_layouts.ks_report_payment_style_9"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                        <t t-call="ks_custom_report_layouts.ks_report_payment_style_10"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-elif="res_config.sale_report_style_id.name == 'Minimalist'">
+                        <t t-call="ks_custom_report_layouts.report_payment_receipt_inherit_document"
+                           t-lang="lang"/>
+                    </t>
+                    <t t-else="">
+                        <t t-call="account.report_payment_receipt_document" t-lang="lang"/>
+                    </t>
+                </t>
+                <t t-else="">
+                    <t t-call="account.report_payment_receipt_document" t-lang="lang"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="ks_duplicate_report_payment_receipt">
+        <t t-set="is_payment_duplicate" t-value="True"/>
+        <t t-call="ks_custom_report_layouts.ks_custom_payment_receipt_document"/>
+    </template>
+
+    <record id="account.action_report_payment_receipt" model="ir.actions.report">
+        <field name="name">Payment Receipt</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ks_custom_report_layouts.ks_custom_payment_receipt_document</field>
+        <field name="report_file">ks_custom_report_layouts.ks_custom_payment_receipt_document</field>
+        <field name="binding_model_id" ref="model_account_payment"/>
+        <field name="binding_type">report</field>        
+        <field name="paperformat_id" ref="paperformat_dynamic_payment_receipt"/>
+    </record>
+
+    <record id="ks_duplicate_action_report_payment_receipt" model="ir.actions.report">
+        <field name="name">Payment Receipt Duplicate</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ks_custom_report_layouts.ks_duplicate_report_payment_receipt</field>
+        <field name="report_file">ks_custom_report_layouts.ks_duplicate_report_payment_receipt</field>
+<!--         <field name="binding_model_id" ref="model_account_payment"/>
+        <field name="binding_type">report</field> -->
+    </record>
+</odoo>

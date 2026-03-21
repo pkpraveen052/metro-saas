@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="point_of_sale_ticket_screen" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+
+            <script type="text/javascript" src="/metroerp_saas_customization/static/src/js/brs_deposit.js"/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="contacts.action_contacts" model="ir.actions.act_window">
+            <field name="context">{'from_contact_menu': True}</field>
+        </record>
+        <record id="account.res_partner_action_customer" model="ir.actions.act_window">
+            <field name="context">{'from_contact_menu': True}</field>
+        </record>
+        <record id="account.res_partner_action_supplier" model="ir.actions.act_window">
+            <field name="context">{'from_contact_menu': True}</field>
+        </record>
+    </data>
+</odoo>

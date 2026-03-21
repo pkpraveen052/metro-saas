@@ -1,0 +1,58 @@
+<odoo>
+	<data>
+        <!-- CRM Leads Rule overidden -->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'crm'), ('name', '=','crm_rule_personal_lead')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        
+        <record model="ir.rule" id="crm.crm_rule_personal_lead">
+            <field name="name">Personal Leads</field>
+            <field ref="crm.model_crm_lead" name="model_id"/>
+            <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
+            <field name="groups" eval="[(6,0,[ref('metroerp_crm_enhancement.group_crm_salesman')])]"/>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'crm'), ('name', '=','crm_rule_all_lead')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+    
+        <record id="crm.crm_rule_all_lead" model="ir.rule">
+            <field name="name">All Leads</field>
+            <field ref="crm.model_crm_lead" name="model_id"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(6,0,[ref('metroerp_crm_enhancement.group_crm_salesman_all_leads')])]"/>
+        </record>
+
+       <!-- CRM Stage Rule -->
+        <record id="crm_stage_company_rule" model="ir.rule">
+            <field name="name">CRM Stage Multi-Company Rule</field>
+            <field name="model_id" ref="crm.model_crm_stage"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        
+        <record id="crm_lost_reason_multi_company_rule" model="ir.rule">
+            <field name="name">CRM Lost Reason Multi-Company Rule</field>
+            <field ref="crm.model_crm_lost_reason" name="model_id"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="crm_iap_lead_mining_request_multi_company_rule" model="ir.rule">
+            <field name="name">Lead Mining Request Multi-Company Rule</field>
+            <field ref="crm_iap_lead.model_crm_iap_lead_mining_request" name="model_id"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="crm_recurring_plan_multi_company_rule" model="ir.rule">
+            <field name="name">CRM Recurring Plan Multi-Company Rule</field>
+            <field ref="crm.model_crm_recurring_plan" name="model_id"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+	</data>
+</odoo>

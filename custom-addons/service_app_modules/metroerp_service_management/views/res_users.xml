@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_users_form_inherit_service" model="ir.ui.view">
+        <field name="name">view_users_form_inherit_service</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='action_id']" position="after">
+                <field name="enable_service" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

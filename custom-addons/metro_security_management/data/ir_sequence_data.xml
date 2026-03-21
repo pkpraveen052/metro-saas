@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequences for security contract -->
+        <record id="seq_security_contract_record" model="ir.sequence">
+            <field name="name">Security Contract Reference</field>
+            <field name="code">security.contract</field>
+            <field name="prefix">C</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <!-- Sequences for security location -->
+        <record id="seq_security_location_record" model="ir.sequence">
+            <field name="name">Security Location Reference</field>
+            <field name="code">security.location</field>
+            <field name="prefix">LOC</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+       <!-- Sequences for visitor details -->
+        <record id="seq_visitor_details_record" model="ir.sequence">
+            <field name="name">Visitor Details Reference</field>
+            <field name="code">visitor.details</field>
+            <field name="prefix">VS</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequences for visitor details -->
+        <record id="seq_pre_approved_visitor_details_record" model="ir.sequence">
+            <field name="name">Pre Approved Visitor Details Reference</field>
+            <field name="code">pre.approved.visitor</field>
+            <field name="prefix">PRE-VC</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

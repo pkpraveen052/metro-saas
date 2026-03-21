@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_invoice_response" model="ir.sequence">
+            <field name="name">Invoice Response Queue Out</field>
+            <field name="code">invoice.responses.queue.out</field>
+            <field name="prefix">INVRESP/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_b2c_outgoing_invoices" model="ir.sequence">
+            <field name="name">POS/STI Outgoing Invoice</field>
+            <field name="code">b2c.outgoing.invoices</field>
+            <field name="prefix">POS/STI</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_petty_cash_purchases" model="ir.sequence">
+            <field name="name">PCP Outgoing Invoices</field>
+            <field name="code">pcp.outgoing.invoices</field>
+            <field name="prefix">PCP</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+<!--        Outgoing order response sequence-->
+        <record id="seq_cancel_order_response" model="ir.sequence">
+            <field name="name">Order Cancel Response Queue Out</field>
+            <field name="code">order.cancel.advance.responses.queue.out</field>
+            <field name="prefix">ORDRESP/CANCEL/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_change_order_response" model="ir.sequence">
+            <field name="name">Order Change Response Queue Out</field>
+            <field name="code">order.change.responses.queue.out</field>
+            <field name="prefix">ORDRESP/CHANGE/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_balance_order_response" model="ir.sequence">
+            <field name="name">Order Balance Response Queue Out</field>
+            <field name="code">order.balance.responses.queue.out</field>
+            <field name="prefix">ORDRESP/BALANCE/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

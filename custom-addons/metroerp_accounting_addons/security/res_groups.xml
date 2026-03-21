@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+
+        <record model="ir.module.category" id="module_main_category_documents_overview">
+            <field name="name">IRAS Documents Overview</field>
+            <field name="sequence">9</field>
+            <field name="parent_id" eval="False"/>
+        </record>
+
+        <record model="ir.module.category" id="module_category_documents_overview">
+            <field name="name">Documents Overview</field>
+            <field name="parent_id" ref="module_main_category_documents_overview"/>
+        </record>
+
+        <record model="res.groups" id="documents_overview_user_group">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_category_documents_overview"/>
+        </record>
+
+         <record model="res.groups" id="documents_overview_admin_group">
+            <field name="name">Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('documents_overview_user_group'))]"/>
+            <field name="category_id" ref="metroerp_accounting_addons.module_category_documents_overview"/>
+        </record>
+    </data>
+</odoo>

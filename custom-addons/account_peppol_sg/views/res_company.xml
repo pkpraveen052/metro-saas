@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_company_peppolsg_inherit" model="ir.ui.view">
+        <field name="name">view.company.peppol.sg.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_info']" position="after">
+                <page name="peppol_identifier" string="e-Invoice">
+                    <field name="hide_create_peppol_id_btn" invisible="1"/>
+                    <field name="hide_update_peppol_id_btn" invisible="1"/>
+                    <field name="peppol_id_created" invisible="1"/>
+                    <field name="peppol_identifier_old" invisible="1"/>
+
+                    <group>
+                        <group string="Legal Entity">
+                            <group colspan="2" attrs="{'invisible': [('legal_entity_identifier','!=',False)]}">
+                                <button type="object" string=" Create Legal Entity" name="create_legal_entity" icon="fa-cloud-upload"/>
+                            </group>
+                            <group colspan="2" attrs="{'invisible': [('legal_entity_identifier','=',False)]}">
+                                <button type="object" string=" Update" name="update_legal_entity" icon="fa-cloud-upload"/>
+                            </group>
+                            <group colspan="2">
+                              <field name="legal_entity_identifier" readonly="1" string="ID" attrs="{'invisible': [('legal_entity_identifier','=',False)]}"/>
+                          </group>
+                        </group>
+                        <group string="CorpPass">
+                            <field name="corppass_enabled"/>
+                            <field name="corppass_flow_type" required="1"/>
+                            <field name="corppass_client_redirect_fail_url" attrs="{'required':[('corppass_flow_type','=','corppass_flow_redirect')] ,'invisible': [('corppass_flow_type','!=','corppass_flow_redirect')]}" placeholder="Enter here..."/>
+                            <field name="corppass_client_redirect_success_url" attrs="{'required':[('corppass_flow_type','=','corppass_flow_redirect')],'invisible': [('corppass_flow_type','!=','corppass_flow_redirect')]}" placeholder="Enter here..."/>
+                            <field name="corppass_signer_email" attrs="{'required':[('corppass_flow_type','=','corppass_flow_email')], 'invisible': [('corppass_flow_type','!=','corppass_flow_email')]}" placeholder="Enter here..."/>
+                            <field name="corppass_signer_name" attrs="{'required':[('corppass_flow_type','=','corppass_flow_email')], 'invisible': [('corppass_flow_type','!=','corppass_flow_email')]}" placeholder="Enter here..."/>
+                            <field name="corppass_simulate_corppass"/>
+                        </group>
+                        <group string="Identifier">
+                            <group attrs="{'invisible': ['|',('legal_entity_identifier','=',False),('hide_create_peppol_id_btn', '=',True)]}">
+                                <button type="object" string=" Create the Identifier" name="create_peppol_identifier" icon="fa-cloud-upload"/>
+                            </group>
+                            <group attrs="{'invisible': ['|',('hide_update_peppol_id_btn', '=',True),('peppol_id_created', '=',False)]}">
+                                <button type="object" string=" Create another Identifier" name="create_another_peppol_identifier" icon="fa-cloud-upload"/>
+                            </group>
+                            <group colspan="2">
+                                <label for="peppol_identifier" string="Peppol Identifier"/>
+                                <div>
+                                    <field name="peppol_identifier" class="oe_inline" placeholder="eg: sguen201316807h"/>
+                                </div>
+                                <label for="peppol_scheme" string="Scheme"/>
+                                <div>
+                                  <field name="peppol_scheme" class="oe_inline" placeholder="eg: 0195" string="Scheme"/>
+                                </div>
+                                <field name="peppol_superscheme" readonly="1" string="Superscheme"/>
+                            </group>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

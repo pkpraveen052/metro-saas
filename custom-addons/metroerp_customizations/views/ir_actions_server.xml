@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+		<!-- Removed the Prefix Odoo on <li/> -->
+		<record id="view_server_action_formerpinherited" model="ir.ui.view">
+			<field name="name">view_server_action_form.erpinherited</field>
+			<field name="model">ir.actions.server</field>
+			<field name="inherit_id" ref="base.view_server_action_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//page[@name='help_info']/group/div/ul/li[1]" position="replace">
+				    <li><code>env</code>: Environment on which the action is triggered</li>
+				</xpath>
+				<xpath expr="//page[@name='help_info']/group/div/ul/li[2]" position="replace">
+				    <li><code>model</code>: Model of the record on which the action is triggered; is a void recordset</li>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

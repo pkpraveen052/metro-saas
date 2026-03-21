@@ -1,0 +1,13 @@
+
+.o_brand_promotion {
+    display: none !important;
+}
+
+.o_enterprise_label {
+    font-weight: bold;
+    color: #17a2b8;
+}
+
+.o_enterprise_label:after {
+    content: " (Odoo Enterprise)";
+}

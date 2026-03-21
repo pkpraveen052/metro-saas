@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_user_guide_tags,access_user_guide_tags,model_user_guide_tags,base.group_user,1,1,1,1
+access_user_guide,access_user_guide,model_user_guide,base.group_user,1,1,1,1
+access_user_guide_url,access_user_guide_url,model_user_guide_url,base.group_user,1,1,1,1

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="apeppol_auto_complete" name="js assets for peppol" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/metro_einvoice_datapost/static/src/js/partner_autocomplete_fieldchar_peppol.js"></script>
+            <script type="text/javascript" src="/metro_einvoice_datapost/static/src/js/res_partner_kanban_search.js"></script>
+            <script type="text/javascript" src="/metro_einvoice_datapost/static/src/js/menu_label_changes.js"></script>
+
+            <link rel="stylesheet" type="text/scss" href="/metro_einvoice_datapost/static/src/scss/peppol_auto_complete.scss"/>
+        </xpath>
+    </template>
+
+</odoo>

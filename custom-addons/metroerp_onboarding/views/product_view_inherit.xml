@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+        <record id="product_template_form_view_custom_popup" model="ir.ui.view">
+        <field name="name">product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Product">
+                <sheet>
+                    <field name='product_variant_count' invisible='1'/>
+                    <field name='is_product_variant' invisible='1'/>
+                    <field name='attribute_line_ids' invisible='1'/>
+                    <div class="oe_button_box" name="button_box"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="id" invisible="True"/>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                    <div class="oe_title">
+                        <label class="oe_edit_only" for="name" string="Product Name"/>
+                        <h1><field name="name" placeholder="Product Name"/></h1>
+                        <div name="options" groups="base.group_user">
+                            <div>
+                                <field name="sale_ok"/>
+                                <label for="sale_ok"/>
+                            </div>
+                            <div>
+                                <field name="purchase_ok"/>
+                                <label for="purchase_ok"/>
+                            </div>
+                        </div>
+                    </div>
+                    <notebook>
+                        <page string="General Information" name="general_information">
+                            <group>
+                                <group name="group_general">
+                                    <field name="active" invisible="1"/>
+                                    <field name="type"/>
+                                    <field name="categ_id" string="Product Category"/>
+                                </group>
+                                <group name="group_standard_price">
+                                    <label for="list_price"/>
+                                    <div name="pricing">
+                                      <field name="list_price" class="oe_inline" widget='monetary'
+                                        options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                      <button name="open_pricelist_rules" icon="fa-arrow-right" type="object"
+                                        groups="product.group_product_pricelist" class="oe_inline">
+                                        <field name="pricelist_item_count" attrs="{'invisible': [('pricelist_item_count', '=', 0)]}"/>
+                                        <span attrs="{'invisible': [('pricelist_item_count', '=', 1)]}">
+                                          Extra Prices
+                                        </span>
+                                        <span attrs="{'invisible': [('pricelist_item_count', '!=', 1)]}">
+                                          Extra Price
+                                        </span>
+                                      </button>
+                                    </div>
+                                    <label for="standard_price" groups="base.group_user" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}"/>
+                                    <div name="standard_price_uom" groups="base.group_user" attrs="{'invisible': [('product_variant_count', '&gt;', 1), ('is_product_variant', '=', False)]}" class="o_row">
+                                        <field name="standard_price" widget='monetary' options="{'currency_field': 'cost_currency_id', 'field_digits': True}"/>
+                                        <span groups="uom.group_uom" class="oe_read_only">per
+                                            <field name="uom_name"/>
+                                        </span>
+                                    </div>
+                                    <field name="company_id" groups="base.group_multi_company"
+                                        options="{'no_create': True}"/>
+                                    <field name="uom_id" groups="uom.group_uom" options="{'no_create': True}"/>
+                                    <field name="uom_po_id" groups="uom.group_uom" options="{'no_create': True}"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="cost_currency_id" invisible="1"/>
+                                    <field name="product_variant_id" invisible="1"/>
+                                </group>
+                            </group>
+                            <group string="Internal Notes">
+                                <field name="description" nolabel="1" placeholder="This note is only for internal purposes."/>
+                            </group>
+                        </page>
+                        <page string="Sales" attrs="{'invisible':[('sale_ok','=',False)]}" name="sales" invisible="1">
+                            <group name="sale">
+                            </group>
+                            <group string="Sales Description" name="description">
+                                <field name="description_sale" nolabel="1" placeholder="This note is added to sales orders and invoices."/>
+                            </group>
+                        </page>
+                        <page string="Purchase" name="purchase" attrs="{'invisible': [('purchase_ok','=',False)]}" invisible="1">
+                            <group name="purchase">
+                                <group string="Vendor Bills" name="bill"/>
+                            </group>
+                        </page>
+                        <page string="Inventory" name="inventory" groups="product.group_stock_packaging" attrs="{'invisible':[('type', '=', 'service')]}">
+                            <group name="inventory">
+                                <group name="group_lots_and_weight" string="Logistics" attrs="{'invisible': [('type', 'not in', ['product', 'consu'])]}">
+                                    <label for="weight" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+                                    <div class="o_row" name="weight" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                                        <field name="weight"/>
+                                        <span><field name="weight_uom_name"/></span>
+                                    </div>
+                                    <label for="volume" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+                                    <div class="o_row" name="volume" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                                        <field name="volume" string="Volume"/>
+                                        <span><field name="volume_uom_name"/></span>
+                                    </div>
+                                </group>
+                            </group>
+                            <group name="packaging" string="Packaging"
+                                colspan="4"
+                                attrs="{'invisible':['|', ('type', 'not in', ['product', 'consu']), ('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"
+                                groups="product.group_stock_packaging">
+                                <field name="packaging_ids" nolabel="1" context="{'tree_view_ref':'product.product_packaging_tree_view2', 'form_view_ref':'product.product_packaging_form_view2', 'default_company_id': company_id}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer position="replace">
+                    <button name="action_save_onboarding_product_step" class="btn btn-primary" type="object"
+                            string="Apply"/>
+                    <button special="cancel" string="Cancel"/>
+<!--                    <button string="Skip" class="btn-secondary" type="object" name="action_skip_onboarding_product" />-->
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_custom_onboarding_product_popup" model="ir.actions.act_window">
+        <field name="name">Set your product data</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="product_template_form_view_custom_popup"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

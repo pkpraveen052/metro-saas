@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="gst_f5_auto_schedule_tree_view" model="ir.ui.view">
+            <field name="name">gst.f5.auto.schedule.tree</field>
+            <field name="model">gst.f5.auto.schedule</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="gst_f5_auto_schedule_form_view" model="ir.ui.view">
+            <field name="name">gst.f5.auto.schedule.from</field>
+            <field name="model">gst.f5.auto.schedule</field>
+            <field name="arch" type="xml">
+                <form create="false">
+                    <sheet>
+                        <field name="line_ids">
+                            <tree editable="bottom">
+                                <field name="quarter_name"/>
+                                <field name="quarter_start_date" required="1"/>
+                                <field name="quarter_end_date" required="1"/>
+                                <field name="filing_date" required="1"/>
+                                <field name="due_date" required="1"/>
+                                <field name="due_date_notification_days" required="1"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <group>
+                                <field name="group_ids" widget="many2many_tags"/>
+                                <field name="active" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="filing_reminder_id"/>                                
+                            </group>
+                            <group>
+                                <field name="due_date_reminder_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_gst_f5_auto_schedule">
+            <field name="name">GST F5 Reminder</field>
+            <field name="res_model">gst.f5.auto.schedule</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_gst_f5_auto_schedule"
+                  parent="menu_iras_configuration"
+                  sequence="2"
+                  action ="action_gst_f5_auto_schedule"/>
+
+    </data>
+</odoo>

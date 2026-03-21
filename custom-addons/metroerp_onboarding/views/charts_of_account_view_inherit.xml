@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="init_accounts_tree_custom_popup" model="ir.ui.view">
+        <field name="name">account.setup.opening.move.line.tree.custom.pop.up</field>
+        <field name="model">account.account</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" create="0" delete="0" multi_edit="0"
+                  decoration-muted="opening_debit == 0 and opening_credit == 0">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="company_id" invisible="1"/>
+                <field name="user_type_id" widget="account_hierarchy_selection"/>
+                <field name="reconcile" widget="boolean_toggle"/>
+                <field name="opening_debit"/>
+                <field name="opening_credit"/>
+                <field name="opening_balance" optional="hide"/>
+                <field name="tax_ids" optional="hide" widget="many2many_tags"/>
+                <field name="tag_ids" optional="hide" widget="many2many_tags"/>
+                <field name="allowed_journal_ids" optional="hide" widget="many2many_tags"/>
+                <button name="action_read_account" type="object" string="Setup" class="float-right btn-secondary"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

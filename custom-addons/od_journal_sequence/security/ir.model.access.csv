@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ir_sequence_date_range_group_user_custom,ir_sequence_date_range_erp_admin_group_user_full_access,base.model_ir_sequence_date_range,metroerp_customizations.sub_admin_group,1,1,1,1

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="visitor_portal" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="url">/new/visitor</t>
+                <t t-set="title">Register Visitor</t>
+                <t t-set="placeholder_count" t-value="'visitor_counts'"/>
+            </t>
+        </xpath>
+    </template>
+
+
+    <!-- <template id="visitor_portal_list_view">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="visitors" t-as="visitor">
+                        <tr>
+                            <td>
+                                <t t-esc="visitor.id"/>
+                            </td>
+                            <td>
+                               <t t-esc="visitor.name"/>
+                            </td>
+                            <td><t t-esc="visitor.phone"/></td>
+                            <td><t t-esc="visitor.email"/></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template> -->
+
+    <template id="portal_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'register_visitor'" class="breadcrumb-item">Register Visitor</li>
+            <!-- <li t-if="page_name == 'visitor_list_view'" class="breadcrumb-item">Visitors</li> -->
+        </xpath>
+    </template>
+
+    
+    <template id="new_visitor_form_view_portal">
+        <t t-call="portal.portal_layout">
+            <div class="container my-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <h2 class="text-center mb-4">Visitor Registration Form</h2>
+                            <form class="shadow p-4 rounded bg-light" method="post">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            
+                                <div class="row">
+                                    <!-- Left Column -->
+                                    <div class="col-md-6">
+                                        <!-- Location Dropdown -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="location_id">Location</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="location_name" name="location_name" 
+                                                    class="form-control" 
+                                                    t-att-value="locations.filtered(lambda loc: loc.id == default_location_id).location_name" 
+                                                    readonly="readonly" />
+                                                <!-- Hidden input to ensure location_id is submitted -->
+                                                <input type="hidden" name="location_id" t-att-value="default_location_id" />
+                                            </div>
+                                        </div>
+                            
+                                        <!-- IC Number -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="ic_number">IC Number <span style="color: red;">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="ic_number" id="ic_number" class="form-control" placeholder="Enter IC Number" required="required" />
+                                            </div>
+                                        </div>
+                            
+                                        <!-- Name -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="name">Name <span style="color: red;">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name" required="required" />
+                                            </div>
+                                        </div>
+                            
+                                        <!-- Phone -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="phone">Phone <span style="color: red;">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="tel" name="phone" id="phone" class="form-control" 
+                                                    placeholder="Enter Phone" required="required" 
+                                                    pattern="[0-9]+" inputmode="numeric" 
+                                                    title="Please enter numbers only" 
+                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                                            </div>
+                                        </div>
+                            
+                                        <!-- Email -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="email">Email <span style="color: red;">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" required="required" />
+                                            </div>
+                                        </div>
+
+                                        <!-- Pass Number -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="pass_number">Pass Number</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="pass_number" id="pass_number" class="form-control" placeholder="Enter Pass Number"/>
+                                            </div>
+                                        </div>
+                            
+                                    </div>
+                            
+                                    <!-- Right Column -->
+                                    <div class="col-md-6">
+                                        <!-- Visitor Vehicle -->
+                                        <!-- <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="visitor_vehicle_id">Vehicle</label>
+                                            <div class="col-sm-8">
+                                                <select name="visitor_vehicle_id" id="visitor_vehicle_id" class="form-control">
+                                                    <option value="">Select Vehicle</option>
+                                                    <t t-foreach="vehicles" t-as="vehicle">
+                                                        <option t-att-value="vehicle.id" t-esc="vehicle.name"/>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div> -->
+
+                                        <!-- Check-in Time -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="check_in">Check In <span style="color: red;">*</span></label>
+                                            <div class="col-sm-8">
+                                                <input type="datetime-local" name="check_in" id="check_in" class="form-control" required="required"/>
+                                            </div>
+                                        </div>
+
+                                         <!-- Check In Type -->
+                                         <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label">Check In Type</label>
+                                            <div class="col-sm-8">
+                                                <input type="radio" name="check_in_type" value="walk_in" id="walk_in"/> 
+                                                <label for="walk_in">Walk-In</label><br/>
+                                                <input type="radio" name="check_in_type" value="vehicle" id="vehicle"/> 
+                                                <label for="vehicle">Vehicle</label>
+                                            </div>
+                                        </div>
+                            
+                                        <!-- Vehicle Number (hidden initially) -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="vehicle_number">Vehicle Number</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="vehicle_number" id="vehicle_number" class="form-control" placeholder="Enter Vehicle Number"/>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="visitor_company_id">Company</label>
+                                            <div class="col-sm-8">
+                                                <select name="visitor_company_id" id="visitor_company_id" class="form-control">
+                                                    <option value="">Select Company</option>
+                                                    <t t-foreach="companies" t-as="company">
+                                                        <option t-att-value="company.id" t-esc="company.name"/>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div> -->
+                            
+                                        <!-- Visit Type -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="visit_type_id">Visit Type</label>
+                                            <div class="col-sm-8">
+                                                <select name="visit_type_id" id="visit_type_id" class="form-control">
+                                                    <option value="">Select Visit Type</option>
+                                                    <t t-foreach="visit_types" t-as="visit_type">
+                                                        <option t-att-value="visit_type.id" t-esc="visit_type.name"/>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                            
+                                        <!-- Visit Category -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="visit_category_id">Visit Category</label>
+                                            <div class="col-sm-8">
+                                                <select name="visit_category_id" id="visit_category_id" class="form-control">
+                                                    <option value="">Select Visit Category</option>
+                                                    <t t-foreach="visit_categories" t-as="visit_category">
+                                                        <option t-att-value="visit_category.id" t-esc="visit_category.name"/>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                            
+                                        <!-- Unit Location -->
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="unit_location_id">Unit</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="unit_name" name="unit_name" 
+                                                    class="form-control" 
+                                                    t-att-value="units.filtered(lambda unit: unit.id == default_unit_location_id).complete_name" 
+                                                    readonly="readonly" />
+                                                <!-- Hidden input to submit the unit ID -->
+                                                <input type="hidden" name="unit_location_id" t-att-value="default_unit_location_id" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <!-- Submit Button -->
+                                <div class="form-group row mt-4">
+                                    <div class="col-md-4 offset-md-4">
+                                        <button type="submit" class="btn btn-primary btn-block">Create Visitor</button>
+                                    </div>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    
+    
+    <template id="visitor_success_page" name="Visitor Registration Success">
+        <t t-call="portal.portal_layout">
+            <div class="container my-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <h2>Thank You!</h2>
+                        <p class="lead mt-4">Your data has been successfully saved in the system.</p>
+                        <p>You can now return to the main portal or register another visitor if needed.</p>
+                        <a href="/" class="btn btn-primary mt-3">Go to Home</a>
+                        <a t-attf-href="/new/visitor?model={{ model }}&amp;res_id={{ res_id }}&amp;access_token={{ access_token }}"
+                        class="btn btn-secondary mt-3">
+                         Register Another Visitor
+                     </a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

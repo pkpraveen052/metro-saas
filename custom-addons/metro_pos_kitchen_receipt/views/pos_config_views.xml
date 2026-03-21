@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="pos_config_form_view_inherit_kitchen">
+        <field name="name">pos.config.form.kitchen.receipt.view</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="row mt16 o_settings_container">
+                    <div id="kitchen_receipt_settings" class="col-xs-12 col-md-6 o_setting_box">
+                        <!-- Left pane with checkbox -->
+                        <div class="o_setting_left_pane">
+                            <field name="enable_kitchen_receipt"/>
+                        </div>
+
+                        <!-- Right pane with label and description -->
+                        <div class="o_setting_right_pane">
+                            <label for="enable_kitchen_receipt"/>
+                            <div class="text-muted">
+                                Enable this option to allow printing Kitchen Receipts from POS.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

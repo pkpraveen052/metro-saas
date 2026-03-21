@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.module.category" id="module_main_category_for_service_management">
+        <field name="name">Service</field>
+        <field name="sequence">8</field>
+        <field name="parent_id" eval="False"/>
+    </record>
+
+    <record id="module_service_management" model="ir.module.category">
+        <field name="name">Service</field>
+        <field name="parent_id" ref="metroerp_service_management.module_main_category_for_service_management"/>
+        <field name="sequence">6</field>
+    </record>
+
+    <record id="service_management_group_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="metroerp_service_management.module_service_management"/>
+    </record>
+
+    <record id="service_management_group_administrator" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="metroerp_service_management.module_service_management"/>
+        <field name="implied_ids" eval="[(4, ref('metroerp_service_management.service_management_group_user'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+</odoo>

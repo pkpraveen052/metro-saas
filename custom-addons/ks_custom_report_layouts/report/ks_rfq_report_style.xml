@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="ks_custom_report_purchase_rfq_order">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id"/>
+                    </t>
+                    <t t-elif="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-set="res_config"
+                       t-value="o.env['ks.report.configuration'].search([('ks_record_status','=', 'RFQ'),('company_id','=', company.id)], limit=1)"/>
+                    <t t-if="res_config and res_config.ks_is_custom_layout">
+                        <t t-if="res_config.sale_report_style_id.name == 'Contemporary' ">
+                            <t t-call="ks_custom_report_layouts.ks_purchase_rfq_report_style_1"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Clean'">
+                            <t t-call="ks_custom_report_layouts.ks_purchase_rfq_report_style_2"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Professional'">
+                            <t t-call="ks_custom_report_layouts.ks_purchase_rfq_report_style_3"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Advanced'">
+                            <t t-call="ks_custom_report_layouts.ks_purchase_rfq_report_style_4"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Exclusive'">
+                            <t t-call="ks_custom_report_layouts.ks_purchase_rfq_report_style_5"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Elegant'">
+                            <t t-call="ks_custom_report_layouts.ks_purchase_rfq_report_style_6"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Retro'">
+                            <t t-call="ks_custom_report_layouts.ks_purchase_rfq_report_style_7"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Modern'">
+                            <t t-call="ks_custom_report_layouts.ks_purchase_rfq_report_style_8"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Classic'">
+                            <t t-call="ks_custom_report_layouts.ks_purchase_rfq_report_style_9"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Slim'">
+                            <t t-call="ks_custom_report_layouts.ks_purchase_rfq_report_style_10"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-elif="res_config.sale_report_style_id.name == 'Minimalist'">
+                            <t t-call="ks_custom_report_layouts.report_rfq_inherit_document"
+                               t-lang="o.partner_id.lang"/>
+                        </t>
+                        <t t-else="">
+                            <t t-call="purchase.report_purchasequotation_document" t-lang="o.partner_id.lang"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-call="purchase.report_purchasequotation_document" t-lang="o.partner_id.lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="ks_duplicate_report_purchasequotation">
+            <t t-set="is_rfq_duplicate" t-value="True"/>
+            <t t-call="ks_custom_report_layouts.ks_custom_report_purchase_rfq_order"/>
+        </template>
+
+        <record id="purchase.report_purchase_quotation" model="ir.actions.report">
+            <field name="name">Request for Quotation</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_custom_report_purchase_rfq_order</field>
+            <field name="report_file">ks_custom_report_layouts.ks_custom_report_purchase_rfq_order</field>
+            <field name="print_report_name">'Request for Quotation - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_purchase_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_dynamic_purchase_rfqs"/>
+        </record>
+
+        <record id="ks_duplicate_action_report_purchase_rfq_order" model="ir.actions.report">
+            <field name="name">RFQ Duplicate</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ks_custom_report_layouts.ks_duplicate_report_purchasequotation</field>
+            <field name="report_file">ks_custom_report_layouts.ks_duplicate_report_purchasequotation</field>
+            <field name="print_report_name">'Request for Quotation - %s' % (object.name)</field>
+            <!-- <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+            <field name="binding_type">report</field> -->
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+		<record id="view_delivery_carrier_form_inherit" model="ir.ui.view">
+			<field name="name">delivery.carrier.view.form.inherit</field>
+			<field name="model">delivery.carrier</field>
+			<field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//form//group[@name='provider_details']//button[@name='install_more_provider']" position="attributes">
+					<attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_account_fiscal_year_inherit" model="ir.ui.view">
+            <field name="name">view_account_fiscal_year_inherit</field>
+            <field name="model">account.financial.year.op</field>
+            <field name="inherit_id" ref="account.setup_financial_year_opening_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//footer" position="inside">
+                    <button string="Skip" class="btn-secondary" type="object" name="action_skip_onboarding_fiscal_year" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

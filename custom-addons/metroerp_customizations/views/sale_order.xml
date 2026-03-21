@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_confirm_sale_order_button" model="ir.actions.server">
+            <field name="name">Confirm Order</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="binding_model_id" ref="model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                action = records.action_confirm_sale_order()</field>
+        </record>
+
+<!--        inherit crm tag list view and form view from sale-->
+        <record id="inherited_crm_tag_list_view" model="ir.ui.view">
+            <field name="name">crm.tag.inherited.list.view</field>
+            <field name="model">crm.tag</field>
+            <field name="inherit_id" ref="sales_team.sales_team_crm_tag_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="company_id" string="Company" required="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherited_crm_tag_form_view" model="ir.ui.view">
+            <field name="name">crm.tag.inherited.form.view</field>
+            <field name="model">crm.tag</field>
+            <field name="inherit_id" ref="sales_team.sales_team_crm_tag_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='color']" position="after">
+                    <field name="company_id" string="Company"/>
+                </xpath>
+            </field>
+        </record>
+
+<!--        sale order template inherit form view-->
+        <record id="inherited_sale_order_template_form_view" model="ir.ui.view">
+            <field name="name">sale.order.template.inherited.list.view</field>
+            <field name="model">sale.order.template</field>
+            <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+            </field>
+        </record>
+<!--        Sale Oreder Template inherit Tree View-->
+        <record id="inherited_sale_order_template_tree_view" model="ir.ui.view">
+            <field name="name">sale.order.template.inherited.list.view</field>
+            <field name="model">sale.order.template</field>
+            <field name="inherit_id" ref="sale_management.sale_order_template_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="company_id"/>
+                </xpath>
+            </field>
+        </record>
+<!--        sale order form view inherit by online payment hide-->
+        <record id="inherited_sale_order_form_view" model="ir.ui.view">
+            <field name="name">sale.order.inherited.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='other_information']//field[@name='require_payment']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <!--Quotation/Sale Order template form view inherit by online payment hide-->
+        <record id="inherited_sale_order_template_form_view" model="ir.ui.view">
+            <field name="name">sale.order.inherited.template.form.view</field>
+            <field name="model">sale.order.template</field>
+            <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='confirmation']//field[@name='require_payment']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+         <record model="ir.ui.view" id="sale_margin.sale_margin_sale_order_line_form">
+            <field name="name">sale.order.line.tree.margin.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="after">
+                    <field name="purchase_price" optional="hide" groups="!metroerp_customizations.group_hide_cost_price"/>
+                    <field name="margin" optional="hide"/>
+                    <field name="margin_percent"
+                        attrs="{'invisible': [('price_subtotal', '=', 0)]}"
+                        optional="hide" widget="percentage"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

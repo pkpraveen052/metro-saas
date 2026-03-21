@@ -1,0 +1,31 @@
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_marketplace" model="mail.template">
+            <field name="name">Sales Order: Market Place Sale Order</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">Marketplace Order Confirmed (Ref ${object.name or 'n/a' })</field>
+            <field name="email_from">${object.company_id.partner_id.email_formatted|safe}</field>
+            <field name="email_to">${ctx.get('email_to')}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 12px;">
+        Hello,
+        <br/><br/>
+        A Marketplace order <strong>${object.name}</strong> amounting in <strong>${format_amount(object.amount_total, object.currency_id)}</strong> has been placed and confirmed.<br/>
+        <br/><br/>
+    </p>
+    <div style="text-align:center;padding-top: 1px;">
+        % set website_url = object.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        % set action_id = object.env.ref('sale.action_orders').id
+        % set document_id = object.id
+        <div>
+            <a target="_blank" role="button" class="btn btn-primary" href="${website_url}/web#id=${document_id}&amp;action=${action_id}&amp;model=sale.order&amp;view_type=form" style="border-radius: 5px;font-size:13px;">View Order</a>
+        </div>
+    </div>
+
+</div></field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

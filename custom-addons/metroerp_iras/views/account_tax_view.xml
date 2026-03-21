@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="account_tax_form_gst_returns_f5f8" model="ir.ui.view">
+            <field name="name">account.tax.form.inherit.gst.returns.f5f8</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="for_IRAS" attrs="{'invisible': [('type_tax_use', '!=', 'sale')]}"/>
+                    <field name="iras_supplies_type" widget="radio" attrs="{'invisible': [('for_IRAS', '!=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

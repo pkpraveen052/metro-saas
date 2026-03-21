@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="pos_config_form_view_inherit1" model="ir.ui.view">
+            <field name="name">pos.config.inherited.view</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='iface_invoicing']" position="after">
+                    <div class="col-12 col-lg-6 o_setting_box" id="auto_printing">
+                        <div class="o_setting_left_pane">
+                            <field name="display_token_no"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="display_token_no"/>
+                            <div class="text-muted">
+                                Display the Token Number on POS receipts.
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

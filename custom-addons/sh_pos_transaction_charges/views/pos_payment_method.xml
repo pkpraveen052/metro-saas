@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="pos_payment_method_view_form_inherit" model="ir.ui.view">
+        <field name="name">pos.payment.method.form.inherit</field>
+        <field name="model">pos.payment.method</field>
+        <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"></field>
+        <field name="arch" type="xml">
+            <field name="use_payment_terminal" position="after">
+                <field name="sh_pos_enable_transaction_cherge" />
+                <field name="sh_pos_transaction_charge" widget="radio" attrs="{'invisible': [('sh_pos_enable_transaction_cherge','=',False)]}"/>
+                <field name="sh_pos_card_charge" attrs="{'invisible': [('sh_pos_enable_transaction_cherge','=',False)]}"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_my_home_progressive_invoice" inherit_id="portal.portal_my_home" customize_show="True">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Progressive Invoices</t>
+                <t t-set="url" t-value="'/my/progressive/invoices'"/>
+                <t t-set="placeholder_count" t-value="'progressive_invoice_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_progressive_invoices" name="My Invoices and Payments">
+        <t t-call="portal.portal_layout">
+          <t t-set="breadcrumbs_searchbar" t-value="True"/>
+  
+          <t t-call="portal.portal_searchbar">
+              <t t-set="title">Progressive Invoices</t>
+          </t>
+          <t t-if="not invoices">
+              <p>There are currently no invoices and payments for your account.</p>
+          </t>
+          <t t-if="invoices" t-call="portal.portal_table">
+              <thead>
+                  <tr class="active">
+                      <th>Progressive Invoice #</th>
+                      <th>Invoice Date</th>
+                      <th class='d-none d-md-table-cell'>Due Date</th>
+                      <th/>
+                      <th class="text-right">Amount Due</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <t t-foreach="invoices" t-as="invoice">
+                      <tr>
+                          <td>
+                              <a t-att-href="invoice.get_portal_url()" t-att-title="invoice.name">
+                                  <t t-esc="invoice.name" t-if="invoice.name != '/'"/>
+                                  <em t-else="">Draft Invoice</em>
+                              </a>
+                          </td>
+                          <td><span t-field="invoice.invoice_date"/></td>
+                          <td class='d-none d-md-table-cell'><span t-field="invoice.invoice_date_due"/></td>
+                          <td class="tx_status">
+                              <t t-if="invoice.state == 'posted' and invoice.payment_state not in ('in_payment', 'paid', 'reversed')">
+                                  <span class="badge badge-pill badge-info"><i class="fa fa-fw fa-clock-o" aria-label="Opened" title="Opened" role="img"></i><span class="d-none d-md-inline"> Waiting for Payment</span></span>
+                              </t>
+                              <t t-if="invoice.state == 'posted' and invoice.payment_state in ('paid', 'in_payment')">
+                                  <span class="badge badge-pill badge-success"><i class="fa fa-fw fa-check" aria-label="Paid" title="Paid" role="img"></i><span class="d-none d-md-inline"> Paid</span></span>
+                              </t>
+                              <t t-if="invoice.state == 'posted' and invoice.payment_state == 'reversed'">
+                                  <span class="badge badge-pill badge-success"><i class="fa fa-fw fa-check" aria-label="Reversed" title="Reversed" role="img"></i><span class="d-none d-md-inline"> Reversed</span></span>
+                              </t>
+                              <t t-if="invoice.state == 'cancel'">
+                                  <span class="badge badge-pill badge-warning"><i class="fa fa-fw fa-remove" aria-label="Cancelled" title="Cancelled" role="img"></i><span class="d-none d-md-inline"> Cancelled</span></span>
+                              </t>
+                          </td>
+                          <td class="text-right"><span t-esc="-invoice.amount_residual if invoice.move_type == 'out_refund' else invoice.amount_residual" t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/></td>
+                      </tr>
+                  </t>
+              </tbody>
+          </t>
+        </t>
+      </template>
+
+    <template id="invoice_portal_extended_template" inherit_id="account.portal_invoice_page">
+        <xpath expr="//div[hasclass('o_portal_html_view')]" position="replace">
+            <div class="o_portal_html_view shadow p-3">
+                <div t-attf-class="#{'pb-5' if report_type == 'html' else ''}" id="portal_invoice_content">
+                    <div t-call="metroerp_customizations.invoice_portal_content"/>
+                </div>
+                <iframe id="invoice_html" class="mt8 mb8" width="100%" height="100%" frameborder="0" scrolling="no" t-att-src="invoice.get_portal_url(report_type='html')" style="display:none;"/>
+            </div>
+        </xpath>
+        <xpath expr="//t[@t-call='portal.portal_back_in_edit_mode']/t[1]" position="replace">
+            <t t-if="invoice.is_progressive_invoice">
+                <t t-set="backend_url"
+                   t-value="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (
+                       invoice._name,
+                       invoice.id,
+                       invoice.env.ref('metroerp_progressive_billing.action_move_progressive_invoice_type').id
+                   )"/>
+            </t>
+            <t t-else="">
+                <t t-set="backend_url"
+                   t-value="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (
+                       invoice._name,
+                       invoice.id,
+                       invoice.env.ref('account.action_move_out_invoice_type').id
+                   )"/>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='invoice_communication']" position="before">
+             <div class="text-center" style="font-size:15px; margin-top: 10px; font-weight: bold; color: #555; display: flex; align-items: center; justify-content: center;">
+                <span>Powered by</span>
+                <a target="_blank" href="https://www.metrogroup.solutions/solutions/accounting-system" title="Metro Accounting System" style="color: #007bff; text-decoration: none; font-weight: bold; margin: 0 5px;">
+                    Metro Accounting System
+                </a>
+            </div>
+        </xpath>
+    </template>
+
+   
+    <template id="invoice_portal_content" name="Invoice Portal Content">
+        <!-- Intro -->
+        <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+            <t t-if="not invoice.is_progressive_invoice">
+                <h2 class="my-0">
+                    <t t-esc="invoice.type_name"/>
+                    <em t-esc="invoice.name"/>
+                </h2>
+            </t>
+            <t t-if="invoice.is_progressive_invoice">
+                <h2 class="my-0">
+                    Progressive Invoice
+                    <em t-esc="invoice.name"/>
+                </h2>
+            </t>
+        </div>
+        <div t-attf-class="#{'card-body' if report_type == 'html' else ''}">
+            <!-- Informations -->
+            <div id="informations">
+                <div class="row" id="so_date">
+                    <div class="mb-3 col-6">
+                      <t t-if="invoice.state in ['draft', 'posted', 'cancel']">
+                        <strong>Invoice Date:</strong> 
+                      </t>
+                      <t t-else="">
+                         <strong>Quotation Date:</strong>
+                      </t>
+                      <span t-field="invoice.invoice_date" t-options='{"widget": "date"}'/>
+                    </div>
+                    <div class="mb-3 col-6" t-if="invoice.invoice_date_due">
+                        <strong>Expiration Date:</strong> <span t-field="invoice.invoice_date_due" t-options='{"widget": "date"}'/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <strong t-if="invoice.partner_id != invoice.partner_shipping_id" class="d-block mb-1">Invoicing and Shipping Address:</strong>
+                        <strong t-if="invoice.partner_id == invoice.partner_shipping_id" class="d-block mb-1">Invoicing Address:</strong>
+                        <address t-field="invoice.partner_shipping_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                    </div>
+                     <t t-if="invoice.partner_shipping_id != invoice.partner_id">
+                        <div id="shipping_address" class="col-lg-6">
+                            <strong class="d-block mb-1">Shipping Address:</strong>
+                            <address t-field="invoice.partner_shipping_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <table style="width:100%;border: 1px solid black; border-collapse: collapse; margin-bottom: 10px;" t-if="invoice.is_progressive_invoice">
+                <tr>
+                    <!-- Left Side: Description -->
+                    <td style="width:50%; text-align: left; padding: 5px;background-color:white;color:black;border-right: 1px solid black;">
+                        <strong>Description:</strong><br/>
+                            <t t-esc="invoice.description or 'N/A'"/>
+                    </td>
+
+                    <!-- Right Side: Reference -->
+                    <td style="width:50%; text-align: right; padding: 5px;background-color:white;color:black;">
+                        <strong>Reference:</strong><br/>
+                        <t t-esc="invoice.reference or 'N/A'"/>
+                    </td>
+                </tr>
+            </table>
+
+            <section id="details" style="page-break-inside: auto;" class="mt32">
+                <h3 id="details" t-if="not invoice.is_progressive_invoice">Pricing</h3>
+                <t t-set="display_discount" t-value="True in [line.discount > 0 for line in invoice.invoice_line_ids]"/>
+                <div class="table-responsive">
+                    <table t-att-data-order-id="invoice.id" t-att-data-token="invoice.access_token" class="table table-sm" id="invoice_order_table">
+                        <thead class="bg-100">
+                            <tr>
+                                <t t-if="invoice.is_progressive_invoice">
+                                    <th class="text-left">Description</th>
+                                </t>
+                                <t t-if="not invoice.is_progressive_invoice">
+                                    <th class="text-left">Products</th>
+                                </t>
+                                <th class="text-right">Quantity</th>
+                                <t t-if="invoice.is_progressive_invoice">
+                                    <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">Price</th>
+                                </t>
+                                <t t-if="not invoice.is_progressive_invoice">
+                                    <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">Unit Price</th>
+                                </t>
+                                <th t-if="display_discount" t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                    <span>Disc.</span>
+                                </th>
+                               <t t-if="not invoice.is_progressive_invoice">
+                                    <th t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                        <span>Taxes</span>
+                                    </th>
+                               </t>
+                                <th class="text-right" >
+                                    <span groups="account.group_show_line_subtotals_tax_excluded">Amount</span>
+                                    <span groups="account.group_show_line_subtotals_tax_included">Total Price</span>
+                                </th>
+                                <t t-if="invoice.is_progressive_invoice">
+                                    <th class="text-right">Completed Progress</th>
+                                    <th class="text-right">Completed Claim Amount</th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+
+                            <t t-set="current_subtotal" t-value="0"/>
+
+                            <t t-foreach="invoice.invoice_line_ids" t-as="line">
+
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                                <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                    <t t-if="not line.display_type">
+                                        <td id="product_name"><span t-field="line.product_id.name"/><br/><span t-field="line.name"/></td>
+                                        <td class="text-right">
+                                            <div id="quote_qty">
+                                                <span t-field="line.quantity"/>
+                                                <span t-field="line.product_uom_id"/>
+                                            </div>
+                                        </td>
+                                        <td t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                            <div
+                                                t-if="line.discount &gt;= 0"
+                                                t-field="line.price_unit"
+                                                t-att-style="line.discount and 'text-decoration: line-through' or None"
+                                                t-att-class="(line.discount and 'text-danger' or '') + ' text-right'"
+                                            />
+                                            <div t-if="line.discount and line.discount_type == 'percent'">
+                                                <t t-esc="(1-line.discount / 100.0) * line.price_unit" t-options='{"widget": "float", "decimal_precision": "Product Price"}'/>
+                                            </div>
+                                            <div t-if="line.discount and line.discount_type == 'fixed'">
+                                                <t t-set="new_discount" t-value="(line.discount / (line.quantity * line.price_unit)) * 100"/>
+                                                <t t-esc="(1-new_discount / 100.0) * line.price_unit" t-options='{"widget": "float", "decimal_precision": "Product Price"}'/>
+                                            </div>
+                                        </td>
+                                        <td t-if="display_discount" t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                            <strong t-if="line.discount &gt; 0" class="text-info">
+                                                <t t-esc="line.discount" t-options='{"widget": "float", "precision": 2}'/>
+                                                <t t-if="line.discount_type == 'percent'">%</t>
+                                                <t t-if="line.discount_type == 'fixed'">$</t>
+                                            </strong>
+                                        </td>
+                                        <t t-if="not invoice.is_progressive_invoice">
+                                            <td t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                                <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_ids))"/>
+                                            </td>
+                                        </t>
+                                        <td class="text-right">
+                                            <span class="oe_order_line_price_subtotal" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                            <span class="oe_order_line_price_total" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                        </td>
+                                        <t t-if="invoice.is_progressive_invoice">
+                                            <td class="text-right">
+                                                <span t-esc="'{:.2f}'.format(line.progress * 100)"/> %
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.claimed_amount"/>
+                                            </td>
+                                        </t>
+                                    </t>
+                                    <t t-if="line.display_type == 'line_section'">
+                                        <td colspan="99">
+                                            <span t-field="line.name"/>
+                                        </td>
+                                        <t t-set="current_section" t-value="line"/>
+                                        <t t-set="current_subtotal" t-value="0"/>
+                                    </t>
+                                    <t t-if="line.display_type == 'line_note'">
+                                        <td colspan="99">
+                                            <span t-field="line.name"/>
+                                        </td>
+                                    </t>
+                                </tr>
+
+                                <t t-if="current_section and (line_last or invoice.invoice_line_ids[line_index+1].display_type == 'line_section')">
+                                    <tr class="is-subtotal text-right">
+                                        <td colspan="99">
+                                            <strong class="mr16">Subtotal</strong>
+                                            <span
+                                                t-esc="current_subtotal"
+                                                t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'
+                                            />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="total" class="row" name="total" style="page-break-inside: avoid;">
+                    <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                        <t t-call="metroerp_customizations.invoice_portal_content_totals_table"/>
+                    </div>
+                </div>
+                <div class="row" style="page-break-inside: avoid;">
+                    <div class="col-12">
+                        <t t-if="invoice.generate_qrcode() and invoice.move_type == 'out_invoice'">
+                            <div class="float-right" style="padding-left:65px;padding-top: 10px;text-align: right;">
+                                <img style="width: 150px; height: 150px; object-fit: cover;" 
+                                    t-attf-src="data:image/png;base64,{{ invoice.generate_qrcode() }}" alt=""/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+
+            <section id="terms" class="mt-5" t-if="invoice.narration">
+                <h3 class="">Terms &amp; Conditions</h3>
+                <hr class="mt-0 mb-1"/>
+                <em t-field="invoice.narration"/>
+            </section>
+
+            <section class="mt-5" t-if="invoice.invoice_payment_term_id">
+                <h3 class="">Payment terms</h3>
+                <hr class="mt-0 mb-1"/>
+                <span t-field="invoice.invoice_payment_term_id"/>
+            </section> 
+        </div>
+    </template>
+
+    <template id="invoice_portal_content_totals_table">
+        <table class="table table-sm">
+            <t t-if="invoice.is_progressive_invoice">
+                 <tr class="border-black">
+                    <td>
+                        <strong>
+                            Total Completed
+                        </strong>
+                    </td>
+                    <td class="text-right">
+                        <span t-esc="invoice.get_total_amount_untaxed()"/>
+                    </td>
+                </tr>
+                <tr class="border-black">
+                    <td><strong>Less Previous Claim</strong></td>
+                    <td class="text-right">
+                        (<span t-esc="invoice.get_less_previous_claim()" t-options="{&quot;widget&quot;:&quot;float&quot;, &quot;precision&quot;:2}"/>)
+                    </td>
+                </tr>
+                <tr class="border-black">
+                    <td>
+                        <strong>
+                            Subtotal (<span t-esc="invoice.get_claim_label()"/>)
+                        </strong>
+                    </td>
+                    <td class="text-right">
+                        <span t-field="invoice.amount_untaxed"/>
+                    </td>
+                </tr> 
+            </t>
+            <!--Original-->
+            <tr class="border-black" t-if="not invoice.is_progressive_invoice">
+                <td><strong>Subtotal</strong></td>
+                <td class="text-right">
+                    <span data-id="total_untaxed"
+                        t-field="invoice.amount_untaxed"
+                        t-options='{"widget": "monetary","display_currency": invoice.currency_id}'/>
+                </td>
+            </tr>
+            <t t-foreach="invoice.amount_by_group" t-as="amount_by_group">
+                <tr>
+                    <t t-if="amount_by_group[3] == 1 and invoice.amount_untaxed == amount_by_group[2]">
+                        <td>
+                            <strong><span t-esc="amount_by_group[0]"/></strong>
+                            <span>&amp;nbsp;<span>on</span>&amp;nbsp;<t t-esc="amount_by_group[2]" t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/></span>
+                        </td>
+                        <td class="text-right">
+                            <span t-esc="amount_by_group[1]"
+                                t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/>
+                        </td>
+                    </t>
+                    <t t-else ="">
+                        <td>
+                            <strong><span t-esc="amount_by_group[0]"/></strong>
+                        </td>
+                        <td class="text-right">
+                            <span t-esc="amount_by_group[1]"
+                                t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/>
+                        </td>
+                    </t>
+                </tr>
+            </t>
+            <tr class="border-black">
+                <td t-if="not invoice.is_progressive_invoice"><strong>Total</strong></td>
+                <td t-if="invoice.is_progressive_invoice"><strong>Grand Total</strong></td>
+                <td class="text-right">
+                    <span data-id="total_amount" t-field="invoice.amount_total" t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/>
+                </td>
+            </tr>
+        </table>
+    </template>
+</odoo>

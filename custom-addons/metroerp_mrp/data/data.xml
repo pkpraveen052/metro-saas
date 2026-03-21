@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- BUY -->
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','mrp'),('name','=','route_warehouse0_manufacture')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+    
+    <record id="mrp.route_warehouse0_manufacture" model='stock.location.route'>
+        <field name="name">Manufacture</field>
+        <field name="company_id">1</field>
+        <field name="sequence">5</field>
+    </record>
+    
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','mrp'),('name','=','route_warehouse0_manufacture')]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+
+     <!-- MTO -->
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','stock'),('name','=','route_warehouse0_mto')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+    
+    <record id="stock.route_warehouse0_mto" model='stock.location.route'>
+        <field name="name">Replenish on Order (MTO)</field>
+        <field name="company_id">1</field>
+        <field name="sequence">5</field>
+        <field name="active">False</field>
+    </record>
+    
+    <function model="ir.model.data" name="write">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module','=','stock'),('name','=','route_warehouse0_mto')]"/>
+        </function>
+        <value eval="{'noupdate': True}"/>
+    </function>
+</odoo>

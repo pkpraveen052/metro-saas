@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_recurring_invoices_manager,access.recurring.invoices.manager,model_recurring_invoices,account.group_account_manager,1,1,1,1
+access_scheduled_invoices_manager,access.scheduled.invoices.manager,model_scheduled_invoices,account.group_account_manager,1,1,1,1
+access_recurring_invoices_user,access.recurring.invoices.user,model_recurring_invoices,base.group_user,1,1,1,0
+access_scheduled_invoices_user,access.scheduled.invoices.user,model_scheduled_invoices,base.group_user,1,1,1,0
+access_ir_cron,access.ir.cron,base.model_ir_cron,base.group_user,1,1,1,0
+access_ir_actions_server,access.ir.actions.server,base.model_ir_actions_server,base.group_user,1,1,1,0
+access_invoice_details_manager,access.invoice.details.manager,model_invoice_details,account.group_account_manager,1,1,1,1
+access_invoice_details_user,access.invoice.details.user,model_invoice_details,base.group_user,1,1,1,0
+access_recurring_invoice,access.recurring.invoice,model_recurring_invoice,,1,1,1,1
+access_scheduled_invoice,access.scheduled.invoice,model_scheduled_invoice,,1,1,1,1
+access_recurring_invoice_line,access_recurring_invoice_line,model_recurring_invoice_line,base.group_user,1,1,1,1
+access_recurring_invoices_line,access_recurring_invoices_line,model_recurring_invoices_line,base.group_user,1,1,1,1

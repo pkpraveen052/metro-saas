@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="visitor_details_tree_view" model="ir.ui.view">
+            <field name="name">visitor.details.list.view</field>
+            <field name="model">visitor.details</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="check_in and not check_out" 
+                decoration-danger="not check_in" js_class="button_in_tree">
+                    <field eval="8" name="priority" widget="priority" optional="show"/>
+                    <field name="visitor_ref" optional="hide"/>
+                    <field name="location_id"/>
+                    <field name="ic_number_id"/>
+                    <field name="name"/>
+                    <field name="phone" optional="show"/>
+                    <field name="check_in_type"  optional="show"/>
+                    <field name="pass_number" optional="show"/>
+                    <field name="visit_category_id" optional="hide"/>
+                    <field name="visit_type_id" optional="hide"/>
+                    <field name="check_in"/>
+                    <field name="check_out"/>
+                    <button name="action_set_check_out" type="object" string="Check Out" class="btn btn-danger" attrs="{'invisible': [('check_out', '!=', False)]}"/>
+                </tree>
+            </field>
+        </record>
+        <record id="visitor_details_form_view" model="ir.ui.view">
+            <field name="name">visitor.details.form.view</field>
+            <field name="model">visitor.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="image_1920" widget="image" class="oe_avatar"/>
+                        <h1>
+                            <field name="visitor_ref" readonly="1"/><br/>
+                        </h1>
+                        <h2>
+                            <field name="priority" widget="priority" attrs="{'invisible': [('visitor_ref','=',False)]}"/>
+                        </h2>
+                        <group>
+                            <group string="Visitor Details">
+                                <field name="location_id" placeholder="Select a Location"/>
+                                <field name="ic_number_id" placeholder="Search here"/>
+                                <field name="name"  placeholder="Enter the name"/>
+                                <field name="phone" placeholder="Enter the phone number"/>
+                                <field name="email" placeholder="Enter the email address"/>
+                                <field name="visitor_company_id" placeholder="Select or create a company"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                            <group string="Check-In Details">
+                                <field name="check_in_type" widget="radio"/>
+                                <field name="visitor_vehicle_id" placeholder="Select or create a vehicle"/>
+                                <field name="vehicle_number" attrs="{'invisible': [('check_in_type', '!=', 'vehicle')]}" placeholder="Enter vehicle number"/>
+                                <field name="visit_type_id" placeholder="Select or create a new type"/>
+                                <field name="visit_category_id" placeholder="Select or create a new category"/>
+                                <field name="pass_number" placeholder="e.g., 2343242"/>
+                            </group>
+                            <group string="Location Details">
+                                <field name="unit_location_id" domain="[('security_location_id', '=', location_id)]" widget="many2one" placeholder="Select a block, floor, or unit"/>
+                                <field name="owner"/>
+                                <field name="contact_company_id" placeholder="Select or create a new company" invisible="1"/>
+                            </group>
+                            <group string="Visit Timing">
+                                <field name="check_in" placeholder="Select Check-In Date and Time"/>
+                                <field name="check_out" />
+                                <field name="duration" />
+                                <field name="active" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Purpose of Visit">
+                                <group>
+                                    <group>
+                                        <field name="visitor_purpose" nolabel="1" placeholder="Purpose of your visit (e.g., business meeting, personal)"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Visitor Feedback">
+                                <group>
+                                    <group>
+                                        <field name="visitor_feed_back" nolabel="1" placeholder="Please share your thoughts about your visit..."/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Terms and Conditions">
+                                <group>
+                                    <group>
+                                        <field name="note" nolabel="1" placeholder="Terms and conditions..."/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Other Info">
+                                <group>
+                                    <group>
+                                        <field name="contractor_pass" placeholder="Enter Contractor Pass"/>
+                                        <field name="vehicle_image" height="150" width="150" widget="image" attrs="{'invisible': [('check_in_type', '!=', 'vehicle')]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        
+        <record id="visitor_details_search_view" model="ir.ui.view">
+            <field name="name">visitor.details.search.view</field>
+            <field name="model">visitor.details</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="visitor_ref"/>
+                    <field name="location_id" />
+                    <field name="ic_number_id"/>
+                    <field name="name"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <separator/>
+                    <filter name="filter_active" string="Archived"  domain="[('active','=',False)]"/>
+                    <separator/>
+                    <filter string="Create Date" name="filter_create_date" date="create_date"/>
+                    <separator/>
+                    <group expand="1" string="Group By">
+                        <filter string="Check In Type" name='check_in_type' context="{'group_by':'check_in_type'}"/>
+                        <filter string="Location" name='location' context="{'group_by':'location_id'}"/>
+                        <filter string="Visit Category" name='visit_category' context="{'group_by':'visit_category_id'}"/>
+                        <filter string="Visit Type" name='visit_type' context="{'group_by':'visit_type_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="visitor_details_graph_view" model="ir.ui.view">
+            <field name="name">visitor.details.graph.view</field>
+            <field name="model">visitor.details</field>
+            <field name="arch" type="xml">
+                <graph string="Visitor Details Graph" sample="1">
+                    <field name="name"/>
+                    <field name="location_id"/>
+                </graph>
+            </field>
+        </record>
+        
+        <record id="visitor_details_pivot_view" model="ir.ui.view">
+            <field name="name">visitor.details.pivot.view</field>
+            <field name="model">visitor.details</field>
+            <field name="arch" type="xml">
+                <pivot string="Visitor Details Pivot">
+                    <field name="name" type="row"/>
+                    <field name="visit_category_id" type="row"/>
+                    <field name="location_id" type="row"/>
+                    <field name="check_in" type="col" interval="day"/>
+                    <field name="check_out" type="col" interval="day"/>
+                </pivot>
+            </field>
+        </record>
+        
+        
+
+    <record id="visitor_details_action_window" model="ir.actions.act_window">
+        <field name="name">Visitor Details</field>
+        <field name="res_model">visitor.details</field>
+        <field name="view_mode">tree,form,search,pivot,graph</field>
+    </record>
+    
+    <menuitem id="visitor_details_menu_root"
+        parent="security_contract_menu_root"
+        name="Visitor"
+        sequence="4"/>
+
+    <menuitem id="visitor_details_menu"
+        parent="visitor_details_menu_root"
+        name="Visitor Details"
+        action="visitor_details_action_window"
+        sequence="0"/>
+
+    </data>
+</odoo>

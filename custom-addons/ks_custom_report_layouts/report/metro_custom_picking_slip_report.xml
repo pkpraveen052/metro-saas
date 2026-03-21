@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_stockpicking_inherit_document">
+            <t t-call="ks_custom_report_layouts.custom_external_picking_layout">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div class="page" style="font-family: 'Open Sans', Arial, sans-serif; font-size:11.0pt;"
+                t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-4 text-left" style="margin-top:10px;">
+                            <div>
+                                <b>
+                                    <h4 t-if="o.picking_type_id.code=='incoming'"><strong>Vendor Address</strong></h4>
+                                    <h4 t-if="o.picking_type_id.code=='internal'"><strong>Warehouse Address</strong></h4>
+                                    <h4 t-if="o.picking_type_id.code=='outgoing'"><strong>Customer Address</strong></h4>
+                                </b>
+                            </div>
+                            <div t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id">
+                                Attn: <span t-field="o.partner_id.name"/>
+                            </div>
+                            <div>
+                                <t t-if="o.partner_id.street or o.partner_id.street2 or o.partner_id.city or o.partner_id.state_id or o.partner_id.zip or o.partner_id.country_id">
+                                    Address:
+                                <t t-if="o.partner_id.street">
+                                    <span t-field="o.partner_id.street"/>
+                                </t>
+                                <t t-if="o.partner_id.street and o.partner_id.street2">
+                                    <br/>
+                                </t>
+                                <t t-if="o.partner_id.street2">
+                                    <span t-field="o.partner_id.street2"/>,
+                                </t>
+                                <t t-if="o.partner_id.street or o.partner_id.street2">
+                                    <br/>
+                                </t>
+                                <t t-if="o.partner_id.city">
+                                    <span t-field="o.partner_id.city"/>,
+                                </t>
+                                <t t-if="o.partner_id.state_id">
+                                    <span t-field="o.partner_id.state_id.name"/>,
+                                </t>
+                                <t t-if="o.partner_id.country_id">
+                                    <span t-field="o.partner_id.country_id.name"/>,
+                                </t>
+                                <t t-if="o.partner_id.zip">
+                                    <span t-field="o.partner_id.zip"/>
+                                </t>
+                                </t>
+                            </div>
+                            <div t-if="o.partner_id.phone">
+                                Phone: <span t-field="o.partner_id.phone"/>
+                            </div>
+                            <div t-if="o.partner_id.email">
+                                Email: <span t-field="o.partner_id.email"/>
+                            </div>
+                        </div>
+                        <div class="col-3"/>
+                        <div class="col-6 text-left" id="informations"></div>
+                    </div>
+                    <br/>
+                    <div class="custom-container ">
+                        <div class="row px-2 py-3">
+                            <div class="col-8 py-3">
+                                <div class="row">
+                                    <div t-if="o.move_ids_without_package and o.move_ids_without_package[0].partner_id and o.move_ids_without_package[0].partner_id.id != o.partner_id.id"
+                                         class="col-6 my-3 border-bottom border-right  px-2 ks_invoice">
+                                        <h4><strong>Delivery Address</strong></h4>
+                                        <span t-field="o.move_ids_without_package[0].partner_id.name"></span>
+                                        <p>
+                                            <t t-if="o.move_ids_without_package[0].partner_id.street">
+                                                <t t-esc="o.move_ids_without_package[0].partner_id.street"/>,
+                                            </t>
+                                            <t t-if="o.move_ids_without_package[0].partner_id.street2">
+                                                <t t-esc="o.move_ids_without_package[0].partner_id.street2"/>,
+                                            </t>
+                                            <t t-if="o.move_ids_without_package[0].partner_id.city">
+                                                <t t-esc="o.move_ids_without_package[0].partner_id.city"/>,
+                                            </t>
+                                            <t t-if="o.move_ids_without_package[0].partner_id.state_id">
+                                                <t t-esc="o.move_ids_without_package[0].partner_id.state_id.name"/>,
+                                            </t>
+                                            <t t-if="o.move_ids_without_package[0].partner_id.country_id">
+                                                <t t-esc="o.move_ids_without_package[0].partner_id.country_id.name"/>,
+                                            </t>
+                                            <t t-if="o.move_ids_without_package[0].partner_id.zip">
+                                                <t t-esc="o.move_ids_without_package[0].partner_id.zip"/>
+                                                <br/>
+                                            </t>
+                                            <t t-if="o.move_ids_without_package[0].partner_id.phone">
+                                                Phone: <span t-field="o.move_ids_without_package[0].partner_id.phone"/>
+                                                <br/>
+                                            </t>
+                                            <t t-if="o.move_ids_without_package[0].partner_id.email">
+                                                Email: <span t-field="o.move_ids_without_package[0].partner_id.email"/>
+                                            </t>
+                                        </p>
+                                    </div>
+                                    <div t-if="o.picking_type_id.code != 'internal' and (not o.move_ids_without_package or not o.move_ids_without_package[0].partner_id) and o.picking_type_id.warehouse_id.partner_id"
+                                         class="col-6 my-3 px-2 my-3  ks_invoice">
+                                        <h4><strong>Warehouse Address</strong></h4>
+                                        <span t-field="o.picking_type_id.warehouse_id.partner_id.name"></span>
+                                        <p>
+                                            <t t-if="o.picking_type_id.warehouse_id.partner_id.street">
+                                                <t t-esc="o.picking_type_id.warehouse_id.partner_id.street"/>,
+                                            </t>
+                                            <t t-if="o.picking_type_id.warehouse_id.partner_id.street2">
+                                                <t t-esc="o.picking_type_id.warehouse_id.partner_id.street2"/>,
+                                            </t>
+                                            <t t-if="o.picking_type_id.warehouse_id.partner_id.city">
+                                                <t t-esc="o.picking_type_id.warehouse_id.partner_id.city"/>,
+                                            </t>
+                                            <t t-if="o.picking_type_id.warehouse_id.partner_id.state_id">
+                                                <t t-esc="o.picking_type_id.warehouse_id.partner_id.state_id.name"/>,
+                                            </t>
+                                            <t t-if="o.picking_type_id.warehouse_id.partner_id.country_id">
+                                                <t t-esc="o.picking_type_id.warehouse_id.partner_id.country_id.name"/>,
+                                            </t>
+                                            <t t-if="o.picking_type_id.warehouse_id.partner_id.zip">
+                                                <t t-esc="o.picking_type_id.warehouse_id.partner_id.zip"/>
+                                                <br/>
+                                            </t>
+                                            <t t-if="o.picking_type_id.warehouse_id.partner_id.phone">
+                                                Phone: <span t-field="o.picking_type_id.warehouse_id.partner_id.phone"/>
+                                                <br/>
+                                            </t>
+                                            <t t-if="o.picking_type_id.warehouse_id.partner_id.email">
+                                                Email: <span t-field="o.picking_type_id.warehouse_id.partner_id.email"/>
+                                            </t>
+                                        </p>                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row justify-content-end mb16">
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt48 mb32">
+                            <div t-if="o.origin" class="col-4 border-right" name="div_origin">
+                                <strong>Order:</strong>
+                                <p t-field="o.origin"/>
+                            </div>
+                            <div class="col-4 border-right" name="div_state">
+                                <strong>Status:</strong>
+                                <p t-field="o.state"/>
+                            </div>
+                            <div class="col-4" name="div_sched_date">
+                                <strong>Scheduled Date:</strong>
+                                <p t-field="o.scheduled_date"/>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <!-- Is there a discount on at least one line? -->
+                    <table class="table table-sm" t-if="o.move_line_ids and o.move_ids_without_package">
+                        <t t-set="has_barcode" t-value="any(move_line.product_id and move_line.product_id.sudo().barcode or move_line.package_id for move_line in o.move_line_ids)"/>
+                        <t t-set="has_serial_number" t-value="any(move_line.lot_id or move_line.lot_name for move_line in o.move_line_ids)" groups="stock.group_production_lot"/>
+                        <thead>
+                            <tr>
+                                <th name="th_product" t-if="res_config.ks_product_desc">
+                                    <strong>Product</strong>
+                                </th>
+                                <th class="text-center">
+                                    <strong>Quantity</strong>
+                                </th>
+                                <th class="text-center" name="th_from" t-if="o.picking_type_id.code != 'incoming'" align="left" groups="stock.group_stock_multi_locations">
+                                    <strong>From</strong>
+                                </th>
+                                <th class="text-center" name="th_to" t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations">
+                                    <strong>To</strong>
+                                </th>
+                                <th name="th_serial_number" class="text-center" t-if="has_serial_number">
+                                   <strong>Lot/Serial Number</strong>
+                                </th>
+                                <th name="th_barcode" class="text-center" t-if="has_barcode">
+                                    <strong>Product Barcode</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.move_ids_without_package" t-as="move">
+                                <!-- In case you come across duplicated lines, ask NIM or LAP -->
+                                <t t-foreach="move.move_line_ids.sorted(key=lambda ml: ml.location_id.id)" t-as="ml">
+                                    <tr>
+                                        <td t-if="res_config.ks_product_desc">
+                                            <t t-if="ml.product_id and not res_config.hide_product_label">
+                                              <span t-field="ml.product_id.name"/>
+                                            </t><br/>
+                                            <span t-field="ml.product_id.description_picking"/>
+                                        </td>
+                                        <td class="text-center" style="background-color:white;">
+                                            <span t-if="o.state != 'done'" t-field="ml.product_uom_qty"/>
+                                            <span t-if="o.state == 'done'" t-field="ml.qty_done"/>
+                                            <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
+
+                                        </td>
+                                        <td class="text-center" t-if="o.picking_type_id.code != 'incoming'" groups="stock.group_stock_multi_locations" style="background-color:white;">
+                                            <span t-esc="ml.location_id.display_name"/>
+                                                <t t-if="ml.package_id">
+                                                    <span t-field="ml.package_id"/>
+                                                </t>
+                                        </td>
+                                        <td class="text-center" t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations">
+                                            <div>
+                                                <span t-field="ml.location_dest_id"/>
+                                                <t t-if="ml.result_package_id">
+                                                    <span t-field="ml.result_package_id"/>
+                                                </t>
+                                            </div>
+                                        </td>
+                                        <td class="text-center h6" t-if="has_serial_number">
+                                            <img t-if="has_serial_number and (ml.lot_id or ml.lot_name)" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', ml.lot_id.name or ml.lot_name, 400, 100)" style="width:100%;height:35px;" alt="Barcode"/>
+
+                                        </td>
+                                        <td class="text-center" t-if="has_barcode">
+                                            <t t-if="product_barcode != move.product_id.barcode">
+                                                <span t-if="move.product_id and move.product_id.barcode">
+                                                    <img t-if="len(move.product_id.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('EAN13', move.product_id.barcode, 400, 100, 0)" style="height:35px" alt="Barcode"/>
+                                                    <img t-elif="len(move.product_id.barcode) == 8" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('EAN8', move.product_id.barcode, 400, 100, 0)" style="height:35px" alt="Barcode"/>
+                                                    <img t-else="" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('Code128', move.product_id.barcode, 400, 100, 0)" style="height:35px" alt="Barcode"/>
+
+                                                </span>
+                                                <t t-set="product_barcode" t-value="move.product_id.barcode"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                          </tbody>
+                    </table>
+
+                    <table class="table table-sm" t-if="o.package_level_ids and o.picking_type_entire_packs and o.state in ['assigned', 'done']">
+                        <thead>
+                            <tr>
+                                <th name="th_package">Package</th>
+                                <th name="th_pko_from" t-if="o.picking_type_id.code != 'incoming'" groups="stock.group_stock_multi_locations">From</th>
+                                <th name="th_pki_from" t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations">To</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.package_level_ids.sorted(key=lambda p: p.package_id.name)" t-as="package">
+                                <t t-set="package" t-value="package.with_context(picking_id=o.id)" />
+                                <td name="td_pk_barcode">
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', package.package_id.name, 600, 100)" style="width:300px;height:50px; margin-left: -50px;" alt="Barcode"/><br/>
+                                </td>
+                                <td t-if="o.picking_type_id.code != 'incoming'" groups="stock.group_stock_multi_locations">
+                                    <span t-field="package.location_id"/>
+                                </td>
+                                <td t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations">
+                                    <span t-field="package.location_dest_id"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+
+                    <t t-set="no_reserved_product"
+                    t-value="o.move_lines.filtered(lambda x: x.product_uom_qty != x.reserved_availability and x.move_line_ids and x.state!='done')"/>
+                    <p t-if="o.state in ['draft', 'waiting', 'confirmed'] or no_reserved_product">
+                        <i class="fa fa-exclamation-triangle"/>
+                        All products could not be reserved. Click on the "Check Availability" button to try to reserve
+                        products.
+                    </p>
+                    <div class="oe_structure"/>
+                    <div>
+                        <p>Notes</p>
+                        <span><p t-field="o.note"/></span>
+                    </div>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_metro_dynamic_sign"/>
+                    </div>
+                </div>
+                <t class="ks_container_9" t-call="ks_custom_report_layouts.metro_custom_dynamic_footer">
+                    <t t-set="ks_style" t-value="'ks_style_8'"/>
+                </t>
+            </t>
+        </template>
+    
+    <!--    Calling custom header in new layout-->
+        <template id="custom_external_picking_layout">
+            <!-- Multicompany -->
+            <t t-if="not o and o">
+                <t t-set="o" t-value="o"/>
+            </t>
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"/>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+            <t t-call="ks_custom_report_layouts.custom_external_picking_layout_standard">
+               <t t-raw="0"/>
+            </t>
+        </template>
+    
+        <template id="custom_external_picking_layout_standard">
+            <div class="header">
+                <div class="o_boxed_header" style="font-family: sans-serif;color: #495057;font-size:10.0pt;">
+                    <div class="row" t-if="res_config.show_report_header_position == 'right'">
+                        <div class="col-4" t-if="not res_config.ks_show_logo"></div>
+                        <!-- <div class="col-4 text-left" style="display: flex;justify-content: flex-start;align-items: center;" t-if="res_config.ks_show_logo">
+                            <img style="max-width: 100%;" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>
+                        </div> -->
+                        <div t-attf-class="text-left #{res_config.display_large_logo and 'col-7' or 'col-4'}"
+                            style="display: flex;justify-content: flex-start;align-items: center;"
+                            t-if="res_config.ks_show_logo">
+                            <img style="max-width: 100%;" t-if="o.company_id.logo"
+                                t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>
+                        </div>
+                        <div class="col-3" t-if="not res_config.display_large_logo">
+                            <div t-if="res_config.ks_show_company">
+                                <p class=" pl-2 ks_show_tagline mb-0">
+                                    <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span style="font-size: 95%;color:black;font-weight:bold;" t-esc="res_config.company_id.ks_report_company_title"/>
+                                    </span>
+                                    <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                        <span style="font-size: 95%;color:black;font-weight:bold;" t-field="company.name"/>
+                                    </span>
+                                    <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                        <t t-if="company.report_header">
+                                            <span t-field="company.report_header"/>
+                                        </t>
+                                        <t t-else="">
+                                            Company Tag Line
+                                        </t>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-6 text-left">
+                            <table>
+                                <tr>
+                                    <div t-if="res_config.ks_display_company">
+                                        <t t-set="company_name" t-value="o.company_id.name or ''"/>
+                                        <t t-if="res_config.ks_company_name_bold">
+                                            <b>
+                                                <t t-if="res_config.is_name_split_required">
+                                                    <t t-set="parts" t-value="company_name.strip().split(' ', 1)"/>
+                                                    <span t-esc="parts[0]"/><br/>
+                                                    <span t-esc="parts[1]"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span t-esc="company_name"/>
+                                                </t>
+                                            </b>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-if="res_config.is_name_split_required">
+                                                <t t-set="parts" t-value="company_name.strip().split(' ', 1)"/>
+                                                <span t-esc="parts[0]"/><br/>
+                                                <span t-esc="parts[1]"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="company_name"/>
+                                            </t>
+                                        </t>
+                                        <br/>
+                                    </div>
+                                    <t t-if="res_config.show_comma">
+                                        <div t-if="res_config.ks_address">
+                                            <t t-if="o.company_id.street">
+                                                <span t-field="o.company_id.street"/>
+                                                <t t-if="o.company_id.city or o.company_id.state_id or o.company_id.zip or o.company_id.street2 or o.company_id.country_id and res_config.show_country">,</t>
+                                            </t>
+                                            <t t-if="o.company_id.street2">
+                                                <span t-field="o.company_id.street2"/>
+                                                <t t-if="o.company_id.state_id or o.company_id.zip or o.company_id.city or o.company_id.country_id and res_config.show_country">,</t>
+                                            </t>
+                                        </div>
+                                        <div t-if="res_config.ks_address">
+                                            <t t-if="o.company_id.city">
+                                                <span t-field="o.company_id.city"/>
+                                                <t t-if="o.company_id.state_id or o.company_id.zip or o.company_id.country_id and res_config.show_country">,</t>
+                                            </t>
+                                            <t t-if="o.company_id.state_id">
+                                                <span t-field="o.company_id.state_id.name"/>
+                                                <t t-if="o.company_id.zip or o.company_id.country_id and res_config.show_country">,</t>
+                                            </t>
+                                            <t t-if="o.company_id.country_id and res_config.show_country">
+                                                <span t-esc="o.company_id.country_id.name"/>
+                                                <t t-if="o.company_id.zip">,</t>
+                                            </t>
+                                            <t t-if="o.company_id.zip">
+                                                <span t-field="o.company_id.zip"/>
+                                            </t>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div t-if="res_config.ks_address">
+                                            <t t-if="o.company_id.street">
+                                                <span t-field="o.company_id.street"/>
+                                            </t>
+                                            <t t-if="o.company_id.street2">
+                                                <span t-field="o.company_id.street2"/>
+                                            </t>
+                                        </div>
+                                        <div t-if="res_config.ks_address">
+                                            <t t-if="o.company_id.city">
+                                                <span t-field="o.company_id.city"/>
+                                            </t>
+                                            <t t-if="o.company_id.state_id">
+                                                <span t-field="o.company_id.state_id.name"/>
+                                            </t>
+                                            <t t-if="o.company_id.country_id and res_config.show_country">
+                                                <span t-esc="o.company_id.country_id.name"/>
+                                            </t>
+                                            <t t-if="o.company_id.zip">
+                                                <span t-field="o.company_id.zip"/>
+                                            </t>
+                                        </div>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td t-if="res_config.show_uen_no and res_config.reg_no_type == 'gst'">
+                                        UEN: <span t-esc="res_config.company_id.l10n_sg_unique_entity_number"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                        UEN: <span t-field="o.company_id.partner_id.l10n_sg_unique_entity_number"/>
+                                    </td>
+                                    <td t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                        GST Reg No: <span t-field="o.company_id.partner_id.vat"/>
+                                    </td>
+                                
+                                    <t t-if="not o.company_id.l10n_sg_unique_entity_number and o.company_id.company_registry">
+                                        <td>
+                                            UEN:<span t-field="o.company_id.company_registry"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td t-if="company.partner_id.phone and res_config.phone">
+                                        Phone: <span t-field="o.company_id.phone"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td t-if="company.partner_id.email and res_config.email">
+                                        Email: <span t-field="o.company_id.email"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row" t-if="res_config.show_report_header_position == 'left'">
+                    <div class="col-5 text-left">
+                        <table>
+                            <tr>
+                                <div t-if="res_config.ks_display_company" style="font-size: 125%;color:black;">
+                                    <t t-set="company_name" t-value="o.company_id.name or ''"/>
+                                    <t t-if="res_config.ks_company_name_bold">
+                                        <b>
+                                            <t t-if="res_config.is_name_split_required">
+                                                <t t-set="parts" t-value="company_name.strip().split(' ', 1)"/>
+                                                <span t-esc="parts[0]"/><br/>
+                                                <span t-esc="parts[1]"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="company_name"/>
+                                            </t>
+                                        </b>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-if="res_config.is_name_split_required">
+                                            <t t-set="parts" t-value="company_name.strip().split(' ', 1)"/>
+                                            <span t-esc="parts[0]"/><br/>
+                                            <span t-esc="parts[1]"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-esc="company_name"/>
+                                        </t>
+                                    </t>
+                                    <br/>
+                                </div>
+                                <t t-if="res_config.show_comma">
+                                    <div t-if="res_config.ks_address">
+                                        <t t-if="o.company_id.street">
+                                            <span t-field="o.company_id.street"/>
+                                            <t t-if="o.company_id.city or o.company_id.state_id or o.company_id.zip or o.company_id.street2 or o.company_id.country_id and res_config.show_country">,</t>
+                                        </t>
+                                        <t t-if="o.company_id.street2">
+                                            <span t-field="o.company_id.street2"/>
+                                            <t t-if="o.company_id.state_id or o.company_id.zip or o.company_id.city or o.company_id.country_id and res_config.show_country">,</t>
+                                        </t>
+                                    </div>
+                                    <div t-if="res_config.ks_address">
+                                        <t t-if="o.company_id.city">
+                                            <span t-field="o.company_id.city"/>
+                                            <t t-if="o.company_id.state_id or o.company_id.zip or o.company_id.country_id and res_config.show_country">,</t>
+                                        </t>
+                                        <t t-if="o.company_id.state_id">
+                                            <span t-field="o.company_id.state_id.name"/>
+                                            <t t-if="o.company_id.zip or o.company_id.country_id and res_config.show_country">,</t>
+                                        </t>
+                                        <t t-if="o.company_id.country_id and res_config.show_country">
+                                            <span t-esc="o.company_id.country_id.name"/>
+                                            <t t-if="o.company_id.zip">,</t>
+                                        </t>
+                                        <t t-if="o.company_id.zip">
+                                            <span t-field="o.company_id.zip"/>
+                                        </t>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div t-if="res_config.ks_address">
+                                        <t t-if="o.company_id.street">
+                                            <span t-field="o.company_id.street"/>
+                                        </t>
+                                        <t t-if="o.company_id.street2">
+                                            <span t-field="o.company_id.street2"/>
+                                        </t>
+                                    </div>
+                                    <div t-if="res_config.ks_address">
+                                        <t t-if="o.company_id.city">
+                                            <span t-field="o.company_id.city"/>
+                                        </t>
+                                        <t t-if="o.company_id.state_id">
+                                            <span t-field="o.company_id.state_id.name"/>
+                                        </t>
+                                        <t t-if="o.company_id.country_id and res_config.show_country">
+                                            <span t-esc="o.company_id.country_id.name"/>
+                                        </t>
+                                        <t t-if="o.company_id.zip">
+                                            <span t-field="o.company_id.zip"/>
+                                        </t>
+                                    </div>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td t-if="res_config.show_uen_no and res_config.reg_no_type == 'gst'">
+                                    UEN: <span t-esc="res_config.company_id.l10n_sg_unique_entity_number"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN: <span t-field="o.company_id.partner_id.l10n_sg_unique_entity_number"/>
+                                </td>
+                                <td t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    GST Reg No: <span t-field="o.company_id.partner_id.vat"/>
+                                </td>
+                                <t t-if="not o.company_id.l10n_sg_unique_entity_number and o.company_id.company_registry">
+                                    <td>
+                                        UEN:<span t-field="o.company_id.company_registry"/>
+                                    </td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td t-if="company.partner_id.phone and res_config.phone">
+                                    Phone: <span t-field="o.company_id.phone"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td t-if="company.partner_id.email and res_config.email">
+                                    Email: <span t-field="o.company_id.email"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                    </div>
+                    <div class="col-4 text-center" t-if="not res_config.display_large_logo">
+                        <div t-if="res_config.ks_show_company or res_config.ks_show_tagline">
+                            <p class=" pl-2 ks_show_tagline mb-0">
+                                <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                    <span style="font-size: 95%;color:black;font-weight:bold;" t-esc="res_config.company_id.ks_report_company_title"/>
+                                </span>
+                                <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                    <span style="font-size: 95%;color:black;font-weight:bold;" t-field="company.name"/>
+                                </span>
+                                <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                    <t t-if="company.report_header">
+                                        <span t-field="company.report_header"/>
+                                    </t>
+                                    <t t-else="">
+                                        Company Tag Line
+                                    </t>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-3" t-if="not res_config.ks_show_logo"></div>
+                    <!-- <div class="col-3 text-left" style="display: flex;justify-content: flex-start;align-items: center;" t-if="res_config.ks_show_logo">
+                        <img style="max-width: 100%;" t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>
+                    </div> -->
+                    <div t-attf-class="text-left #{res_config.display_large_logo and 'col-7' or 'col-3'}"
+                        style="display: flex;justify-content: flex-start;align-items: center;"
+                        t-if="res_config.ks_show_logo">
+                        <img style="max-width: 100%;" t-if="o.company_id.logo"
+                            t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>
+                    </div>
+                </div>
+                     <!--Header With Center Aligned-->
+                <div class="row" t-if="res_config.show_report_header_position == 'center'">
+                    <div class="col-4" t-if="not res_config.ks_show_logo"></div>
+                    <div t-attf-class="text-left #{res_config.display_large_logo and 'col-4' or 'col-4'}"
+                        style="display: flex;justify-content: flex-start;align-items: center;"
+                        t-if="res_config.ks_show_logo">
+                        <img style="max-width: 100%;" t-if="o.company_id.logo"
+                            t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>
+                    </div>
+                    <div class="col-4">
+                        <table>
+                            <tr>
+                                <div t-if="res_config.ks_display_company" style="font-size: 125%;color:black;">
+                                    <t t-set="company_name" t-value="o.company_id.name or ''"/>
+                                    <t t-if="res_config.ks_company_name_bold">
+                                        <b>
+                                            <t t-if="res_config.is_name_split_required">
+                                                <t t-set="parts" t-value="company_name.strip().split(' ', 1)"/>
+                                                <span t-esc="parts[0]"/><br/>
+                                                <span t-esc="parts[1]"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="company_name"/>
+                                            </t>
+                                        </b>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-if="res_config.is_name_split_required">
+                                            <t t-set="parts" t-value="company_name.strip().split(' ', 1)"/>
+                                            <span t-esc="parts[0]"/><br/>
+                                            <span t-esc="parts[1]"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-esc="company_name"/>
+                                        </t>
+                                    </t>
+                                    <br/>
+                                </div>
+                                <t t-if="res_config.show_comma">
+                                    <div t-if="res_config.ks_address">
+                                        <t t-if="o.company_id.street">
+                                            <span t-field="o.company_id.street"/>
+                                            <t t-if="o.company_id.city or o.company_id.state_id or o.company_id.zip or o.company_id.street2 or o.company_id.country_id and res_config.show_country">,</t>
+                                        </t>
+                                        <t t-if="o.company_id.street2">
+                                            <span t-field="o.company_id.street2"/>
+                                            <t t-if="o.company_id.state_id or o.company_id.zip or o.company_id.city or o.company_id.country_id and res_config.show_country">,</t>
+                                        </t>
+                                    </div>
+                                    <div t-if="res_config.ks_address">
+                                        <t t-if="o.company_id.city">
+                                            <span t-field="o.company_id.city"/>
+                                            <t t-if="o.company_id.state_id or o.company_id.zip or o.company_id.country_id and res_config.show_country">,</t>
+                                        </t>
+                                        <t t-if="o.company_id.state_id">
+                                            <span t-field="o.company_id.state_id.name"/>
+                                            <t t-if="o.company_id.zip or o.company_id.country_id and res_config.show_country">,</t>
+                                        </t>
+                                        <t t-if="o.company_id.country_id and res_config.show_country">
+                                            <span t-esc="o.company_id.country_id.name"/>
+                                            <t t-if="o.company_id.zip">,</t>
+                                        </t>
+                                        <t t-if="o.company_id.zip">
+                                            <span t-field="o.company_id.zip"/>
+                                        </t>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div t-if="res_config.ks_address">
+                                        <t t-if="o.company_id.street">
+                                            <span t-field="o.company_id.street"/>
+                                        </t>
+                                        <t t-if="o.company_id.street2">
+                                            <span t-field="o.company_id.street2"/>
+                                        </t>
+                                    </div>
+                                    <div t-if="res_config.ks_address">
+                                        <t t-if="o.company_id.city">
+                                            <span t-field="o.company_id.city"/>
+                                        </t>
+                                        <t t-if="o.company_id.state_id">
+                                            <span t-field="o.company_id.state_id.name"/>
+                                        </t>
+                                        <t t-if="o.company_id.country_id and res_config.show_country">
+                                            <span t-esc="o.company_id.country_id.name"/>
+                                        </t>
+                                        <t t-if="o.company_id.zip">
+                                            <span t-field="o.company_id.zip"/>
+                                        </t>
+                                    </div>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td t-if="res_config.show_uen_no and res_config.reg_no_type == 'gst'">
+                                    UEN: <span t-esc="res_config.company_id.l10n_sg_unique_entity_number"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td t-if="res_config.show_reg_no and res_config.reg_no_type == 'uen' and company.partner_id.l10n_sg_unique_entity_number">
+                                    UEN: <span t-field="o.company_id.partner_id.l10n_sg_unique_entity_number"/>
+                                </td>
+                                <td t-if="res_config.show_reg_no and res_config.reg_no_type == 'gst' and company.partner_id.vat">
+                                    GST Reg No: <span t-field="o.company_id.partner_id.vat"/>
+                                </td>
+                            
+                                <t t-if="not o.company_id.l10n_sg_unique_entity_number and o.company_id.company_registry">
+                                    <td>
+                                        UEN:<span t-field="o.company_id.company_registry"/>
+                                    </td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td t-if="company.partner_id.phone and res_config.phone">
+                                    Phone: <span t-field="o.company_id.phone"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td t-if="company.partner_id.email and res_config.email">
+                                    Email: <span t-field="o.company_id.email"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                    </div>
+                    <div class="col-4 text-left" t-if="not res_config.display_large_logo">
+                        <div t-if="res_config.ks_show_company">
+                            <p class=" pl-2 ks_show_tagline mb-0">
+                                <span t-if="res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                    <span style="font-size: 95%;color:black;font-weight:bold;" t-esc="res_config.company_id.ks_report_company_title"/>
+                                </span>
+                                <span t-if="not res_config.company_id.ks_report_company_title and res_config.ks_show_company" class="d-block ks_company_name">
+                                    <span style="font-size: 95%;color:black;font-weight:bold;" t-field="company.name"/>
+                                </span>
+                                <span t-if="res_config.ks_show_tagline" class="d-block ks_company_tagline">
+                                    <t t-if="company.report_header">
+                                        <span t-field="company.report_header"/>
+                                    </t>
+                                    <t t-else="">
+                                        Company Tag Line
+                                    </t>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!--END HEADER-->
+                </div>
+            </div>
+            <div class="article o_report_layout_boxed" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-call="web.address_layout"/>
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout">
+                <div class="text-center">
+                    <div t-if="report_type == 'pdf'">
+                        Page:
+                        <span class="page"/>
+                        /
+                        <span class="topage"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+    
+    <!--    Overriden  -->
+        <!-- <template id="stock.report_picking">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="ks_custom_report_layouts.report_stockpicking_inherit_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template> -->
+    
+
+        <!-- <template id="ks_report_picking_style_8">
+           
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <style t-raw="res_config.get_report_table_color()"/>
+                <section class="ks_style_8  ks_address mb-3">
+                    
+                </section>
+                <t t-call="ks_custom_report_layouts.ks_picking_report_table">
+                    <t t-set="ks_style" t-value="'ks_style_8'"/>
+                </t>
+                
+                <p t-field="o.note"/>
+                <section>
+                    <div class="custom-container">
+                        <t t-call="ks_custom_report_layouts.ks_sign_dynamic"/>
+                    </div>
+                </section>
+            </div>
+        </template> -->
+    </data>
+</odoo>

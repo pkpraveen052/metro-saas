@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="product_attribute_form_view_inherit" model="ir.ui.view">
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.product_attribute_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form//group[@name='main_fields']//field[@name='create_variant']" position="after">
+                <field name="company_id" required="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_attribute_list_view_inherit" model="ir.ui.view">
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.attribute_tree_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree//field[@name='create_variant']" position="after">
+                <field name="company_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

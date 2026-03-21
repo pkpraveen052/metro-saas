@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="stock_picking_batch_inherited_tree_view" model="ir.ui.view">
+            <field name="name">stock.picking.tree.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock_picking_batch.vpicktree_inherit_stock_picking_batch"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='batch_id']" position="attributes">
+                    <attribute name="groups">metroerp_customizations.group_module_stock_picking_batch</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem action="stock_picking_batch.stock_picking_batch_action" id="stock_picking_batch.stock_picking_batch_menu"
+                  parent="stock.menu_stock_warehouse_mgmt" sequence="10"
+                  groups="metroerp_customizations.group_module_stock_picking_batch"
+        />
+
+        <record id="view_picking_internal_search_inherit_metroerp_customizations" model="ir.ui.view">
+        <field name="name">stock.picking.search</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock_picking_batch.view_picking_internal_search_inherit_stock_picking_batch"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='batch_id']" position="attributes">
+                <attribute name="groups">metroerp_customizations.group_module_stock_picking_batch</attribute>
+            </xpath>
+        </field>
+    </record>
+    </data>
+</odoo>

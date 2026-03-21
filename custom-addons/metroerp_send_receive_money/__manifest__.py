@@ -1,0 +1,21 @@
+{
+    "name": "Spend & Receive Money",
+    "summary": "spending and receiving money via journal entries for metro.",
+    "version": "14.0.0.1",
+    "category": "Accounting",
+    "author": "Metro Group Solutions",
+    "website": "https://metrogroup.solutions/",
+    "depends": ["account"],
+    "data": [
+        "security/ir.model.access.csv",
+        'data/account_data.xml',
+        "views/receive_money_view.xml",
+        "views/send_money_view.xml",
+    ],
+    "qweb": [],
+    # "assets": {},
+    "images": [],
+    "installable": True,
+    "application": True,
+    "auto_install": False,
+}

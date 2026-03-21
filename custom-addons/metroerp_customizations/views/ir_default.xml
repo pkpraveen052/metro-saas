@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+		
+		<record id="ir_default_form_view_inherit" model="ir.ui.view">
+			<field name="name">ir.default form view.inherit</field>
+			<field name="model">ir.default</field>
+			<field name="inherit_id" ref="base.ir_default_form_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='json_value']" position="attributes">
+					<attribute name="style">word-break: break-all;</attribute>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

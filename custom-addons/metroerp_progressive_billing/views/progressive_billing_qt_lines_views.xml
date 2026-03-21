@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+       <record id="progressive_billing_qt_lines_form_view" model="ir.ui.view">
+            <field name="name">progressive.billing.qt.lines.form</field>
+            <field name="model">progressive.billing.qt.lines</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    
+        <record id="progressive_billing_qt_lines_tree_view" model="ir.ui.view">
+            <field name="name">progressive.billing.qt.lines.tree.view</field>
+            <field name="model">progressive.billing.qt.lines</field>
+            <field name="arch" type="xml">
+                <tree string="Progressive Billing Quotations" class="o_sale_order" multi_edit="1" sample="1">
+                </tree>
+            </field>
+        </record>
+
+        
+        <record id="progressive_billing_lines_action_window" model="ir.actions.act_window">
+            <field name="name">Progressive Billing Quotations Lines</field>
+            <field name="res_model">progressive.billing.qt.lines</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                      Create new progressive billing quotation Lines.
+                </p>
+            </field>
+        </record>
+   </data>
+</odoo>

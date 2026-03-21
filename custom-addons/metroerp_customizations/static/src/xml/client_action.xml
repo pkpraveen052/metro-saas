@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-extend="mail.client_action">
+        <t t-jquery=".o_mail_request_permission" t-operation="replace">
+            <t t-if="widget and widget.options and widget.options.odoo_text_replacement">
+                <span class="o_mail_request_permission"><t t-esc="widget.options.odoo_text_replacement"/> needs your permission to <a href="#"> enable desktop notifications</a>.</span>
+            </t>
+            <t t-if="!(widget.options and widget.options.odoo_text_replacement)">
+                <span class="o_mail_request_permission">Needs your permission to <a href="#"> enable desktop notifications</a>.</span>
+            </t>
+        </t>
+    </t>
+
+    <t t-name="mail.NotificationAlert.Inherit" 
+        t-inherit="mail.NotificationAlert"
+        t-inherit-mode="extension"
+        owl="1">
+            <xpath expr="//div[@class='o_NotificationAlert']/t/center" position="replace">
+                <center t-if="isNotificationBlocked" class="o_notification_alert alert alert-primary">
+                    The Push notifications have been blocked. Go to your browser settings to allow them.
+                </center>
+            </xpath>
+    </t>
+</templates>

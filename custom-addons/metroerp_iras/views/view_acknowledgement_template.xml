@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_acknowledgment_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <h2 style="margin-top: 0px;color:#5D8DA8;">Acknowledgment for Form C-S</h2>
+                    <table style="width:100%;">
+                        <tr>
+                            <td colspan="3">
+                                <span style="font-size: 16px;">
+                                    <b style="font-weight: 1000; font-size: 16px;">Successful Submission</b>
+                                </span><br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">We have received your filing.</td>
+                        </tr>
+                        <!-- <tr>
+                            <td style="width:6%; padding:5px;"/>
+                            <td style="width:30%;"><b>Name</b></td>
+                            <td><span t-field="doc.company_id"/></td>
+                        </tr> -->
+                        <tr>
+                            <td style="padding:5px;"/>
+                            <td><b>Tax Ref No.</b></td>
+                            <td><span t-field="doc.uen"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;"/>
+                            <td><b>Acknowledgment No.</b></td>
+                            <td><span t-field="doc.acknowledgementNo"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;"/>
+                            <td><b>Date/Time</b></td>
+                            <td><span t-field="doc.timestamp_str"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;"/>
+                            <td><b>Year of Assessment</b></td>
+                            <td><span t-field="doc.ya"/></td>
+                        </tr>
+                    </table>
+
+                    <!-- Documents Section -->
+                    <table style="width:100%; margin-top: 30px;">
+                        <tr>
+                            <td colspan="3"><b style="font-weight: 1000; font-size: 16px;">Documents to be Submitted to IRAS via the ‘Submit Document’ digital service</b></td>
+                        </tr>
+                        <tr>
+                            <td style="width:6%; text-align:right;"><li/></td>
+                            <td>Declaration Form for S19B Allowances on IPR if this is the first YA of the writing-down allowances claim.</td>
+                            <td/>
+                        </tr>
+                        <tr t-if="doc.appStockConvAsset != '2'">
+                            <td style="text-align:right;"><li/></td>
+                            <td>AC Reporting Form if the company...</td>
+                        </tr>
+                    </table>
+                    <table style="width:100%; margin-top: 20px;">
+                        <tr>
+                            <td>
+                                <b><br/>The relevant <u><a target="blank" href="https://www.iras.gov.sg/quick-links/forms/companies">Form</a></u> for completion is available on IRAS’ website.</b>
+                                <br/><br/>
+                                <b>Documents Retention</b><br/>
+                                The company does not need to submit its financial statements, tax computation, and supporting schedules with the Form C-S. Please retain the documents and submit them to IRAS only upon request.
+                                <br/><br/>
+                                <b>Late Filing</b><br/>
+                                Penalties may be imposed if this return is filed late.
+                                <br/><br/>
+                                <b>GST Registration</b><br/>
+                                Companies with revenue of more than S$1 million (excluding dividends and interest) may need to register for GST. For details, refer to <u><a target="blank" href="https://www.iras.gov.sg/taxes/goods-services-tax-(gst)/gst-registration-deregistration/do-i-need-to-register-for-gst">GST Registration</a></u> on IRAS' website.
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width:100%">
+                        <tr>
+                            <td><b style="font-weight: 1000;font-size: 16px;">Declaration</b></td>
+                            <td/><td/>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;"/>
+<!--                                    <td style="text-align: right; vertical-align: text-top;">-->
+<!--                                        <div style="border: 1px solid #000; width: 15px; height: 15px; display: inline-block; text-align: center; vertical-align: middle;">-->
+<!--                                            <t t-if="doc.isFullAndTrueAccOfCompInc">✓</t>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+                            <td style="text-align: right;vertical-align: text-top;"><span t-field="doc.isFullAndTrueAccOfCompInc"/><br/></td>
+                            <td>The company declares that this return gives a full and true account of the whole of the company's income for the financial period ending in the preceding year.</td>
+                        </tr>
+                        <br/>
+                        <tr>
+                            <td style="padding:5px;"/>
+                            <td style="text-align: right;vertical-align: text-top;"><field name="isQualifiedToUseConvFormCS" readonly="1"/><br/></td>
+                            <td>The company maintains Singapore dollar as its functional/ presentation currency.
+                                <br/><br/>
+                                The company is not an investment holding company or a service company that provides only related party services.
+                                <br/><br/>
+                                The company does not own subsidiaries, associates or joint ventures, and has no investment in intangibles.
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="width:100%">
+                        <tr>
+                            <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Details of Filer &amp; Contact Person</b></td>
+                        </tr>
+                        <tr>
+                            <td style="width:6%;padding:5px;"/>
+                            <td style="width:30%;">Name of Filer</td>
+                            <td><span t-field="doc.nameOfFiler"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Designation</td>
+                            <td><span t-field="doc.designationOfFiler"/></td>
+                        </tr>
+                        <tr>
+                            <td><span t-field="doc.submitted_by_thirdparty"/></td>
+                            <td>Tax Agent Firm</td>
+                            <td><span t-field="doc.tax_agent_firm"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Name of Contact Person</td>
+                            <td><span t-field="doc.nameOfContactPerson"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Designation</td>
+                            <td><span t-field="doc.designationOfContactPerson"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Contact No.</td>
+                            <td><span t-field="doc.contactNumber"/></td>
+                        </tr>
+                    </table>
+                    <br/><br/>
+                    <h2 style="margin-top: 0px;color:#5D8DA8;">Part A</h2>
+                     <table style="width:100%">
+                        <tr>
+                            <td colspan="2"><b style="font-weight: 1000;font-size: 16px;">Qualifying Conditions for filing Form C-S</b></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;">The company's revenue for the financial period is S$5,000,000 or below</td>
+                            <td style="padding:5px;"><td><span t-field="doc.isRevBelow5M"/></td></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;">The company derives only income subject to tax at 17%</td>
+                            <td style="padding:5px;"><td><span t-field="doc.isOnlyIncTxbl17"/></td></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;">
+                                The company is not claiming/ utilising any of the following items:<br/><br/>
+
+                                a. Carry-back of Current Year Capital Allowances/ Losses<br/>
+                                b. Group Relief<br/>
+                                c. Investment Allowance<br/>
+                                d. Foreign Tax Credit and Tax Deducted at Source<br/><br/>
+                            </td>
+                            <td style="padding:5px;vertical-align: text-top;"><td><span t-field="doc.isNotClaimingSpecificItems"/></td></td>
+                        </tr>
+                    </table>
+                    <table style="width:100%">
+                        <tr colspan="2">
+                            <b style="font-weight: 1000;font-size: 16px;">Particulars of Person who Reviewed the Return</b>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;">The return has been reviewed by a person who is a Singapore Chartered Tax Professionals Limited (SCTP) Accredited Tax Advisor or Accredited Tax Practitioner for Income Tax.</td>
+                            <td style="padding:5px;vertical-align: text-top;"><td><span t-field="doc.sctpInd"/></td></td>
+                        </tr>
+                        <br/>
+                        <tr>
+                            <td style="padding:5px;vertical-align: text-top;">Name of person</td>
+                            <td style="padding:5px;"><td><span t-field="doc.sctpName"/></td></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;">SCTP membership number</td>
+                            <td style="padding:5px;"><td><span t-field="doc.sctpNo"/></td></td>
+                        </tr>
+                    </table>
+                    <table style="width:100%">
+                        <tr>
+                            <td colspan="2" style="font-weight: 1000;font-size: 16px;"><b>The Company declares the following</b></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;" colspan="2">
+                                The financial period for this return based on the company's financial statements is
+                                <b><span t-field="doc.basisPeriodFrom_display"/> to
+                                        <span t-field="doc.basisPeriodTo_display"/></b>.
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <h2 style="margin-top: 0px;color:#5D8DA8;">Part B</h2>
+
+                    <table style="width:100%">
+                        <tr>
+                            <td style=""/>
+                            <td style=""/>
+                            <td colspan="2" style="padding:5px;text-align:center;"><b>YA <span t-field="doc.ya"/></b></td>
+                        </tr>
+                        <tr>
+                            <td style=""/>
+                            <td style=""/>
+                            <td colspan="2" style="padding:5px;text-align:center;white-space: nowrap;"><b>
+                                <span t-field="doc.basisPeriodFrom_display"/><br/>
+                                to <span t-field="doc.basisPeriodTo_display"/></b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b style="font-weight: 1000;font-size: 16px;">Tax Adjustment</b></td>
+                        </tr>
+                        <tr>
+                            <td style="width:7%"/>
+                            <td/>
+                            <td/>
+                            <td style="border-bottom:1px solid black;"><center><b>S$</b></center></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Net Profit/ Loss before Tax as per Financial Statements</b></td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_profitLossBeforeTaxation"/></td>
+                        </tr>
+                        <tr>
+                            <td>Less :</td>
+                            <td>Separate Source Income</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_sepSrcIncome"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Non-Taxable Income</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_receiptNotTxAmt"/></td>
+                        </tr>
+                        <tr>
+                            <td>Add :</td>
+                            <td>Non-Tax Deductible Expenses</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_c1_NTDeductibleExp"/></td>
+                        </tr>
+                        <tr style="height:10px;"></tr>
+                        <tr>
+                            <td colspan="2"><b>Adjusted Profit/ Loss before Other Deductions</b></td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_adjPLBefDed"/></td>
+                        </tr>
+                        <tr>
+                            <td>Less :</td>
+                            <td>Deduction for Renovation or Refurbishment Works under Section 14N</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_renoWorksExpS14Q"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Enhanced Deductions under Enterprise Innovation Scheme (EIS) for Training; Innovation Projects carried out with Partner Institutions; Licensing of Intellectual Property Rights; Registration of Intellectual Property; Qualfiying R&amp;D undertaken in Singapore</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_c1_EnhancedEISDed"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Further Deductions/ Other Deductions including revenue expenses capitalised or expenses incurred under Section 14R</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_c1_FurtherDed"/></td>
+                        </tr>
+                        <tr style="height:10px;"></tr>
+                        <tr>
+                            <td colspan="2"><b>Adjusted Profit/ Loss before Capital Allowances</b></td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_sgAdjPLAft"/></td>
+                        </tr>
+                        <tr>
+                            <td>Add :</td>
+                            <td>Balancing Charge</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_c1_BC"/></td>
+                        </tr>
+                        <tr>
+                            <td>Less :</td>
+                            <td>Unutilised Capital Allowances brought forward</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_unutilCABFNorm"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Current Year Capital Allowances</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_cyCANorm"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Unutilised Losses brought forward</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_unutilLossBFNorm"/></td>
+                        </tr>
+                        <tr>
+                            <td>Add :</td>
+                            <td><b>Separate Source Income</b></td>
+                            <td/>
+                            <td/>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Gross Rental Income</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_c1_GrossRent"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Less: Deductible Expenses</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_c1_DedExp"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Net Rental Income</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_sgRent"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Interest Income</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_sgIntDisc"/></td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td>Other Taxable Income</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_sgOtherI"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Total Income/ Losses (before Donations)</b></td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_totSgFI"/></td>
+                        </tr>
+                        <tr>
+                            <td>Less :</td>
+                            <td>Unutilised Donations brought forward</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_unutilDonationBFNorm"/></td>
+                        </tr>
+                        <tr>
+                            <td>Less :</td>
+                            <td>Current Year Donations</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_cyDonation"/></td>
+                        </tr>
+                        <!-- Jun2025 -->
+                        <tr t-if="doc.ya_int &gt;= 2025">
+                            <td></td>
+                            <td>Is the company an approved qualifying donor making qualifying overseas donations under the Philanthropy Tax Incentive Scheme for Family Offices (PTIS)?</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_ptisDonInd"/></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2"><b>Total Income/ Losses (after Donations)</b></td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_ci"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Unutilised Capital Allowances carried forward</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_unutilCACFNorm"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Unutilised Losses carried forward</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_unutilLossCFNorm"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Unutilised Donations carried forward</td>
+                            <td/>
+                            <td style="text-align: center;"><span t-field="doc.DataFormCS_unutilDonationCFNorm"/></td>
+                        </tr>
+                    </table>
+<!--                    part c-->
+                    <h2 style="color:#5D8DA8;">Part C</h2>
+                    <table style="width:100%">
+                    <tr>
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Information from Financial Statements</b></td>
+                    </tr>
+                    <tr>
+                        <td/>
+                        <td/>
+                        <td style="border-bottom:1px solid black;"><center><b>S$</b></center></td>
+                    </tr>
+                    <tr>
+                        <td>Revenue</td>
+                        <td/>
+                        <td style="text-align: center;"><span t-field="doc.DataFormCS_totalRevenue"/></td>
+                    </tr>
+                    <tr>
+                        <td>Gross Profit/ Loss</td>
+                        <td/>
+                        <td style="text-align: center;"><span t-field="doc.DataFormCS_grossPL"/></td>
+                    </tr>
+                    <tr>
+                        <td>Directors' Fees and Remuneration</td>
+                        <td/>
+                        <td style="text-align: center;"><span t-field="doc.DataFormCS_directorFee"/></td>
+                    </tr>
+                    <tr>
+                        <td>Total Remuneration excluding Directors' Fees</td>
+                        <td/>
+                        <td style="text-align: center;"><span t-field="doc.DataFormCS_totRemuneration"/></td>
+                    </tr>
+                    <tr>
+                        <td>Medical Expenses</td>
+                        <td/>
+                        <td style="text-align: center;"><span t-field="doc.DataFormCS_medicalExp"/></td>
+                    </tr>
+                    <tr>
+                        <td>Transport/ Travelling Expenses</td>
+                        <td/>
+                        <td style="text-align: center;"><span t-field="doc.DataFormCS_c1_TransportExp"/></td>
+                    </tr>
+                    <tr>
+                        <td>Entertainment Expenses</td>
+                        <td/>
+                        <td style="text-align: center;"><span t-field="doc.DataFormCS_c1_EntertainExp"/></td>
+                    </tr>
+                    <tr>
+                        <td>Inventories</td>
+                        <td/>
+                        <td style="text-align: center;"><span t-field="doc.DataFormCS_inventories"/></td>
+                    </tr>
+                    <tr>
+                        <td>Trade Receivables</td>
+                        <td/>
+                        <td style="text-align: center;"><span t-field="doc.DataFormCS_tradeReceivables"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr>
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Deduction of Unutilised Capital Allowances/ Losses/ Donations Brought Forward</b></td>
+                    </tr>
+                    <tr>
+                        <td t-if="doc.ya_int &lt;= 2023" style="padding:5px;">Is there a change in the principal activities of the company during the relevant dates?</td>
+                        <td t-if="doc.ya_int &gt;= 2024" style="padding:5px;">Is there a change in the principal activities of the company during the basis period?</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.DataFormCS_uCALDChangePrinAct"/></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:5px;">Is there a substantial change in the company's ultimate shareholders and their shareholdings as at the relevant dates?</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.DataFormCS_sholderChange"/></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:5px;">Unutilised Capital Allowances/ Losses/ Donations claimed where waiver of the shareholding test has been/ will be granted by IRAS</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.DataFormCS_unutilCALDClaimS23S37"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr>
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Tax Exemption Scheme for New Start-up Companies</b></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:5px;">Has the company satisfied all conditions to qualify for the tax exemption scheme for new start-up companies?</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.DataFormCS_fullTxX"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr>
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Deduction of Expenditure on Research and Development (R&amp;D)</b></td>
+                    </tr>
+                    <tr>
+                        <td t-if="doc.ya_int &lt;= 2023" style="padding:5px;">Deduction for expenditure incurred on R&amp;D - Total deduction under Section 14C</td>
+                        <td t-if="doc.ya_int &gt;= 2024" style="padding:5px;">Deduction for expenditure incurred on R&amp;D (undertaken in Singapore and Overseas) - Total deduction under Section 14C</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.DataFormCS_expRD"/></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:5px;">Section 14C deduction for expenditure incurred on R&amp;D activities <u>undertaken in Singapore</u></td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.DataFormCS_expRDSG"/></td>
+                    </tr>
+                    <tr>
+                        <td t-if="doc.ya_int &lt;= 2023" style="padding:5px;">Staff costs and consumables for R&amp;D activities <u>undertaken in Singapore</u> qualifying for Section 14D(1)</td>
+                        <td t-if="doc.ya_int &gt;= 2024" style="padding:5px;">Staff costs and consumables for R&amp;D activities  <u>undertaken in Singapore</u> qualifying for the additional 150% tax deduction under Section 14D(1) in excess of the $400,000 cap under the Enterprise Innovation Scheme</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.DataFormCS_enhanceDeductRD"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr>
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Appropriation of Trading Stock or Conversion of Non-Trade/ Capital Asset</b></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:5px;">Has the company appropriated any trading stock for non-trade or capital purposes under Section 10J and/ or converted any non-trade or capital asset to trading stock under Section 32A?</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.DataFormCS_appStockConvAsset"/></td>
+                    </tr>
+                    <!-- Jun2025 -->
+                    <tr style="height:10px;"></tr>
+                    <tr t-if="doc.ya_int &gt;= 2025">
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Gains/ Losses from the Sale or Disposal of Foreign Assets - Section 10L</b></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2025">
+                        <td style="padding:5px;">Amount of gains/ losses from the sale or disposal of foreign assets during the basis period for the current YA</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.foreignAssetsSaleGainLoss"/></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2025">
+                        <td style="padding:5px;">Amount of the foreign-sourced sale or disposal gains remitted to Singapore during the basis period for the current YA</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.foreignSourceSaleGainsRemit"/></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2025">
+                        <td style="padding:5px;">Do the foreign-sourced sale or disposal gains/ losses fall under any of the scenarios where the sale or disposal of foreign assets (excluding foreign IPRs) is not subject to tax under Section 10L(8) of the ITA?</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.foreignSourceSaleNotTax"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Enterprise Innovation Scheme (EIS)</b></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Is the company claiming cash payout under the EIS in this current YA?</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_ClaimCashPayout"/></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Is the company claiming enhanced deductions/ allowances under the EIS in this current YA?</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_ClaimDedAll"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Training</b></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Total Qualifying Cost Incurred</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_TrainTotCost"/></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_TrainDedAll"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Innovation Projects Carried Out with Partner Institutions</b></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Total Qualifying Cost Incurred<br/>(capped at $50,000)</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_InnoProjTotCost"/></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_InnoProjDedAll"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Acquisition of Intellectual Property Rights (IPRs)</b></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Total Qualifying Cost Incurred</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_AcqIPRTotCost"/></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_AcqIPRDedAll"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Licensing of Intellectual Property Rights (IPRs)</b></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Total Qualifying Cost Incurred</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_LicensIPRTotCost"/></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_LicensIPRDedAll"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Registration of Intellectual Property (IPs)</b></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Total Qualifying Cost Incurred</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_RegIPTotCost"/></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_RegIPDedAll"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Qualifying Research and Development (R&amp;D) Undertaken in Singapore</b></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Total Qualifying Cost Incurred</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_RDSgTotCost"/></td>
+                    </tr>
+                    <tr t-if="doc.ya_int &gt;= 2024">
+                        <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                        <td/>
+                        <td style="padding:5px;text-align: center;"><span t-field="doc.eis_RDSgDedAll"/></td>
+                    </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr>
+                        <td colspan="3"><b style="font-weight: 1000;font-size: 16px;">Estimated Tax Payable</b></td>
+                    </tr>
+                    <!-- Jun2025 -->
+                    <tr>
+                        <td t-if="doc.ya_int &lt;= 2023" style="padding:5px;">The estimated tax payable is computed based on the declaration in this return. This amount takes into account the Exempt Amount and Corporate Tax Rebate, where applicable.</td>
+                        <td t-if="doc.ya_int == 2024" style="padding:5px;">The estimated tax payable is computed based on the declaration in this return. This amount takes into account the Exempt Amount and Corporate Income Tax (CIT) Rebate<sup>1</sup>, where applicable.<br/><br/><sup>1</sup> Amount of CIT Rebate is before netting off the amount of CIT Rebate Cash Grant, if applicable.</td>
+                        <td t-if="doc.ya_int &gt;= 2025" style="padding:5px;">The estimated tax payable is computed based on the declaration in this return. This amount takes into account the Exempt Amount, Tax Set-Offs, Tax Deducted at Source and Corporate Income Tax (CIT) Rebate, where applicable.<br/> Please note that the computed CIT Rebate does not reflect any reduction from the CIT Rebate Cash Grant, which is disbursed separately to eligible companies.</td>
+                        <td/>
+                        <td style="width: 15%;padding:5px;text-align: center;"><span t-field="doc.estTaxPayable"/></td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+
+    <record id="no_margin_paperformat" model="report.paperformat">
+            <field name="name">No Margin</field>
+            <field name="default" eval="False" />
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+    <record id="action_report_acknowledgment" model="ir.actions.report">
+        <field name="name">Acknowledgment Report</field>
+        <field name="model">form.cs</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_type">report</field>
+        <field name="report_name">metroerp_iras.report_acknowledgment_template</field>
+        <field name="report_file">metroerp_iras.report_acknowledgment_template</field>
+        <field name="paperformat_id" ref="metroerp_iras.no_margin_paperformat"/>
+    </record>
+</odoo>

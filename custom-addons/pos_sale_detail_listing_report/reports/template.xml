@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="custom_external_layout">
+        <t t-if="not o and doc">
+            <t t-set="o" t-value="doc"/>
+        </t>
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <t t-call="pos_sale_detail_listing_report.custom_external_layout_standard">
+           <t t-raw="0"/>
+        </t>        
+    </template>
+
+    <template id="custom_external_layout_standard">
+        <div class="header">
+            <div class="o_boxed_header" style="font-family: sans-serif;color: #495057;font-size:11.0pt;font-weight:bold;border:1px solid gray;color:black;">
+                <br/>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8 text-center" style="display: flex;justify-content: flex-start;align-items: center;margin-left:180px;">
+                            <table>
+                                <tr>
+                                    <div>
+                                        SALES DETAIL LISTING - AUDITING
+                                        <br/>
+                                        FROM <t t-esc="data['from_date']" t-options="{'widget': 'date'}"/> TO <t t-esc="data['to_date']" t-options="{'widget': 'date'}"/>
+                                    </div>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-4" style="display: flex;justify-content: flex-start;align-items:left;">
+                            <div>
+                               <span t-esc="datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')" style="font-size: 9pt;"/>
+                            </div>
+                            <div t-if="report_type == 'pdf'" class="text-left" style="margin-left:55px;font-size: 9pt;">
+                                Page No.<span class="page"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+            </div>
+        </div>
+        <div class="article o_report_layout_boxed" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+       <div t-attf-class="footer" style="page-break-inside:avoid; border-top: 1px solid black; font-size:16px;">
+				<div class="row" style="display: flex; justify-content: space-between; align-items: center; margin-top:10px;">
+					<div class="col-4" style="text-align: left;">
+						Copyright ©
+						<t t-esc="obj.company_id.name if obj and obj.company_id else (env.company.name if env and env.company else 'Your Company Name')"/>
+					</div>
+					<div class="col-4" style="text-align: center;">
+						Page: <span class="page"/> / <span class="topage"/>
+					</div>
+					<div class="col-4" style="text-align:right;">
+						<span style="margin-right:5px;margin-top:2px;">Powered by </span>
+						<a target="_blank" href="https://www.metrogroup.solutions/solutions/accounting-system" style="color: #007bff; text-decoration: none; font-weight: bold;">
+							<img src="/partner_statement/static/src/img/metrologo.png" alt="Metro Logo" style="height: 10px;"/>
+						</a>
+					</div>
+				</div>
+			</div>
+<!--        <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout">-->
+<!--            <div class="text-center" style="display: flex;justify-content: flex-start;align-items: center;font-size:12.0pt;color:black;">-->
+<!--                <table>-->
+<!--                    <tr>-->
+<!--                        <span t-field="company.name"/>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+    </template>
+    
+    <template id="report_saledetailslisting">
+        <t t-call="web.html_container">
+            <t t-call="pos_sale_detail_listing_report.custom_external_layout">
+                <div class="page" style="font-family: 'Open Sans', Arial, sans-serif; font-size:10.0pt;">
+                    <div t-if="data['config_data']" class="container">
+                        <t t-foreach="data['config_data']" t-as="config">
+                            <div class="row">
+                                <h5><strong>Location :</strong> <span t-esc="config.name"/></h5>
+                            </div>
+                            <t t-foreach="data['config_data'][config]['sessions']" t-as="session">
+                                <div style="flex-wrap: nowrap !important;">
+                                    <h6><strong>Session : </strong><span t-esc="session.name"/></h6>
+                                </div>
+                                <t t-foreach="data['config_data'][config]['sessions'][session]" t-as="order">
+                                    <div class="row mt32 mb32">
+                                        <div class="col-auto col-2 mw-100 mb-2">
+                                            <strong>Order Ref:</strong>
+                                            <p class="m-0" t-field="order['order'].name"/>
+                                        </div>
+                                        <div class="col-auto col-2 mw-100 mb-2">
+                                            <strong>Order Date:</strong>
+                                            <p class="m-0" t-field="order['order'].date_order" t-options="{&quot;widget&quot;: &quot;datetime&quot;}"/>
+                                        </div>
+                                        <div class="col-auto col-3 mw-100 mb-2" name="expiration_date">
+                                            <strong>Receipt No:</strong>
+                                            <p class="m-0" t-field="order['order'].pos_reference"/>
+                                        </div>
+                                        <div class="col-auto col-2 mw-100 mb-2">
+                                            <strong>Cashier:</strong>
+                                            <p class="m-0" t-field="order['order'].user_id.name"/>
+                                        </div>
+                                        <div class="col-auto col-3 mw-100 mb-2" name="expiration_date">
+                                            <strong>Customer:</strong>
+                                            <p class="m-0" t-field="order['order'].partner_id.name"/>
+                                        </div>
+                                    </div>
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Quantity</th>
+                                                <th>Price Unit</th>
+                                                <th>Discount</th>
+                                                <th style="text-align:right;">Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="order['order_lines']" t-as="line">
+                                                <td><span t-field="line.full_product_name"/></td>
+                                                <td><span t-field="line.qty"/></td>
+                                                <td><span t-field="line.price_unit"/></td>
+                                                <td><span t-field="line.discount"/></td>
+                                                <td style="text-align:right;"><span t-field="line.price_subtotal"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                            <table class="table table-sm">
+                                                <tr t-foreach="order['order'].payment_ids" t-as="payment" class="border-black" style="">
+                                                    <td><strong t-esc="payment.payment_method_id.name"/></td>
+                                                    <td class="text-right" style="background:white;">
+                                                        <span t-esc="payment.amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: order[&quot;currency&quot;]}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-black" style="">
+                                                    <td><strong>Taxes</strong></td>
+                                                    <td class="text-right" style="background:white;">
+                                                        <span t-esc="order['order'].amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: order[&quot;currency&quot;]}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-black" style="">
+                                                    <td><strong>Total</strong></td>
+                                                    <td class="text-right" style="background:white;">
+                                                        <span t-esc="order['order'].amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: order[&quot;currency&quot;]}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border-black" style="">
+                                                    <td style="background:white;color:black;"><strong>Total Paid</strong></td>
+                                                    <td class="text-right" style="background:white;color:black;">
+                                                        <span t-esc="order['order'].amount_paid" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: order[&quot;currency&quot;]}"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                </t>
+                            </t>
+                        </t>
+                        <div class="row" style="margin-top: 8px;border-top: 1px solid black;margin-bottom: 8px;"></div>
+                        <div class="row">
+                            <h6>Payment Summary: </h6>
+                        </div>
+                        <div class="row">
+                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'}">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th class="text-right">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="total_payments" t-as="dic" class="border-black">
+                                            <td style="border-right: 1px solid black;background:white;color:black;"><span t-esc="dic['name']"/></td>
+                                            <td class="text-right" style="background:white;color:black;"><span t-esc="dic['total']" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: data[&quot;currency&quot;]}"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <h6>Order Summary: </h6>
+                        </div>
+                        <div class="row">
+                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'}">
+                                <table class="table table-sm">
+                                    <tr class="border-black" style="">
+                                        <td style="background:white;color:black;"><strong>Taxes</strong></td>
+                                        <td class="text-right" style="background:white;color:black;">
+                                            <span t-esc="total_taxes" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: data[&quot;currency&quot;]}"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black" style="">
+                                        <td style="background:white;color:black;"><strong>Amount w/o Tax</strong></td>
+                                        <td class="text-right" style="background:white;color:black;">
+                                            <span t-esc="total_amount_notax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: data[&quot;currency&quot;]}"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black" style="">
+                                        <td style="background:white;color:black;"><strong>Amount</strong></td>
+                                        <td class="text-right" style="background:white;color:black;">
+                                            <span t-esc="total_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: data[&quot;currency&quot;]}"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black" style="">
+                                        <td style="border-right: 1px solid black;background:white;color:black;"><strong>Amount Paid</strong></td>
+                                        <td class="text-right" style="background:white;color:black;">
+                                            <span t-esc="total_amount_paid" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: data[&quot;currency&quot;]}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

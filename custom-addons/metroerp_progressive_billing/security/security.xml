@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <record id="pb_quotation_record_multi_company" model="ir.rule">
+        <field name="name">Records Multi Company</field>
+        <field name="model_id" ref="model_progressive_billing_qt"/>
+        <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

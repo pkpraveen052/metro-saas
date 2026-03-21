@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+       <record id="inherited_purchase_order_template_form_view" model="ir.ui.view">
+            <field name="name">purchase.order.inherited.form.view</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_rfq_send']" position="after">
+                    <button name="action_open_whatsapp_composer" type="object"
+                        string="Send by WhatsApp"
+                        class="oe_highlight"
+                        icon="fa-whatsapp" attrs="{'invisible': [('use_assistro', '=', False)]}"/>
+                    <field name="use_assistro" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+   </data>
+</odoo>

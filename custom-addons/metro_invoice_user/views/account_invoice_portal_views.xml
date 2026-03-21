@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <!--Invoice Portal-->
+    <template id="inherit_portal_invoice_page" inherit_id="account.portal_invoice_page">
+        <!-- Locate the existing block where the group attribute needs to be modified -->
+        <xpath expr="//t[@t-set='o_portal_fullwidth_alert']" position="attributes">
+            <!-- Add the custom group while keeping the existing ones -->
+            <attribute name="groups">
+                sales_team.group_sale_salesman,account.group_account_invoice,account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only
+            </attribute>
+        </xpath>
+    </template>
+</odoo>

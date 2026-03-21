@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ir_actions_report_metro_style2" model="ir.actions.report">
+            <field name="name">Financial Statement</field>
+            <field name="model">director.statement</field>
+            <field name="report_type">docx-docx</field>
+            <field name="binding_model_id" ref="model_director_statement"/>
+            <field name="binding_type">report</field>   
+            <field name="type">ir.actions.report</field>
+            <field name="print_report_name">'Financial_Statement - %s' % (object.year)</field>
+            <field name="custom_report_field_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'name': 'Financial End Year',
+                'technical_name': 'fy_end_year',
+                'default_value': 'value = record.get_fiscalyear_enddate()'
+            }),
+
+            (0,0, {
+                'name': 'DocID',
+                'technical_name': 'DocID',
+                'default_value': 'value = record.random_docid'
+            }),
+
+            (0,0, {
+                'name': 'Director Label Upper Case',
+                'technical_name': 'director_label_upper',
+                'default_value': 'value = record.get_director_label_uppercase()'
+            }),
+
+            (0,0, {
+                'name': 'Director Label Lower Case',
+                'technical_name': 'director_label_lower',
+                'default_value': 'value = record.get_director_label_lowercase()'
+            }),
+
+            (0,0, {
+                'name': 'Director Statement Content Label',
+                'technical_name': 'director_statement_content_label',
+                'default_value': 'value = record.get_director_statement_content_label()'
+            }),
+
+            (0,0, {
+                'name': 'Their His label',
+                'technical_name': 'their_his_label',
+                'default_value': 'value = record.get_their_his_label()'
+            }),
+
+            (0,0, {
+                'name': 'Current Date',
+                'technical_name': 'current_date',
+                'default_value': 'value = record.get_current_date()'
+            }),
+
+            (0,0, {
+                'name': 'Director 1 Name',
+                'technical_name': 'Director1_Name',
+                'default_value': 'value = record.config_id.director_name1'
+            }),
+
+            (0,0, {
+                'name': 'Director 2 Name',
+                'technical_name': 'Director2_Name',
+                'default_value': 'value = record.get_director2_name()'
+            }),
+
+            (0,0, {
+                'name': 'Director 2 Signature Allowed',
+                'technical_name': 'Director2_Signature_Allowed',
+                'default_value': 'value = record.get_director2_signature_allowed()'
+            }),
+
+            (0,0, {
+                'name': 'Current Year',
+                'technical_name': 'Current_Year',
+                'default_value': 'value = record.year'
+            }),
+
+            (0,0, {
+                'name': 'Previous Year',
+                'technical_name': 'Previous_Year',
+                'default_value': 'value = record.previous_year'
+            }),
+
+            (0,0, {
+                'name': 'Previous_Year_Start_Date_Equity',
+                'technical_name': 'Previous_Year_Start_Date_Equity',
+                'default_value': 'value = record.eq_changes_prev_year_start_date'
+            }),    
+
+            (0,0, {
+                'name': 'Previous_Year_Start_Share_Capital',
+                'technical_name': 'Previous_Year_Start_Share_Capital',
+                'default_value': 'value = record.eq_changes_prev_year_start_date_share_capital'
+            }),
+
+            (0,0, {
+                'name': 'Previous_Year_Start_Retained_Earning',
+                'technical_name': 'Previous_Year_Start_Retained_Earning',
+                'default_value': 'value = record.eq_changes_prev_year_start_date_retained_earning'
+            }),
+
+            (0,0, {
+                'name': 'Previous_Year_Start_Equity_Total',
+                'technical_name': 'Previous_Year_Start_Equity_Total',
+                'default_value': 'value = record.eq_changes_prev_year_start_date_total'
+            }),
+
+            (0,0, {
+                'name': 'Previous_Year_Comprehensive_Income_Retained',
+                'technical_name': 'Previous_Year_CIncome_Retained',
+                'default_value': 'value = record.eq_changes_tot_compre_income_prev_year_retained_earning'
+            }),
+
+            (0,0, {
+                'name': 'Previous_Year_CIncome_Total',
+                'technical_name': 'Previous_Year_CIncome_Total',
+                'default_value': 'value = record.eq_changes_tot_compre_income_prev_year_total'
+            }),
+
+            (0,0, {
+                'name': 'Previous_Year_End_Date_Equity',
+                'technical_name': 'Previous_Year_End_Date_Equity',
+                'default_value': 'value = record.eq_changes_prev_year_end_date'
+            }),    
+
+            (0,0, {
+                'name': 'Previous_Year_End_Share_Capital',
+                'technical_name': 'Previous_Year_End_Share_Capital',
+                'default_value': 'value = record.eq_changes_prev_year_end_date_share_capital'
+            }),
+
+            (0,0, {
+                'name': 'Previous_Year_End_Retained_Earning',
+                'technical_name': 'Previous_Year_End_Retained_Earning',
+                'default_value': 'value = record.eq_changes_prev_year_end_date_retained_earning'
+            }),
+
+            (0,0, {
+                'name': 'Previous_Year_End_Equity_Total',
+                'technical_name': 'Previous_Year_End_Equity_Total',
+                'default_value': 'value = record.eq_changes_prev_year_end_date_total'
+            }),
+
+            (0,0, {
+                'name': 'Current_Year_Start_Date_Equity',
+                'technical_name': 'Current_Year_Start_Date_Equity',
+                'default_value': 'value = record.eq_changes_curr_year_start_date'
+            }),    
+
+            (0,0, {
+                'name': 'Current_Year_Start_Share_Capital',
+                'technical_name': 'Current_Year_Start_Share_Capital',
+                'default_value': 'value = record.eq_changes_curr_year_start_date_share_capital'
+            }),
+
+            (0,0, {
+                'name': 'Current_Year_Start_Retained_Earning',
+                'technical_name': 'Current_Year_Start_Retained_Earning',
+                'default_value': 'value = record.eq_changes_curr_year_start_date_retained_earning'
+            }),
+
+            (0,0, {
+                'name': 'Current_Year_Start_Equity_Total',
+                'technical_name': 'Current_Year_Start_Equity_Total',
+                'default_value': 'value = record.eq_changes_curr_year_start_date_total'
+            }),
+
+            (0,0, {
+                'name': 'Current_Year_CIncome_Retained',
+                'technical_name': 'Current_Year_CIncome_Retained',
+                'default_value': 'value = record.eq_changes_tot_compre_income_curr_year_retained_earning'
+            }),
+
+            (0,0, {
+                'name': 'Current_Year_CIncome_Total',
+                'technical_name': 'Current_Year_CIncome_Total',
+                'default_value': 'value = record.eq_changes_tot_compre_income_curr_year_total'
+            }),
+
+            (0,0, {
+                'name': 'Current_Year_End_Date_Equity',
+                'technical_name': 'Current_Year_End_Date_Equity',
+                'default_value': 'value = record.eq_changes_curr_year_end_date'
+            }),    
+
+            (0,0, {
+                'name': 'Current_Year_End_Share_Capital',
+                'technical_name': 'Current_Year_End_Share_Capital',
+                'default_value': 'value = record.eq_changes_curr_year_end_date_share_capital'
+            }),
+
+            (0,0, {
+                'name': 'Current_Year_End_Retained_Earning',
+                'technical_name': 'Current_Year_End_Retained_Earning',
+                'default_value': 'value = record.eq_changes_curr_year_end_date_retained_earning'
+            }),
+
+            (0,0, {
+                'name': 'Current_Year_End_Equity_Total',
+                'technical_name': 'Current_Year_End_Equity_Total',
+                'default_value': 'value = record.eq_changes_curr_year_end_date_total'
+            }),
+        ]"/>
+        </record>
+
+    </data>
+
+    <data noupdate="1">
+        <record id="fs_template1" model="director.statement.template">
+            <field name="name">Simplified</field>
+            <field name="report_id" ref="metroerp_director_statement_report.ir_actions_report_metro_style2"/>
+        </record>
+    </data>
+
+    <data>
+        <record id="ir_actions_report_metro_csdoc" model="ir.actions.report">
+            <field name="name">CS Document</field>
+            <field name="model">cs.document</field>
+            <field name="report_type">docx-docx</field>
+            <field name="binding_model_id" ref="model_cs_document"/>
+            <field name="binding_type">report</field>   
+            <field name="type">ir.actions.report</field>
+            <field name="print_report_name">'Resolution for Appointing Data Protection Officer_%s' % (object.company_id.name)</field>
+            <field name="custom_report_field_ids" eval="[(5, 0, 0),
+            (0,0, {
+                'name': 'Effective_Date',
+                'technical_name': 'Effective_Date',
+                'default_value': 'value = record.get_effective_date()'
+            }),
+
+            (0,0, {
+                'name': 'Passedon_Date',
+                'technical_name': 'Passedon_Date',
+                'default_value': 'value = record.get_passedon_date()'
+            }),
+
+            (0,0, {
+                'name': 'Current_Date',
+                'technical_name': 'Current_Date',
+                'default_value': 'value = record.get_current_date()'
+            }),
+
+            (0,0, {
+                'name': 'Prepared_By',
+                'technical_name': 'Prepared_By',
+                'default_value': 'value = record.prepared_by'
+            }),
+
+            (0,0, {
+                'name': 'Appointed_Person',
+                'technical_name': 'Appointed_Person',
+                'default_value': 'value = record.appointed_person'
+            }),
+
+            (0,0, {
+                'name': 'Role',
+                'technical_name': 'Role',
+                'default_value': 'value = record.role'
+            }),
+
+            (0,0, {
+                'name': 'Company_Name',
+                'technical_name': 'Company_Name',
+                'default_value': 'value = record.company_id.name'
+            }),
+
+            (0,0, {
+                'name': 'Company_UEN',
+                'technical_name': 'Company_UEN',
+                'default_value': 'value = record.company_uen'
+            }),
+
+            (0,0, {
+                'name': 'Company_Address',
+                'technical_name': 'Company_Address',
+                'default_value': 'value = record.get_company_address()'
+            }),
+        ]"/>
+        </record>
+    </data>
+</odoo>

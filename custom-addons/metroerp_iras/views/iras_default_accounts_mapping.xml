@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+      <record id="iras_default_accounts_mapping_tree_views" model="ir.ui.view">
+        <field name="name">iras.default.accounts.mapping.tree.views</field>
+        <field name="model">iras.default.accounts.mapping</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+      <record id="iras_default_accounts_mapping_form_views" model="ir.ui.view">
+        <field name="name">iras.default.accounts.mapping.form,views</field>
+        <field name="model">iras.default.accounts.mapping</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="eg: Template Style 1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="active" invisible="1"/>
+                    </group>
+                    <notebook>
+                      <page string="Mapping Lines">
+                          <field name="line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="account_template_id" options="{'no_open': True'}" required="1"/>
+                                    <field name="iras_field_id"/>
+                                </tree>
+                          </field>
+                      </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="iras_default_accounts_mapping_action" model="ir.actions.act_window">
+        <field name="name">Default COA Mapping</field>
+        <field name="res_model">iras.default.accounts.mapping</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_iras_default_accounts_mapping" name="Default COA Mapping"
+              parent="menu_iras_configuration"
+              action="iras_default_accounts_mapping_action"
+              groups="base.group_system"
+              sequence="0"/>
+  </data>
+</odoo>

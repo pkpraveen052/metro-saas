@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Email template -->
+        <record id="ks_mail_templates" model="mail.template">
+            <field name="name">Email template</field>
+            <field name="model_id" ref="ks_dynamic_financial_report.model_ks_dynamic_financial_base"/>
+            <field name="email_to">${object.env.user.email}</field>
+            <field name="email_from">${object.env.user.email}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="subject">${ctx['ks_report_name']} Attachments</field>
+            <field name="lang">${object.env.user.lang}</field>
+            <field name="body_html" type="html">
+            <table border="0" cellpadding="0" cellspacing="0" style="padding-top:16px;background-color:#F1F1F1;font-family:Verdana, Arial, sans-serif;color:#454748;width:100%;">
+                <tr>
+                <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding:24px;background-color:white;">
+
+                <tr>
+                <td>
+                <table width="100%">
+                <tr>
+                <td>
+                <span style="font-size:20px;font-weight:bold;">
+                Your ${ctx.get('ks_report_name')} report is ready
+                </span>
+                </td>
+                <td align="right">
+                <img src="/logo.png?company=${object.env.company.id}"
+                style="height:48px;"
+                alt="${object.env.company.name}"/>
+                </td>
+                </tr>
+                </table>
+                <hr style="margin:10px 0;"/>
+                </td>
+                </tr>
+
+                <tr>
+                <td style="font-size:13px;">
+                <p>Please find attached your ${ctx.get('ks_report_name')} report.</p>
+                <p>Thanks,</p>
+                </td>
+                </tr>
+
+                <tr>
+                <td align="center" style="font-size:11px;padding-top:16px;">
+                <hr/>
+                <strong>${object.env.company.name}</strong><br/>
+                <span style="color:#999;">
+                ${object.env.company.phone or ''}
+                ${' | %s' % object.env.company.email if object.env.company.email else ''}
+                ${' | %s' % object.env.company.website if object.env.company.website else ''}
+                </span>
+                </td>
+                </tr>
+
+                </table>
+                </td>
+                </tr>
+
+                <tr>
+                <td align="center" style="padding:8px;font-size:13px;">
+                Powered by
+                <a href="https://www.metrogroup.solutions/solutions/accounting-system" style="color:#875A7B;">
+                Metro Accounting System
+                </a>
+                </td>
+                </tr>
+            </table>
+            </field>
+
+        </record>
+    </data>
+</odoo>

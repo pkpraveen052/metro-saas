@@ -1,0 +1,329 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="ks_report_configuration_list">
+            <field name="name">Report Configuration List</field>
+            <field name="model">ks.report.configuration</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false">
+                    <field name="name"/>
+                    <field name="ks_report_id"/>
+                    <field name="company_id"/>
+                    <field name="ks_model_id"/>
+                    <field name="sale_report_style_id" string="Theme"/>
+                    <button name="ks_preview_pdf" type="object" class="fa fa-file-pdf-o ks_view_pdf" title="Preview"/>
+                    <field name="ks_record_status" invisible="1"/>
+                    <field name="ks_is_custom_layout"/>
+                    <button name="%(sale.action_orders)d" type="action" string="View All Record" class="oe_highlight"
+                            attrs="{'invisible': [('ks_record_status','!=','sale_order')]}" title="Sales"/>
+                    <button name="%(purchase.purchase_form_action)d" type="action" string="View All Record"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('ks_record_status','!=','purchase_order')]}" title="Purchase"/>
+                    <button name="%(account.action_move_out_invoice_type)d" type="action" string="View All Record"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('ks_record_status','!=','Invoice')]}" title="Invoices"/>
+                    <button name="%(account.action_move_in_invoice_type)d" type="action" string="View All Record"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('ks_record_status','!=','Bill')]}" title="Bills"/>
+                    <button name="%(purchase.purchase_rfq)d" type="action" string="View All Record" class="oe_highlight"
+                            attrs="{'invisible': [('ks_record_status','!=','RFQ')]}" title="Request For Quotation"/>
+
+                    <button name="%(account.action_account_payments)d" type="action" string="View All Record"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('ks_record_status','!=','payment')]}" title="Payment Receipts"/>
+                    <button name="%(stock.action_picking_tree_all)d" type="action" string="View All Record"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('ks_record_status','!=','picking')]}" title="Picking Slip"/>
+                    <button name="%(stock.action_picking_tree_all)d" type="action" string="View All Record"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('ks_record_status','!=','delivery')]}" title="Delivery Note"/>
+
+                    <button name="%(metroerp_progressive_billing.progressive_billing_action_window)d" type="action" string="View All Record"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('ks_record_status','!=','progressive_quotation')]}" title="Progressive Quotation"/>
+
+                    <button name="%(account.action_move_out_invoice_type)d" type="action" string="View All Record"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('ks_record_status','!=','progressive_invoice')]}" title="Progressive Invoice"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="ks_report_configuration_form">
+            <field name="name">Report Configuration Form</field>
+            <field name="model">ks.report.configuration</field>
+            <field name="arch" type="xml">
+                <form create="false" delete="false">
+                    <header>
+                        <button name="ks_button_reset_settings" type="object" string="Reset Style"
+                                class="oe_highlight btn-primary"/>
+                        <button name="%(base.res_config_setting_act_window)d"
+                                string="Global Report Setting" type="action" class="oe_highlight"/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="ks_is_custom_layout"/>
+                        </group>
+                        <group>
+                            <field name="company_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="sale_report_style_id" widget="radio" options="{'horizontal':true}"
+                               attrs="{'invisible': [('ks_is_custom_layout', '=', False)], 
+                                       'readonly': ['|',('ks_record_status', '=', 'progressive_quotation'),('ks_record_status', '=', 'progressive_invoice')]}"/>
+                    </group>
+                    <group attrs="{'invisible': [('ks_is_custom_layout','=',False)]}">
+                        <group style="width:70%">
+                            <group colspan="12">
+                                <group style="width:66%">
+                                    <group style="width:50%" string="Report Header">
+                                        <field name="show_style_label" invisible="1"/>
+                                        <field name="ks_h1_font_color" widget="color" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="ks_company_name_color" widget="color" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="ks_total_value_color" widget="color"
+                                               attrs="{'invisible': ['|',('ks_record_status', 'in', ['picking', 'delivery', 'RFQ']),('show_style_label', '=', True)]}"/>
+                                        <field name="ks_heading_bold" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="increase_font_size" attrs="{'invisible': [('show_style_label', '=', False)]}"/>
+                                        <field name="ks_company_name_bold"/>
+                                        <field name="ks_show_tagline"/>
+                                        <field name="ks_show_logo"/>
+                                        <field name="display_large_logo" attrs="{'invisible': ['|',('ks_show_logo','=',False),('show_style_label', '=', False)]}"/>
+                                        <field name="ks_show_company"/>
+                                        <field name="ks_company_font_size" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="ks_company_logo_visibility" invisible="1"/>
+                                        <field name="ks_company_logo_font_size" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="ks_h1_font_size" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="ks_total_value_font_size"
+                                               attrs="{'invisible': ['|',('ks_record_status', 'in', ['picking', 'delivery', 'RFQ']),('show_style_label', '=', True)]}"/>                                      
+                                        <field name="ks_display_company"/>
+                                        <field name="ks_address"/>
+                                        <field name="show_comma"/>
+                                        <field name="show_country"/>
+                                        <field name="show_reg_no"/>
+                                        <field name="show_uen_no"/>
+                                        <field name="reg_no_type" attrs="{'invisible': [('show_reg_no', '=', False)]}" widget="radio"/>
+                                        <field name="phone"/>
+                                        <field name="email"/>
+                                        <!-- <field name="show_report_header_left" attrs="{'invisible': [('show_style_label','!=',True)]}"/>
+                                        <field name="show_report_header_center" attrs="{'invisible': [('lite_report_style','!=',True)]}"/> -->
+                                        <field name="show_report_header_position" attrs="{'invisible': [('show_style_label','!=',True)]}" widget="radio"/>
+                                        <field name="move_address_right" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('show_style_label', '=', False)]}"/>
+                                        <field name="is_name_split_required" attrs="{'invisible': [('show_style_label','!=',True)]}"/>
+                                        <field name="mct_report_style" invisible="1"/>
+                                        <field name="lite_report_style" invisible="1"/>
+                                    </group>
+                                    <group style="width:50%" string="Table Configuration" attrs="{'invisible': ['&amp;',('show_style_label', '=', True),('ks_record_status', '=','payment')]}">
+                                        <field name="ks_table_head_text_color" widget="color" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="ks_table_head_backgrnd_color" widget="color" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="ks_table_odd_color" widget="color" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="ks_table_even_color" widget="color" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="ks_table_head_text_size" attrs="{'invisible': [('show_style_label', '=', True)]}"/>
+                                        <field name="ks_product_image"
+                                               attrs="{'invisible': ['|',('ks_record_status', 'in', ['payment', 'picking','delivery']),('show_style_label', '=', True)]}"/>
+                                        <field name="show_item" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('mct_report_style','!=', True)]}"/>
+                                        <field name="ks_product_desc"
+                                               attrs="{'invisible': [('ks_record_status', 'in', ['payment'])]}"/>
+                                        <field name="ks_discount" attrs="{'invisible': [('ks_record_status', 'in', ['payment', 'picking','delivery','RFQ'])]}"/>
+                                        <field name="ks_show_taxes" attrs="{'invisible': [('ks_record_status', 'in', ['payment', 'picking','delivery'])]}"/>
+                                        <field name="show_uom" attrs="{'invisible': ['|',('ks_record_status', 'in', ['payment', 'picking','delivery','progressive_quotation','progressive_invoice']),('show_style_label','!=',True)]}"/>
+                                        <field name="hide_uom" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('show_style_label', '=', False)]}"/>
+                                        <field name="show_price" attrs="{'invisible': [('ks_record_status','!=','progressive_invoice')]}"/>
+                                        <field name="show_quantity" attrs="{'invisible': [('ks_record_status','!=','progressive_invoice')]}"/>
+                                        <field name="customer_sign" attrs="{'invisible': [('ks_record_status','!=','sale_order')]}"/>
+                                        <field name="display_internal_ref" attrs="{'invisible': [('ks_record_status','not in',['delivery','Invoice','sale_order','purchase_order','RFQ','Bill'])]}"/>
+                                        <field name="customer_sign_on_do" attrs="{'invisible': [('ks_record_status','not in',['delivery','Invoice'])]}"/>
+                                        <field name="display_note_section" attrs="{'invisible': [('ks_record_status','!=','delivery')]}"/>
+                                        <field name="show_backorder" attrs="{'invisible': ['|',('ks_record_status','!=','delivery'),('show_style_label', '=', False)]}"/>
+                                        <field name="show_delivery_date" attrs="{'invisible': ['|',('ks_record_status','!=','delivery'),('show_style_label', '=', False)]}"/>
+                                        <field name="show_so" attrs="{'invisible': [('ks_record_status','!=','delivery')]}"/>
+                                        <field name="show_reference" attrs="{'invisible': [('ks_record_status','!=','delivery')]}"/>
+                                        <field name="ks_show_space" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('show_item','!=',True)]}"/>
+                                        <field name="hide_table_border" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('show_style_label', '=', False)]}"/>
+                                        <field name="display_currency_separately" attrs="{'invisible': ['|',('ks_record_status', 'in', ['delivery','picking','RFQ']),('show_style_label','=',False)]}"/>
+                                        <!-- <field name="display_currency_name" attrs="{'invisible': ['|',('show_style_label', '=', False),('ks_record_status','!=','Invoice')]}" /> -->
+                                        <field name="display_terms_next_page" attrs="{'invisible': [('ks_record_status', 'in', ['delivery','picking','payment'])]}"/>
+                                        <field name="hide_product_label" attrs="{'invisible': [('ks_record_status', 'in', ['delivery','payment'])]}"/>
+                                        <field name="display_qty_as_integer" attrs="{'invisible': [('ks_record_status', 'in', ['picking','payment'])]}"/>
+                                        <field name="display_total_amount" attrs="{'invisible': ['|',('ks_record_status', 'in', ['delivery','picking','payment','RFQ']),('show_style_label', '=', False)]}"/>
+                                        <field name="show_due_date" attrs="{'invisible': [('ks_record_status','!=','Invoice')]}"/>
+                                        <field name="show_payment_terms" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('mct_report_style','!=', True)]}"/>
+                                        <field name="show_aging_analysis" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('mct_report_style','!=', True)]}"/>
+                                        <field name="aging_type" attrs="{'invisible': ['|','|',('ks_record_status','!=','Invoice'),('mct_report_style','!=', True),('show_aging_analysis','=',False)]}" widget="radio"/>
+                                        <field name="show_address_table" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('mct_report_style','!=', True)]}"/>
+                                        <field name="show_decimal" attrs="{'invisible': ['|',('ks_record_status', 'not in', ['Invoice','Bill','sale_order','purchase_order','progressive_quotation','progressive_invoice']),('show_style_label','!=',True)]}"/>
+                                        <field name="ks_amount_in_words" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('show_style_label', '=', False)]}"/>
+                                        <field name="show_remark" attrs="{'invisible': ['|',('ks_record_status','not in',['Invoice','Bill','sale_order','purchase_order','delivery','RFQ']),('show_style_label','!=',True)]}"/>
+                                        <field name="show_image" attrs="{'invisible': ['|',('ks_record_status','!=','sale_order'),('show_style_label','!=',True)]}"/>
+                                    </group>
+                                    <group style="width:50%" string="Table Configuration" attrs="{'invisible': ['&amp;',('show_style_label', '=', True),('ks_record_status', '!=','payment')]}">
+                                        <field name="display_currency_separately" attrs="{'invisible': ['|',('ks_record_status','!=','payment'),('show_style_label','=',False)]}"/>
+                                    </group>
+                                    <div class="alert alert-info" role="alert" style="width:80%" attrs="{'invisible': [('show_style_label', '=', True)]}">
+                                        <h2>Preferred font/text size for better layout-</h2>
+                                        <p>1. Company Name Font Size : 22px</p>
+                                        <p>2. Heading Text Size : 22px</p>
+                                        <p>3. Table Heading Text Size : 16px</p>
+                                        <p>4. Grand Total Text Size : 16px </p>
+                                        <p>4. Company Logo Size : 50px </p>
+                                    </div>
+                                </group>
+                                <group style="width:33%">
+                                    <group style="width:33%">
+                                        <group string="Footer Configuration">
+                                            <field name="ks_footnote_text_color"
+                                                   attrs="{'invisible': ['|',('ks_footnote','=',False),('show_style_label', '=', True)]}" widget="color"/>
+                                            <field name="ks_footnote"/>
+                                            <field name="ks_footer"/>
+                                            <field name="ks_footnote_text_size"
+                                                   attrs="{'invisible': ['|',('ks_footnote','=',False),('show_style_label', '=', True)]}"/>
+                                            <field name="is_custom_footer"
+                                                   attrs="{'invisible': [('ks_footnote','=',False)]}"/>
+                                            <field name="paynow_qr_code" attrs="{'invisible': [('ks_record_status','not in',['Invoice','progressive_invoice'])]}"/>
+                                            <field name="use_static_qr" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('show_style_label','!=',True)]}"/>
+                                            <field name="static_qr_image"  attrs="{'invisible': ['|','|',('ks_record_status','!=','Invoice'),('show_style_label','!=',True),('use_static_qr', '=', False)]}"/>
+                                            <field name="change_signature_position" attrs="{'invisible': [('ks_record_status','not in',['sale_order','delivery'])]}"/>
+                                            <field name="show_user_signature"/>
+                                            <field name="display_page_number" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('show_style_label','!=',True)]}"/>
+                                        </group>
+                                        <group string="Total and Term's Configuration"
+                                               attrs="{'invisible': ['|',('ks_record_status', 'in', ['picking', 'delivery', 'RFQ']),('show_style_label', '=', True)]}">
+                                            <field name="ks_total_text_color" widget="color"/>
+                                            <field name="ks_total_bckgrnd_color" widget="color"/>
+                                            <field name="ks_discount_total"/>
+                                            <field name="ks_amount_in_words"/>
+                                            <field name="ks_total_text_size"/>
+                                        </group>
+                                    </group>
+                                </group>
+                            </group>
+                        </group>
+                        <div style="width:30%">
+                            <button name="ks_preview_pdf" string="Preview PDF" type="object" class="btn-primary my-2"/>
+                            <field name="ks_preview" widget="iframe_wrapper"/>
+                        </div>
+                    </group>
+                    <notebook attrs="{'invisible': [('ks_is_custom_layout','=',False)]}">
+                        <page string="Water Mark" attrs="{'invisible': [('show_style_label','=',True)]}">
+                            <group>
+                                <group>
+                                    <field name="is_watermark"/>
+                                </group>
+                                <group>
+                                    <field name="ks_custom_water_mark_setting"
+                                           attrs="{'invisible': [('is_watermark','=',False)]}"/>
+                                </group>
+                            </group>
+                            <group attrs="{'invisible': [('is_watermark','=',False)]}">
+                                <group>
+                                    <field name="ks_watermark_option"
+                                           attrs="{'invisible':[('ks_custom_water_mark_setting','!=', True)],'required':[('ks_custom_water_mark_setting','=', True)]}"/>
+                                    <field name="ks_upload_image" widget="image" class="oe_left oe_avatar"
+                                           attrs="{'invisible':['|',('ks_watermark_option','!=', 'backgroundimage'), ('ks_custom_water_mark_setting','!=', True)],
+                                           'required':[('ks_watermark_option','=', 'backgroundimage'), ('is_watermark','=', True), ('ks_custom_water_mark_setting','=', True)]}"
+                                           accept=".png"/>
+                                    <field name="ks_rotate_image"
+                                           attrs="{'invisible': ['|', ('ks_watermark_option','not in', ['name','watermark_text','backgroundimage']), ('ks_custom_water_mark_setting','!=', True)]}"/>
+                                    <field name="ks_mark_text" placeholder="WaterMark Text..."
+                                           attrs="{'invisible': ['|', ('ks_watermark_option','not in', ['watermark_text','backgroundimage']), ('ks_custom_water_mark_setting','!=', True)],
+                                           'required':[('ks_watermark_option','=', 'watermark_text'), ('is_watermark','=', True), ('ks_custom_water_mark_setting','=', True)]}"/>
+                                    <field name="ks_rotate_angle" attrs="{'invisible': ['|','|','|',('ks_rotate_image','!=',True),('ks_watermark_option','=', 'logo'),
+                                        ('ks_watermark_option','not in', ['name','watermark_text','backgroundimage']), ('ks_custom_water_mark_setting','!=', True)],'required': [('ks_rotate_image','=',True)]}"/>
+                                    <field name="ks_temp_font_size"
+                                           attrs="{'invisible':['|', ('ks_watermark_option','not in', ['name','watermark_text','backgroundimage']), ('ks_custom_water_mark_setting','!=', True)]}"/>
+                                    <field name="ks_font_color" widget="color"
+                                           attrs="{'invisible':['|', ('ks_watermark_option','not in', ['name','watermark_text','backgroundimage']), ('ks_custom_water_mark_setting','!=', True)]}"
+                                           placeholder="rgb"/>
+                                </group>
+                                <group attrs="{'invisible':[('ks_custom_water_mark_setting','!=', True)]}">
+                                    <field name="ks_report_scale" required="1"/>
+                                    <field name="ks_report_transparency"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Invoice" attrs="{'invisible': ['|',('ks_record_status','!=','Invoice'),('show_style_label','=',True)]}">
+                            <group>
+                                <field name="ks_payment_history_text_color" widget="color"/>
+                                <field name="ks_payment_history_bckgrnd_color" widget="color"/>
+                                <field name="ks_payment_history_text_size" />
+<!--                                <field name="ks_show_payment_method"/>-->
+                            </group>
+                        </page>
+                        <page string="Custom Footer" attrs="{'invisible': [('is_custom_footer','=',False)]}">
+                            <div class="alert alert-info" role="alert" style="height: 40px;">
+                                <p>Rendering Large content in Custom Footer note may disturb the UI. <u>(Recommended: Allowed Maximum of two lines)</u>
+                                </p>
+                            </div>
+                            <group attrs="{'invisible': [('show_style_label', '=', False)]}">
+                                <label for="image_attachment_ids" string="Upload Image or Logo"/>
+                                <field name="image_attachment_ids" nolabel="1" widget="many2many_binary" domain="[('type','=','binary')]"/>
+                            </group>
+                            <group>
+                                <field name="ks_report_footer"
+                                       placeholder="e.g. Global Business Solutions"
+                                       options="{'no_create_edit': True, 'no_open': True, 'no_quick_create': True}"
+                                       class="oe_inline"/>
+                            </group>
+                        </page>
+                        <page string="Signature">
+                            <div class="alert alert-info" role="alert" style="height: 40px;" attrs="{'invisible': [('ks_show_signature','=',False)]}">
+                                <p>Save the form in order to see the effect of the signature image on the preview form.
+                                </p>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="ks_show_signature"/>
+                                    <field name="ks_signed_by" attrs="{'invisible': [('ks_show_signature','=',False)]}"/>
+                                    <field name="ks_signed_on" invisible="1"/>
+                                    <field name="ks_signature" widget="signature" attrs="{'invisible': [('ks_show_signature','=',False)]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Miscellaneous" attrs="{'invisible': [('show_style_label','=',True)]}">
+                            <group>
+                                <group>
+                                    <field name="ks_emailcc_partner_id" widget="many2many_tags" attrs="{'invisible': [('ks_record_status', 'in', ['payment', 'picking', 'delivery'])]}"/>
+                                    <field name="name" readonly="1" invisible="1"/>
+                                    <field name="ks_model_id" readonly="1"
+                                           options="{'no_create': True, 'no_create_edit': True}"/>
+                                    <field name="ks_report_id" readonly="1"
+                                           options="{'no_create': True, 'no_create_edit': True}" required="1"/>
+
+                                    <field name="ks_template_id" readonly="1" invisible="1"/>
+                                    <field name="ks_record_status" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="ks_is_extra_content"/>
+                                    <field name="ks_extra_content_type" attrs="{'invisible':[('ks_is_extra_content','!=', True)]}"/>
+                                    <field name="ks_upload_pdf_name" invisible="1"/>
+                                    <field name="ks_upload_extra_content_pdf" filename="ks_upload_pdf_name"
+                                           widget="binary" attrs="{'invisible': ['|', ('ks_is_extra_content','!=', True), ('ks_extra_content_type', '=', 'custom_content')],'required': [('ks_is_extra_content', '=', True), ('ks_extra_content_type','!=','custom_content')]}"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="ks_extra_content" attrs="{'invisible': ['|', ('ks_is_extra_content','!=', True), ('ks_extra_content_type', '=', 'pdf')],'required': [('ks_is_extra_content', '=', True), ('ks_extra_content_type','!=','pdf')]}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="ks_report_configuration_action">
+            <field name="name">Configure Document Layout</field>
+            <field name="res_model">ks.report.configuration</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Configure Document Layout"
+                  id="ks_report_configuration_parent_menu"
+                  sequence="50" groups="ks_menu_invisible"
+        />
+        <menuitem name="Configure Document Layout"
+                  id="ks_report_configuration_menu"
+                  parent="ks_report_configuration_parent_menu"
+                  action="ks_report_configuration_action"
+        />
+    </data>
+</odoo>

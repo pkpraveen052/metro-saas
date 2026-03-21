@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="visitor_category_tree_view" model="ir.ui.view">
+            <field name="name">visitor.category.list.view</field>
+            <field name="model">visitor.category</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="company_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="visitor_category_action_window" model="ir.actions.act_window">
+            <field name="name">Visitor Category</field>
+            <field name="res_model">visitor.category</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+    <menuitem id="configuration_menu_root"
+        parent="security_contract_menu_root"
+        name="Configuration"
+        sequence="5"/>
+
+    <menuitem id="configuration_menu"
+        parent="configuration_menu_root"
+        name="Visitor Management"
+        sequence="2"/>
+
+    <menuitem id="visitor_category_menu"
+        parent="configuration_menu"
+        name="Visitor Category"
+        action="visitor_category_action_window"
+        sequence="1"/>
+
+    </data>
+</odoo>

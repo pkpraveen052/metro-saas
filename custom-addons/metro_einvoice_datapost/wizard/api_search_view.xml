@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="peppol_search_data_wizard_form_view_sales" model="ir.ui.view">
+        <field name="name">Peppol Directory Search Customers</field>
+        <field name="model">peppol.api.search.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                  <div>
+                      <label for="query_terms" string="Search" style="font-weight: bold;"/><br/>
+                      <h2><field name="query_terms" placeholder="Enter here" class="oe_inline" required="1"/>
+                      <button style="margin-left: 10px;" class="btn btn-default oe_inline oe_highlight" type="object"
+                        string="Search" name="action_search_api_customer" icon="fa-search"/>
+                      </h2>
+                      <label for="country" string="Country" style="font-weight: bold;"/><br/>
+                      <field name="country" class="oe_inline" options="{'no_create': True, 'no_open': True}"/>
+                  </div>
+                </group>
+                <notebook>
+                  <page  string="Search Result">
+                      <field name="entity_line_ids" widget="section_and_note_one2many" mode="tree">
+                          <tree string="Matches" >
+                              <field name="name"/>
+                              <field name="peppol_identifer"/>
+                              <field name="country_code"/>
+                              <field name="reg_date"/>
+                              <field name="create_bool" invisible='1'/>
+                              <button class="oe_inline oe_stat_button" type="object" icon="fa-pencil-square-o" string="Create Customer"  name="create_customer" attrs="{'invisible':[('create_bool','=',True)]}"  />
+                          </tree>
+
+                          <form string="Entity" >
+                            <field name="create_bool" invisible="1"/>
+                            <group>
+                              <group>
+                                <field name="name" />
+                                 <field name="reg_date" />
+                                 <field name="peppol_super_scheme" />
+                              </group>
+
+                              <group>
+                                <field name="peppol_identifer" />
+                                 <field name="country_code" />
+                                 <field name="peppol_scheme" />
+                              </group>
+                            </group>
+                              <footer>
+                                  <button string="Create Customer" name="create_customer" type="object" class="oe_highlight" attrs="{'invisible':[('create_bool','=',True)]}" />
+                                  <button string="Close" class="btn btn-secondary" special="cancel"/>
+                              </footer>
+                          </form>
+
+                        </field>
+                    </page>
+
+                    <page  string="Advanced Search Result">
+                      <group>
+                      <field name="total_result_count" />
+                      <field name="result_page_count" />
+                    </group>
+                    </page>
+                </notebook>
+                <footer>
+                    <button string="Close" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+        </record>
+
+        <record id="peppol_search_data_wizard_form_view_puchases" model="ir.ui.view">
+            <field name="name">Peppol Directory Search Vendors</field>
+            <field name="model">peppol.api.search.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                      <div>
+                          <label for="query_terms" string="Search" style="font-weight: bold;"/>
+                          <h2><field name="query_terms" placeholder="Enter here" class="oe_inline" required="1"/>
+                          <button style="margin-left: 10px;" class="btn btn-default oe_inline oe_highlight" type="object"
+                            string="Search" name="action_search_api_vendor" icon="fa-search"/>
+                          </h2>
+                          <label for="country" string="Country" style="font-weight: bold;"/><br/>
+                          <field name="country" class="oe_inline" options="{'no_create': True, 'no_open': True}"/>
+                      </div>
+                    </group>
+                    <notebook>
+                      <page  string="Search Result">
+                          <field name="entity_line_ids" widget="section_and_note_one2many" mode="tree">
+                              <tree string="Matches" >
+                                  <field name="name"/>
+                                  <field name="peppol_identifer"/>
+                                  <field name="country_code"/>
+                                  <field name="reg_date"/>
+                                  <field name="create_bool" invisible='1'/>
+                                  <button class="oe_inline oe_stat_button" type="object" icon="fa-pencil-square-o" string="Create Vendor"  name="create_vendor" attrs="{'invisible':[('create_bool','=',True)]}"  />
+                              </tree>
+
+                              <form string="Entity" >
+                                <field name="create_bool" invisible="1"/>
+                                <group>
+                                  <group>
+                                    <field name="name" />
+                                     <field name="reg_date" />
+                                     <field name="peppol_super_scheme" />
+                                  </group>
+
+                                  <group>
+                                    <field name="peppol_identifer" />
+                                     <field name="country_code" />
+                                     <field name="peppol_scheme" />
+                                  </group>
+                                </group>
+                                  <footer>
+                                      <button string="Create Vendor" name="create_vendor" type="object" class="oe_highlight" attrs="{'invisible':[('create_bool','=',True)]}" />
+                                      <button string="Close" class="btn btn-secondary" special="cancel"/>
+                                  </footer>
+                              </form>
+
+                            </field>
+                        </page>
+
+                        <page  string="Advanced Search Result">
+                          <group>
+                          <field name="total_result_count" />
+                          <field name="result_page_count" />
+                        </group>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button string="Close" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+            </record>
+
+
+    <record id="peppol_api_dictionary_call_in_sales" model="ir.actions.act_window">
+      <field name="name">Peppol Directory Search Customers</field>
+      <field name="res_model">peppol.api.search.wizard</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="peppol_search_data_wizard_form_view_sales"/>
+      <field name="target">new</field>
+    </record>
+
+    <record id="peppol_api_dictionary_call_in_purchases" model="ir.actions.act_window">
+      <field name="name">Peppol Directory Search Vendors</field>
+      <field name="res_model">peppol.api.search.wizard</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="peppol_search_data_wizard_form_view_puchases"/>
+      <field name="target">new</field>
+    </record>
+
+    <menuitem id="prppol_search_api_call_in_sales"
+        action="peppol_api_dictionary_call_in_sales"
+        name="Search Peppol Directory"
+        sequence="7" parent="sale.sale_menu_root" groups="sales_team.group_sale_manager"/>
+
+    <menuitem id="prppol_search_api_call_in_purchases"
+        action="peppol_api_dictionary_call_in_purchases"
+        name="Search Peppol Directory"
+        sequence="101" parent="purchase.menu_purchase_root" groups="purchase.group_purchase_manager"/>
+
+
+</odoo>

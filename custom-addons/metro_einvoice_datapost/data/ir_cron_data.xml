@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- (Invoices, Credit notes) :: Outgoing Documents -->
+        <record id="ir_cron_peppol_document_send_confirm" model="ir.cron">
+            <field name="name">PEPPOL: Send Invoices &amp; Credit Notes and Check Document status</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_peppol_queue_out"/>
+            <field name="code">model._cron_process_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <!-- (Invoices, Credit notes) :: Incoming Documents -->
+        <record id="webhooks_event_notification" model="ir.cron">
+            <field name="name">PEPPOL: Receive Invoices &amp; Credit Notes</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_peppol_queue_in"/>
+            <field name="code">model.query_receive_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <!-- (Orders) :: Incoming Documents -->
+        <record id="invoice_responses_queue_in" model="ir.cron">
+            <field name="name">PEPPOL: Receive Invoice Responses</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_invoice_responses_queue_in"/>
+            <field name="code">model.query_receive_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <!-- (Orders) :: Outgoing Documents -->
+        <record id="peppol_order_outgoing_doc_queue" model="ir.cron">
+            <field name="name">PEPPOL: Send Orders &amp; Check Document status</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_order_queue_out"/>
+            <field name="code">model._cron_process_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <!-- (Orders) :: Incoming Documents -->
+        <record id="peppol_order_ingoing_doc_queue" model="ir.cron">
+            <field name="name">PEPPOL: Receive Orders</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_order_queue_in"/>
+            <field name="code">model.query_receive_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <record id="ir_cron_update_c5_status" model="ir.cron">
+            <field name="name">Update C5 Activation Status</field>
+            <field name="model_id" ref="model_c5_activation"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_update_c5_status()</field>
+            <field name="interval_type">minutes</field>
+            <field name="interval_number">5</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_refresh_access_token" model="ir.cron">
+            <field name="name">Refresh Peppol Access Token</field>
+            <field name="model_id" ref="model_peppol_access_point_sg"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_refresh_access_token()</field>
+            <field name="interval_type">minutes</field>
+            <field name="interval_number">30</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_check_gst_register" model="ir.cron">
+            <field name="name">Partner - Check GST Register</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_auto_check_gst_register()</field>
+            <field name="interval_type">days</field>
+            <field name="interval_number">1</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+
+<!--        C5: Send Invoices or Credit Notes and Check Document status-->
+        <record id="c5_all_invoices_doc_queue" model="ir.cron">
+            <field name="name">C5: Send Invoices &amp; Credit Notes and Check Document status</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_peppol_queue_c5_out"/>
+            <field name="code">model._cron_process_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <record id="orders_responses_queue_in" model="ir.cron">
+            <field name="name">PEPPOL: Receive Order Responses</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_order_responses_queue_in"/>
+            <field name="code">model.query_receive_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <!-- (Orders) :: Incoming Documents -->
+        <record id="peppol_order_cancel_ingoing_doc_queue" model="ir.cron">
+            <field name="name">PEPPOL: Receive Cancel Orders</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_order_queue_in"/>
+            <field name="code">model.query_cancel_order_receive_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <record id="peppol_order_balance_ingoing_doc_queue" model="ir.cron">
+            <field name="name">PEPPOL: Receive Balance Orders</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_order_queue_in"/>
+            <field name="code">model.query_balance_order_receive_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <record id="peppol_order_change_ingoing_doc_queue" model="ir.cron">
+            <field name="name">PEPPOL: Receive Change Orders</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_order_queue_in"/>
+            <field name="code">model.query_change_order_receive_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <record id="orders_cancel_responses_queue_in" model="ir.cron">
+            <field name="name">PEPPOL: Receive Cancel Order Responses</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_order_cancel_responses_queue_in"/>
+            <field name="code">model.query_cancel_order_res_receive_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <record id="orders_change_responses_queue_in" model="ir.cron">
+            <field name="name">PEPPOL: Receive Change Order Responses</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_order_change_responses_queue_in"/>
+            <field name="code">model.query_change_order_res_receive_documents()</field>
+            <field name="state">code</field>
+        </record>
+
+        <record id="orders_balance_responses_queue_in" model="ir.cron">
+            <field name="name">PEPPOL: Receive Balance Order Responses</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_order_balance_responses_queue_in"/>
+            <field name="code">model.query_balance_order_res_receive_documents()</field>
+            <field name="state">code</field>
+        </record>
+     </data>
+</odoo>

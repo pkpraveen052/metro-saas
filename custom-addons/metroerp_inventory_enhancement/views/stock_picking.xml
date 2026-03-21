@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <!-- Extend the stock.picking form view to add the "Reset to Draft" button -->
+        <record id="view_picking_form_reset_draft" model="ir.ui.view">
+            <field name="name">stock.picking.form.reset.draft</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <!-- Add the button in the header or other appropriate location -->
+                <xpath expr="//header" position="inside">
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft" 
+                            states="waiting,confirmed,assigned"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

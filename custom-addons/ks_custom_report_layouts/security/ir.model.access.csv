@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ks_sale_styles,ks_sale_styles,model_ks_sale_styles,,1,1,1,1
+access_ks_report_configuration,ks_report_configuration,model_ks_report_configuration,,1,1,1,1

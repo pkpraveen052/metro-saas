@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+         <record id="metro_invoice_user_access_account_move" model="ir.model.access">
+            <field name="name">Invoices</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="metro_invoice_user_access_account_move_own_only" model="ir.model.access">
+            <field name="name">Invoices Own Only</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="metro_invoice_user_account_payment" model="ir.model.access">
+            <field name="name">Payment</field>
+            <field name="model_id" ref="account.model_account_payment"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="metro_invoice_user_account_payment_own_only" model="ir.model.access">
+            <field name="name">Payment Own Only</field>
+            <field name="model_id" ref="account.model_account_payment"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="metro_invoice_user_account_journal" model="ir.model.access">
+            <field name="name">Invoice user Dashboard</field>
+            <field name="model_id" ref="account.model_account_journal"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_journal_own_only" model="ir.model.access">
+            <field name="name">Invoice user Dashboard Own Only</field>
+            <field name="model_id" ref="account.model_account_journal"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="metro_invoice_user_invoice_report" model="ir.model.access">
+            <field name="name">Invoice Analysis Report</field>
+            <field name="model_id" ref="account.model_account_invoice_report"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="metro_invoice_user_invoice_report_own_only" model="ir.model.access">
+            <field name="name">Invoice Analysis Report Own Only</field>
+            <field name="model_id" ref="account.model_account_invoice_report"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="metro_invoice_user_bank_statement" model="ir.model.access">
+            <field name="name">Account Bank Statement</field>
+            <field name="model_id" ref="account.model_account_bank_statement"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_bank_statement_own_only" model="ir.model.access">
+            <field name="name">Account Bank Statement Own Only</field>
+            <field name="model_id" ref="account.model_account_bank_statement"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="metro_invoice_user_account_move_line" model="ir.model.access">
+            <field name="name">Account Move Line</field>
+            <field name="model_id" ref="account.model_account_move_line"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+         <record id="metro_invoice_user_account_move_line_own_only" model="ir.model.access">
+            <field name="name">Account Move Line Own Only</field>
+            <field name="model_id" ref="account.model_account_move_line"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="metro_invoice_user_account_account_tag" model="ir.model.access">
+            <field name="name">Account Tag</field>
+            <field name="model_id" ref="account.model_account_account_tag"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_account_tag_own_only" model="ir.model.access">
+            <field name="name">Account Tag Own Only</field>
+            <field name="model_id" ref="account.model_account_account_tag"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+
+        <record id="metro_invoice_user_account_account_type" model="ir.model.access">
+            <field name="name">Account Account Type</field>
+            <field name="model_id" ref="account.model_account_account_type"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_account_type_own_only" model="ir.model.access">
+            <field name="name">Account Account Type Own Only</field>
+            <field name="model_id" ref="account.model_account_account_type"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+
+        <record id="metro_invoice_user_account_partial_reconcile" model="ir.model.access">
+            <field name="name">Account partial reconcile</field>
+            <field name="model_id" ref="account.model_account_partial_reconcile"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_partial_reconcile_own_only" model="ir.model.access">
+            <field name="name">Account partial reconcile own only</field>
+            <field name="model_id" ref="account.model_account_partial_reconcile"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_payment_register" model="ir.model.access">
+            <field name="name">Account Payment Register</field>
+            <field name="model_id" ref="account.model_account_payment_register"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_payment_register_own_only" model="ir.model.access">
+            <field name="name">Account Payment Register Own Only</field>
+            <field name="model_id" ref="account.model_account_payment_register"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+
+        <record id="metro_invoice_user_account_full_reconcile" model="ir.model.access">
+            <field name="name">Account full reconcile</field>
+            <field name="model_id" ref="account.model_account_full_reconcile"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_full_reconcile_own_only" model="ir.model.access">
+            <field name="name">Account full reconcile own only</field>
+            <field name="model_id" ref="account.model_account_full_reconcile"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+
+        <record id="metro_invoice_user_account_analytic_line" model="ir.model.access">
+            <field name="name">Account Analytic Line</field>
+            <field name="model_id" ref="account.model_account_analytic_line"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_analytic_line_own_only" model="ir.model.access">
+            <field name="name">Account Analytic Line Own Only</field>
+            <field name="model_id" ref="account.model_account_analytic_line"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <!-- <record id="metro_invoice_user_account_edi_document" model="ir.model.access">
+            <field name="name">Account edi document</field>
+            <field name="model_id" ref="account_edi.model_account_edi_document"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record> -->
+        <record id="metro_invoice_user_account_move_reversal" model="ir.model.access">
+            <field name="name">Account move reversal</field>
+            <field name="model_id" ref="account.model_account_move_reversal"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_move_reversal_own_only" model="ir.model.access">
+            <field name="name">Account move reversal own only</field>
+            <field name="model_id" ref="account.model_account_move_reversal"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        
+        <record id="metro_invoice_user_account_invoice_send" model="ir.model.access">
+            <field name="name">Account invoice send</field>
+            <field name="model_id" ref="account.model_account_invoice_send"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_invoice_send_own_only" model="ir.model.access">
+            <field name="name">Account invoice send own only</field>
+            <field name="model_id" ref="account.model_account_invoice_send"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        
+        <record id="metro_invoice_user_account_bank_statement_line" model="ir.model.access">
+            <field name="name">Account Bank Statement</field>
+            <field name="model_id" ref="account.model_account_bank_statement_line"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_bank_statement_line_own_only" model="ir.model.access">
+            <field name="name">Account Bank Statement Own Only</field>
+            <field name="model_id" ref="account.model_account_bank_statement_line"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+
+        <record id="metro_invoice_user_account_setup_bank_manual_confige" model="ir.model.access">
+            <field name="name">Account Setup Bank Manual</field>
+            <field name="model_id" ref="account.model_account_setup_bank_manual_config"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_setup_bank_manual_confige_own_only" model="ir.model.access">
+            <field name="name">Account Setup Bank Manual Own Only</field>
+            <field name="model_id" ref="account.model_account_setup_bank_manual_config"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+
+        <record id="metro_invoice_user_account_bank_statement_import" model="ir.model.access">
+            <field name="name">Account Bank Statement Import</field>
+            <field name="model_id" ref="om_account_bank_statement_import.model_account_bank_statement_import"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+
+        <record id="metro_invoice_user_account_bank_statement_import_own_only" model="ir.model.access">
+            <field name="name">Account Bank Statement Import Own Only</field>
+            <field name="model_id" ref="om_account_bank_statement_import.model_account_bank_statement_import"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_asset_asset" model="ir.model.access">
+            <field name="name">Account Asset Asset</field>
+            <field name="model_id" ref="om_account_asset.model_account_asset_asset"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_asset_asset_own_only" model="ir.model.access">
+            <field name="name">Account Asset Asset Own Only</field>
+            <field name="model_id" ref="om_account_asset.model_account_asset_asset"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_asset_depreciation_line" model="ir.model.access">
+            <field name="name">Account Asset Depreciation Line</field>
+            <field name="model_id" ref="om_account_asset.model_account_asset_depreciation_line"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_asset_depreciation_line_own_only" model="ir.model.access">
+            <field name="name">Account Asset Depreciation Line Own Only</field>
+            <field name="model_id" ref="om_account_asset.model_account_asset_depreciation_line"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_res_partner_invoice_user" model="ir.model.access">
+            <field name="name">Res Partner Access for Invoice User</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="access_res_partner_invoice_own_only" model="ir.model.access">
+            <field name="name">Res Partner Access for Invoice Own Only</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_chart_template_confige" model="ir.model.access">
+            <field name="name">Account Chart Template</field>
+            <field name="model_id" ref="account.model_account_chart_template"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="metro_invoice_user_account_chart_template_confige_own_only" model="ir.model.access">
+            <field name="name">Account Chart Template-Own only</field>
+            <field name="model_id" ref="account.model_account_chart_template"/>
+            <field name="group_id" ref="metro_invoice_user.group_invoice_own_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <!-- <record id="access_account_reconcile_model_invoice_user" model="ir.model.access">
+            <field name="name">Account Reconcile Model Invoice User</field>
+            <field name="model_id" ref="account.model_account_reconcile_model"/>
+            <field name="group_id" ref="metro_invoice_user.group_account_invoice_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record> -->
+
+        <!--Invoice Print Report button-->
+        <record id="account.account_invoices" model="ir.actions.report">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+        </record>
+         
+         <!--POST Payment button under Action button on Payment list views-->
+        <record id="account.action_account_confirm_payments" model="ir.actions.server">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+        </record>
+        
+        <!--Reverse button under action button in invoice list view-->
+        <record id="account.action_view_account_move_reversal" model="ir.actions.act_window">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+        </record>
+
+        <!--Post Entries button under action button in invoice list view-->
+        <record id="account.action_validate_account_move" model="ir.actions.act_window">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+        </record> 
+
+         <!--Register Payment button under Action button on invoice list views-->
+        <record id="account.action_account_invoice_from_list" model="ir.actions.server">
+            <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+        </record>
+
+    </data>
+</odoo>

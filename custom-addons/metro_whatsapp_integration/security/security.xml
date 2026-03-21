@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>  
+    <data>
+        <record id="assistro_menu_invisible" model="res.groups">
+            <field name="name">Menu Invisible</field>
+        </record>
+
+        <record id="assistro_record_multi_company" model="ir.rule">
+            <field name="name">Records Multi Company</field>
+            <field name="model_id" ref="model_assistro_whatsapp_template"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

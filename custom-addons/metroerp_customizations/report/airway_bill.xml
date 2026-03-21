@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_airway_document">
+        <t t-call="web.html_container">
+            <t t-call="metroerp_customizations.custom_external_airway_layout">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
+                <div class="page" style="margin-top:0px;">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div>
+                            <div class="col-12 text-left" style="padding:5px;">
+                                <table width="100%" class="table table-sm" style="border:2px solid black;padding:0px;margin:0px;vertical-align: bottom;">
+                                    <tr>
+                                        <td width="30%">
+                                            <img style="max-width: 100%;" t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>
+                                        </td>
+                                        <td class="float-left" style="margin-top:8px;border-right:0;">
+                                            <strong style="font-size:20px;">Order No :
+                                                <span style="font-size:25px;"><span t-field="o.origin"/></span>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border:2px solid black;">
+                                            <div>
+                                                <strong style="font-size:27px;">To :</strong>
+                                                <br/>
+                                                <span style="font-size:25px;color:green;" class="fa fa-user" aria-hidden="true"/>
+            <!--                                   <span t-if="o.partner_id.company_type == 'person' and o.partner_id.parent_id" t-field="o.partner_id.name"/>-->
+                                                <span style="font-size:18px;padding-left:5px;" t-if="o.partner_id.company_type == 'company'" t-field="o.partner_id.name"/>
+                                                <t t-if="o.partner_id.company_type == 'person'">
+                                                    <t t-if="o.partner_id.parent_id.name"><span style="font-size:18px;padding-left:5px;" t-field="o.partner_id.parent_id.name"/></t>
+                                                    <t t-else=""><span style="font-size:18px;padding-left:5px;" t-field="o.partner_id.name"/></t>
+                                                </t>
+                                               <br/>
+                                               <div style="font-size:18px;">
+                                                   <span style="font-size:25px;color:maroon;" class="fa fa-map-marker" aria-hidden="true"/>
+                                                    <t t-if="o.partner_id.street">
+                                                        <span style="padding-left:5px;" t-field="o.partner_id.street"/>,<br/>
+                                                    </t>
+                                                    <t t-if="o.partner_id.street2">
+                                                        <span style="padding-left:25px;" t-field="o.partner_id.street2"/>,
+                                                    </t>
+<!--                                                    <t t-if="o.partner_id.street or o.partner_id.street2">-->
+<!--                                                        <br/>-->
+<!--                                                    </t>-->
+                                                    <t t-if="o.partner_id.city">
+                                                        <span style="padding-left:25px;" t-field="o.partner_id.city"/>,
+                                                    </t>
+                                                    <t t-if="o.partner_id.state_id">
+                                                        <span t-field="o.partner_id.state_id.name"/>,
+                                                    </t>
+                                                    <t t-if="o.partner_id.zip">
+                                                        <span t-field="o.partner_id.zip"/>,<br/>
+                                                    </t>
+                                                    <t t-if="o.partner_id.country_id">
+                                                        <span style="padding-left:25px;" t-field="o.partner_id.country_id.name"/>
+                                                    </t>
+                                                </div>
+                                                <div t-if="o.partner_id.phone" style="font-size:18px;padding-left:25px;">
+                                                    Phone: <span t-field="o.partner_id.phone"/>
+                                                </div>
+                                                <div t-if="o.partner_id.email" style="font-size:18px;padding-left:25px;">
+                                                    Email: <span t-field="o.partner_id.email"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border:2px solid black;">
+                                            <strong style="font-size:27px;">From :</strong>
+                                                <br/>
+                                                <span style="font-size:25px;color:green;" class="fa fa-user" aria-hidden="true"/>
+                                                <span style="font-size:18px;color:black;padding-left:5px;" t-field="o.company_id.name"/><br/>
+                                                <div style="font-size:18px;">
+                                                    <span style="font-size:25px;color:maroon;" class="fa fa-map-marker" aria-hidden="true"/>
+                                                    <t t-if="o.company_id.street">
+                                                        <span style="padding-left:5px;" t-field="o.company_id.street"/>,<br/>
+                                                    </t>
+                                                    <t t-if="o.company_id.street2">
+                                                        <span style="padding-left:25px;" t-field="o.company_id.street2"/>,
+                                                    </t>
+                                                    <t t-if="o.company_id.street or o.company_id.street2">
+                                                        <br/>
+                                                    </t>
+                                                    <t t-if="o.company_id.city">
+                                                        <span style="padding-left:25px;" t-field="o.company_id.city"/>
+                                                    </t>
+                                                    <t t-if="o.company_id.state_id.name">
+                                                        <span style="padding-left:25px;" t-field="o.company_id.state_id.name"/>
+                                                    </t>
+                                                    <t t-if="o.company_id.zip">
+                                                        <span style="padding-left:25px;" t-field="o.company_id.zip"/>
+                                                    </t>
+                                                    <t t-if="o.company_id.country_id">
+                                                        <span>
+                                                            <t style="padding-left:25px;" t-esc="o.company_id.country_id.name"/><br/>
+                                                        </span>
+                                                    </t>
+                                                </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border:2px solid black;">
+                                            <span style="font-size:18px;">No. of Item : </span><strong style="font-size:20px;" t-esc="'%.0f' % (o._get_total_item())"></strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table width="100%" class="table table-sm" style="border:2px solid black;border-bottom: 2px solid black;padding:0px;margin:0px;vertical-align: top;">
+                                    <thead style="border:0;">
+                                        <tr>
+                                            <th style="border:0;font-weight: bold;font-size:20px;padding-top:10px;padding-bottom:20px;" name="th_sm_item"><b>SKU/ITEM DESCRIPTION</b></th>
+                                            <th style="border:0;font-weight: bold;font-size:20px;padding-top:10px;padding-bottom:20px;" name="th_sm_quantity"><b>QTY</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="border:0;">
+                                        <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)"/>
+                                        <tr t-foreach="lines" t-as="move">
+                                            <td style="border:0;padding-bottom:10px;">
+                                                <b t-field="move.product_id.default_code"/><br/>
+                                                <span t-field="move.product_id.name"/>
+                                                <p t-if="move.description_picking != move.product_id.name">
+                                                    <span t-field="move.description_picking"/>
+                                                </p>
+                                            </td>
+                                            <td style="border:0;padding-bottom:10px;">
+                                                <span t-field="move.product_uom_qty"/>
+<!--                                                <span t-field="move.product_uom"/>-->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+         </t>
+    </template>
+
+    <template id="custom_external_airway_layout">
+        <!-- Multicompany -->
+        <t t-if="not o and doc">
+            <t t-set="o" t-value="doc"/>
+        </t>
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+       <t t-call="metroerp_customizations.custom_external_airway_layout_standard">
+           <t t-raw="0"/>
+       </t>
+    </template>
+
+    <template id="custom_external_airway_layout_standard">
+<!--        <div class="header">-->
+<!--            <div class="o_boxed_header" style="font-family: sans-serif;color: #495057;font-size:10.0pt;">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-6 text-left" style="display: flex;justify-content: flex-start;align-items: center;">-->
+<!--                        <img style="max-width: 100%;" t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo"/>-->
+<!--                    </div>-->
+<!--                    <div class="col-1"/>-->
+<!--                    <div class="col-5 text-left mt-3">-->
+<!--                        <strong>Order No :<span style="color:black;" t-field="o.origin"/></strong>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="article o_report_layout_boxed" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+<!--        <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout">-->
+<!--            <div class="text-center">-->
+<!--                <div t-if="report_type == 'pdf'">-->
+<!--                    Page: <span class="page"/> / <span class="topage"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </template>
+
+    <template id="report_airwaybill">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="metroerp_customizations.report_airway_document" t-lang="o.partner_id.lang"/>
+        </t>
+    </template>
+
+    <record id="paperformat_airway_bill" model="report.paperformat">
+        <field name="name">Point of Sale receipt</field>
+        <field name="default" eval="False" />
+        <field name="format">custom</field>
+        <field name="page_height">150</field>
+        <field name="page_width">60</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">4</field>
+        <field name="margin_bottom">4</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">30</field>
+        <field name="dpi">130</field>
+    </record>
+
+    <record id="report_event_airway_bill" model="ir.actions.report">
+        <field name="name">Airway Bill</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">metroerp_customizations.report_airwaybill</field>
+        <field name="report_file">metroerp_customizations.report_airwaybill</field>
+        <field name="print_report_name">'Airway Bill - %s - %s' % (object.partner_id.name or '', object.name)</field>
+        <field name="paperformat_id" ref="metroerp_customizations.paperformat_airway_bill"/>
+    </record>
+
+</odoo>

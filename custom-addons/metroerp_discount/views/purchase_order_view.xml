@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="purchase_order_view_form_inherit_metroerp" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree//field[@name='taxes_id']" position="before">
+                    <field name="discount_type" class="text-center" groups="product.group_discount_per_so_line"/>
+                    <field name="discount_amount" groups="product.group_discount_per_so_line"/>
+                </xpath>
+            <xpath expr="//field[@name='amount_untaxed']" position="before">
+                    <field name="discount_total" groups="product.group_discount_per_so_line"/>
+            </xpath>
+        </field>
+    </record>
+    </data>
+</odoo>

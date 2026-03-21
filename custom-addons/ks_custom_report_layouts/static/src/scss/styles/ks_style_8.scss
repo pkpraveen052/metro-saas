@@ -1,0 +1,315 @@
+.ks_style_8 {
+  font-family: $font_poppins;
+}
+/*.ks_custom-container_9 {
+	background-color: #f1f1f3;
+}*/
+/*.ks_bg_8, .footer, .ks_header_in_1 {background:#F5F3F8;padding:0px 15px}
+.main_8{background:#F5F3F8;padding:0px 15px}*/
+.ks_header .ks_style_8 {
+  .ks_white_bg {
+    background-color: $text_white;
+    @extend %pad_8;
+    @extend %border_rad_5;
+  }
+  .ks_invoice_number {
+    h3 {
+      color: $theme_8clr;
+      font-size: $ks_large_font;
+      @extend %midium_font;
+      @include company_heading;
+      text-transform: capitalize;
+    }
+    h6 {
+      @extend %theme_text_color;
+      font-size: $font_18;
+      @extend %regular_font;
+    }
+  }
+  .ks_tagline {
+    @extend %text-left;
+    p {
+      @include mb_0;
+      .ks_company_name {
+        @include ks_company_name;
+        @extend %extra_strong_font;
+      }
+      .ks_company_tagline {
+        @include ks_company_tagline;
+        @extend %light_font;
+      }
+    }
+  }
+  .ks_invoice {
+    h3 {
+      color: $theme_color8_1;
+      font-size: $ks_mid_font;
+      @extend %semi_bold_font;
+    }
+    p {
+      color: $font_text_clr_10;
+      font-size: $very_low_font;
+      @include mb_0;
+      line-height: 18px;
+    }
+    ul {
+      @include horizontal-list;
+      font-size: $very_low_font;
+      line-height: 18px;
+      margin: 3px 0px;
+      li {
+        color: $font_text_clr_10;
+        a {
+          color: $font_text_clr_10;
+        }
+      }
+    }
+  }
+  ul {
+    @include reset-list;
+    @include vertical-list;
+    font-size: $ks_extra_small_font;
+    line-height: 20px;
+    margin-top: 10px;
+
+    li {
+      a {
+        color: $first_text_color;
+      }
+    }
+  }
+}
+
+.ks_style_8.ks_address {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  border-radius: 0px 0px 10px 10px;
+  .ks_invoice {
+    h3 {
+      color: $theme_color8_1;
+      font-size: $ks_mid_font;
+      @extend %semi_bold_font;
+    }
+    p {
+      color: $font_text_clr_10;
+      font-size: $very_low_font;
+      @include mb_0;
+      line-height: 18px;
+    }
+    ul {
+      @include vertical-list;
+      font-size: $ks_extra_small_font;
+      line-height: 20px;
+      margin-top: 10px;
+      li {
+        a {
+          color: $font_text_clr_10;
+        }
+      }
+    }
+  }
+  .ks_details {
+    margin-bottom: 10px;
+  }
+  .ks_details {
+    p {
+      @include mb_0;
+      text-align: left;
+    }
+    .font_9 {
+      @extend %regular_font;
+      color: $font_text_clr_7;
+    }
+    .font_10 {
+      @extend %midium_font;
+      color: $font_text_6;
+    }
+    @extend %text-right;
+  }
+  .ks_total {
+    h4 {
+      color: $theme_color8_1;
+      font-size: $font_23;
+      span:first-child {
+        @extend %light_font;
+      }
+      p {
+        color: $third_text_color;
+      }
+      .ks_total_feild span {
+        @extend %semi_bold_font;
+      }
+    }
+  }
+  .ks_white_bg {
+    background-color: $text_white;
+    @extend %pad_8;
+    @extend %border_rad_5;
+  }
+  ul {
+    @include reset-list;
+    font-size: $ks_extra_small_font;
+    @include vertical-list;
+    line-height: 20px;
+    margin-top: 10px;
+    color: $third_text_color;
+    li {
+      a {
+        color: $third_text_color;
+      }
+    }
+  }
+}
+
+.ks_style_8.ks_table_section {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  table {
+    @extend %ks_table;
+    thead {
+      background-color: $theme_color6;
+      th {
+        font-size: $font_11;
+        @extend %midium_font;
+        padding: 15px 10px;
+        color: $text_white;
+      }
+    }
+    tbody {
+      .ks_table_img {
+        span {
+          img {
+            @include ks_table_img;
+          }
+        }
+      }
+      background-color: $text_white;
+      tr {
+        border-bottom:  1px solid #ccc;
+        td:last-child {
+          border-right: none;
+        }
+        td {
+          font-size: $very_low_font;
+          padding: 15px 10px;
+          p {
+             @extend %table-description;
+             @include mb_0;
+          }
+          strong {
+            @extend %strong-text;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ks_style_8.ks_history_nd_total {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  h6 {
+    @include ks_heading;
+    border-bottom: 1px solid $theme_color6;
+    line-height: 22px;
+  }
+  .ks_total_table {
+    @extend %ks_table;
+    tbody {
+      tr {
+        td {
+          @extend %border_0;
+          @extend %text-right;
+          @extend %pad_8;
+        }
+      }
+      .ks_subtotal {
+        td {
+          @include total_font;
+        }
+      }
+      .ks_text_rate {
+        td {
+          @include total_font;
+          color: $theme_color6;
+        }
+      }
+      .ks_grnad_total {
+        background-color: $theme_color6;
+        td {
+          @extend %semi_bold_font;
+          @include total_font;
+          color: $text_white;
+          font-size: $font_11;
+        }
+      }
+    }
+  }
+  .ks_history_details {
+    background: $bg_theme_4;
+    padding: 4px 8px;
+    @extend %border_rad_5;
+    .round_shape {
+      background: $theme_color8_1;
+    }
+    .ks_list_text {
+      font-size: $font_7;
+      color: $third_text_color;
+    }
+    p {
+      @include mb_0;
+      span {
+        font-size: $ks_extra_small_font;
+      }
+
+      .round_shape {
+        @extend %semi_bold_font;
+      }
+    }
+  }
+  .ks_amount_in_words {
+    p {
+      font-size: $very_low_font;
+      @include mb_0;
+      @include ks_amount_in_words;
+    }
+  }
+}
+
+.ks_style_8.ks_payment_term_sign {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  h6 {
+    @include ks_heading;
+    color: $first_text_color;
+  }
+  p {
+    font-size: $font_7;
+    @include mb_0;
+    color: $third_text_color;
+  }
+}
+
+.ks_style_8.ks_footer {
+  ul {
+    @include horizontal-list;
+    @extend %text-center;
+    li {
+      a {
+        color: $second_text_color;
+        font-size: $very_low_font;
+      }
+    }
+  }
+  .ks_custom_footer {
+    color: $second_text_color;
+  }
+  p {
+    @extend %text-center;
+    font-size: $very_low_font;
+  }
+}

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="view_account_res_config_settings_inherited_statement">
+			<field name="name">view.account.res.config.settings.inherited</field>
+			<field name="model">res.config.settings</field>
+			<field name="inherit_id" ref="account.res_config_settings_view_form" />
+			<field name="arch" type="xml">
+				<xpath
+					expr="//div[hasclass('settings')]/div[@data-key='account']/div[4]"
+					position="after">
+					<div class="row mt16 o_settings_container">
+						<div class="col-12 col-lg-6 o_setting_box">
+							<div class="o_setting_left_pane">
+								<field name="send_statement"/>
+							</div>
+							<div class="o_setting_right_pane">
+								<label for="send_statement"/>
+								<label for="period"/>
+								<label for="statement_days"/>
+								<group>
+									<field name="period" attrs="{'invisible':[('send_statement','!=',True)]}" />
+									<field name="statement_days" attrs="{'invisible':[('send_statement','!=',True)]}" />
+								</group>								
+							</div>
+						</div>
+						<div class="col-12 col-lg-6 o_setting_box">
+		                    <div class="o_setting_left_pane">
+		                        <field name="show_aging_bucket_table"/>
+		                    </div>
+		                    <div class="o_setting_right_pane">
+		                        <label for="show_aging_bucket_table"/>
+		                        <div class="text-muted">
+		                           Displays the Overdue Summary (Aging bucket) table on the PDF statement.
+		                        </div>
+		                    </div>
+		                </div>
+					</div>
+					<div class="row mt16 o_settings_container">
+						<div class="col-12 col-lg-6 o_setting_box">
+		                    <div class="o_setting_left_pane">
+		                        <field name="show_invoice_summary_monthly_statement"/>
+		                    </div>
+		                    <div class="o_setting_right_pane">
+		                        <label for="show_invoice_summary_monthly_statement"/>
+		                        <div class="text-muted">
+		                           Displays the Invoice Summary table on the PDF Statement.
+		                        </div>
+		                    </div>
+		                </div>
+
+		                <div class="col-12 col-lg-6 o_setting_box">
+		                    <div class="o_setting_left_pane">
+		                        <field name="show_balance_summary_statement"/>
+		                    </div>
+		                    <div class="o_setting_right_pane">
+		                        <label for="show_balance_summary_statement"/>
+		                        <div class="text-muted">
+		                           Displays the Customer Summary table on the PDF Statement.
+		                        </div>
+		                    </div>
+		                </div>
+
+						<div class="col-12 col-lg-6 o_setting_box">
+							<div class="o_setting_left_pane">
+								<field name="show_tc_customer_statement"/>
+							</div>
+							<div class="o_setting_right_pane">
+								<label for="show_tc_customer_statement"/>
+								<div class="text-muted">
+								Displays TC on Customer Statement
+								</div>
+									<field name="customer_overdue_statement_tc" placeholder="Insert your terms &amp; conditions here..."
+									attrs="{'invisible': [('show_tc_customer_statement', '=', False)]}"/>
+							</div>
+						</div>
+						<div class="col-12 col-lg-6 o_setting_box">
+							<div class="o_setting_left_pane">
+								<field name="show_paynow_qrcode_cs"/>
+							</div>
+							<div class="o_setting_right_pane">
+								<label for="show_paynow_qrcode_cs"/>
+								<div class="text-muted">
+								Displays Paynow QR Code on Customer Statement
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row mt16 o_settings_container">
+						<div class="col-12 col-lg-6 o_setting_box">
+		                    <div class="o_setting_left_pane">
+		                        <field name="show_supplier_summary_statement"/>
+		                    </div>
+		                    <div class="o_setting_right_pane">
+		                        <label for="show_supplier_summary_statement"/>
+		                        <div class="text-muted">
+		                           Displays the Supplier Summary table on the PDF Statement.
+		                        </div>
+		                    </div>
+		                </div>
+		                <div class="col-12 col-lg-6 o_setting_box">
+		                    <div class="o_setting_left_pane">
+		                        <field name="inital_carry_fwd_balance_plus_oneday"/>
+		                    </div>
+		                    <div class="o_setting_right_pane">
+		                        <label for="inital_carry_fwd_balance_plus_oneday"/>
+		                        <div class="text-muted">
+		                           Makes the Initial Carry Forward Balance Date to Next Month.
+		                        </div>
+		                    </div>
+		                </div>
+	                </div>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

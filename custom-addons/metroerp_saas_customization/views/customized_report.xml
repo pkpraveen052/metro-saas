@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--accounting_pdf_report menu hiden through this code-->
+        <record id="accounting_pdf_reports.menu_account_report" model="ir.ui.menu">
+            <field name='action' eval='False'/>
+        </record>
+        <record id="accounting_pdf_reports.menu_account_report_bs" model="ir.ui.menu">
+            <field name='action' eval='False'/>
+        </record>
+        <record id="accounting_pdf_reports.menu_account_report_pl" model="ir.ui.menu">
+            <field name='action' eval='False'/>
+        </record>
+        <record id="accounting_pdf_reports.menu_aged_receivable" model="ir.ui.menu">
+            <field name='action' eval='False'/>
+        </record>
+        <record id="accounting_pdf_reports.menu_aged_payable" model="ir.ui.menu">
+            <field name='action' eval='False'/>
+        </record>
+        <record id="accounting_pdf_reports.menu_general_ledger" model="ir.ui.menu">
+            <field name='action' eval='False'/>
+        </record>
+        <record id="accounting_pdf_reports.menu_general_balance_report" model="ir.ui.menu">
+            <field name='action' eval='False'/>
+        </record>
+        <record id="accounting_pdf_reports.menu_partner_ledger" model="ir.ui.menu">
+            <field name='action' eval='False'/>
+        </record>
+
+        <!-- Menus visible to only Super Admin -->
+        <record id="accounting_pdf_reports.menu_finance_reports_settings" model="ir.ui.menu">
+            <field name='groups_id' eval="[(3, ref('account.group_account_user')), (3, ref('account.group_account_manager'))]"/>
+        </record>
+        
+        <!--ks_custom_report_layouts Boolean field readonly through this code-->
+        <record id="ks_custom_report_inherited_form_view" model="ir.ui.view">
+            <field name="name">ks.report.configuration.inherited.form.view</field>
+            <field name="model">ks.report.configuration</field>
+            <field name="inherit_id" ref="ks_custom_report_layouts.ks_report_configuration_form"/> 
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ks_is_custom_layout']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

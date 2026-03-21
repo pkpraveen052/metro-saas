@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="peppol_identifier_wizard_form_view" model="ir.ui.view">
+    <field name="name">peppol.identifier.wizard.form</field>
+    <field name="model">peppol.identifier.wizard</field>
+    <field name="arch" type="xml">
+        <form>
+            <group>
+                <b><field name="message" nolabel="1" style="font-size:15px;"/></b>
+            </group>
+            <footer>
+                <button string="OK" name="button_send" type="object" class="oe_highlight"/>
+                <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+</odoo>

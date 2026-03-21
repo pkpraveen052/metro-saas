@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="aspl_pos_kitchen_screen_assets" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css" href="/aspl_pos_kitchen_screen/static/src/css/pos.css"/>
+
+            <script type="text/javascript" src="/aspl_pos_kitchen_screen/static/src/js/Chrome.js"/>
+            <script type="text/javascript"
+                    src="/aspl_pos_kitchen_screen/static/src/js/ChromeWidgets/KitchenScreenButton.js"/>
+            <script type="text/javascript" src="/aspl_pos_kitchen_screen/static/src/js/models.js"/>
+            <script type="text/javascript" src="/aspl_pos_kitchen_screen/static/src/js/client_screen_button.js"/>
+
+            <script type="text/javascript"
+                    src="/aspl_pos_kitchen_screen/static/src/js/Screens/ProductScreen/ProductScreen.js"/>
+            <script type="text/javascript"
+                    src="/aspl_pos_kitchen_screen/static/src/js/Screens/ProductScreen/Orderline.js"/>
+            <script type="text/javascript"
+                    src="/aspl_pos_kitchen_screen/static/src/js/Screens/ProductScreen/ControlButtons/SendToKitchenButton.js"/>
+            <script type="text/javascript"
+                    src="/aspl_pos_kitchen_screen/static/src/js/Screens/PaymentScreen/PaymentScreen.js"/>
+            <script type="text/javascript"
+                    src="/aspl_pos_kitchen_screen/static/src/js/Screens/KitchenScreen/KitchenScreen.js"/>
+            <script type="text/javascript"
+                    src="/aspl_pos_kitchen_screen/static/src/js/Screens/KitchenScreen/OrderCard.js"/>
+            <script type="text/javascript"
+                    src="/aspl_pos_kitchen_screen/static/src/js/Screens/KitchenScreen/OrderCardLine.js"/>
+        </xpath>
+    </template>
+</odoo>

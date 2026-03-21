@@ -1,0 +1,31 @@
+<odoo>
+    <menuitem id="menu_metro_genie_root"
+              sequence="1"
+              name="MetroGenie"
+              action="action_metro_genie_dashboard"
+              groups="base.group_user,base.group_no_one,base.group_system,metroerp_customizations.sub_admin_group"
+              web_icon="metro_genie,static/description/icon.png"/>
+    <menuitem id="menu_metro_genie_settings"
+              name="MetroGenie Configuration"
+              parent="menu_metro_genie_root"
+              sequence="3"
+              groups="base.group_system"/>
+    <menuitem id="menu_metro_genie_suggestion"
+              name="Suggestions"
+              parent="menu_metro_genie_settings"
+              action="action_metro_genie_suggestion"
+              groups="base.group_system"
+              sequence="1"/>
+
+<!--    Discuss menu position change-->
+    <menuitem
+        id="mail.menu_root_discuss"
+        name="Discuss"
+        action="mail.action_discuss"
+        web_icon="mail,static/description/icon.png"
+        groups="base.group_user"
+        sequence="2"
+    />
+
+</odoo>
+

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="inherite_account_move_form_move_line_view" model="ir.ui.view">
+            <field name="name">account.move.inherited.form.view</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_reference']" position="after">
+                    <field name="description" attrs="{'invisible': [('is_progressive_invoice', '!=', True)]}"/>
+                    <field name="reference" attrs="{'invisible': [('is_progressive_invoice', '!=', True)]}"/>
+                </xpath>
+                <xpath expr="//form/sheet" position="inside">
+                    <group>
+                        <field name="is_posted" invisible="1"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="after">
+                    <field name="progress" widget="percentage" readonly="1" attrs="{'column_invisible': [('parent.is_progressive_invoice', '!=', True)]}"/>
+                    <field name="progressive_billing_qt_line_id" invisible="1"/>
+                    <field name="old_progress" invisible="1" widget="percentage"/>
+                </xpath>
+
+                <!-- Modify the Post button Attrs-->
+                <xpath expr="//form/header/button[@name='action_post'][1]" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|','|',('move_type', '!=', 'entry'), ('hide_post_button', '=', True),('is_posted', '!=', False)]}</attribute>
+                </xpath>
+
+                <!-- Modify the Confirm button Attrs-->
+                <xpath expr="//form/header/button[@name='action_post'][2]" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|','|',('move_type', '=', 'entry'), ('hide_post_button', '=', True),('is_posted', '!=', False)]}</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='button_draft']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('show_reset_to_draft_button', '=', False), '&amp;', ('is_progressive_invoice', '=', True), '|', '|', ('move_type', '=', 'out_refund'), ('state', '=', 'cancel'), ('payment_state', '=', 'reversed')]}</attribute>
+                </xpath>
+<!--                Add credit note button hide on progressive-->
+                <xpath expr="//button[@name='action_reverse']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', '|', ('move_type', 'not in', ('out_invoice', 'in_invoice')), ('state', '!=', 'posted'), '&amp;', ('is_progressive_invoice', '=', True), ('payment_state', '=', 'reversed')]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('progressive_billing_qt_line_id', '!=', False)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('progressive_billing_qt_line_id', '!=', False)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('progressive_billing_qt_line_id', '!=', False)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='discount']" position="replace">
+                    <field name="discount" string="Disc." optional="show" attrs="{'column_invisible': [('parent.is_progressive_invoice', '!=', False)]}"
+                    groups="product.group_discount_per_so_line"/>
+<!--                    <attribute name="attrs">{'readonly': [('progressive_billing_qt_line_id', '!=', False)]}</attribute>-->
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='analytic_account_id']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+                 <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='analytic_tag_ids']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="after">
+                    <field name="claimed_amount" attrs="{'column_invisible': [('parent.is_progressive_invoice', '!=', True)]}"/>
+                    <field name="qt_total" readonly="1" attrs="{'column_invisible': [('parent.is_progressive_invoice', '!=', True)]}"/>
+                </xpath>
+                <xpath expr="//form//notebook//page[@name='other_info']/group[@id='other_tab_group']" position="after">
+                    <group string="Progressive Billing Info" attrs="{'invisible': [('is_progressive_invoice', '!=', True)]}">
+                        <field name="progressive_billing_qt_id" readonly="1"/>
+                        <field name="is_progressive_invoice" readonly="1"/>
+                        <field name="claim_no" readonly="1"/>
+                    </group>
+                </xpath>
+                <xpath expr="//form//field[@name='payment_reference']" position="after">
+                    <field name="previous_invoice_id" readonly="1" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherite_account_move_tree_view" model="ir.ui.view">
+            <field name="name">account.move.inherited.tree.view</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree//field[@name='name']" position="before">
+                    <field name="is_progressive_invoice" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_account_move_form_discount" model="ir.ui.view">
+            <field name="name">metroerp.discount.account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="metroerp_discount.account_move_form_metroerp"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='discount_type']" position="replace">
+                    <field name='discount_type' optional="show" class="text-center" attrs="{'column_invisible': [('parent.is_progressive_invoice', '!=', False)]}"
+                    groups="product.group_discount_per_so_line"/>
+                 </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

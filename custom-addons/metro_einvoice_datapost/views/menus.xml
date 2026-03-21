@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_peppol_root"
+        name="InvoiceNow"
+        sequence="300"
+        web_icon="metro_einvoice_datapost,static/description/icon.png"
+        groups="group_peppol_admin,account.group_account_manager,metro_invoice_user.group_account_invoice_user"/>
+
+    <menuitem id="menu_peppol_documents"
+        name=" Peppol Invoice"
+        parent="menu_peppol_root"
+        sequence="1"/>
+
+    <menuitem id="menu_peppol_credit_documents"
+        name="Credit Notes"
+        parent="menu_peppol_root"
+        sequence="2"/>
+
+    <menuitem id="menu_peppol_invoice_response"
+        name="Invoice Response"
+        parent="menu_peppol_root"
+        sequence="3"/>
+
+    <menuitem id="menu_order_documents"
+        name="Order"
+        parent="menu_peppol_root"
+        sequence="4"/>
+
+    <menuitem id="menu_advance_order_documents"
+        name="Advance Order"
+        parent="menu_peppol_root"
+        sequence="5"/>
+
+    <menuitem id="menu_peppol_invoice_dashboard"
+        name="Reporting"
+        parent="menu_peppol_root"
+        sequence="6"
+        groups="account.group_account_manager" />
+
+    <menuitem id="menu_peppol_configuration"
+        name="Configuration"
+        parent="menu_peppol_root"
+        sequence="7" groups="group_peppol_admin"/>
+</odoo>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="sale_onboarding_sample_quotation_step_custom">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Create Your First Quotation</t>
+            <t t-set="description">Send a quotation to test the customer portal.</t>
+            <t t-set="btn_text">Send sample</t>
+            <t t-set="method" t-value="'action_open_sale_onboarding_sample_quotation'"/>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="state" t-value="state.get('sale_onboarding_sample_quotation_state')"/>
+        </t>
+    </template>
+
+    <template id="onboarding_sales_tc">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Sales Terms and Conditions</t>
+            <t t-set="description">Show standard terms and conditions on Orders</t>
+            <t t-set="btn_text">Configure TC</t>
+            <t t-set="done_text">Step Completed!</t>
+            <t t-set="method" t-value="'setting_init_sales_tc_action'"/>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="state" t-value="state.get('sale_onboarding_tc_state')"/>
+        </t>
+    </template>
+
+    <template id="onboarding_custom_quotation_layout_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Quotation Layout</t>
+            <t t-set="description">Customize the look of your quotations.</t>
+            <t t-set="done_icon" t-value="'fa-star'"/>
+            <t t-set="done_text">Looks great!</t>
+            <t t-set="btn_text">Customize</t>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="method" t-value="'action_open_custom_quotation_layout'"/>
+            <t t-set="state" t-value="state.get('sale_onboarding_quotation_layout_state')"/>
+        </t>
+    </template>
+
+    <template id="onboarding_custom_delivery_layout_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Delivery Layout</t>
+            <t t-set="description">Customize the look of your order delivery.</t>
+            <t t-set="done_icon" t-value="'fa-star'"/>
+            <t t-set="done_text">Looks great!</t>
+            <t t-set="btn_text">Customize</t>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="method" t-value="'action_open_custom_delivery_layout'"/>
+            <t t-set="state" t-value="state.get('account_onboarding_delivery_layout_state')"/>
+        </t>
+    </template>
+
+    <template id="onboarding_create_your_first_product_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Create First Product</t>
+            <t t-set="description">Create your first product for quotation.</t>
+            <t t-set="done_icon" t-value="'fa-star'"/>
+            <t t-set="done_text">Looks great!</t>
+            <t t-set="btn_text">First Product</t>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="method" t-value="'action_open_custom_product_popup'"/>
+            <t t-set="state" t-value="state.get('sale_onboarding_product_state')"/>
+        </t>
+    </template>
+
+    <template id="onboarding_create_your_first_partner_step">
+        <t t-call="base.onboarding_step">
+            <t t-set="title">Create First Customer</t>
+            <t t-set="description">Create your first customer for quotation.</t>
+            <t t-set="done_icon" t-value="'fa-star'"/>
+            <t t-set="done_text">Looks great!</t>
+            <t t-set="btn_text">First Customer</t>
+            <t t-set="model" t-value="'res.company'"/>
+            <t t-set="method" t-value="'action_open_custom_partner_popup'"/>
+            <t t-set="state" t-value="state.get('sale_onboarding_partner_state')"/>
+        </t>
+    </template>
+
+    <template id="sales_dashboard_onboarding_panel_metroerp_inherit" inherit_id="sale.sale_quotation_onboarding_panel"
+              name="Sales Dashboard Onboarding Panel">
+        <xpath expr="//t[@t-call='base.onboarding_container']//t[@t-call='base.onboarding_company_step']"
+               position="replace">
+            <t t-call="metroerp_onboarding.onboarding_sales_tc" name="sales_tc"/>
+        </xpath>
+
+        <xpath expr="//t[@t-call='base.onboarding_container']//t[@t-call='sale.onboarding_quotation_layout_step']"
+               position="replace">
+            <t t-call="metroerp_onboarding.onboarding_custom_quotation_layout_step" name="custom_sales_layout_step"/>
+        </xpath>
+
+        <xpath expr="//t[@t-call='base.onboarding_container']//t[@t-call='sale.sale_onboarding_order_confirmation_step']"
+               position="replace">
+            <t t-call="metroerp_onboarding.onboarding_custom_delivery_layout_step" name="custom_delivery_layout_step"/>
+        </xpath>
+
+        <xpath expr="//t[@t-call='base.onboarding_container']//t[@t-call='metroerp_onboarding.onboarding_custom_delivery_layout_step']"
+               position="after">
+            <t t-call="metroerp_onboarding.onboarding_create_your_first_product_step" name="product_step"/>
+        </xpath>
+
+        <xpath expr="//t[@t-call='base.onboarding_container']//t[@t-call='metroerp_onboarding.onboarding_create_your_first_product_step']"
+               position="after">
+            <t t-call="metroerp_onboarding.onboarding_create_your_first_partner_step" name="partner_step"/>
+        </xpath>
+
+        <xpath expr="//t[@t-call='base.onboarding_container']//t[@t-call='sale.sale_onboarding_sample_quotation_step']"
+               position="replace">
+            <t t-call="metroerp_onboarding.sale_onboarding_sample_quotation_step_custom" name="sample_quotation_step"/>
+        </xpath>
+    </template>
+
+
+</odoo>

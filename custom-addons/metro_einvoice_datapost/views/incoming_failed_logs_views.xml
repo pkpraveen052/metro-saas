@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="peppol_incoming_failed_logs_form" model="ir.ui.view">
+    <field name="name">incoming.failed.logs.form</field>
+    <field name="model">incoming.failed.logs</field>
+    <field name="arch" type="xml">
+        <form string="Incoming Failed Logs" create="false" edit="false">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="status_code"/>
+                    </group>
+                    <group>
+                        <field name="create_date"/>
+                    </group>
+                    <group>
+                        <field name="doc_type"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="response_body"/>
+                </group>
+                <group>
+                    <field name="error_body"/>
+                </group>
+                <group>
+                    <field name="traceback_body"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="peppol_incoming_failed_logs_tree" model="ir.ui.view">
+    <field name="name">incoming.failed.logs.tree</field>
+    <field name="model">incoming.failed.logs</field>
+    <field name="arch" type="xml">
+        <tree string="PEPPOL Incoming Documents" create="false">
+            <field name="doc_type"/>
+            <field name="status_code"/>
+            <field name="create_date"/>
+        </tree>
+    </field>
+</record>
+
+<record id="peppol_incoming_failed_logs_action" model="ir.actions.act_window">
+    <field name="name">Incoming Cron Failed Logs</field>
+    <field name="res_model">incoming.failed.logs</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="menu_peppol_logs_tracking" name="Peppol" parent="base.menu_custom" groups="metro_einvoice_datapost.group_peppol_admin"/>
+
+<menuitem id="peppol_incoming_failed_logs_menu"
+    name="Incoming Failed Logs"
+    action="peppol_incoming_failed_logs_action"
+    parent="menu_peppol_logs_tracking"
+    sequence="1"/>
+
+
+</odoo>

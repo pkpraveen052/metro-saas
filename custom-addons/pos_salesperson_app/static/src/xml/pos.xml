@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos_sales_order_template" inherit_id="point_of_sale.template" xml:space="preserve">
+
+	<t t-name="Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+		<xpath expr="//li[hasclass('info')]" position="inside">
+			<t t-if="env.pos.config.enable_salesperson">
+				<div class="add_salesuser" style="float: right;">
+					<input type="hidden" class="user_add_id" t-att-value="props.line.id"/>
+					<i class="fa fa-user-plus add_user" aria-hidden="true" style="color: sienna; cursor: pointer;" t-on-click="addUser"></i>
+				</div>
+				<div class="user_info" t-if="props.line.sales_person_id" style="display: flex; align-items: center; float: right;">
+					<input type="hidden" class="user_info_id" t-att-value="props.line.id"/>
+					<img t-att-src="props.line.image" class="sales-person-image" style="width: 24px; border-radius: 20px; cursor: pointer;" t-on-click="removeUser"/>
+					<i>
+						<span t-esc="props.line.sales_person_name" style="color: green;"/>
+					</i>
+					<i class="fa fa-times remove-user" style="color: red; cursor: pointer;" t-on-click="removeUser"/>
+				</div>
+			</t>
+		</xpath>
+	</t>
+
+	<t t-name="SalesPersonPopupWidget" owl="1">
+		<div class="modal-dialog" role='modal'>
+			<div class="popup popup-confirm" >
+				<p class="title" style="background-color: #7f82ac; color: #fff;height: 10px;">Sales Person</p>
+				<div class="">
+					<table class="client-list" style=""> 
+						<tbody class="client-line">
+							<tr t-foreach="props.startingValue || []" t-as="users" >
+								<td t-on-click="client_click_event" class="sales-user" style="text-align:left;cursor: pointer;" t-att-data-id="users" t-att-data-name="props.startingValue[users]" t-key="users">
+									<div t-att-data-id="users" t-att-data-name="props.startingValue[users]">
+										<strong style="padding: 20px;"><span t-esc="props.startingValue[users]" t-att-data-id="users" t-att-data-name="props.startingValue[users]"/></strong>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="footer" style="background-color: #7f82ac; color: #fff;">
+					<div class="button cancel" style="background-color: #E0E0E0; color: black;" t-on-click="cancel">
+						Cancel
+					</div>
+				</div>
+			</div>
+		</div>
+	</t>
+</templates>

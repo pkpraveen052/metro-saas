@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+        <record id="action_sale_detail_listing" model="ir.actions.report">
+           <field name="name">POS - Sales Detail Listing</field>
+           <field name="model">report.pos_sale_detail_listing_report.report_saledetailslisting</field>
+           <field name="report_type">qweb-pdf</field>
+           <field name="report_name">pos_sale_detail_listing_report.report_saledetailslisting</field>
+           <field name="report_file">pos_sale_detail_listing_report.report_saledetailslisting</field>
+           <field name="print_report_name">Sales Detail Listing Report</field>
+           <field name="paperformat_id" ref="pos_sale_detail_listing_report.paperformat_a4_pos_sales_details_listing"/>
+        </record>
+   </data>
+</odoo>

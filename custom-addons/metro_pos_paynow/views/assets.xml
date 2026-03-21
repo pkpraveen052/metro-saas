@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<template id="assets" inherit_id="point_of_sale.assets">
+			<xpath expr="." position="inside">
+				<script type="text/javascript" src="/metro_pos_paynow/static/src/js/main.js"></script>
+				<script src="/metro_pos_paynow/static/src/js/paynowqr.min.js"></script>
+				<script type="text/javascript" src="/metro_pos_hitpay/static/src/js/models.js"></script>
+			</xpath>
+		</template>
+	</data>
+</odoo>

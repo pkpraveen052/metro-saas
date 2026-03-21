@@ -1,0 +1,58 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ir_model_sub_admin_group,ir_model sub_admin_group,base.model_ir_model,sub_admin_group,1,1,1,1
+access_ir_model_constraint_sub_admin_group,ir_model_constraint sub_admin_group,base.model_ir_model_constraint,sub_admin_group,1,1,1,1
+access_ir_model_relation_sub_admin_group,ir_model_relation sub_admin_group,base.model_ir_model_relation,sub_admin_group,1,1,1,1
+access_ir_model_access_sub_admin_group,ir_model_access_sub_admin_group,base.model_ir_model_access,sub_admin_group,1,1,1,1
+access_ir_model_data_sub_admin_group,ir_model_data sub_admin_group,base.model_ir_model_data,sub_admin_group,1,1,1,1
+access_ir_model_fields_sub_admin_group,ir_model_fields sub_admin_group,base.model_ir_model_fields,sub_admin_group,1,1,1,1
+access_ir_model_fields_selection_sub_admin_group,ir_model_fields_selection sub_admin_group,base.model_ir_model_fields_selection,sub_admin_group,1,1,1,1
+access_ir_module_category_sub_admin_group,ir_module_category sub_admin_group,base.model_ir_module_category,sub_admin_group,1,0,0,0
+access_ir_rule_sub_admin_group,ir_rule sub_admin_group,base.model_ir_rule,sub_admin_group,1,1,1,1
+access_res_company_sub_admin_group,res_company sub_admin_group,base.model_res_company,sub_admin_group,1,1,0,0
+access_res_groups_sub_admin_group,res_groups sub_admin_group,base.model_res_groups,sub_admin_group,1,1,1,1
+access_res_users_sub_admin_group,res_users sub_admin_group,base.model_res_users,sub_admin_group,1,1,1,1
+access_ir_filter_sub_admin_group,ir_filters all,base.model_ir_filters,sub_admin_group,1,1,1,1
+access_reset_view_arch_wizard_sub_admin_group,access.reset.view.arch.wizard.subgroup,base.model_reset_view_arch_wizard,sub_admin_group,1,1,1,0
+access_change_password_user_sub_admin_group,access_change_password_user_subgroup,base.model_change_password_user,sub_admin_group,1,1,1,0
+access_change_password_wizard_sub_admin_group,access_change_password_wizard_subgroup,base.model_change_password_wizard,sub_admin_group,1,1,1,0
+access_ir_logging_sub_admin_group,ir_logging subgroup,base.model_ir_logging,sub_admin_group,1,1,1,1
+
+access_mail_mail_sub_admin,mail.mail,mail.model_mail_mail,sub_admin_group,1,1,1,1
+access_fetchmail_server_sub_admin,fetchmail.server,fetchmail.model_fetchmail_server,sub_admin_group,1,1,1,1
+access_ir_mail_server_sub_admin,ir.mail_server,base.model_ir_mail_server,sub_admin_group,1,1,1,1
+access_report_paperformat_sub_admin,report.paperformat,base.model_report_paperformat,sub_admin_group,1,1,1,1
+access_ir_actions_report_sub_admin,ir.actions.report,base.model_ir_actions_report,sub_admin_group,1,1,1,1
+access_ir_cron_sub_admin,ir.cron,base.model_ir_cron,sub_admin_group,1,1,1,1
+access_ir_sequence_sub_admin,ir.sequence,base.model_ir_sequence,sub_admin_group,1,1,0,0
+access_ir_actions_server_erp_admin,ir.actions.server,base.model_ir_actions_server,sub_admin_group,1,1,1,1
+access_ir_actions_server_lines_erp_admin,ir.server.object.lines,base.model_ir_server_object_lines,sub_admin_group,1,1,1,1
+access_ir_config_parameter_erp_admin,ir.config_parameter,base.model_ir_config_parameter,sub_admin_group,1,1,1,1
+access_res_lang_erp_admin,res.lang,base.model_res_lang,sub_admin_group,1,1,0,0
+
+access_ir_module_module_dependency_erp_admin,ir.module.module.dependency,base.model_ir_module_module_dependency,sub_admin_group,1,1,1,1
+access_ir_module_module_exclusion_erp_admin,ir.module.module.exclusion,base.model_ir_module_module_exclusion,sub_admin_group,1,1,1,1
+access_ir_actions_todo_erp_admin,ir.actions.todo,base.model_ir_actions_todo,sub_admin_group,1,1,1,1
+
+
+access_res_config_settings_erpadmin,res_config_settings.erpadmin,base.model_res_config_settings,sub_admin_group,1,1,1,0
+access_ir_module_module_erpadmin,ir_module_module.erpadmin,base.model_ir_module_module,sub_admin_group,1,1,1,1
+access_ir_actions_act_window.erpadmin,ir_actions_act_window.erpadmin,base.model_ir_actions_act_window,sub_admin_group,1,1,1,1
+access_ir_actions_act_window_close_erpadmin,ir_actions_act_window_close.erpadmin,base.model_ir_actions_act_window_close,sub_admin_group,1,1,1,1
+access_ir_actions_act_window_view_erpadmin,ir_actions_act_window_view.erpadmin,base.model_ir_actions_act_window_view,sub_admin_group,1,1,1,1
+access_base.document.layout.erpadmin,access.base.document.layout.erpadmin,web.model_base_document_layout,sub_admin_group,1,1,1,1
+access_ir_ui_view_erpadmin,ir_ui_view erpadmin,base.model_ir_ui_view,sub_admin_group,1,1,1,1
+access_base_language_install_erpadmin,access.base.language.install.erpadmin,base.model_base_language_install,sub_admin_group,1,1,1,0
+
+access_sr_sale_price_history,access.sr.sale.price.history,model_sr_sale_price_history,,1,1,1,1
+access_sr_purchase_price_history,access.sr.purchase.price.history,model_sr_purchase_price_history,,1,1,1,1
+access_company_creation_logs,company.creation.logs,model_company_creation_logs,,1,1,1,1
+access_payment_acquirer_erpadmin,payment.acquirer.erpadmin,payment.model_payment_acquirer,sub_admin_group,1,1,1,1
+
+access_res_currency_sub_admin_group,res_currency sub_admin_group,base.model_res_currency,sub_admin_group,1,1,1,0
+
+access_product_tags,product.tags,model_product_tags,,1,1,1,1
+access_sale_price_history_wizard,sale.price.history.wizard,model_sale_price_history_wizard,base.group_user,1,1,1,1
+access_purchase_price_history_wizard,purchase.price.history.wizard,model_purchase_price_history_wizard,base.group_user,1,1,1,1
+
+access_pos_account_move,pos.orders.account.move,point_of_sale.model_pos_order,account.group_account_manager,1,0,0,0
+access_currency_log,currency.log,model_currency_log,base.group_user,1,1,1,1

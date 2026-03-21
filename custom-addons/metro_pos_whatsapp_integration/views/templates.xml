@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="metro_assets_whatsapp_frontend" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/metro_pos_whatsapp_integration/static/src/js/pos.js"/>
+        </xpath>
+    </template>
+</odoo>

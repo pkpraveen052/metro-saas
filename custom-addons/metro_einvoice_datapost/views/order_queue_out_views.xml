@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="order_queue_out_form" model="ir.ui.view">
+        <field name="name">order.queue.out.form</field>
+        <field name="model">order.queue.out</field>
+        <field name="arch" type="xml">
+            <form string="Order Outgoing Document" create="false" edit="false">
+                <script>
+                    document.getElementById("copy_response_id").onclick = copyTextResponse;
+                    function copyTextResponse(response_id) {
+                        let element = document.getElementById("response_id");
+                        let elementText = element.textContent;
+                        copyText(elementText);
+                    }
+                    function copyText(text) {
+                         navigator.clipboard.writeText(text);
+                    }
+                </script>
+                <header>
+                    <button name="action_send" type="object" string=" Send" states="ready_to_send" icon="fa-paper-plane"/>
+                    <button name="action_retry" type="object" string=" Retry" states="error,Send Error" icon="fa-repeat"/>
+                    <button name="action_reset" type="object" string=" Reset" states="error,cancelled" icon="fa-mail-reply"/>
+                    <button name="action_cancel" type="object" string=" Cancel" states="ready_to_send,error,Send Error" icon="fa-times-circle" confirm="Are you sure you want to perform this action?"/>
+                    <button name="action_check_status" type="object" string=" Check Sent Document Status" icon="fa-refresh" states="Pending,Processing,Send Success" style="color: #005796;"/>
+                    <field name="state" widget="statusbar" statusbar_visible="ready_to_send"/>
+                </header>
+<!--                 <div class="alert alert-info" role="alert" style="margin-bottom:0px;text-align: center;" attrs="{'invisible': ['|','|',('invalidated','=',False),('invalidated', '!=', 'yes'),('state','=','cancelled')]}">
+                    This document became invalidated as the server has received with the same Document number again. Click on <button name="action_force_cancel" type="object" string="Cancel"/> to cancel this document.
+                </div> -->
+                <div class="alert alert-info" role="alert" style="margin-bottom:0px;text-align: center;" attrs="{'invisible': [('state','!=','error')]}">
+                    The detailed description of the error is logged under the form.
+                </div>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_order_response_queue_in" type="object" class="oe_stat_button" icon="fa-list" style="width:200px;">
+                            <field string="Received Responses" name="received_order_responses_count" class="o_stat_value" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <h1>
+                        <field name="order_id" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="client_ref" attrs="{'invisible': [('client_ref','=',False)]}" readonly="1"/>
+                            <field name="document_type"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="create_date"/>
+                            <field name="create_uid"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Document Submission Evidence/Response" attrs="{'invisible': [('state','in',['ready_to_send','error','cancelled'])]}">
+                            <group>
+                                <group string="Document uploaded/received time">
+                                    <field name="upload_time" readonly="1" string="Uploaded on (SGT)"/>
+                                </group> 
+                                <group string="Extracted Info">
+                                    <field name="extracted_senderid" readonly="1"/>
+                                    <field name="extracted_receiverid" readonly="1"/>
+                                    <field name="extracted_docno" readonly="1"/>
+                                    <field name="extracted_totamount" readonly="1"/>
+                                </group>
+                            </group>
+                            <div id="content">
+                                <group>
+                                    <group string="Other">
+                                        <field name="server_receipt" readonly="1"/>
+                                        <field name="invalidated" readonly="1"/>                                
+                                    </group>          
+                                    <group string="Status Message" attrs="{'invisible': [('status_message','=',False)]}">
+                                        <field name="status_message" readonly="1" string="Status"/>
+                                    </group>                            
+                                </group>
+                            </div>
+                        </page>
+                        <page string="Documents Sent" attrs="{'invisible': [('state','in',['ready_to_send'])]}">
+                            <group string="Internal Documents">
+                                <group>
+                                    <field name="attachment_ids" widget="many2many_binary" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>   
+                        <page string="Technical" attrs="{'invisible': [('xml_data','=',False)]}" groups="base.group_erp_manager">
+                            <separator string="XML Order Data" attrs="{'invisible': [('xml_data','=',False)]}"/>
+                            <button style="font-size: 80%;" name="action_copy" id="copy_response_id" string=" Copy to Clipboard" attrs="{'invisible': [('xml_data','=',False)]}" icon="fa-copy"/><br/>
+                            <div id="response_id" style="overflow-x: auto;height: 200px;" attrs="{'invisible': [('xml_data','=',False)]}">
+                                <field name="xml_data" nolabel="1" readonly="1"/>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="order_queue_out_tree" model="ir.ui.view">
+        <field name="name">order.queue.out.tree</field>
+        <field name="model">order.queue.out</field>
+        <field name="arch" type="xml">
+            <tree string="Order Outgoing Documents" create="false" edit="false"
+                  decoration-danger="state in ['error','Send Error']" decoration-info="state == 'ready_to_send'" decoration-muted="state in ('Completed', 'cancelled')" decoration-success="state == 'Send Success'" >
+                <field name="name"/>
+    <!--            <field name="invoice_type" invisible="1"/>-->
+                <field name="partner_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="create_date"/>
+                <field name="create_uid"/>
+                <field name="state" decoration-bf="1"/>
+                <button class="oe_inline oe_stat_button" type="object" icon="fa-paper-plane" string="Send" name="action_send" attrs="{'invisible':[('state','!=','ready_to_send')]}"/>
+                <button name="action_retry" type="object" string="Retry" states="error,Send Error" icon="fa-repeat"/>
+                <button name="action_reset" type="object" string=" Reset" states="error,cancelled" icon="fa-mail-reply"/>
+                <button name="action_cancel" type="object" string="Cancel" states="ready_to_send,error,Send Error" icon="fa-times-circle" confirm="Don't send this document to order?"/>
+                <button name="action_check_status" type="object" string=" Check Sent Document Status" icon="fa-refresh" states="Pending,Processing,Send Success"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="order_queue_out_search" model="ir.ui.view">
+        <field name="name">order.queue.out.search</field>
+        <field name="model">order.queue.out</field>
+        <field name="arch" type="xml">
+            <search string="Order Outgoing Documents">
+                <field name="partner_id"/>
+                <field name="state"/>
+                <separator/>
+                <filter string="Ready to Send" name="filter_state_readytosend" domain="[('state', '=', 'ready_to_send')]"/>
+                <filter string="Pending" name="filter_state_pending" domain="[('state', '=', 'Pending')]"/>
+                <filter string="Processing" name="filter_state_processing" domain="[('state', '=', 'Processing')]"/>
+                <filter string="Send Success" name="filter_state_sendsuccess" domain="[('state', '=', 'Send Success')]"/>
+                <filter string="Send Error" name="filter_state_senderror" domain="[('state', '=', 'Send Error')]"/>
+                <filter string="Failed" name="filter_state_error" domain="[('state', '=', 'error')]"/>
+                <filter string="Cancelled" name="filter_state_cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <group expand="1" string="Group By">
+                    <filter string="Status" name="state" context="{'group_by':'state'}"/>
+                    <filter string="Vendor" name="partner_id" context="{'group_by':'partner_id'}"/>
+                    <filter string="Company" name="company_id" context="{'group_by':'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="order_queue_out_action" model="ir.actions.act_window">
+        <field name="name">Outgoing Orders</field>
+        <field name="res_model">order.queue.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.order_queue_out_search"/>
+    </record>
+
+     <menuitem id="order_queue_out_menu"
+        action="order_queue_out_action"
+        parent="menu_order_documents"
+        sequence="2"/>
+
+    <record id="order_queue_out_confirm_action" model="ir.actions.server">
+        <field name="name">Check Document status</field>
+        <field name="model_id" ref="metro_einvoice_datapost.model_order_queue_out"/>
+        <field name="binding_model_id" ref="metro_einvoice_datapost.model_order_queue_out"/>
+        <field name="state">code</field>
+        <field name="code">action = records.action_check_status()</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_account_bank_statement_form_inherit_bank_statement" model="ir.ui.view">
+        <field name="name">account.bank.statement.form.inherit.bank.statement</field>
+        <field name="model">account.bank.statement</field>
+        <field name="inherit_id" ref="account.view_bank_statement_form"/>
+        <field name="priority" eval="50"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form//sheet//group//group[2]//div[2]" position='after'>
+                <field name="manual_reconciliation" attrs="{'readonly': [('state', '!=', 'open')]}"/>
+                <field name="manual_reconciliation_type" widget="radio"
+                       attrs="{'invisible': [('manual_reconciliation', '=', False)]}" invisible="1"/>
+            </xpath>
+            <xpath expr="//sheet//page[@name='statement_line_ids']" position="attributes">
+                <attribute name="attrs">{'invisible': [('manual_reconciliation', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//sheet//div[@name='button_box']//button[@name='button_journal_entries']" position="after">
+<!--                <button class="oe_stat_button" name="action_journal_entries"-->
+<!--                                string="Journal Entriesss" type="object"-->
+<!--                                attrs="{'invisible':[('manual_reconciliation','!=', True)]}" icon="fa-bars"/>-->
+            </xpath>
+            <xpath expr="//sheet//div[@name='button_box']//button[@name='button_journal_entries']" position="attributes">
+                <attribute name="attrs">{'invisible': [('move_line_count','=', 0), ('manual_reconciliation', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//header//button[@name='button_post']" position="after">
+                <button string="Confirm" name="action_confirm" type="object" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

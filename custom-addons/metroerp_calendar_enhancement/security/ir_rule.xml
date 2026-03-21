@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="calendar_multicompany" model="ir.rule">
+            <field name="name">Calendar Event multi-company</field>
+            <field name="model_id" ref="calendar.model_calendar_event"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="calendar_event_type_multicompany_rule" model="ir.rule">
+            <field name="name">Calendar Event Type multi company rule</field>
+            <field name="model_id" ref="calendar.model_calendar_event_type"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_sale_price_history_wizard_form" model="ir.ui.view">
+        <field name="name">sale.price.history.wizard.form</field>
+        <field name="model">sale.price.history.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Export Sales Price History">
+                <group>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="template_id" invisible="1"/>
+                        <field name="product_id" invisible="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_export_sale_price_history" string="Export Excel" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

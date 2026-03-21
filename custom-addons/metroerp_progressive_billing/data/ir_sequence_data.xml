@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences for Progressive Billing Quotations -->
+        <record id="seq_progressive_billing_qt" model="ir.sequence">
+            <field name="name">Progressive Billing Quotations</field>
+            <field name="code">progressive.billing.qt</field>
+            <field name="prefix">QP</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

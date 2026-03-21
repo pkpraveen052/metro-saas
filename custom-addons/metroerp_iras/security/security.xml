@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="gst_f5f8_multicompany" model="ir.rule">
+            <field name="name">GST F5F8 - Multi Company</field>
+            <field name="model_id" ref="model_gst_returns_f5f8"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="gst_f7_multicompany" model="ir.rule">
+            <field name="name">GST F7 - Multi Company</field>
+            <field name="model_id" ref="model_gst_returns_f7"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="form_cs_multicompany" model="ir.rule">
+            <field name="name">Form C-S - Multi Company</field>
+            <field name="model_id" ref="model_form_cs"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+       
+    </data>
+</odoo>

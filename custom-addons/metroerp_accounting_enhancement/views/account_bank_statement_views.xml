@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="inherited_account_bank_statement_form_view_enhancement" model="ir.ui.view">
+            <field name="name">account.bank.statement.inherit</field>
+            <field name="model">account.bank.statement</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_reprocess']" position="after">
+                    <button name="button_sync_statement_lines" string="Sync Statement Line" class="oe_highlight"
+                                type="object" attrs="{'invisible': [('journal_type', 'in', ['sale', 'purchase', 'general'])]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

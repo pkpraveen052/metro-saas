@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <record id="fs_dashboard1" model="financial.documents">
+        <field name="name">Financial Statement</field>
+        <field name="tech_name">fs</field>
+    </record>
+
+<!--     <record id="fs_dashboard2" model="financial.documents">
+        <field name="name">XBRL</field>
+        <field name="tech_name">xbrl</field>
+    </record> -->
+
+    <record id="fs_dashboard3" model="financial.documents">
+        <field name="name">GST</field>
+        <field name="tech_name">gst</field>
+    </record>
+
+    <record id="fs_dashboard4" model="financial.documents">
+        <field name="name">Form C-S</field>
+        <field name="tech_name">form_cs</field>
+    </record>
+
+    <record id="fs_dashboard5" model="financial.documents">
+        <field name="name">CS Document</field>
+        <field name="tech_name">cs_doc</field>
+    </record>
+
+</odoo>

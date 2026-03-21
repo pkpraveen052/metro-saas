@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="account_account_form_gst_returns_f5f8" model="ir.ui.view">
+            <field name="name">account.account.form.inherit.gst.returns.f5f8</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+<!--                 <xpath expr="//field[@name='allowed_journal_ids']" position="after">
+                    <field name="iras_type"/>
+                </xpath> -->
+                <xpath expr="//group" position="inside">
+                    <group string="IRAS Mapping">
+                        <field name="iras_mapping_ids" widget="many2many_tags"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_account_list_gst_returns_f5f8" model="ir.ui.view">
+            <field name="name">account.account.list.inherit.gst.returns.f5f8</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="iras_mapping_ids" widget="many2many_tags" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

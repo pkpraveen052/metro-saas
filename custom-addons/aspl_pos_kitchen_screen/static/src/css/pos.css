@@ -1,0 +1,548 @@
+/**************** Kitchen Screen ************************/
+.location_select {
+    margin-bottom: 15px;
+    text-align: left;
+    display: inline-block;
+    overflow: hidden;
+    background: white;
+    min-height: 44px;
+    font-family: "Lato";
+    font-size: 20px;
+    color: #444;
+    padding: 10px;
+    border-radius: 3px;
+    border: none;
+    box-shadow: 0px 0px 0px 1px rgb(220,220,220) inset;
+    box-sizing: border-box;
+    width: 100%;
+
+}
+.transfer_table {
+    display: list-item;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+.transfer_table_row {
+    width: 95%;
+    align-self: start;
+    overflow: auto;
+
+}
+.transfer_table .label {
+    width: fit-content;
+    float: left;
+    font-size: 16px;
+    padding-left: 21px;
+    padding-top: 7px;
+}
+.transfer_table .field {
+    width: 65%;
+    float: right;
+}
+.transfer_table select {
+ font-size: 15px;
+}
+
+.pos .custom-heading {
+    height: 35px;
+    margin-top: 20px;
+    vertical-align: middle;
+    position: absolute;
+    margin-left: 58PX;
+    font-size: 22px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: 6px;
+}
+.pos .kitchen-button {
+    height: 20px;
+    vertical-align:middle;
+}
+.pos .kitchen-screen{
+    background-image: linear-gradient(to left,
+            #a2c0e2, #acc6e5, #b6cde8,
+            #bfd3eb, #c9daee, #cfdef0,
+            #d5e2f1, #dbe6f3, #dee9f4,
+            #e2ebf5, #e5eef6, #e9f0f7);
+    background: #edf2fb;
+}
+.pos .kitchen-screen .order-content{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: scroll;
+    white-space: nowrap;
+    margin-bottom: 70px;
+    scroll-behavior: smooth;
+    margin-top: 25px;
+}
+.pos .kitchen-screen .order-content::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+    display: none;
+}
+
+
+.pos .kitchen-screen .footer{
+    width: 100%;
+    line-height: 48px;
+    position: fixed;
+    bottom: 0px;
+    background: #ccdbf5;
+    border-radius: 0px;
+    background: #edf2fb;
+    box-shadow:  5px 5px 10px #dadfe7,
+                 -5px -5px 10px #ffffff;
+}
+.pos .kitchen-screen .footer .left{
+    height: 36px;
+    width: 36px;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 0px;
+    color: #577294b0;
+    vertical-align: middle;
+    border: none;
+    margin-right: 50px;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .kitchen-screen .footer .right{
+    height: 36px;
+    width: 36px;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 0px;
+    color: #577294b0;
+    vertical-align: middle;
+    border: none;
+    margin-left: 50px;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .kitchen-screen .footer .double-left{
+    height: 36px;
+    width: 36px;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 0px;
+    color: #577294b0;
+    vertical-align: middle;
+    border: none;
+    margin-right: 15px;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .kitchen-screen .footer .double-right{
+    height: 36px;
+    width: 36px;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 0px;
+    color: #577294b0;
+    vertical-align: middle;
+    border: none;
+    margin-left: 15px;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .kitchen-screen .footer .top-left{
+    line-height: 48px;
+    float: left;
+    width: 36px;
+    left: 0px;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 0px;
+    vertical-align: middle;
+    color: #577294b0;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .kitchen-screen .footer .top-right{
+    line-height: 48px;
+    float: right;
+    width: 36px;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 0px;
+    vertical-align: middle;
+    color: #577294b0;
+    border: none;
+    border-radius: 4px;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .kitchen-screen .footer .grid-view{
+    height: 36px;
+    width: 36px;
+    font-size: 25px;
+    padding: 0px;
+    color: #4caf50a6;
+    vertical-align: middle;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .kitchen-screen .footer .list-view{
+    height: 36px;
+    width: 36px;
+    font-size: 23px;
+    padding: 0px;
+    color: #4caf50a6;
+    vertical-align: middle;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .kitchen-screen .footer .table-view{
+    height: 36px;
+    width: 36px;
+    font-size: 23px;
+    padding: 0px;
+    color: #795548ad;
+    vertical-align: middle;
+    border: none;
+    margin-left: 30px;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+
+
+.pos .kitchen-screen .footer .filter-switch{
+    width: 180px;
+    display: inline-block;
+    float: left;
+}
+.pos .kitchen-screen .footer .extra-space{
+    width: 180px;
+    display: inline-block;
+    float: right;
+}
+.pos .kitchen-screen .footer .extra-space .chart-button{
+    display: inline-block;
+    font-size: 16px;
+    color: #795548;
+    font-weight: bold;
+    line-height: 34px;
+    width: 34px;
+    text-align:center;
+    vertical-align:middle;
+    cursor: pointer;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .kitchen-screen .footer .extra-space .chart-button.clicked{
+    background: #edf2fb;
+    box-shadow: inset 3px 3px 7px #dadfe7,
+                inset -3px -3px 7px #ffffff;
+}
+.pos .kitchen-screen .footer .filter-switch .type-switch{
+    display: inline-block;
+    line-height: 36px;
+    width: 36px;
+    margin-left: 20px;
+    text-align:center;
+    vertical-align:middle;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #e6e6e6;
+    background: #edf2fb;
+    box-shadow: inset 5px 5px 8px #dfe3ec,
+                inset -5px -5px 8px #fbffff;
+}
+.pos .kitchen-screen .footer .filter-switch .type-switch:active{
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d5dae2, #feffff);
+    box-shadow:  2px 2px 3px #e1e6ee,
+                 -2px -2px 3px #f9feff;
+}
+.pos .kitchen-screen .footer .filter-switch .type-switch.selected{
+    border: 2px solid;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow:  5px 5px 9px #d1d5dd,
+                 -5px -5px 9px #ffffff;
+}
+.pos .kitchen-screen .footer .filter-switch .switch-icon{
+    height: 18px;
+    vertical-align:middle;
+}
+
+/* empty */
+.pos .kitchen-screen .empty-list{
+    width: 30%;
+    height: auto;
+    margin-left: 33%;
+    margin-top: 50px;
+}
+.pos .kitchen-screen .empty-list .message{
+    font-size: 90px;
+    float: left;
+    margin-top: 50px;
+    color: #cad5e9;
+}
+.pos .kitchen-screen .empty-list .empty-icon{
+    width: 200px;
+}
+
+/* Order Card */
+.pos .order-content .card-container{
+    margin: 10px;
+    min-width: 320px;
+    max-width: 320px;
+    float: left;
+    height: fit-content;
+    height: -moz-max-content;
+    background: #edf2fb;
+    box-shadow:  5px 5px 10px #dce1e9,
+                 -5px -5px 10px #feffff;
+}
+.pos .order-content li.card-container:first-child{
+    margin-left: 50px;
+}
+
+/* header */
+.pos .order-content .card-container .header{
+    /*border: 1px solid black;*/
+    width: 100%;
+    height: auto;
+    background: #ff7477;
+}
+.pos .order-content .card-container .header .header-container{
+    /*border: 1px solid;*/
+    overflow: auto;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.pos .order-content .card-container .header .image{
+    /*border: 1px solid black;*/
+    padding-top: 7px;
+    float: left;
+}
+.pos .order-content .card-container .header .top-line{
+    /*border: 1px solid black;*/
+    width: 87%;
+    float: right;
+    margin-bottom: 2px;
+}
+.pos .order-content .card-container .header .midel-line{
+    /*border: 1px solid black;*/
+    width: 87%;
+    float: right;
+}
+.pos .order-content .card-container .header .bottom-line{
+    /*border: 1px solid black;*/
+    float: left;
+    margin-left: 10px;
+    margin-top: 3px;
+    width: 80%;
+}
+.pos .order-content .card-container .header .order-icon{
+    height: 30px;
+    vertical-align:middle;
+    float: left;
+}
+.pos .order-content .card-container .header .table-name{
+    float: left;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+}
+.pos .order-content .card-container .header .floor-name{
+    float: left;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    margin-left: 5px;
+}
+.pos .order-content .card-container .header .table-guest{
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+.pos .order-content .card-container .header .order-time{
+    float: right;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+}
+.pos .order-content .card-container .header .serve-name{
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+/* body */
+.pos .order-content .card-container .body{
+    padding: 6px;
+    background: #edf2fb;
+}
+.pos .order-content .card-container .body .category{
+    width: auto;
+    height: 15px;
+    background: #e2e4f9;
+    padding: 2px;
+    text-align: center;
+    font-size: 13px;
+    margin-top: 15px;
+}
+
+/* footer */
+.pos .order-content .card-container .card-footer{
+    width: 100%;
+    height: 34px;
+    color: #555;
+}
+.pos .order-content .card-container .card-footer .order-ref{
+    float: right;
+    margin-right: 5px;
+    margin-top: 4px;
+}
+.pos .order-content .card-container .card-footer .done{
+    float: left;
+    font-size: 13px;
+    margin-left: 10px;
+    margin-right: 10px;
+    line-height: 18px;
+    font-weight: bold;
+    color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .order-content .card-container .card-footer .done:active{
+    border-radius: 5px;
+    background: linear-gradient(145deg, #d5dae2, #feffff);
+    box-shadow:  2px 2px 3px #e1e6ee,
+                 -2px -2px 3px #f9feff;
+}
+.pos .order-content .card-container .card-footer .print{
+    float: left;
+    font-weight: bold;
+    font-size: 13px;
+    margin-left: 10px;
+    line-height: 18px;
+    width: 50px;
+    padding: 4px;
+    color: #555;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .order-content .card-container .card-footer .print:active{
+    border-radius: 5px;
+    background: linear-gradient(145deg, #d5dae2, #feffff);
+    box-shadow:  2px 2px 3px #e1e6ee,
+                 -2px -2px 3px #f9feff;
+}
+
+/* Card Line */
+
+.pos .order-content .card-container .cardline{
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+    text-align: left;
+    color: #201C1F;
+    margin-bottom: 5px;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+            box-sizing: border-box;
+}
+.pos .order-content .card-container .cardline:nth-child(odd){
+    border-radius: 1px;
+    background: #edf2fb;
+    box-shadow: inset 5px 5px 10px #e4e8f1,
+                inset -5px -5px 10px #f6fcff;
+}
+.pos .order-content .card-container .cardline:nth-child(even){
+    border-radius: 1px;
+    background: #edf2fb;
+    box-shadow: inset 5px 5px 10px #e4e8f1,
+                inset -5px -5px 10px #f6fcff;
+}
+.pos .order-content .card-container .cardline .task-button{
+    float: right;
+    color: #4CAF50;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+}
+.pos .order-content .card-container .cardline .task-button:active{
+    border-radius: 5px;
+    background: linear-gradient(145deg, #d5dae2, #feffff);
+    box-shadow:  2px 2px 3px #e1e6ee,
+                 -2px -2px 3px #f9feff;
+}
+.pos .order-content .card-container .cardline .print{
+    float: right;
+    color: #777;
+    font-weight: bold;
+    margin-right: 8px;
+    padding: 4px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #feffff, #d5dae2);
+    box-shadow: 2px 2px 5px #c0c4cb, -2px -2px 5px #ffffff;
+    margin: 0 0 0 0;
+}
+.pos .order-content .card-container .cardline .print:active{
+    border-radius: 5px;
+    background: linear-gradient(145deg, #d5dae2, #feffff);
+    box-shadow:  2px 2px 3px #e1e6ee,
+                 -2px -2px 3px #f9feff;
+}
+.pos .order-content .card-container .cardline .qty{
+    padding:0;
+    display:inline-block;
+    width:12%;
+    font-weight: bold;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: left;
+    vertical-align: top;
+    margin-right: 3px;
+}
+.pos .order-content .card-container .cardline .name{
+    padding:0;
+    display:inline-block;
+    width:60%;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: left;
+}
+/* kitchen receipt */
+.pos-receipt.kitchen .extra-info{
+    padding-bottom: 2em;
+}
+.pos-receipt.kitchen .cardline{
+    padding-bottom: 1em;
+    font-size: 125%
+}
+.pos-receipt.kitchen .cardline .qty{
+    padding-right: 2em;
+}

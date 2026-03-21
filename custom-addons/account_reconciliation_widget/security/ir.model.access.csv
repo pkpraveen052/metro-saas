@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_reconciliation_widget_group_invoice,account_reconciliation_widget.group_invoice,model_account_reconciliation_widget,account.group_account_invoice,1,1,1,1
+access_manual_operations_reconcile_line,access_manual_operations_reconcile_line,model_manual_operations_reconcile_line,base.group_user,1,1,1,1

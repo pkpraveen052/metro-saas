@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="Chrome" t-inherit="point_of_sale.Chrome" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('search-bar-portal')]" position="after">
+            <div style="white-space: nowrap;text-overflow: ellipsis;font-size: medium;position: relative;display: flex;align-items: center;margin: 0 15px;">
+                <span id="order-cashdrawer" class="control-button order-cashdrawer" t-on-click="trigger('cash-drawer-open')">
+                    <i class="fa fa-eject"></i>
+                    <span style="padding-left: 5px;">Cash Drawer</span>
+                </span>
+            </div>
+        </xpath>
+    </t>
+
+</templates>
+

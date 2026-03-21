@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="ir_cron_refresh_tokens" model="ir.cron">
+            <field name="name">Refresh Access Token</field>
+            <field name="model_id" ref="metro_whatsapp_integration.model_res_config_settings"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_refresh_whatsapp_token()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

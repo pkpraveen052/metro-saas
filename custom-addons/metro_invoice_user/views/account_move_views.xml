@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <record id="view_invoice_form_Inherit" model="ir.ui.view">
+            <field name="name">invoice.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <!-- Add metro_invoice_user.group_account_invoice_user to the Post button -->
+                <xpath expr="//button[@name='action_post'][1][@groups='account.group_account_invoice']" position="attributes">
+                    <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </xpath>
+                
+                <!-- Add metro_invoice_user.group_account_invoice_user to the Confirm button -->
+                <xpath expr="//button[@name='action_post'][2][@groups='account.group_account_invoice']" position="attributes">
+                    <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </xpath>
+                
+                <!-- Add metro_invoice_user.group_account_invoice_user to the Register Payment button -->
+                <xpath expr="//button[@name='action_register_payment'][@groups='account.group_account_invoice']" position="attributes">
+                    <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </xpath>
+                
+                <!-- Add metro_invoice_user.group_account_invoice_user to the Reverse Entry button -->
+                <xpath expr="//button[@name='%(account.action_view_account_move_reversal)d'][@groups='account.group_account_invoice']" position="attributes">
+                    <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </xpath>
+
+                 <!-- Add metro_invoice_user.group_account_invoice_user to the Cancel button -->
+                <xpath expr="//button[@name='action_reverse'][@groups='account.group_account_invoice']" position="attributes">
+                    <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </xpath>
+
+                <!-- Add metro_invoice_user.group_account_invoice_user to the Cancel button -->
+                <xpath expr="//button[@name='button_cancel'][@groups='account.group_account_invoice']" position="attributes">
+                    <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </xpath>
+                
+                <!-- Add metro_invoice_user.group_account_invoice_user to the Reset to Draft button -->
+                <xpath expr="//button[@name='button_draft'][@groups='account.group_account_invoice']" position="attributes">
+                    <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </xpath>
+
+                <!-- Add metro_invoice_user.group_account_invoice_user to the first alert-warning div (tax lock date message) -->
+                <xpath expr="//form/div[@class='alert alert-warning' and @groups='account.group_account_invoice,account.group_account_readonly']" position="attributes">
+                    <attribute name="groups">account.group_account_invoice,account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </xpath>
+                <xpath expr="//page[@id='aml_tab']" position="attributes">
+                    <attribute name="groups">account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='account_id']" position="attributes">
+                    <attribute name="groups">account.group_account_readonly,metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="view_move_line_tree_grouped_inherited" model="ir.ui.view">
+        <field name="name">account.move.line.tree.grouped.inherited</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree_grouped"/>
+        <field name="arch" type="xml">
+            <!-- Add custom group to the buttons with existing group "account.group_account_invoice" -->
+            <xpath expr="//button[@name='action_post'][@groups='account.group_account_invoice']" position="attributes">
+                 <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(account.action_view_account_move_reversal)d'][@groups='account.group_account_invoice']" position="attributes">
+                 <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_duplicate'][@groups='account.group_account_invoice']" position="attributes">
+                 <attribute name="groups">account.group_account_invoice, metro_invoice_user.group_account_invoice_user,metro_invoice_user.group_invoice_own_only</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="account.action_move_switch_invoice_to_credit_note">
+        <field name="name">Switch into refund/credit note</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="groups_id" eval="[(4, ref('account.group_account_invoice')), (4, ref('metro_invoice_user.group_account_invoice_user')),(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="state">code</field>
+        <field name="binding_view_types">form</field>
+        <field name="code">
+        if records:
+            action = records.action_switch_invoice_into_refund_credit_note()
+        </field>
+    </record>
+
+
+    <!-- <record id="account_move_form_partner_domain_own_only" model="ir.ui.view">
+        <field name="name">account.move.form.partner.domain.own.only</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="groups_id" eval="[(4, ref('metro_invoice_user.group_invoice_own_only'))]"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('user_id','=',uid), ('company_id','=', current_company_id)]</attribute>
+            </xpath>
+
+        </field>
+    </record> -->
+
+
+  </data>
+</odoo>

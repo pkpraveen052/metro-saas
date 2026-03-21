@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="purchase_order_form_peppol" model="ir.ui.view">
+            <field name="name">purchase.order.inherited.form.peppol</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_rfq_send']" position="after">
+                    <button name="action_send_via_peppol" type="object" string="Send to InvoiceNow" attrs="{'invisible':['|',('state', 'not in', ('purchase','done')),('outgoing_order_doc_ref','!=',False)]}" class="oe_highlight"/>
+<!--                    <button name="action_send_change_ord_via_peppol" type="object" string="Send to Change Order" class="oe_highlight"/>-->
+<!--                    <button name="action_send_cancel_ord_via_peppol" type="object" string="Send to Cancel Order" class="oe_highlight"/>-->
+<!--                    <button name="action_send_balance_ord_via_peppol" type="object" string="Send to Balance Order" class="oe_highlight"/>-->
+                    <button name="action_send_orders" type="object" string="Send to Order" class="oe_highlight"/>
+
+                </xpath>
+                <xpath expr="//field[@name='name']" position='before'>
+                    <div class="ribbon ribbon-top-right" style="margin-top:-102px;" attrs="{'invisible': [('outgoing_order_doc_ref', '=', False)]}">
+                        <span style="font-size: 12px;height:45px;width:365px;text-indent:-94px;padding:24px 44px;" class="bg-info">Peppol</span>
+                    </div>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" name="action_view_peppol_log" type="object" icon="fa-file-text" attrs="{'invisible': [('peppol_log_count','&lt;',1)]}">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value"><field name="peppol_log_count"/></span>
+                            <span class="o_stat_text">e-Invoice</span>
+                        </div>
+                    </button>
+                </xpath>
+                <xpath expr="//group[@name='invoice_info']" position="after">
+                  <group string="Outgoing Order Queue">
+                      <field name="outgoing_order_doc_ref"  readonly="1"/>
+                      <field name="outgoing_order_change_doc_ref"  readonly="1"/>
+                      <field name="outgoing_order_cancel_doc_ref"  readonly="1"/>
+                      <field name="outgoing_order_balance_doc_ref" readonly="1"/>
+                  </group>
+                    <group>
+                        <field name="order_note" readonly="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="purchase_order_peppol_mapping_list" model="ir.ui.view">
+            <field name="name">purchase.order.peppol.mapping.list</field>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Order">
+                    <button name="map_to_incoming_invoice" type="object" string="Map" class="oe_highlight"/>
+                    <field name="message_unread" invisible="1"/>
+                    <field name="partner_ref" optional="hide"/>
+                    <field name="name" string="Reference" readonly="1" decoration-bf="1"/>
+                    <field name="date_approve" invisible="context.get('quotation_only', False)" optional="show"/>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="company_id" readonly="1" options="{'no_create': True}" groups="base.group_multi_company" optional="show"/>
+                    <field name="date_planned" invisible="context.get('quotation_only', False)" optional="show"/>
+                    <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+                    <field name="date_order" attrs="{'invisible': ['|', '|', ('state', '=', 'purchase'), ('state', '=', 'done'), ('state', '=', 'cancel')]}" invisible="not context.get('quotation_only', False)" widget="remaining_days" optional="show"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
+                    <field name="origin" optional="show"/>
+                    <field name="amount_untaxed" sum="Total Untaxed amount" string="Untaxed" widget="monetary" optional="hide"/>
+                    <field name="amount_total" sum="Total amount" widget="monetary" optional="show" decoration-bf="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'purchase' or state == 'done'" decoration-warning="state == 'to approve'" decoration-info="state == 'draft' or state == 'sent'"/>
+                    <field name="invoice_status" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="inherit_purchase_order_search_view" model="ir.ui.view">
+            <field name="name">purchase.order.search.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="arch" type="xml">
+                <filter name="activities_exception" position="after">
+                    <separator/>
+                    <!-- <filter name="e-Invoices" domain="[('outgoing_order_doc_ref','!=',False)]"/> -->
+                    <filter name="Sent to Peppol" domain="[('outgoing_order_doc_ref.state','in',['Send Success','Completed'])]"/>
+                    <filter name="peppol_ready" string="Peppol Ready" domain="['|', ('state', '=', 'purchase'),('state', '=', 'done'),('outgoing_order_doc_ref', '=', False)]"/>
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</odoo>

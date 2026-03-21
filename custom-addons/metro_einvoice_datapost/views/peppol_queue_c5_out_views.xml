@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="peppol_queue_c5_out_form" model="ir.ui.view">
+        <field name="name">peppol.queue.c5.out.form</field>
+        <field name="model">peppol.queue.c5.out</field>
+        <field name="arch" type="xml">
+            <form string="PEPPOL Outgoing C5 Document" create="false" edit="false">
+                <script>
+                    document.getElementById("copy_response_id").onclick = copyTextResponse;
+                    function copyTextResponse(response_id) {
+                        let element = document.getElementById("response_id");
+                        let elementText = element.textContent;
+                        copyText(elementText);
+                    }
+                    function copyText(text) {
+                         navigator.clipboard.writeText(text);
+                    }
+                </script>
+                <header>
+                    <button name="action_send" type="object" string=" Send" states="ready_to_send" icon="fa-paper-plane"/>
+                    <button name="action_retry" type="object" string=" Retry" states="error,Send Error" icon="fa-repeat"/>
+                    <button name="action_reset" type="object" string=" Reset" states="error,cancelled" icon="fa-mail-reply"/>
+                    <button name="action_cancel" type="object" string=" Cancel" states="ready_to_send,error,Send Error" icon="fa-times-circle" confirm="Are you sure you want to perform this action?"/>
+                    <button name="action_check_status" type="object" string=" Check Document Status" states="Pending,Processing,Send Success" icon="fa-refresh"  style="color: #005796;"/>
+                    <field name="state" widget="statusbar" statusbar_visible="ready_to_send"/>
+                </header>
+                <div class="alert alert-info" role="alert" style="margin-bottom:0px;text-align: center;" attrs="{'invisible': [('gst_no','!=',True)]}">
+                    GST should not be charged as <field name="gst_no" readonly="1" nolabel="1"/> is not GST-registered.
+                </div>
+<!--                 <div class="alert alert-info" role="alert" style="margin-bottom:0px;text-align: center;" attrs="{'invisible': ['|','|',('invalidated','=',False),('invalidated', '!=', 'yes'),('state','=','cancelled')]}">
+                    This document became invalidated as the server has received with the same Document number again. Click on <button name="action_force_cancel" type="object" string="Cancel"/> to cancel this document.
+                </div> -->
+                <div class="alert alert-info" role="alert" style="margin-bottom:0px;text-align: center;" attrs="{'invisible': [('state','!=','error')]}">
+                    The detailed description of the error is logged under the form.
+                </div>
+                <sheet>
+<!--                    <div class="oe_button_box" name="button_box">-->
+<!--                        <button name="action_view_invoice_response_queue_in" type="object" class="oe_stat_button" icon="fa-list" style="width:200px;">-->
+<!--                            <field string="Received Responses" name="received_inv_responses_count" class="o_stat_value" widget="statinfo"/>-->
+<!--                        </button>-->
+<!--                    </div>-->
+                    <h1>
+                        <field name="invoice_id" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>                        
+                            <field name="partner_id" attrs="{'invisible': [('document_xml_type','=','bulk')]}"/>
+                            <field name="client_ref" attrs="{'invisible': [('client_ref','=',False)]}" readonly="1"/>
+                            <field name="invoice_type" invisible="1"/>
+                            <field name="invoice_ids" widget="many2many_tags" attrs="{'invisible': [('document_xml_type','=','single')]}"/>
+                            <field name="document_xml_type"/>
+                            <field name="peppol_document_type"/>
+                            <field name="gst_no" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="create_date"/>
+                            <field name="create_uid"/>
+                            <field name="is_peppol" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Document Submission Evidence/Response" attrs="{'invisible': [('state','not in',['error'])]}">
+                            <group>
+                                <field name="error_code" attrs="{'invisible': [('error_code','=',False)]}"/>
+                                <field name="errors" attrs="{'invisible': [('errors','=',False)]}"/>
+                            </group>
+                        </page>
+
+                        <page string="Document Submission Evidence/Response" attrs="{'invisible': [('state','in',['ready_to_send','error','cancelled'])]}">
+                            <group>
+<!--                                <group string="Document uploaded/received time">-->
+<!--                                    <field name="upload_time" readonly="1" string="Uploaded on (SGT)"/>-->
+<!--                                </group> -->
+                                <group string="IRAS Tracked Responses">
+                                    <field name="extracted_acknowledgementid" readonly="1"/>
+                                    <field name="extracted_transmissionid" readonly="1"/>
+                                    <field name="status_message" readonly="1" string="Status"/>
+                                </group>
+                                <group string="Extracted Info">
+                                    <field name="extracted_senderid" readonly="1"/>
+                                    <field name="extracted_correlationid" readonly="1"/>
+                                </group>
+                                <group string="Other">
+                                    <field name="server_receipt" readonly="1"/>
+                                    <field name="progress_type" readonly="1" attrs="{'invisible': [('progress_type','=',False)]}"/>
+                                    <field name="invalidated" readonly="1" invisible="1"/>
+                                    <field name="document_type" readonly="1" invisible="1"/>
+                                    <field name="document_format" readonly="1" invisible="1"/>
+                                    <field name="extracted_receiverid" readonly="1" invisible="1"/>
+                                    <field name="extracted_docno" readonly="1" invisible="1"/>
+                                    <field name="extracted_totamount" readonly="1" invisible="1"/>
+                                </group>
+                            </group>
+
+                        </page>
+                        <page string="Technical" attrs="{'invisible': [('xml_data','=',False)]}" groups="base.group_erp_manager">
+                            <separator string="XML Invoice Data" attrs="{'invisible': [('xml_data','=',False)]}"/>
+                            <button style="font-size: 80%;" name="action_copy" id="copy_response_id" string=" Copy to Clipboard" attrs="{'invisible': [('xml_data','=',False)]}" icon="fa-copy"/><br/>
+                            <div id="response_id" style="overflow-x: auto;height: 200px;" attrs="{'invisible': [('xml_data','=',False)]}">
+                                <field name="xml_data" nolabel="1" readonly="1"/>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="peppol_queue_c5_out_tree" model="ir.ui.view">
+        <field name="name">peppol.queue.c5.out.tree</field>
+        <field name="model">peppol.queue.c5.out</field>
+        <field name="arch" type="xml">
+            <tree string="PEPPOL Outgoing C5 Documents" create="false" edit="false"
+                  decoration-danger="state in ['error','Send Error']" decoration-info="state == 'ready_to_send'" decoration-muted="state in ('Completed', 'cancelled')" decoration-success="state == 'Send Success'" >
+                <field name="name"/>
+                <field name="invoice_type" invisible="1"/>
+                <field name="partner_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="create_date"/>
+                <field name="create_uid"/>
+                <field name="status_message" string="IRAS Status"/>
+                <field name="extracted_acknowledgementid"/>
+                <field name="extracted_transmissionid" string="IRAS Transmission UUID"/>
+                <field name="document_uuid" optional="hide"/>
+                <field name="state" decoration-bf="1"/>
+                <button class="oe_inline oe_stat_button" type="object" icon="fa-paper-plane" string="Send" name="action_send" attrs="{'invisible':[('state','!=','ready_to_send')]}"/>
+                <button name="action_retry" type="object" string="Retry" states="error,Send Error" icon="fa-repeat"/>
+                <button name="action_reset" type="object" string=" Reset" states="error,cancelled" icon="fa-mail-reply"/>
+                <button name="action_cancel" type="object" string="Cancel" states="ready_to_send,error,Send Error" icon="fa-times-circle" confirm="Don't send this document to PEPPOL?"/>
+                <button name="action_check_status" type="object" string=" Check Document Status" icon="fa-refresh" states="Pending,Processing,Send Success"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="peppol_queue_c5_bulk_invoice_tree" model="ir.ui.view">
+        <field name="name">peppol.queue.c5.out.tree</field>
+        <field name="model">peppol.queue.c5.out</field>
+        <field name="arch" type="xml">
+            <tree string="PEPPOL Outgoing C5 Documents" create="false" edit="false"
+                  decoration-danger="state in ['error','Send Error']" decoration-info="state == 'ready_to_send'" decoration-muted="state in ('Completed', 'cancelled')" decoration-success="state == 'Send Success'" >
+                <field name="name"/>
+                <field name="invoice_type" invisible="1"/>
+                <field name="invoice_ids"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="create_date"/>
+                <field name="create_uid"/>
+                <field name="state" decoration-bf="1"/>
+                <button class="oe_inline oe_stat_button" type="object" icon="fa-paper-plane" string="Send" name="action_send" attrs="{'invisible':[('state','!=','ready_to_send')]}"/>
+                <button name="action_retry" type="object" string="Retry" states="error,Send Error" icon="fa-repeat"/>
+                <button name="action_reset" type="object" string=" Reset" states="error,cancelled" icon="fa-mail-reply"/>
+                <button name="action_cancel" type="object" string="Cancel" states="ready_to_send,error,Send Error" icon="fa-times-circle" confirm="Don't send this document to PEPPOL?"/>
+                <button name="action_check_status" type="object" string=" Check Document Status" icon="fa-refresh" states="Pending,Processing,Send Success"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="peppol_queue_c5_out_search" model="ir.ui.view">
+        <field name="name">peppol.queue.c5.out.search</field>
+        <field name="model">peppol.queue.c5.out</field>
+        <field name="arch" type="xml">
+            <search string="PEPPOL Outgoing C5 Documents">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="invoice_type" invisible="1"/>
+                <field name="state"/>
+                <separator/>
+                <filter string="Ready to Send" name="filter_state_readytosend" domain="[('state', '=', 'ready_to_send')]"/>
+                <filter string="Pending" name="filter_state_pending" domain="[('state', '=', 'Pending')]"/>
+                <filter string="Processing" name="filter_state_processing" domain="[('state', '=', 'Processing')]"/>
+                <filter string="Send Success" name="filter_state_sendsuccess" domain="[('state', '=', 'Send Success')]"/>
+                <filter string="Send Error" name="filter_state_senderror" domain="[('state', '=', 'Send Error')]"/>
+                <filter string="Failed" name="filter_state_error" domain="[('state', '=', 'error')]"/>
+                <filter string="Cancelled" name="filter_state_cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="Invoices" name="in_out_invoice" domain="[('invoice_type','in', ['out_invoice', 'in_invoice'])]" />
+                <filter string="Credit Notes" name="in_out_refund" domain="[('invoice_type','in', ['out_refund', 'in_refund'])]" />
+                <filter string="Single" name="single" domain="[('document_xml_type','=','single')]"/>
+                <filter string="Bulk" name="bulk" domain="[('document_xml_type','=','bulk')]"/>
+                <separator/>
+                <group expand="1" string="Group By">
+                    <filter string="Status" name="state" context="{'group_by':'state'}"/>
+                    <filter string="Customer" name="partner_id" context="{'group_by':'partner_id'}"/>
+                    <filter string="Company" name="company_id" context="{'group_by':'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+<!--    peppol invoice-->
+<!--    Peppol Purchase Invoices-->
+    <record id="peppol_queue_c5_out_action" model="ir.actions.act_window">
+        <field name="name">Purchase Invoices</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('invoice_type','in', ['in_invoice', 'in_refund']),('is_peppol', '=', True),('document_xml_type','in', ['single', 'bulk'])]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+    <menuitem id="peppol_queue_c5_out_menu"
+              action="peppol_queue_c5_out_action"
+              parent="metro_einvoice_datapost.menu_peppol_documents"
+              groups="metro_einvoice_datapost.group_c5_submitter"
+              sequence="3"/>
+
+    <!-- non peppol-->
+    <!-- C5 Sales Invoices-->
+    <record id="peppol_sales_invoice_queue_c5_action" model="ir.actions.act_window">
+        <field name="name">Sales Invoices</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('invoice_type','=', ['out_invoice', 'out_refund']),('is_peppol', '=', False),('document_xml_type','in', ['single', 'bulk'])]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+    <menuitem id="menu_non_peppol_documents"
+              name="NonPeppol Invoice"
+              parent="menu_peppol_root"
+              groups="metro_einvoice_datapost.group_c5_submitter"
+              sequence="2"/>
+
+    <menuitem id="peppol_sales_invoice_queue_c5_menu"
+        action="peppol_sales_invoice_queue_c5_action"
+        parent="metro_einvoice_datapost.menu_non_peppol_documents"
+        sequence="1"/>
+
+    <!--    NON-Peppol Purchase Invoices-->
+    <record id="non_peppol_queue_c5_purchase_inv_action" model="ir.actions.act_window">
+        <field name="name">Purchase Invoices</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('invoice_type','in', ['in_invoice', 'in_refund']),('is_peppol', '=', False),('document_xml_type','in', ['single', 'bulk'])]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+    <menuitem id="non_peppol_queue_c5_purchase_inv_menu"
+        action="non_peppol_queue_c5_purchase_inv_action"
+        parent="metro_einvoice_datapost.menu_non_peppol_documents"
+        sequence="3"/>
+
+
+<!--    Peppol Purchase Credit Notes-->
+    <record id="peppol_credit_queue_c5_out_action" model="ir.actions.act_window">
+        <field name="name">Purchase Credit Notes</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('invoice_type','=','in_refund'),('is_peppol', '=', True),('document_xml_type','=','single')]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+<!--    <menuitem id="main_peppol_menu"-->
+<!--              name="Peppol"-->
+<!--              parent="metro_einvoice_datapost.menu_c5_activation_root"-->
+<!--              sequence="1"/>-->
+
+<!--    <menuitem id="main_nonpeppol_menu"-->
+<!--              name="NonPeppol"-->
+<!--              parent="metro_einvoice_datapost.menu_c5_activation_root"-->
+<!--              sequence="1"/>-->
+
+<!--    <menuitem id="peppol_credit_queue_c5_out_menu"-->
+<!--        action="peppol_credit_queue_c5_out_action"-->
+<!--        parent="metro_einvoice_datapost.main_peppol_menu"-->
+<!--        sequence="5"/>-->
+
+
+
+<!--    C5 Bulk Sales Invoice-->
+    <record id="peppol_bulk_sales_invoice_queue_c5_action" model="ir.actions.act_window">
+        <field name="name">Bulk Sales Invoices</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="metro_einvoice_datapost.peppol_queue_c5_bulk_invoice_tree"/>
+        <field name="domain">[('invoice_type','=','out_invoice'),('is_peppol', '=', False),('document_xml_type','=','bulk')]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+<!--    <menuitem id="peppol_bulk_sales_invoice_queue_c5_menu"-->
+<!--        action="peppol_bulk_sales_invoice_queue_c5_action"-->
+<!--        parent="metro_einvoice_datapost.main_nonpeppol_menu"-->
+<!--        sequence="8"/>-->
+
+<!-- C5 Sales Credit NOte-->
+     <record id="peppol_sales_creditnote_queue_c5_action" model="ir.actions.act_window">
+        <field name="name">Sales Credit Notes</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('invoice_type','=','out_refund'),('is_peppol', '=', False),('document_xml_type','=','single')]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+<!--    <menuitem id="peppol_sales_creditnote_queue_c5_menu"-->
+<!--        action="peppol_sales_creditnote_queue_c5_action"-->
+<!--        parent="metro_einvoice_datapost.main_nonpeppol_menu"-->
+<!--        sequence="7"/>-->
+
+<!--    C5 bulk sales Credit note-->
+    <record id="peppol_bulk_sales_creditnote_queue_c5_action" model="ir.actions.act_window">
+        <field name="name">Bulk Sales Credit Notes</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="metro_einvoice_datapost.peppol_queue_c5_bulk_invoice_tree"/>
+        <field name="domain">[('invoice_type','=','out_refund'),('is_peppol', '=', False),('document_xml_type','=','bulk')]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+<!--    <menuitem id="peppol_bulk_sales_creditnote_queue_c5_menu"-->
+<!--        action="peppol_bulk_sales_creditnote_queue_c5_action"-->
+<!--        parent="metro_einvoice_datapost.main_nonpeppol_menu"-->
+<!--        sequence="9"/>-->
+
+
+
+<!--    NON-Peppol Purchase Credit NOte-->
+    <record id="non_peppol_queue_c5_purchase_credit_action" model="ir.actions.act_window">
+        <field name="name">Purchase Credit Notes</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('invoice_type','=','in_refund'),('is_peppol', '=', False),('document_xml_type','=','single')]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+<!--    <menuitem id="non_peppol_queue_c5_purchase_credit_menu"-->
+<!--        action="non_peppol_queue_c5_purchase_credit_action"-->
+<!--        parent="metro_einvoice_datapost.main_nonpeppol_menu"-->
+<!--        sequence="11"/>-->
+
+    <!--  peppol Bulk Purchase Invoice-->
+    <record id="peppol_bulk_purchase_invoice_queue_c5_action" model="ir.actions.act_window">
+        <field name="name">Bulk Purchase Invoices</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="metro_einvoice_datapost.peppol_queue_c5_bulk_invoice_tree"/>
+        <field name="domain">[('invoice_type','=','in_invoice'),('is_peppol', '=', True),('document_xml_type','=','bulk')]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+<!--    <menuitem id="peppol_bulk_purchase_invoice_queue_c5_menu"-->
+<!--        action="peppol_bulk_purchase_invoice_queue_c5_action"-->
+<!--        parent="metro_einvoice_datapost.main_peppol_menu"-->
+<!--        sequence="12"/>-->
+
+    <record id="peppol_bulk_purchase_creditnote_queue_c5_action" model="ir.actions.act_window">
+        <field name="name">Bulk Purchase Credit Notes</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="metro_einvoice_datapost.peppol_queue_c5_bulk_invoice_tree"/>
+        <field name="domain">[('invoice_type','=','in_refund'),('is_peppol', '=', True),('document_xml_type','=','bulk')]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+<!--    <menuitem id="peppol_bulk_purchase_creditnote_queue_c5_menu"-->
+<!--        action="peppol_bulk_purchase_creditnote_queue_c5_action"-->
+<!--        parent="metro_einvoice_datapost.main_peppol_menu"-->
+<!--        sequence="13"/>-->
+
+    <!--    nonpeppol Bulk Purchase Invoice-->
+    <record id="nonpeppol_bulk_purchase_invoice_queue_c5_action" model="ir.actions.act_window">
+        <field name="name">Bulk Purchase Invoices</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="metro_einvoice_datapost.peppol_queue_c5_bulk_invoice_tree"/>
+        <field name="domain">[('invoice_type','=','in_invoice'),('is_peppol', '=', False),('document_xml_type','=','bulk')]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+<!--    <menuitem id="nonpeppol_bulk_purchase_invoice_queue_c5_menu"-->
+<!--        action="nonpeppol_bulk_purchase_invoice_queue_c5_action"-->
+<!--        parent="metro_einvoice_datapost.main_nonpeppol_menu"-->
+<!--        sequence="12"/>-->
+
+<!--    C5 peppol bulk sales Credit note-->
+    <record id="nonpeppol_bulk_purchase_creditnote_queue_c5_action" model="ir.actions.act_window">
+        <field name="name">Bulk Purchase Credit Notes</field>
+        <field name="res_model">peppol.queue.c5.out</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="metro_einvoice_datapost.peppol_queue_c5_bulk_invoice_tree"/>
+        <field name="domain">[('invoice_type','=','in_refund'),('is_peppol', '=', False),('document_xml_type','=','bulk')]</field>
+        <field name="context">{'search_default_filter_state_readytosend': 1}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_neutral_face">
+            No Documents found.
+          </p>
+        </field>
+        <field name="search_view_id" ref="metro_einvoice_datapost.peppol_queue_c5_out_search"/>
+    </record>
+
+<!--    <menuitem id="nonpeppol_bulk_purchase_creditnote_queue_c5_menu"-->
+<!--        action="nonpeppol_bulk_purchase_creditnote_queue_c5_action"-->
+<!--        parent="metro_einvoice_datapost.main_nonpeppol_menu"-->
+<!--        sequence="13"/>-->
+
+</odoo>

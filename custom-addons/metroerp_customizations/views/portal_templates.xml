@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="portal_record_sidebar_inherit" inherit_id="portal.portal_record_sidebar">
+        <xpath expr="//div/div/div[2]" position="replace">
+            <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1" style="font-weight:bold;font-size:13px;">
+                Powered by <a target="_blank" href="https://www.metrogroup.solutions/solutions/accounting-system" title="Metro"><img src="/metroerp_customizations/static/src/img/portal_logo.png" alt="Metro Logo" height="20"/></a>
+            </div>
+        </xpath>
+    </template>
+</odoo>

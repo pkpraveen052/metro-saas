@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="res_partner_inherit_form_view" model="ir.ui.view">
+            <field name="name">res.partner.name</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="string">GST No</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="res_company_inherit_form_view" model="ir.ui.view">
+            <field name="name">res.company.name</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="string">GST No</attribute>
+                </xpath>
+                <xpath expr="//group[@name='social_media']" position="after">
+                    <group string="PayNow QR Code" col="2" attrs="{'invisible': [('country_code', '!=', 'SG')]}">
+                        <label for="uen_number"/>
+                        <div class="o_row">
+                            <field name="uen_number"/>
+                            <field name="use_uen_number" widget="boolean_toggle"/>
+                        </div>
+                    
+                        <label for="alt_uen_number"/>
+                        <div class="o_row">
+                            <field name="alt_uen_number"/>
+                            <field name="use_alt_uen_number" widget="boolean_toggle"/>
+                        </div>
+                    
+                        <label for="mobile_number"/>
+                        <div class="o_row">
+                            <field name="mobile_number"/>
+                            <field name="use_mobile_number" widget="boolean_toggle"/>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

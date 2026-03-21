@@ -1,0 +1,16 @@
+<odoo>
+    <!-- Inherit the existing CRM settings view -->
+    <record id="res_config_settings_view_form_inherit_crm_custom" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.crm.custom</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="6"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Locate the existing CRM settings block -->
+            <xpath expr="//div[hasclass('settings')]/div[@data-key='crm']" position="attributes">
+                <!-- Remove the existing group -->
+                <attribute name="groups">metroerp_crm_enhancement.group_crm_manager</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

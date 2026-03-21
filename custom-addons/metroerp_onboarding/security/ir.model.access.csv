@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sales_tc,access_sales_tc_all,model_sales_terms_condition,,1,1,1,1
+access_purchase_tc,access_purchase_tc_all,model_purchase_terms_conditions,,1,1,1,1

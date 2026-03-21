@@ -1,0 +1,29 @@
+# -*- coding: utf-8 -*-
+
+{
+    'name': 'Journal Sequence For Odoo 14',
+    'version': '14.0.4.1.0',
+    'category': 'Accounting',
+    'summary': 'Journal Sequence For Odoo 14',
+    'description': 'Journal Sequence For Odoo 14',
+    'sequence': '1',
+    'author': 'Odoo Developers',
+    'support': 'developersodoo@gmail.com',
+    'live_test_url': 'https://www.youtube.com/watch?v=z-xZwCah7wM',
+    'depends': ['base','account','metroerp_customizations'],
+    'demo': [],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/account_data.xml',
+        'views/account_journal.xml',
+        'views/account_move.xml',
+    ],
+    'qweb': [],
+    'license': 'OPL-1',
+    'price': 11,
+    'currency': 'USD',
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+    'images': ['static/description/banner.png'],
+}

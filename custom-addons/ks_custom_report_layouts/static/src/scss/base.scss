@@ -1,0 +1,513 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap");
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -ms-overflow-style: scrollbar;
+  -webkit-tap-highlight-color: transparent;
+  height: 100%;
+}
+@font-face {
+  font-family: "Poppins";
+  font-weight: 700;
+  src: url("/ks_custom_report_layouts/static/src/fonts/Poppins/Poppins-Bold.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-weight: 300;
+  src: url("/ks_custom_report_layouts/static/src/fonts/Poppins/Poppins-Thin.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-weight: 200;
+  src: url("/ks_custom_report_layouts/static/src/fonts/Poppins/Poppins-ExtraLight.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-weight: 800;
+  src: url("/ks_custom_report_layouts/static/src/fonts/Poppins/Poppins-ExtraBold.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family:"Poppins";
+  font-weight: 500;
+  src: url("/ks_custom_report_layouts/static/src/fonts/Poppins/Poppins-Medium.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family:"Poppins";
+  font-weight: 400;
+  src: url("/ks_custom_report_layouts/static/src/fonts/Poppins/Poppins-Regular.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-weight: 600;
+  src: url("/ks_custom_report_layouts/static/src/fonts/Poppins/Poppins-SemiBold.woff2")
+    format("woff2");
+}
+
+/* latin */
+@-ms-viewport {
+  width: device-width;
+}
+// colors and background color
+
+$theme_color: #00adac;
+$theme_color2: #2e2f80;
+$theme_color5: #28348e;
+$theme_color6: #5bb295;
+$theme_color7: #c64f69;
+$light_bg_theme: #f2f9f8;
+$theme_color4: #e84a5f;
+$first_text_color: #59595c;
+$second_text_color: #404041;
+$third_text_color: #414141;
+$text_white: #fff;
+$bg_theme_3: #f7f7f7;
+$theme_color3: #007ac5;
+$bg_theme_4: #f1f1f2;
+$bg_theme_10: #f5f3f8;
+$table_4_left_bg: #5b5b5b;
+$bg_theme_6: #f9fcf7;
+$theme_color8_1: #01416d;
+$theme_bg_9: #ffc7c8;
+$fourth_text_color: #6d6f70;
+$fifth_text_color: #494949;
+$theme_text_color: #58595b;
+$theme_text_sign: #49494a;
+$font_text_6: #262626;
+$font_text_clr_7: #5a595c;
+$font_text_clr_10: #6d6e70;
+$tag_line_clr: #2c2c3c;
+$theme_8clr: #00416d;
+$theme_9clr: #414242;
+$theme_text10: #6e6f71;
+$theme_text11: #4a4a4b;
+
+// font family
+$font_poppins:"Poppins";
+
+// font sizes
+$font_6: 11px;
+$ks_extra_small_font: 12px;
+$font_13: 13px;
+$very_low_font: 14px;
+$font_9: 14px;
+$font_7: 14px;
+$font_10: 15px;
+$ks_small_font: 15px;
+$font_11: 16px;
+$font_18: 18px;
+$ks_mid_font: 21px;
+$font_20: 22px;
+$font_23: 23px;
+$font_25: 25px;
+$font_28: 28px;
+$font_25: 30px;
+$font_30: 30px;
+$ks_large_font: 35px;
+$font_48: 48px;
+
+
+// placeholder
+
+%upper_case {
+  text-transform: uppercase;
+}
+
+%theme_text_color {
+  color: #58595b;
+}
+
+%theme_text_white {
+  color: #fff;
+}
+
+%border_0 {
+  border-top: 0px;
+  border-bottom: 0px;
+}
+
+%border_rad_5 {
+  border-radius: 5px;
+}
+
+%pad_8 {
+  padding: 4px 8px;
+}
+
+%light_font {
+  font-weight: 300;
+  font-family:$font_poppins;
+}
+%extra_light_font {
+  font-weight: 200;
+  font-family:$font_poppins;
+}
+%midium_font2 {
+  font-weight: 500 !important;
+  font-family: Poppins;
+}
+%midium_font {
+  font-weight: 500;
+  font-family:$font_poppins;
+}
+
+%semi_bold_font {
+  font-weight: 500;
+  font-family: $font_poppins;
+}
+%regular_font {
+  font-weight: 400;
+  font-family: $font_poppins;
+}
+
+%strong_font {
+  font-weight: 700;
+  font-family: $font_poppins;
+}
+%extra_strong_font {
+  font-weight: bolder;
+  font-family:$font_poppins;
+}
+%text-right {
+  text-align: right;
+}
+
+%text-left {
+  text-align: left;
+}
+%text-center {
+  text-align: center;
+}
+
+%ks_table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+}
+%d-block {
+  display: block;
+}
+%border-top-1 {
+  border-top: 1px solid #ccc;
+}
+%border-bottom-1 {
+  border-bottom: 1px solid #ccc;
+}
+%border-top-4 {
+  border-top: 3px solid #ccc;
+}
+%mb_mt_20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+%strong-text {
+    font-size: $very_low_font;
+    @extend %midium_font;
+    color: $first_text_color;
+}
+%table-description {
+    @extend %regular_font;
+    color: $theme_text10;
+    font-size: $font_13;
+}
+// Mixins
+
+@mixin total_font {
+  @extend %midium_font;
+}
+
+@mixin round_shape {
+  border-radius: 15px;
+  background-color: $theme_color;
+  display: inline-block;
+  @extend %semi_bold_font;
+}
+
+@mixin inline_flex {
+  display: flex;
+  justify-content: space-between;
+}
+@mixin ks_heading {
+  font-size: $font_11;
+}
+
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@mixin company_heading {
+  @extend %upper_case;
+}
+@mixin ks_table_img {
+  max-width: 25px;
+}
+@mixin horizontal-list {
+  @include reset-list;
+
+  li {
+    display: inline-block;
+    margin: {
+      left: 0px;
+      right: 0.5em;
+    }
+  }
+}
+@mixin vertical-list {
+  @include reset-list;
+
+  li {
+    display: block;
+    margin: {
+      left: 0px;
+      right: 0.2em;
+    }
+  }
+}
+
+@mixin ks_amount_in_words {
+  padding-top: 2px;
+  //      text-transform:lowercase;
+  font-size: $very_low_font;
+  font-weight: 400;
+  font-family: poppins;
+  text-align: right;
+  color: $theme_text_sign;
+}
+@mixin mb_0 {
+  margin-bottom: 0px;
+}
+@mixin border_gray {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+@mixin table_with_border {
+  border-collapse: separate;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+}
+@mixin ks_company_name {
+  font-size: $font_10;
+  color: $tag_line_clr;
+}
+@mixin ks_company_tagline {
+  font-size: $font_7;
+  color: $tag_line_clr;
+}
+
+// Common SCSS
+body.container {
+    padding: 4px 5px;
+}
+.custom-container {
+  padding: 4px 5px !important;
+}
+@media (min-width: 768px) {
+  .custom-container {
+    max-width: 750px !important;
+  }
+}
+@media (min-width: 1008px) {
+  .custom-container {
+    max-width: 1000px !important;
+  }
+}
+.ks_bg_add_3 {
+  background: $bg_theme_3;
+}
+
+.round_shape {
+  @include round_shape;
+  padding: 5px;
+  @extend %theme_text_white;
+}
+
+.ks_sec_watermark {
+  position: fixed;
+  width: 100%;
+  left: 0px;
+  right: 0px;
+  max-height: 600px;
+  top: 350px;
+
+  border: none !important;
+  text-align: center;
+  .ks_watermark {
+    position: relative;
+  }
+  .ks_cname {
+    position: absolute;
+    left: 0px;
+    top: 32%;
+    width: 100%;
+    right: 0px;
+    color: #000;
+    border: none !important;
+    display: block;
+    font-weight: 600;
+    text-align: center;
+    opacity: 0.6;
+    font-size: 120px;
+  }
+}
+@media (min-width: 1100px) {
+  .ks_sec_watermark {
+    position: absolute;
+  }
+  .ks_cname {
+    position: absolute !important;
+  }
+}
+
+.ks_header ~ .article .pt-5 {
+  display: none;
+}
+
+.ks_header {
+  position: relative;
+}
+.ks_footer {
+  position: relative;
+//   min-height: 140px;
+}
+.ks_invoice ul {
+  li {
+    a {
+      i {
+        padding-right: 5px;
+        color: $second_text_color;
+      }
+    }
+  }
+}
+.ks_dummy_row {
+  .ks_details:last-of-type {
+    border-right: none !important;
+  }
+}
+.ks_address {
+  .row {
+    .ks_details:last-of-type {
+      border-right: none !important;
+    }
+  }
+}
+.ks_ship_add {
+  font-size: $font_7 !important;
+  line-height: 20px !important;
+}
+.ks_header {
+  .ks_invoice {
+    p {
+      .ks_extra_add {
+        display: none;
+      }
+    }
+  }
+}
+.ks_dummy_ul {
+  @include horizontal-list;
+  padding: 0px 15px !important ;
+  margin: 0px !important;
+  display: table;
+  width: 100%;
+  .ks_details {
+    text-align: left !important;
+    border-right: 1px solid #ccc;
+    vertical-align: middle;
+    position: relative;
+    padding-right: 6px;
+    min-height: 50px;
+    padding-left: 6px;
+  }
+  .ks_details:first-of-type {
+    padding-left: 0px !important;
+  }
+  .ks_details:last-of-type {
+    border-right: none !important;
+  }
+}
+
+.ks_dummy_ul_invoice {
+  .ks_details {
+    border-right: none !important;
+  }
+}
+.ks_pur_note {
+  p {
+    @extend %light_font;
+  }
+}
+.list_total {
+  float: right;
+}
+.ks_duplicate_text {
+  font-size: 22px;
+  text-align: center;
+  padding: 8px 0px;
+}
+@media only screen {
+  .ks_main_body {
+    min-height: 860px;
+  }
+}
+@media print {
+  .ks_main_body {
+    min-height: unset;
+  }
+}
+.ks_tagline p {
+  margin-left: 5px;
+}
+.rfq_notes {
+  color: $font_text_clr_7 !important;
+  font-weight: 500 !important;
+  font-size: $font_11;
+}
+.ks_in_total {
+  top: 50%;
+  transform: translate(0, -50%);
+  text-align: left;
+}
+.ks_total_table,
+.ks_payment_term_sign {
+  page-break-inside: avoid;
+}
+.ks_style_7 .ks_table .ks_total_bckgrnd_color.ks_hide_design_4 {
+  border-left: 0 !important;
+  height: 0px !important;
+  border-right: 0px !important;
+}
+.ks_table {
+  tbody {
+    tr {
+      page-break-inside: avoid;
+    }
+  }
+}
+// .custom-table-header {
+//   display: table-row-group;
+// }
+section {
+  page-break-inside: auto;
+}
+.ks-footer-ul  li {
+    min-width:160px;
+
+}

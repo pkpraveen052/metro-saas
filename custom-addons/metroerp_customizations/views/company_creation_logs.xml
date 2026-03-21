@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="company_creation_logs_tree_view" model="ir.ui.view">
+            <field name="name">company.creation.logs.tree</field>
+            <field name="model">company.creation.logs</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false">
+                    <field name="company_name"/>
+                    <field name="create_date"/>
+                    <field name="description"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="company_creation_logs_form_view" model="ir.ui.view">
+            <field name="name">company.creation.logs.form</field>
+            <field name="model">company.creation.logs</field>
+            <field name="arch" type="xml">
+                <form create="false" delete="false" edit="false">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="success,error" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                       <group>
+                            <group>
+                                <field name="company_name"/>
+                                <field name="error_from" attrs="{'invisible': [('error_from', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <field name="create_date"/>
+                            </group>
+                            <group string="Description">
+                                <field name="description"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="company_creation_logs_search_view" model="ir.ui.view">
+            <field name="name">company.creation.logs.search.view</field>
+            <field name="model">company.creation.logs</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="company_name" filter_domain="[('company_name','ilike',self)]"/>
+                    <filter name="filter_success" string="Success" domain="[('state','=','success')]" />
+                    <filter name="filter_error" string="Error" domain="[('state','=','error')]" />
+                    <separator/>
+                    <group expand="0" string="Group By">
+                    <filter string="State" name="group_by_state" context="{'group_by':'state'}" />
+                    <filter string="Company" name="group_by_company" context="{'group_by':'company_name'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="company_creation_logs_action_window" model="ir.actions.act_window">
+            <field name="name">Company Creation Logs</field>
+            <field name="res_model">company.creation.logs</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                      Create new tags for your opportunities
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="company_creation_logs_menu"
+                  name="Company Creation Logs"
+                  parent="base.menu_custom"/>
+        
+        <menuitem id="company_creation_logs_menu2"
+                  name="Company Creation Logs"
+                  parent="company_creation_logs_menu"
+                  action="company_creation_logs_action_window"
+                  groups="base.group_system"/>
+</data>
+</odoo>

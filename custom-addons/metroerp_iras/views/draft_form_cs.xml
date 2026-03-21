@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- FORM-2 Draft Form_cs-->
+    <record id="form_cs_form_submission" model="ir.ui.view">
+        <field name="name">form.cs.form.submission</field>
+        <field name="model">form.cs</field>
+        <field name="arch" type="xml">
+            <form string="Form C-S">
+                <header>
+                    <button string="Submit" name="action_perform_corppass" type="object" class="btn-primary"/>
+                    <field name="state" widget="statusbar" clickable="0" statusbar_visible="pre_fill,conversion,cs_submission"/>
+                </header>
+                <field name="ya_int" invisible="1"/>
+                <field name="ptisDonInd_mandatory" invisible="1"/> <!-- Jun2025 -->
+                <div class="alert alert-info text-center o_form_header">
+                    Please confirm all the details before submission. Click on 'Edit' to fill in the optional fields provided in the form below.
+                </div>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="uen" readonly="1"/>
+                        </group><group/>
+                    </group>
+                    <separator string="Part A"/>
+                    <div>
+                        <table style="width:70%">
+                            <tr>
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Qualifying Conditions for filing Form C-S</b></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">The company's revenue for the financial period is S$5,000,000 or below</td>
+                                <td style="padding:5px;"><field name="isRevBelow5M" required="1"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">The company derives only income subject to tax at 17%</td>
+                                <td style="padding:5px;"><field name="isOnlyIncTxbl17" required="1"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">
+                                    The company is not claiming/ utilising any of the following items:<br/><br/>
+
+                                    a. Carry-back of Current Year Capital Allowances/ Losses<br/>
+                                    b. Group Relief<br/>
+                                    c. Investment Allowance<br/>
+                                    d. Foreign Tax Credit and Tax Deducted at Source<br/><br/>
+                                </td>
+                                <td style="padding:5px;vertical-align: text-top;"><field name="isNotClaimingSpecificItems" required="1"/></td>
+                            </tr>
+                            <tr colspan="2">
+                                <b style="font-weight: 900;font-size: 14px;">Particulars of Person who Reviewed the Return</b>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">The return has been reviewed by a person who is a Singapore Chartered Tax Professionals Limited (SCTP) Accredited Tax Advisor or Accredited Tax Practitioner for Income Tax.</td>
+                                <td style="padding:5px;vertical-align: text-top;"><field name="sctpInd" required="1"/></td>
+                            </tr>
+                            <br/>
+                            <tr>
+                                <td style="padding:5px;">Name of person</td>
+                                <td style="padding:5px;"><field name="sctpName" readonly="0" style="width: 400%;"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">SCTP membership number</td>
+                                <td style="padding:5px;"><field name="sctpNo" readonly="0" style="width: 250%;"/></td>
+                            </tr>
+                            <br/>
+                            <tr>
+                                <td colspan="2" style="font-weight: 900;font-size: 14px;"><b>The Company declares the following</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="padding:5px;">
+                                    The financial period for this return based on the company's financial statements is
+                                      <b><field name="basisPeriodFrom_display" readonly="1"/> to
+                                            <field name="basisPeriodTo_display" readonly="1" nolabel="1"/></b>.
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br/><br/>
+                    <separator string="Part B"/>
+                    <div>
+                        <group>
+                            <table style="width:70%">
+                                    <tr>
+                                        <td style=""></td>
+                                        <td style=""></td>
+                                        <td colspan="2" style="padding:5px;text-align:center;"><b>YA <field name="ya" readonly="1"/></b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style=""></td>
+                                        <td style=""></td>
+                                        <td colspan="2" style="padding:5px;text-align:center;white-space: nowrap;"><b>
+							<field name="basisPeriodFrom_display" readonly="1"/><br/>
+                                            to <field name="basisPeriodTo_display" readonly="1" nolabel="1"/></b></td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4" style="width:80%;font-weight: 900;font-size: 14px;">Tax Adjustment</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:7%"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="border-bottom:1px solid black;"><center><b>S$</b></center></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><b>Net Profit/ Loss before Tax as per Financial Statements</b></td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_profitLossBeforeTaxation" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Less :</td>
+                                        <td>Separate Source Income</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_sepSrcIncome" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Non-Taxable Income</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_receiptNotTxAmt" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Add :</td>
+                                        <td>Non-Tax Deductible Expenses</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_c1_NTDeductibleExp" readonly="0"/></td>
+                                    </tr>
+                                    <br/>
+                                    <tr>
+                                        <td colspan="2"><b>Adjusted Profit/ Loss before Other Deductions</b></td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_adjPLBefDed" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Less :</td>
+                                        <td>Deduction for Renovation or Refurbishment Works under Section 14N</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_renoWorksExpS14Q" readonly="0"/></td>
+                                    </tr>
+                                    <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                        <td></td>
+                                        <td>Enhanced Deductions under Enterprise Innovation Scheme (EIS) for Training; Innovation Projects carried out with Partner Institutions; Licensing of Intellectual Property Rights; Registration of Intellectual Property; Qualfiying R&amp;D undertaken in Singapore </td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_c1_EnhancedEISDed" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Further Deductions/ Other Deductions including revenue expenses capitalised or expenses incurred under Section 14R</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_c1_FurtherDed" readonly="0"/></td>
+                                    </tr>
+                                    <br/>
+                                    <tr>
+                                        <td colspan="2"><b>Adjusted Profit/ Loss before Capital Allowances</b></td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_sgAdjPLAft" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Add :</td>
+                                        <td>Balancing Charge</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_c1_BC" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Less :</td>
+                                        <td>Unutilised Capital Allowances brought forward</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_unutilCABFNorm" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Current Year Capital Allowances</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_cyCANorm" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Unutilised Losses brought forward</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_unutilLossBFNorm" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Add :</td>
+                                        <td><b>Separate Source Income</b></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Gross Rental Income</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_c1_GrossRent" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Less:     Deductible Expenses</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_c1_DedExp" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Net Rental Income</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_sgRent" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Interest Income</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_sgIntDisc" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Other Taxable Income</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_sgOtherI" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><b>Total Income/ Losses (before Donations)</b></td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_totSgFI" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Less :</td>
+                                        <td>Unutilised Donations brought forward</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_unutilDonationBFNorm" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Less :</td>
+                                        <td>Current Year Donations</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_cyDonation" readonly="0"/></td>
+                                    </tr>
+				    <!-- Jun2025 -->
+                                    <tr attrs="{'invisible': [('ya_int','&lt;',2025)]}">
+                                        <td></td>
+                                        <td>Is the company an approved qualifying donor making qualifying overseas donations under the Philanthropy Tax Incentive Scheme for Family Offices (PTIS)?</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_ptisDonInd" readonly="0" attrs="{'required': [('ptisDonInd_mandatory','=',True)]}"/></td>
+                                    </tr>                                        
+                                    <tr>
+                                        <td colspan="2"><b>Total Income/ Losses (after Donations)</b></td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_ci" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Unutilised Capital Allowances carried forward</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_unutilCACFNorm" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Unutilised Losses carried forward</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_unutilLossCFNorm" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Unutilised Donations carried forward</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_unutilDonationCFNorm" readonly="0"/></td>
+                                    </tr>
+                            </table>
+                        </group>
+                    </div>
+                    <br/><br/>
+                    <separator string="Part C"/>
+                    <div>
+                            <group>
+                            <table style="width:70%">
+                                <tr>
+                                        <th colspan="3" style="width:80%;font-weight: 900;font-size: 14px;">Information from Financial Statements</th>
+                                    </tr>
+                                    <br/>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td style="width:5%;"></td>
+                                        <td style="border-bottom:1px solid black;"><center><b>S$</b></center></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Revenue</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_totalRevenue" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Gross Profit/ Loss</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_grossPL" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Directors' Fees and Remuneration</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_directorFee" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Total Remuneration excluding Directors' Fees</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_totRemuneration" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Medical Expenses</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_medicalExp" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Transport/ Travelling Expenses</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_c1_TransportExp" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Entertainment Expenses</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_c1_EntertainExp" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Inventories</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_inventories" readonly="0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Trade Receivables</td>
+                                        <td></td>
+                                        <td style="text-align: center;"><field name="DataFormCS_tradeReceivables" readonly="0"/></td>
+                                    </tr>
+                            </table>
+                        </group>
+                        </div>
+                    <br/>
+                    <div>
+                        <table style="width:70%">
+                            <col width="90%"/><col width="10%"/>
+                            <tr>
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Deduction of Unutilised Capital Allowances/ Losses/ Donations Brought Forward</b></td>
+                            </tr>
+                            <tr>
+                                <td attrs="{'invisible': [('ya_int','&gt;',2023)]}" style="padding:5px;">Is there a change in the principal activities of the company during the relevant dates?</td>
+                                <td attrs="{'invisible': [('ya_int','&lt;',2024)]}" style="padding:5px;">Is there a change in the principal activities of the company during the basis period?</td>
+                                <td><field name="DataFormCS_uCALDChangePrinAct" readonly="0" required="1"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">Is there a substantial change in the company's ultimate shareholders and their shareholdings as at the relevant dates?</td>
+                                <td><field name="DataFormCS_sholderChange" readonly="0" required="1"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">Unutilised Capital Allowances/ Losses/ Donations claimed where waiver of the shareholding test has been/ will be granted by IRAS</td>
+                                <td style="padding:5px;"><field name="DataFormCS_unutilCALDClaimS23S37" readonly="0" required="1"/></td>
+                            </tr>
+                            <br/>
+                            <tr>
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Tax Exemption Scheme for New Start-up Companies</b></td>
+                            </tr>
+                             <tr>
+                                <td style="padding:5px;">Has the company satisfied all conditions to qualify for the tax exemption scheme for new start-up companies?</td>
+                                <td><field name="DataFormCS_fullTxX" readonly="0" required="1"/></td>
+                            </tr>
+                            <br/>
+                            <tr>
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Deduction of Expenditure on Research and Development (R&amp;D)</b></td>
+                            </tr>
+                            <tr>
+                                <td attrs="{'invisible': [('ya_int','&gt;',2023)]}" style="padding:5px;">Deduction for expenditure incurred on R&amp;D - Total deduction under Section 14C</td>
+                                <td attrs="{'invisible': [('ya_int','&lt;',2024)]}" style="padding:5px;">Deduction for expenditure incurred on R&amp;D (undertaken in Singapore and Overseas) - Total deduction under Section 14C</td>
+                                <td style="padding:5px;"><field name="DataFormCS_expRD" readonly="0" required="1"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">Section 14C deduction for expenditure incurred on R&amp;D activities <u>undertaken in Singapore</u></td>
+                                <td style="padding:5px;"><field name="DataFormCS_expRDSG" readonly="0" required="1"/></td>
+                            </tr>
+                            <tr>
+                                <td attrs="{'invisible': [('ya_int','&gt;',2023)]}" style="padding:5px;">Staff costs and consumables for R&amp;D activities <u>undertaken in Singapore</u> qualifying for Section 14D(1)</td>
+                                <td attrs="{'invisible': [('ya_int','&lt;',2024)]}" style="padding:5px;">Staff costs and consumables for R&amp;D activities  <u>undertaken in Singapore</u> qualifying for the additional 150% tax deduction under Section 14D(1) in excess of the $400,000 cap under the Enterprise Innovation Scheme</td>
+                                <td style="padding:5px;"><field name="DataFormCS_enhanceDeductRD" readonly="0" required="1"/></td>
+                            </tr>
+                            <br/>
+                            <tr>
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Appropriation of Trading Stock or Conversion of Non-Trade/ Capital Asset</b></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;">Has the company appropriated any trading stock for non-trade or capital purposes under Section 10J and/ or converted any non-trade or capital asset to trading stock under Section 32A?</td>
+                                <td><field name="DataFormCS_appStockConvAsset" readonly="0" required="1"/></td>
+                            </tr>
+                            <br/>
+			    <!-- Jun2025 -->
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2025)]}">
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Gains/ Losses from the Sale or Disposal of Foreign Assets - Section 10L</b></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2025)]}">
+                                <td style="padding:5px;">Amount of gains/ losses from the sale or disposal of foreign assets during the basis period for the current YA</td>
+                                <td><field name="foreignAssetsSaleGainLoss" readonly="0" required="0"/></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2025)]}">
+                                <td style="padding:5px;">Amount of the foreign-sourced sale or disposal gains remitted to Singapore during the basis period for the current YA</td>
+                                <td><field name="foreignSourceSaleGainsRemit" readonly="0" required="0"/></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2025)]}">
+                                <td style="padding:5px;">Do the foreign-sourced sale or disposal gains/ losses fall under any of the scenarios where the sale or disposal of foreign assets (excluding foreign IPRs) is not subject to tax under Section 10L(8) of the ITA?</td>
+                                <td><field name="foreignSourceSaleNotTax" readonly="0" required="0"/></td>
+                            </tr>
+                            <br/>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Enterprise Innovation Scheme (EIS)</b></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Is the company claiming cash payout under the EIS in this current YA?</td>
+                                <td><field name="eis_ClaimCashPayout" readonly="0" required="1"/></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Is the company claiming enhanced deductions/ allowances under the EIS in this current YA?</td>
+                                <td><field name="eis_ClaimDedAll" readonly="0" required="1"/></td>
+                            </tr>
+                            <br/>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Training</b></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Total Qualifying Cost Incurred</td>
+                                <td><field name="eis_TrainTotCost" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                                <td><field name="eis_TrainDedAll" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <br/>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Innovation Projects Carried Out with Partner Institutions</b></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Total Qualifying Cost Incurred<br/>(capped at $50,000)</td>
+                                <td><field name="eis_InnoProjTotCost" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                                <td><field name="eis_InnoProjDedAll" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <br/>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Acquisition of Intellectual Property Rights (IPRs)</b></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Total Qualifying Cost Incurred</td>
+                                <td><field name="eis_AcqIPRTotCost" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                                <td><field name="eis_AcqIPRDedAll" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <br/>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Licensing of Intellectual Property Rights (IPRs)</b></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Total Qualifying Cost Incurred</td>
+                                <td><field name="eis_LicensIPRTotCost" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                                <td><field name="eis_LicensIPRDedAll" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <br/>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Registration of Intellectual Property (IPs)</b></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Total Qualifying Cost Incurred</td>
+                                <td><field name="eis_RegIPTotCost" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                                <td><field name="eis_RegIPDedAll" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <br/>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Qualifying Research and Development (R&amp;D) Undertaken in Singapore</b></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Total Qualifying Cost Incurred</td>
+                                <td><field name="eis_RDSgTotCost" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('ya_int','&lt;',2024)]}">
+                                <td style="padding:5px;">Enhanced Deductions/ Allowances Claimed/ To Be Claimed</td>
+                                <td><field name="eis_RDSgDedAll" readonly="0" attrs="{'required': [('eis_ClaimDedAll','=','1')]}"/></td>
+                            </tr>
+                            <!-- <br/> -->
+<!--                             <tr>
+                                <td colspan="2"><b style="font-weight: 900;font-size: 14px;">Estimated Tax Payable</b></td>
+                            </tr> -->
+			    <!-- Jun2025 -->
+<!--                             <tr>
+                                <td attrs="{'invisible': [('ya_int','!=',2023)]}" style="padding:5px;">The estimated tax payable is computed based on the declaration in this return. This amount takes into account the Exempt Amount and Corporate Tax Rebate, where applicable.</td>
+                                <td attrs="{'invisible': [('ya_int','!=',2024)]}">The estimated tax payable is computed based on the declaration in this return. This amount takes into account the Exempt Amount and Corporate Income Tax (CIT) Rebate<sup>1</sup>, where applicable.<br/><br/><sup>1</sup> Amount of CIT Rebate is before netting off the amount of CIT Rebate Cash Grant, if applicable.</td>
+                                <td attrs="{'invisible': [('ya_int','!=',2025)]}" style="padding:5px;">The estimated tax payable is computed based on the declaration in this return. This amount takes into account the Exempt Amount, Tax Set-Offs, Tax Deducted at Source and Corporate Income Tax (CIT) Rebate, where applicable.<br/>Please note that the computed CIT Rebate does not reflect any reduction from the CIT Rebate Cash Grant, which is disbursed separately to eligible companies.</td>
+                                <td style="width: 20%;padding:5px;"><field name="netTaxPayable" readonly="1"/></td>
+                            </tr> -->
+                        </table>
+                    </div>
+                    <div>
+                        <br/>
+                        <div>
+                        <group>
+                            <table style="width:70%">
+                                <tr>
+                                    <td><b style="font-weight: 900;font-size: 14px;">Declaration</b></td>
+                                    <td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:5px;"></td>
+                                    <td style="text-align: right;vertical-align: text-top;"><field name="isFullAndTrueAccOfCompInc"/><br/></td>
+                                    <td>
+                                        The company declares that this return gives a full and true account of the whole of the company's income for the financial period ending in the preceding year.
+                                    </td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td style="padding:5px;"></td>
+                                    <td style="text-align: right;vertical-align: text-top;"><field name="isQualifiedToUseConvFormCS"/><br/></td>
+                                    <td>
+                                        The company maintains Singapore dollar as its functional/ presentation currency.<br/><br/>
+                                        The company is not an investment holding company or a service company that provides only related party services.<br/><br/>
+                                        The company does not own subsidiaries, associates or joint ventures, and has no investment in intangibles.<br/><br/>                                        
+                                    </td>
+                                </tr>
+                            </table>
+                        </group>
+                    </div>
+                        <br/>
+                        <div>
+                        <table style="width:100%">
+                            <tr>
+                                <td colspan="3"><b style="font-weight: 900;font-size: 14px;">Details of Filer &amp; Contact Person</b></td>
+                            </tr>
+                            <tr>
+                                <td style="width:6%;padding:5px;"></td>
+                                <td style="width:30%;">Name of Filer</td>
+                                <td><field name="nameOfFiler" required="1"/></td>                                
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Designation</td>
+                                <td><field name="designationOfFiler" required="1"/></td>
+                            </tr>
+                            <tr attrs="{'invisible': [('submitted_by_thirdparty','=',False)]}">
+                                <td><field name="submitted_by_thirdparty" invisible="1"/></td>
+                                <td>Tax Agent Firm</td>
+                                <td><field name="tax_agent_firm"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Name of Contact Person</td>
+                                <td><field name="nameOfContactPerson" required="1"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Designation</td>
+                                <td><field name="designationOfContactPerson" required="1"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Contact No.</td>
+                                <td><field name="contactNumber" required="1"/></td>
+                            </tr>
+                            <!-- <br/>
+                            <tr>
+                                <td></td>
+                                <td>Signed By   </td>
+                                <td><field name="signed_by" readonly="1"/></td>
+                            </tr>
+                            <tr>
+                                <td><field name="manager_signature_done" invisible="1"/></td>
+                                <td style="vertical-align: text-top;">Signature</td>
+                                <td><field name="manager_signature" widget="signature" attrs="{'readonly': [('manager_signature_done', '=', True)]}"/></td>
+                            </tr> -->
+                        </table>
+                    </div>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>

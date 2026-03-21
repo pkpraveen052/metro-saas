@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_portal_share_form_inherits" model="ir.ui.view">
+        <field name="name">view.portal.share.form.inherit</field>
+        <field name="model">portal.share</field>
+        <field name="inherit_id" ref="portal.portal_share_wizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_ids']" position="replace">
+                <field name="partner_ids" widget="many2many_tags" placeholder="Add contacts to share the document..."/>
+            </xpath>
+             <xpath expr="//button[@name='action_send_mail']" position="before">
+                <button string="Whatsapp" name="action_send_whatsapp"
+                        type="object" class="oe_highlight" icon="fa-whatsapp" attrs="{'invisible': [('use_assistro', '=', True)]}"/>
+                <button string="Send Whatsapp" name="action_send_assistro_whatsapp"
+                        type="object" class="oe_highlight" attrs="{'invisible': [('use_assistro', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//button[@name='action_send_mail']" position="attributes">
+                <attribute name="string">Send Mail</attribute>
+            </xpath>
+            <xpath expr="//form/group[3]" position="after">
+                <group>
+                    <div attrs="{'invisible': [('use_assistro', '=', False)]}">
+                        <field name="body"/>
+                        <label for="attachment_ids" string="Attach a file"/>
+                        <div class="oe_clear" style="display: flex; flex-direction: column; gap: 5px;">
+                            <field name="attachment_ids" widget="many2many_binary" string="Attach a file" colspan="2"/>
+                            <p style="color: blue; font-weight: bold; margin: 0;">
+                                Enhance your experience with <strong>Metro Assistro WhatsApp Integration</strong>—designed for seamless communication and greater efficiency!
+                            </p>
+                        </div>
+                    </div>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='note']" position="attributes">
+                <attribute name="attrs">{'invisible': [('use_assistro', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_ids']" position="before">
+                <field name="wa_template_id" attrs="{'invisible': [('use_assistro', '=', False)]}"/>
+                <field name="use_assistro" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+	    <t t-name="PreviewKitchenReceiptButton" owl="1">
+			<t t-if="env.pos.config.enable_kitchen_receipt">
+				<div class="control-button" title="preview-kitchen-receipt">
+					<i class="fa fa-print"></i>
+					<span> </span>
+					<span>Print Kitchen Receipt</span>
+				</div>
+			</t>
+	    </t>
+
+        <t t-extend="PrintKitchenReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension">
+	        <xpath expr="//div[hasclass('print')]" position="after">
+	            <t t-if="env.pos.config.enable_kitchen_receipt">
+					<div class="button" t-on-click="trigger('on_click_print_kitchen_receipt')" style="margin-left: 5px;">
+						<i class="fa fa-print"></i> Print Kitchen Receipt
+					</div>
+				</t>
+	        </xpath>
+	    </t>
+
+</templates>

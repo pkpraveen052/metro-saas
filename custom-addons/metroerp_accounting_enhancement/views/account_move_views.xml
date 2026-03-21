@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="metroerp_accouting_enhance_invoice_form_view" model="ir.ui.view">
+        <field name="name">metroerp.accouting.enhance.account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="pay_to" attrs="{'invisible': [('move_type', '!=', 'entry')]}"/>
+            </xpath>
+            <xpath expr="//page[@id='aml_tab']/field[@name='line_ids']/tree/field[@name='tax_tag_ids']"
+                   position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//page[@id='aml_tab']/field[@name='line_ids']/tree/field[@name='tax_ids']"
+                   position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

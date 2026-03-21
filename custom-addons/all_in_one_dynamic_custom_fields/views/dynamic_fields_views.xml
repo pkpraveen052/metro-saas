@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Menus, form , tree view for model dynamic fields-->
+<odoo>
+    <record id="dynamic_fields_view_tree" model="ir.ui.view">
+        <field name="name">dynamic.fields.view.tree</field>
+        <field name="model">dynamic.fields</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="field_description"/>
+                <field name="template_id"/>
+                <field name="model_id"/>
+                <field name="status"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id='dynamic_fields_view_form' model='ir.ui.view'>
+        <field name="name">dynamic.fields.view.form</field>
+        <field name="model">dynamic.fields</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_create_dynamic_fields"
+                            string="Create Field"
+                            type="object" class="oe_highlight"
+                            attrs="{'invisible': [('status', 'in', ['form','tree'])]}"
+                            groups="metroerp_service_management.service_management_group_administrator"/>
+<!--                    <button name="action_add_field_to_tree_view"-->
+<!--                            string="Add to Tree View" type="object"-->
+<!--                            class="oe_highlight"-->
+<!--                            attrs="{'invisible': ['|',('is_field_in_tree', '=', False),('status','=','tree')]}"-->
+<!--                            groups="all_in_one_dynamic_custom_fields.all_in_one_dynamic_custom_fields_group_administrator"/>-->
+
+                    <button name="action_add_field_to_form_view"
+                            string="Add to Form View" type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': ['|',('field_added_form_view', '!=', False), ('status','!=','form')]}"
+                            />
+
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="draft,form,tree"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Field Info">
+                            <field name="name" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="field_description" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="state" readonly="1"
+                                   groups="base.group_no_one"/>
+                            <field name="model_id" attrs="{'readonly': [('status', '!=', 'draft')]}"
+                                   options='{"no_open": True, "no_create": True}'/>
+                            <field name="field_type" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="selection_field"
+                                   placeholder="[('blue', 'Blue'),('yellow', 'Yellow')]"
+                                   attrs="{'required': [('field_type','in',['selection','reference'])],
+                                                    'readonly': ['|',('field_type','not in',['selection','reference']),('status', '!=', 'draft')],
+                                                    'invisible': [('field_type','not in',['selection','reference'])]}"/>
+                            <field name="ref_model_id"
+                                   options='{"no_open": True, "no_create": True}'
+                                   attrs="{'required': [('field_type','in',['many2one','many2many'])],
+                                                                'readonly': [('field_type','not in',['many2one','many2many'])],
+                                                                'invisible': [('field_type','not in',['many2one','many2many'])],
+                                                                'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="widget_id" widget="selection"
+                                   attrs="{'invisible': [('field_type','not in',['binary', 'many2many', 'selection', 'float', 'many2one'])],'readonly': [('status', '!=', 'draft')]}"/>                            <field name="required" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="form_view_id" options='{"no_open": True, "no_create": True}' attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="custom_form_view_id" options='{"no_open": True, "no_create": True}'
+                                  invisible="1"/>
+                            <field name="form_view_inherit"/>
+                            <field name="company_id" required="1" />
+                        </group>
+<!--                        <group string="Tree View"-->
+<!--                               attrs="{'invisible': [('status', '=', 'draft')]}">-->
+<!--                            <field name="is_field_in_tree" attrs="{'readonly': [('status', 'not in', ['draft', 'form'])]}"/>-->
+<!--                            <field name="tree_view_id" options='{"no_open": True, "no_create": True}' attrs="{'invisible': [('is_field_in_tree', '=', False)],-->
+<!--                                'required': [('is_field_in_tree', '=', True)], 'readonly': [('status', 'not in', ['draft', 'form'])]}"/>-->
+<!--                            <field name="custom_tree_view_id" options='{"no_open": True, "no_create": True}' attrs="{'invisible': [('status','in',['form','draft', 'tree'])],-->
+<!--                                'required': [('status', '=', 'tree')]}"/>-->
+<!--                            <field name="tree_view_inherit"-->
+<!--                                   attrs="{'invisible': [('is_field_in_tree', '=', False)]}"/>-->
+<!--                            <field name="tree_field_id" options='{"no_open": True, "no_create": True}' attrs="{'invisible': [('is_field_in_tree', '=', False)],-->
+<!--                                'required': [('is_field_in_tree', '=', True)], 'readonly': [('status', 'not in', ['draft', 'form'])]}"/>-->
+<!--                            <field name="tree_field_ids" invisible="1"/>-->
+<!--                            <field name="tree_field_position" attrs="{'invisible': [('is_field_in_tree', '=', False)],-->
+<!--                                'required': [('is_field_in_tree', '=', True)], 'readonly': [('status', 'not in', ['draft', 'form'])]}"/>-->
+<!--                            <field name="is_visible_in_tree_view" attrs="{'invisible': [('is_field_in_tree', '=', False)],-->
+<!--                                'required': [('is_field_in_tree', '=', True)], 'readonly': [('status', 'not in', ['draft', 'form'])]}"/>-->
+<!--                        </group>-->
+                        <group string="Position">
+                            <field name="template_id" />
+                            <!-- domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]" -->
+                            <field name="group_id" domain="[('template_id','=',template_id), '|', ('company_id', '=', False), ('company_id', '=', company_id)]" />
+                            <field name="dynamic_field_id"
+                                   options='{"no_open": True, "no_create": True}' attrs="{'readonly': [('status', '!=', 'draft')], 'invisible':[('group_id','!=',False)]}"/>
+                            <field name="position" attrs="{'readonly': [('status', '!=', 'draft')], 'invisible':[('group_id','!=',False)]}"/>
+                            <field name="field_added_form_view" readonly="1" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Extra Properties">
+                        <group>
+                            <field name="is_extra_features" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                        </group>
+                        <group attrs="{'invisible': [('is_extra_features', '=', False)],'readonly': [('status', '!=', 'draft')]}">
+                            <field name="help" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                        </group>
+                        <group attrs="{'invisible': [('is_extra_features', '=', False)]}">
+                            <field name="readonly" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="store" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="index" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="copied" attrs="{'readonly': [('status', '!=', 'draft')]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id='dynamic_fields_action' model='ir.actions.act_window'>
+        <field name="name">Custom Dynamic Fields</field>
+        <field name="res_model">dynamic.fields</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create New Custom Dynamic Field!
+            </p>
+        </field>
+    </record>
+<!--    <menuitem id="all_in_one_dynamic_custom_fields_menu_root"-->
+<!--              name="All in One Custom Dynamic Fields"-->
+<!--              groups="all_in_one_dynamic_custom_fields_group_user,all_in_one_dynamic_custom_fields_group_administrator"-->
+<!--              web_icon="all_in_one_dynamic_custom_fields,static/icon.png"-->
+<!--              sequence="01"-->
+<!--    />-->
+<!--    <menuitem id="dynamic_fields_menu"-->
+<!--              name="Fields"-->
+<!--              parent="all_in_one_dynamic_custom_fields_menu_root"-->
+<!--              sequence="1"/>-->
+
+<!--    <menuitem id="dynamic_fields_menu_create"-->
+<!--              name="Create Fields"-->
+<!--              parent="dynamic_fields_menu"-->
+<!--              action="dynamic_fields_action"-->
+<!--              groups="all_in_one_dynamic_custom_fields_group_user,all_in_one_dynamic_custom_fields_group_administrator"-->
+<!--              sequence="2"/>-->
+</odoo>

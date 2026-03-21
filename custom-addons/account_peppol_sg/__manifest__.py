@@ -1,0 +1,46 @@
+# -*- coding: utf-8 -*-
+{
+    'name': 'Singapore PEPPOL Invoices Integration',
+    'summary': "Singapore PEPPOL Invoices Integration",
+    'author': 'Metro Group Solutions',
+    'website': 'https://metrogroup.solutions/',
+    'category': 'Accounting & Finance',
+    'version': '14.0.0.1.0',
+    'depends': [
+        'account',
+        'base_ubl',
+        'purchase',
+        'sale',
+        'l10n_sg',
+        'sale_management',
+        'contacts'
+    ],
+    'data': [
+        "security/security.xml",
+        "security/ir.model.access.csv",
+        "views/res_partner.xml",
+        "views/res_company.xml",
+        "views/menus.xml",
+        "views/account_move.xml",
+        "views/res_config_settings.xml",
+        "views/peppol_queue_out_views.xml",
+        "views/peppol_access_point_view.xml",
+        "views/peppol_log_sg_view.xml",
+        "views/purchase_order_view.xml",
+        "views/peppol_partner_autocomplete_assets.xml",
+        "data/ir_config_parameter.xml",
+        "data/ir_cron_data.xml",
+        "data/mail_template.xml",
+        "wizard/peppol_info_message_view.xml",
+        "wizard/peppol_manual_send_wizard_view.xml",
+        "wizard/api_search_view.xml",
+        "report/peppol_invoice_report.xml"
+    ],
+	'qweb': [
+        'static/src/xml/partner_autocomplete.xml',
+        'static/src/xml/search_kanban_view.xml',
+    ],
+    "installable": True,
+    "application": True,
+    "auto_install": False,
+}

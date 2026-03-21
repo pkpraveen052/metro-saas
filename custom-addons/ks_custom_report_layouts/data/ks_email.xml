@@ -1,0 +1,113 @@
+<odoo>
+    <data>
+        <!--       For Sale Order-->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'sale'), ('name', '=', 'email_template_edi_sale')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="sale.email_template_edi_sale" model="mail.template">
+            <field name="email_cc">${ctx.get('ks_mail_cc')}</field>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'sale'), ('name', '=', 'email_template_edi_sale')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+<!--       For Sale Order-->
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'sale'), ('name', '=', 'mail_template_sale_confirmation')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="sale.mail_template_sale_confirmation" model="mail.template">
+            <field name="email_cc">${ctx.get('ks_mail_cc')}</field>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'sale'), ('name', '=', 'mail_template_sale_confirmation')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+<!--        For Invoice-->
+         <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'account'), ('name', '=', 'email_template_edi_invoice')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="account.email_template_edi_invoice" model="mail.template">
+            <field name="email_cc">${ctx.get('ks_mail_cc')}</field>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'account'), ('name', '=', 'email_template_edi_invoice')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+<!--        For Purchase-->
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'purchase'), ('name', '=', 'email_template_edi_purchase')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="purchase.email_template_edi_purchase" model="mail.template">
+            <field name="email_cc">${ctx.get('ks_mail_cc')}</field>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'purchase'), ('name', '=', 'email_template_edi_purchase')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'purchase'), ('name', '=', 'email_template_edi_purchase_done')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="purchase.email_template_edi_purchase_done" model="mail.template">
+            <field name="email_cc">${ctx.get('ks_mail_cc')}</field>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'purchase'), ('name', '=', 'email_template_edi_purchase_done')]"/>
+            </function>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <!--        Reports Records -->
+        <function model="ks.report.configuration" name="ks_create_records"/>
+
+        <record id="action_create_doc_layout" model="ir.actions.server">
+            <field name="name">Temp - Create Document Layout</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_res_company"/>
+            <field name="state">code</field>
+            <field name="code">
+                for record in records:
+                    record.create_doc_layout()
+            </field>
+        </record>
+    </data>
+</odoo>

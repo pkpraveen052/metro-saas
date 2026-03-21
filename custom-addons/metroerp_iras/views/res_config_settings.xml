@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+
+    <record id="res_config_settings_view_iras_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.iras</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='fiscal_localization_setting_container']" position="after">
+                    <h2>IRAS</h2>
+                    <div class="row mt16 o_settings_container">
+                        
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">GST Returns (F5 &amp; F8)</span>
+                                <div class="text-muted">
+                                    Default target for Data fetching
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="target_moves" string="From" class="col-lg-3 o_light_label"/>
+                                        <field name="target_moves" widget="radio"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box"
+                            title="CorpPass Authentication">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Form C-S</span>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="uenType" string="UEN Type" class="col-lg-3 o_light_label"/>
+                                        <field name="uenType"/>
+                                    </div>
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="target_moves_formcs" string="From" class="col-lg-3 o_light_label"/>
+                                        <field name="target_moves_formcs" widget="radio"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">GST Returns (F7)</span>                                
+                                <div class="text-muted">
+                                    Default target for Data fetching
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="target_moves_f7" string="From" class="col-lg-3 o_light_label"/>
+                                        <field name="target_moves_f7" widget="radio"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+    </record>
+
+</odoo>

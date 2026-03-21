@@ -1,0 +1,487 @@
+.ks_style_7 {
+  font-family: $font_poppins;
+}
+.ks_header .ks_style_7 {
+  padding: 10px 10px;
+  .ks_invoice_number {
+    h3 {
+      color: $theme_color7;
+      font-size: $ks_large_font;
+      @extend %midium_font;
+      @include company_heading;
+      text-transform: capitalize;
+    }
+    h6 {
+      @extend %theme_text_color;
+      font-size: $font_18;
+      @extend %regular_font;
+    }
+  }
+  .ks_tagline {
+    @extend %text-left;
+    p {
+      @include mb_0;
+      .ks_company_name {
+        @include ks_company_name;
+        @extend %extra_strong_font;
+      }
+      .ks_company_tagline {
+        @include ks_company_tagline;
+        @extend %light_font;
+      }
+    }
+  }
+  .ks_details {
+    margin-bottom: 10px;
+    p {
+      @include mb_0;
+    }
+    .font_10 {
+      @extend %regular_font;
+    }
+    .font_10 {
+      @extend %light_font;
+    }
+  }
+  .ks_invoice {
+    h3 {
+      color: $theme_color7;
+      font-size: $ks_mid_font;
+      @extend %semi_bold_font;
+    }
+    p {
+      color: $font_text_clr_10;
+      font-size: $very_low_font;
+      @include mb_0;
+      line-height: 18px;
+    }
+    ul {
+      @include horizontal-list;
+      font-size: $very_low_font;
+      line-height: 18px;
+      margin: 4px 0px;
+      li {
+        color: $font_text_clr_10;
+        a {
+          color: $font_text_clr_10;
+        }
+      }
+    }
+  }
+}
+.ks_style_7.ks_address {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  .ks_invoice {
+    h3 {
+      color: $theme_color7;
+      font-size: $ks_mid_font;
+      @extend %semi_bold_font;
+    }
+    p {
+      color: $font_text_clr_10;
+      font-size: $very_low_font;
+      @include mb_0;
+      line-height: 18px;
+    }
+    ul {
+      @include horizontal-list;
+      font-size: $very_low_font;
+      line-height: 20px;
+      margin-top: 10px;
+
+      li {
+        color: $font_text_clr_10;
+        a {
+          color: $font_text_clr_10;
+        }
+      }
+    }
+  }
+  .ks_details {
+    p {
+      @include mb_0;
+    }
+    .font_9 {
+      @extend %regular_font;
+      color: $font_text_clr_7;
+    }
+    .font_10 {
+      @extend %midium_font;
+      color: $font_text_6;
+    }
+    @extend %text-right;
+  }
+  .ks_total {
+    p {
+      @extend %light_font;
+      font-size: $ks_mid_font;
+      color: $third_text_color;
+    }
+
+    h4 {
+      color: $theme_color7;
+      font-size: $ks_mid_font;
+      @extend %strong_font;
+    }
+  }
+
+  ul {
+    @include horizontal-list;
+    font-size: $very_low_font;
+    line-height: 20px;
+    margin-top: 10px;
+
+    li {
+      color: $third_text_color;
+      a {
+        color: $third_text_color;
+      }
+    }
+  }
+  /*ul {
+		@include reset-list;
+		@extend %d-block;
+		font-size: $ks_extra_small_font;
+		line-height: 35px;
+		li {
+			color: $third_text_color;
+			a {
+				color: $third_text_color;
+			}
+		}
+	}*/
+}
+.ks_table_section_picking {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  }
+  .ks_table_pick {
+    margin-bottom: 0px;
+    @extend %ks_table;
+    thead {
+      background-color: $theme_color7;
+      th:nth-child(-n + 2) {
+        background-color: $theme_color7;
+      }
+      th {
+        font-size: $ks_extra_small_font;
+        @extend %midium_font;
+        padding: 12px 8px;
+        color: $text_white;
+        background-color: $table_4_left_bg;
+      }
+      th:last-child {
+      }
+      .ks_table_design_4 {
+          position:relative;
+          page-break-inside: avoid;
+        .ks_hide_design_4 {
+          position: absolute;
+          display: inline-block;
+          page-break-inside: avoid;
+          top: -1px;
+          right: -1px;
+          color: $table_4_left_bg;
+          width: 0;
+          border-bottom: 40px solid;
+          border-left: 30px solid transparent;
+          z-index: 0;
+          height: 100%;
+        }
+      }
+    }
+    tbody {
+      .ks_table_img {
+        span {
+          img {
+            @include ks_table_img;
+          }
+        }
+      }
+      tr td:nth-child(2) {
+        background: $bg_theme_4;
+      }
+      tr {
+        border-bottom:  1px solid #ccc;
+        td {
+          font-size: $font_7;
+          padding: 12px 8px;
+          strong {
+            font-size: $very_low_font;
+            @extend %midium_font;
+          }
+          p {
+            @include mb_0;
+          }
+        }
+      }
+    }
+  }
+
+.ks_style_7.ks_table_section {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  .ks_table {
+    margin-bottom: 0px;
+    @extend %ks_table;
+    thead {
+      background-color: $table_4_left_bg;
+
+      th:nth-last-child(-n + 3) {
+        background-color: $theme_color7;
+      }
+      th {
+        font-size: $font_11;
+        @extend %midium_font;
+        padding: 12px 8px;
+        color: $text_white;
+      }
+      th:last-child {
+      }
+      .ks_table_design_4 {
+        position: relative;
+        .ks_hide_design_4 {
+          position: absolute;
+          display: inline-block;
+          top: -1px;
+          right: -1px;
+          color: $theme_color7;
+          width: 0;
+          border-bottom: 40px solid;
+          border-left: 30px solid transparent;
+          z-index: 0;
+          height: 100%;
+        }
+      }
+    }
+    tbody {
+      .ks_table_img {
+        span {
+          img {
+            @include ks_table_img;
+          }
+        }
+      }
+      tr td:nth-child(3) {
+        background: $bg_theme_4;
+      }
+      tr {
+        border-bottom: 1px solid #ccc;
+        td {
+          font-size: $very_low_font;
+          @extend %pad_8;
+          p {
+             @extend %table-description;
+             @include mb_0;
+          }
+          strong {
+            @extend %strong-text;
+          }
+        }
+      }
+    }
+  }
+  .ks_table_left_design {
+    position: absolute;
+    top: 12px;
+    left: 0px;
+    width: 15px;
+    height: 30%;
+    background: $theme_color7;
+  }
+  .ks_height {
+    height: 10px;
+    background: $theme_color7;
+  }
+
+  .ks_table_rfq {
+    margin-bottom: 0px;
+    @extend %ks_table;
+    thead {
+      background-color: $table_4_left_bg;
+
+      th:nth-last-child(-n + 1) {
+        background-color: $theme_color7;
+      }
+      th {
+        font-size: $font_11;
+        @extend %midium_font;
+        padding: 12px 8px;
+        color: $text_white;
+      }
+      th:last-child {
+      }
+      .ks_table_design_4 {
+        position: relative;
+        .ks_hide_design_4 {
+          position: absolute;
+          display: inline-block;
+          top: -1px;
+          right: -1px;
+          color: $theme_color7;
+          width: 0;
+          border-bottom: 40px solid;
+          border-left: 30px solid transparent;
+          z-index: 0;
+          height: 100%;
+        }
+      }
+    }
+    tbody {
+      .ks_table_img {
+        span {
+          img {
+            @include ks_table_img;
+          }
+        }
+      }
+      tr td:nth-child(3) {
+        background: $bg_theme_4;
+      }
+      tr {
+        border-bottom: 1px solid #ccc;
+        td {
+          font-size: $very_low_font;
+          @extend %pad_8;
+          p {
+            @include mb_0;
+            @extend %regular_font;
+            color: $theme_text10;
+            font-size: $font_13;
+          }
+          strong {
+            @extend %strong-text;
+          }
+        }
+      }
+    }
+  }
+}
+.ks_style_7.ks_history_nd_total {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  h6 {
+    @include ks_heading;
+  }
+  .ks_total_table {
+    @extend %ks_table;
+    tbody {
+      tr {
+        td {
+          @extend %border_0;
+          @extend %text-right;
+          @extend %pad_8;
+        }
+      }
+      .ks_subtotal {
+        td {
+          @include total_font;
+        }
+      }
+      .ks_text_rate {
+        td {
+          @include total_font;
+        }
+      }
+      .ks_grnad_total {
+        td:first-child {
+          background-color: $theme_color7;
+          position: relative;
+          .ks_hide_design_4 {
+            position: absolute;
+            display: inline-block;
+            top: 0px;
+            right: -1px;
+            width: 0;
+            color: $table_4_left_bg;
+            border-bottom: 39px solid;
+            border-left: 30px solid transparent;
+            z-index: 0;
+            height: 100%;
+          }
+        }
+        td {
+          @extend %semi_bold_font;
+          @include total_font;
+          font-size: $font_11;
+          background-color: $table_4_left_bg;
+          color: $text_white;
+          padding: 10px;
+        }
+      }
+    }
+  }
+  .ks_history_details {
+    background: $bg_theme_4;
+    padding: 4px 8px;
+    @extend %border_rad_5;
+    .ks_list_text {
+      font-size: $font_7;
+      color: $third_text_color;
+    }
+    p {
+      @include mb_0;
+      span {
+        font-size: $ks_extra_small_font;
+      }
+
+      .round_shape {
+        @extend %semi_bold_font;
+      }
+    }
+    .round_shape {
+      background: $theme_color4;
+    }
+  }
+  .ks_amount_in_words {
+    p {
+      @include ks_amount_in_words;
+      @include mb_0;
+    }
+  }
+}
+.ks_style_7.ks_payment_term_sign {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  h6 {
+    @include ks_heading;
+    color: $first_text_color;
+  }
+  p {
+    font-size: $font_7;
+    @include mb_0;
+    color: $third_text_color;
+  }
+}
+.ks_style_7.ks_footer {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  ul {
+    @include horizontal-list;
+    @extend %text-center;
+    li {
+//      max-width:300px;
+      a {
+        color: $second_text_color;
+        font-size: $very_low_font;
+      }
+    }
+  }
+  .ks_custom_footer {
+    color: $second_text_color;
+  }
+  p {
+    @extend %text-center;
+    font-size: $very_low_font;
+  }
+}
+// .ks_style_7 th.ks_table_design_4.ks_table_head_backgrnd_color.ks_table_head_text_color.ks_table_head_text_size {
+//     position: static !important;
+// }

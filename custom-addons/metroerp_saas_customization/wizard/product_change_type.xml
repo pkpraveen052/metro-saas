@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_product_change_type_form" model="ir.ui.view">
+        <field name="name">Product Change Type</field>
+        <field name="model">product.change.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="type"/>
+                </group>
+                <footer>
+                    <button name="do_change" string="_Apply" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_product_change_uom" model="ir.actions.act_window">
+        <field name="name">Change Product Type</field>
+        <field name="res_model">product.change.type</field>
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

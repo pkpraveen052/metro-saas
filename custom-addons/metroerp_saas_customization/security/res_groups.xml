@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+
+        <record model="res.groups" id="accounting_partner">
+            <field name="name">Is Accounting Partner</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record model="res.groups" id="group_restrict_user">
+            <field name="name">Restrict User</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+    </data>
+
+</odoo>

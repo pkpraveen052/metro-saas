@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_order_form_inherit_backorder" model="ir.ui.view">
+        <field name="name">sale.order.form.backorder.button</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <field name="has_only_service_products" invisible="1"/>
+                <button name="action_create_remaining_delivery"
+                    string="Create Remaining Delivery"
+                    type="object"
+                    class="btn-primary"
+                    attrs="{
+                        'invisible': ['|',
+                            ('state','not in',['sale','done']),
+                            ('has_only_service_products','=',True)
+                        ]
+                    }"
+            />
+            </header>
+        </field>
+    </record>
+</odoo>

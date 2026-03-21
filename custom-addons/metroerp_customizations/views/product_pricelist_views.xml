@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_pricelist_form_custom" model="ir.ui.view">
+            <field name="name">product.pricelist.form.inherit.custom</field>
+            <field name="model">product.pricelist</field>
+            <field name="inherit_id" ref="product.product_pricelist_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='item_ids']/tree/field[@name='applied_on']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

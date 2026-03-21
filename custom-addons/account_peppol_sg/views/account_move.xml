@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="peppol_sg_move_form" model="ir.ui.view">
+        <field name="name">account_peppol_sg.account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <button name="open_reconcile_view" position="after">
+                <button invisible="1"
+                    name="generate_ubl_report"
+                    class="oe_stat_button"
+                    type="object"
+                    help="Generate UBL.">
+                    <span style="padding-right: 3px;">
+                        <img width="32" height="32" alt="PEPPOL"/><!-- src="/account_peppol_sg/static/description/peppol.png" -->
+                    </span>
+                    <span>
+                        Generate UBL
+                    </span>
+                </button>
+            </button>
+            <xpath expr="//field[@name='name']" position='before'>
+                <div class="ribbon ribbon-top-right" style="margin-top:-53px;" attrs="{'invisible': [('outgoing_inv_doc_ref', '=', False)]}">
+                    <span style="font-size: 12px;height:45px;width:365px;text-indent:-94px;padding:24px 44px;" class="bg-info">Peppol</span>
+                </div>
+            </xpath>
+
+            <xpath expr="//page[@id='other_tab_entry']" position="after">
+                <page string="Peppol Info" attrs="{'invisible': [('move_type', 'in', ('out_invoice', 'out_refund'))]}">
+                    <group string="Peppol" name="accounting_peppol">
+                        <group>
+                            <field name="peppol_invoice_no" string="Invoice Number"/>
+                        </group>
+                        <group>
+                            <field name="peppol_invoice_doc_ids" widget="many2many_binary" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//group[@name='accounting_info_group']" position="after">
+              <group string="Outgoing Invoice Queue" >
+                  <field name="outgoing_inv_doc_ref"  readonly="1"/>
+              </group>
+            </xpath>
+
+            <xpath expr="//button[@name='action_invoice_sent']" position="after">
+              <button name="action_send_via_peppol" type="object" string="Send to PEPPOL" attrs="{'invisible':['|', '|',('state', '!=', 'posted'), ('move_type', 'not in', ('out_invoice', 'out_refund')),('outgoing_inv_doc_ref','!=',False)]}" class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="action_move_peppol_send">
+        <field name="name">Send to PEPPOL</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">
+    if records:
+        action = records._peppol_action_manual_send()
+        </field>
+    </record>
+
+    <record id="peppol_account_invoice_filter" model="ir.ui.view">
+        <field name="name">peppol.account.invoice.filter</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <filter name="activities_upcoming_all" position="after">
+                <separator/>
+                <filter name="e-Invoices" domain="[('outgoing_inv_doc_ref','!=',False)]"/>
+                <filter name="Sent to Peppol" domain="[('outgoing_inv_doc_ref.state','in',['sent','done'])]"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>

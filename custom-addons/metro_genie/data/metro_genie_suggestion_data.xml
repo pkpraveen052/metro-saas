@@ -1,0 +1,35 @@
+<odoo noupdate="1">
+<!--    data file suggestion list-->
+    <record id="metro_genie_suggestion_invoice" model="metro.genie.suggestion">
+        <field name="sequence">1</field>
+        <field name="name">Create Invoice</field>
+        <field name="window_action_id" ref="account.action_move_out_invoice_type"/>
+        <field name="menu_id" ref="account.menu_finance"/>
+        <field name="view_types">form</field>
+        <field name="description">Open the customer invoice creation form.</field>
+    </record>
+    <record id="metro_genie_suggestion_bill" model="metro.genie.suggestion">
+        <field name="sequence">2</field>
+        <field name="name">Create Bill</field>
+        <field name="window_action_id" ref="account.action_move_in_invoice_type"/>
+        <field name="menu_id" ref="account.menu_finance"/>
+        <field name="view_types">form</field>
+        <field name="description">Open the vendor bill creation form.</field>
+    </record>
+    <record id="metro_genie_suggestion_product" model="metro.genie.suggestion">
+        <field name="sequence">3</field>
+        <field name="name">Create Product</field>
+        <field name="window_action_id" ref="stock.product_template_action_product"/>
+        <field name="menu_id" ref="stock.menu_stock_root"/>
+        <field name="view_types">form</field>
+        <field name="description">Open the product creation form.</field>
+    </record>
+    <record id="metro_genie_suggestion_customer" model="metro.genie.suggestion">
+        <field name="sequence">4</field>
+        <field name="name">Create Contacts</field>
+        <field name="window_action_id" ref="contacts.action_contacts"/>
+        <field name="menu_id" ref="contacts.menu_contacts"/>
+        <field name="view_types">form</field>
+        <field name="description">Open the customer creation form.</field>
+    </record>
+</odoo>

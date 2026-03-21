@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+       <record id="inherited_sale_order_template_form_view" model="ir.ui.view">
+            <field name="name">sale.order.inherited.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_quotation_send']" position="after">
+                    <button name="action_open_whatsapp_composer" string="Send by Whatsapp" icon="fa-whatsapp" class="oe_highlight" type="object"
+                    attrs="{'invisible': [('use_assistro', '=', False)]}"/>
+
+                    <button name="action_open_web_whatsapp_composer" string="Send by Whatsapp" icon="fa-whatsapp" class="oe_highlight" type="object"
+                    attrs="{'invisible': [('use_assistro', '=', True)]}"/>
+
+                    <field name="use_assistro" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+   </data>
+</odoo>

@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <record id="pos_product_category_multi_company_rule" model="ir.rule">
+            <field name="name">POS Product Category Multi-Company Rule</field>
+            <field ref="point_of_sale.model_pos_category" name="model_id"/>
+            <field name="domain_force">['|', ('company_id','=',False), ('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

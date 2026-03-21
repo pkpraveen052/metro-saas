@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="ks_total_in_words_sale_order">
+        <field name="name">sale.order.total.in.words.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[hasclass('oe_subtotal_footer')]" position="after">
+                <group colspan="4">
+                    <field name="total_amount_in_words"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='signature']" position="replace">
+                <field name="signature" widget="signature"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

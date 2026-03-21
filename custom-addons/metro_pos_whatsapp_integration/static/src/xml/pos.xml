@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="ClientDetailsEdit" t-inherit="point_of_sale.ClientDetailsEdit" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('client-details-right')]/div[hasclass('client-detail')]" position="after">
+            <div class="client-detail">
+                <span class="label">Mobile</span>
+              	<input class='detail client-mobile' placeholder="Mobile" name='mobile' type='tel' t-on-change="captureChange" t-att-value='props.partner.mobile || ""'></input>
+            </div>
+        </xpath>
+    </t>
+
+    <t t-extend="ClientListScreen" t-inherit="point_of_sale.ClientListScreen" t-inherit-mode="extension">
+        <!-- Add the mobile label column after the email column -->
+        <xpath expr="//table[contains(@class, 'client-list')]/thead/tr" position="inside">
+            <thead>
+                <tr>
+                    <th t-if="!env.isMobile">Mobile</th> 
+                </tr>
+            </thead>
+        </xpath>
+    </t>
+
+    <t t-extend="ClientLine" t-inherit="point_of_sale.ClientLine"  t-inherit-mode="extension">
+        <!-- Add the mobile field column after the email column -->
+        <xpath expr="//tr/td[last()]" position="after">
+            <td t-if="!env.isMobile" style="width: 130px;">
+                <t t-esc="props.partner.mobile or ''" />
+            </td>
+        </xpath>
+    </t>
+
+    <t t-extend="ReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('print')]" position="after">
+            <t t-if="env.pos.config.enable_whatsapp and env.pos.get_order().get_client()">
+                <div class="button send_wp_direct" t-on-click="trigger('click-send_wp_direct')" style="margin-left: 5px;"><i class="fa fa-whatsapp"></i> Send By Whatsapp</div>
+            </t>
+        </xpath>
+    </t>
+</templates>

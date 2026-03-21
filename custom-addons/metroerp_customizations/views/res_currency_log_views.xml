@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="currency_log_tree_view" model="ir.ui.view">
+            <field name="name">currency.log.tree</field>
+            <field name="model">currency.log</field>
+            <field name="arch" type="xml">
+                <tree create="false" delete="false" decoration-danger="status == 'fail'"
+                decoration-success="status == 'success'">
+                    <field name="company_id"/>
+                    <field name="name"/>
+                    <field name="create_date"/>
+                    <field name="message"/>
+                    <field name="status"/>
+                    <field name="status_code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="currency_log_form_view" model="ir.ui.view">
+            <field name="name">currency.log.form</field>
+            <field name="model">currency.log</field>
+            <field name="arch" type="xml">
+                <form create="false" delete="false" edit="false">
+                    <sheet>
+                       <group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="name"/>
+                                <field name="create_date"/>
+                                <field name="status_code"/>
+                            </group>
+                            <group string="Description">
+                                <field name="message"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="json_data"/>      
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="currency_log_search_view" model="ir.ui.view">
+            <field name="name">currency.log.search.view</field>
+            <field name="model">currency.log</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="company_id" filter_domain="[('company_id','ilike',self)]"/>
+                    <filter name="filter_success" string="Success" domain="[('status','=','success')]" />
+                    <filter name="filter_fail" string="Fail" domain="[('status','=','fail')]" />
+                    <separator/>
+                    <group expand="0" string="Group By">
+                    <filter string="Status" name="group_by_status" context="{'group_by':'status'}" />
+                    <filter string="Company" name="group_by_company_id" context="{'group_by':'company_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="currency_log_action_window" model="ir.actions.act_window">
+            <field name="name">Currency Logs</field>
+            <field name="res_model">currency.log</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                      Create new tags for your opportunities
+                </p>
+            </field>
+        </record>
+        
+
+       <menuitem id="currency_logs_menu_root"
+                  name="Currency Logs"
+                  parent="base.menu_custom"
+                  sequence="201"/>
+        
+        <menuitem id="currency_logs_menu"
+                name="Currency Logs"
+                parent="currency_logs_menu_root"
+                action="currency_log_action_window"
+                groups="base.group_system"/>
+
+       
+</data>
+</odoo>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_gst_f5f8_document">
+        <t t-call="metroerp_iras.custom_external_gst_f5f8_layout">
+            <t t-set="doc" t-value="docs and docs[0]"/>
+            <t t-if="doc">
+                <t t-set="doc" t-value="doc.with_context(lang=doc.env.lang)"/>
+            </t>
+            <main class="page" t-attf-style="font-family: 'Open Sans', Arial, sans-serif; font-size:10pt;margin-top:45px;">
+      
+            <!-- Title Section -->
+             <!-- Main Title -->
+            <div style="font-size: 22px; font-weight: 600; color: #333; margin-bottom: 5px;">
+                File GST F5 Return
+            </div>
+
+            <!-- Subtitle -->
+            <div style="font-size: 13px; color: #666;">
+                Goods and Services Tax Act 1993
+            </div><br/>
+
+            <p style="text-align:left; font-weight: bold;font-size:20px;">Acknowledgement</p>
+
+            <!-- GST Return Info -->
+            <div style="background-color: #e0f7fa; padding: 15px; border-radius: 6px; font-size: 13px;">
+            <p style="font-weight: bold;">SUCCESSFUL SUBMISSION</p>
+            <p>Your return has been successfully submitted to IRAS through API Services. It may be subject to our audit review.</p>
+
+            <table style="page-break-inside: avoid;width: 100%; margin-top: 10px;border:none;">
+                <tr>
+                <td style="border:none;"><strong>Name</strong></td>
+                <td style="border:none;"><span t-field="doc.company_name"/></td>
+                <td style="border:none;"><strong>Tax Ref No.</strong></td>
+                <td style="border:none;"><span t-field="doc.taxRefNo"/></td>
+                </tr>
+                <tr>
+                <td style="border:none;"><strong>Acknowledgement No.</strong></td>
+                <td style="border:none;"><span t-field="doc.ackNo"/></td>
+                <td style="border:none;"><strong>Date/Time</strong></td>
+                <td style="border:none;"><span t-field="doc.create_date"/></td>
+                </tr>
+                <tr>
+                <td style="border:none;"><strong>GST Reg No.</strong></td>
+                <td style="border:none;"><span t-field="doc.taxRefNo"/></td>
+                <td style="border:none;"><strong>Accounting Period</strong></td>
+                <td style="border:none;"><span t-field="doc.dtPeriodStart"/> - <span t-field="doc.dtPeriodEnd"/></td>
+                </tr>
+            </table>
+            </div>
+
+            <!-- Important Message Section -->
+            <div style="page-break-inside: avoid;border: 1px solid #ddd; border-radius: 6px;margin-top: 15px; background-color: #f5f5f5; padding: 15px; border-radius: 6px;">
+            <p><strong>Important Messages</strong></p>
+            <p t-if="doc.pymtRefNo">
+                Your Payment Reference No. is <b><span t-field="doc.pymtRefNo"/></b>
+            </p>
+            <p style="margin: 0;">
+                You have a GIRO arrangement with us for payment and refund of GST. Your GST payment will be deducted through your GIRO account on the 15th day of the following month after the due date of your GST return. If 15th of the month falls on a weekend or Public Holiday, the deduction will be made on the next working day. No separate GIRO deduction schedule will be sent to you. Please ensure that there are sufficient funds in your bank account to avoid the cancellation of your GIRO plan.
+            </p>
+            <br/>
+            <p>
+                You can log in to myTax Portal to view the <a href="https://mytax.iras.gov.sg/login/selection" target="_blank" style="text-decoration:underline;">latest account balance</a>.
+            </p>
+            </div>
+
+            <!-- Declarant Information Section -->
+            <div style="page-break-inside: avoid; margin-top: 20px; font-size: 13px;">
+            <div style="border: 1px solid #ddd; border-radius: 6px 6px 0 0; padding: 15px; background-color: #f5f5f5;">
+                <h5 style="margin-bottom: 10px;">Declarant Information</h5>
+
+                <ul style="list-style: none; padding-left: 0; margin-bottom: 15px;">
+                <li>
+                    <input type="checkbox" checked="checked" disabled="disabled"/>
+                    I declare that the information provided in this return is true and complete.
+                </li>
+                <li style="margin-top: 5px;">
+                    <input type="checkbox" checked="checked" disabled="disabled"/>
+                    I understand that penalties may be imposed for the submission of an incorrect return and/or provision of false information to the Comptroller of GST.
+                </li>
+                </ul>
+
+                <table style="width: 100%; border-collapse: collapse;border:none;">
+                <tr>
+                    <td style="width: 20%; font-weight: bold;border:none;">Name</td>
+                    <td style="width: 30%;border:none;"><span t-field="doc.contactPerson"/></td>
+                    <td style="width: 20%; font-weight: bold;border:none;">NRIC/FIN/Passport No.</td>
+                    <td style="width: 30%; border:none;">
+                        <span>-</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;border:none;">Designation</td>
+                    <td style="border:none;"><span t-field="doc.declarantDesgtn"/></td>
+                    <td style="border:none;"></td>
+                    <td style="border:none;"></td>
+                </tr>
+                </table>
+            </div>
+
+            <!-- Contact Person Information Section -->
+            <div style="border: 1px solid #ddd; border-top: none; border-radius: 0 0 6px 6px; padding: 15px; background-color: #f5f5f5;">
+                <h5 style="margin-bottom: 10px;">Contact Person Information</h5>
+                <p style="margin: 0 0 10px 0;">
+                IRAS may contact the following person for any queries relating to this GST return.
+                </p>
+
+                <table style="width: 100%; border-collapse: collapse;border:none;">
+                <tr>
+                    <td style="width: 20%; font-weight: bold;border:none;">Name</td>
+                    <td style="width: 30%;border:none;"><span t-field="doc.contactPerson"/></td>
+                    <td style="width: 20%; font-weight: bold;border:none;">Contact No.</td>
+                    <td style="width: 30%;border:none;"><span t-field="doc.contactNumber"/></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;border:none;">E-mail Address</td>
+                    <td style="border:none;" colspan="3"><span t-field="doc.contactEmail"/></td>
+                </tr>
+                </table>
+            </div>
+            </div>
+           
+
+            <!-- Declaration Table -->
+            <div style="page-break-inside: avoid; border: 1px solid #ddd; border-radius: 6px; padding: 0; margin-top: 30px; font-size: 13px;">
+            <h4 style="padding:20px; margin-top:35px;">Declaration</h4>
+            <table style="width: 100%; border-collapse: collapse;border:none;margin-top:-15px;">
+                <!-- Boxes 1 to 3 -->
+                <tr style="background-color: #e6f7ff;">
+                <td style="padding: 10px;border:none;">1. Total value of standard-rated supplies</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.totStdSupply"/></td>
+                </tr>
+                <tr>
+                <td style="padding: 10px;border:none;">2. Total value of zero-rated supplies</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.totZeroSupply"/></td>
+                </tr>
+                <tr style="background-color: #fffde7;">
+                <td style="padding: 10px;border:none;">3. Total value of exempt supplies</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.totExemptSupply"/></td>
+                </tr>
+
+                <!-- Box 4 -->
+                <tr style="background-color: #fffde7;">
+                <td style="padding: 10px;border:none;"><strong>4. Total value of (1) + (2) + (3)</strong></td>
+                <td style="padding: 10px;border:none;"><strong>S$ <span t-field="doc.totalSupply"/></strong></td>
+                </tr>
+
+                <!-- Boxes 5–8 -->
+                <tr style="background-color: #e6f7ff;">
+                <td style="padding: 10px;border:none;">5. Total value of taxable purchases<br/>(exclude purchases where input tax is disallowed)</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.totTaxPurchase"/></td>
+                </tr>
+                <tr>
+                <td style="padding: 10px;border:none;">6. Output tax due</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.outputTaxDue"/></td>
+                </tr>
+                <tr style="background-color: #e6f7ff;">
+                <td style="padding: 10px;border:none;">7. Input tax and refunds claimed<br/>(exclude disallowed input tax)</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.inputTaxRefund"/></td>
+                </tr>
+                <tr style="background-color: #fffde7;">
+                <td style="padding: 10px;border:none;"><strong>8. Net GST to be paid to IRAS</strong></td>
+                <td style="padding: 10px;border:none;"><strong>S$ <span t-field="doc.totalTax"/></strong></td>
+                </tr>
+
+                <!-- Boxes 9–13 -->
+                <tr style="background-color: #e6f7ff;">
+                <td style="padding: 10px;border:none;">9. Total value of goods imported under import GST suspension schemes<br/>(e.g. Major Exporter Scheme, Approved 3rd Party Logistics Company)</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.totValueScheme"/></td>
+                </tr>
+                <tr>
+                <td style="padding: 10px;border:none;">10. Total value of tourist refund claimed</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.touristRefundAmt"/></td>
+                </tr>
+                <tr style="background-color: #e6f7ff;">
+                <td style="padding: 10px;border:none;">11. Total value of bad debts relief claims and/or refund for reverse charge transactions</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.badDebtReliefClaimAmt"/></td>
+                </tr>
+                <tr>
+                <td style="padding: 10px;border:none;">12. Pre-registration input tax claims</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.preRegistrationClaimAmt"/></td>
+                </tr>
+                <tr style="background-color: #e6f7ff;">
+                <td style="padding: 10px;border:none;">13. Revenue</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.revenue"/></td>
+                </tr>
+
+                <!-- Section Title -->
+                <tr>
+                <td colspan="2" style="padding: 10px; font-weight: bold;border:none;">For Businesses Subject to Reverse Charge</td>
+                </tr>
+
+                <!-- Box 14 -->
+                <tr style="background-color: #e6f7ff;">
+                <td style="padding: 10px;border:none;">14. Value of imported services and/or low-value goods subject to reverse charge</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.totImpServLVGAmt"/></td>
+                </tr>
+
+                <!-- Section Title -->
+                <tr>
+                <td colspan="2" style="padding: 10px; font-weight: bold;border:none;">For Electronic Marketplace Operators / Redeelivers</td>
+                </tr>
+
+                <!-- Boxes 15–16 -->
+                <tr style="background-color: #e6f7ff;">
+                <td style="padding: 10px;border:none;">15. Value of remote services supplied by electronic marketplace operator</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.totRemServAmt"/></td>
+                </tr>
+                <tr>
+                <td style="padding: 10px;border:none;">16. Value of imported low-value goods supplied by electronic marketplace operator/redeeliver</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.totRedlvrMktOprLVGAmt"/></td>
+                </tr>
+
+                 <!-- Section Title -->
+                <tr>
+                <td colspan="2" style="padding: 10px; font-weight: bold;border:none;">For Suppliers of Imported Low-Value Goods</td>
+                </tr>
+
+                <!-- Boxes 17–18 -->
+                <tr style="background-color: #e6f7ff;">
+                <td style="padding: 10px;border:none;">17. Value of own supply of imported low-value goods</td>
+                <td style="padding: 10px;border:none;">S$ <span t-field="doc.totOwnImpLVGAmt"/></td>
+                </tr>
+
+            </table>
+            </div>
+            
+            </main>
+        </t>
+    </template>
+
+<!--    Calling custom header in new layout-->
+    <template id="custom_external_gst_f5f8_layout">
+        <!-- Multicompany -->
+        <t t-if="not o and doc">
+            <t t-set="o" t-value="doc"/>
+        </t>
+        <t t-if="o and 'company_id' in o">
+            <t t-set="company" t-value="o.company_id"/>
+        </t>
+        <t t-if="not o or not 'company_id' in o">
+            <t t-set="company" t-value="res_company"/>
+        </t>
+        <t t-call="metroerp_iras.custom_external_gst_f5f8_layout_standard">
+           <t t-raw="0"/>
+        </t>
+    </template>
+
+    <template id="custom_external_gst_f5f8_layout_standard">
+        <div class="header">
+            <div class="o_boxed_header" style="font-family: sans-serif;color: #495057;font-size:10.0pt;">
+                <div class="row">
+                    <div class="col-6 text-left">
+                        <table>
+                            <tr>
+                                <img style="max-width:70%;" t-att-src="'/metroerp_iras/static/src/img/iras_logo.png'" alt="Logo"/>
+                                <br/><br/>
+                                <b>
+                                    <span style="font-size: 125%;" t-field="o.company_name"/>
+                                </b>
+                                <p>
+                                    <span style="font-weight:bold;">Tax Ref No: <span t-field="o.taxRefNo"/></span>
+                                </p>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-6"/>
+                </div>
+            </div>
+        </div>
+        <div class="article o_report_layout_boxed" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+        <div t-attf-class="footer o_company_#{company.id}_layout">
+            <div class="text-center">
+                <div t-if="report_type == 'pdf'">
+                    Page <span class="page"/> of <span class="topage"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+
+    <record id="action_report_gst_f5f8" model="ir.actions.report">
+        <field name="name">GST F5/F8 Acknowledgment Report</field>
+        <field name="model">gst.returns.f5f8</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">metroerp_iras.report_gst_f5f8_document</field>
+        <field name="report_file">metroerp_iras.report_gst_f5f8_document</field>
+        <field name="print_report_name">('GSTF5_ACK_%s' % (object.ackNo))</field>
+        <field name="paperformat_id" ref="paperformat_gst_f5f8_report"/>
+    </record>
+
+
+</odoo>

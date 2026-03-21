@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="corppass_logs_form" model="ir.ui.view">
+    <field name="name">corppass.logs.form</field>
+    <field name="model">corppass.logs</field>
+    <field name="arch" type="xml">
+        <form string="Logs" create="false" edit="false">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="create_date"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="content"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="corppass_logs_form_tree" model="ir.ui.view">
+    <field name="name">corppass.logs.tree</field>
+    <field name="model">corppass.logs</field>
+    <field name="arch" type="xml">
+        <tree string="Logs" create="false">
+            <field name="create_date"/>
+            <field name="content"/>
+        </tree>
+    </field>
+</record>
+
+<record id="corppass_logs_action" model="ir.actions.act_window">
+    <field name="name">Corppass Controller Logs</field>
+    <field name="res_model">corppass.logs</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem id="menu_corppass_logs" name="Corppass Controller Logs" parent="base.menu_custom"/>
+
+<menuitem id="shopee_error_logs_menu"
+    action="corppass_logs_action"
+    parent="menu_corppass_logs"
+    sequence="1"/>
+
+
+</odoo>

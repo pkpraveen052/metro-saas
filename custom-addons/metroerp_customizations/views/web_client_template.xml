@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="wk_web_layout_inherit" inherit_id="web.layout">
+        <xpath expr="//title" position="replace">
+            <title t-esc="title or request.env['res.config.settings'].get_debranding_settings()['title_brand']"/>
+        </xpath>
+        <xpath expr="//link[@rel='shortcut icon']" position="replace">
+            <t t-set="favicon_url" t-value="request.env['res.config.settings'].get_debranding_settings()['favicon_url']" />
+            <link type="image/x-icon" rel="shortcut icon" t-att-href="x_icon or favicon_url"/>
+        </xpath>
+    </template>
+
+    <template  id="login_layout" inherit_id="web.login_layout" priority="8">
+        <xpath expr="//div[@t-if='not disable_footer']" position="replace">
+            <div class="text-center small mt-4 pt-3 border-top" t-if="not disable_footer">
+                <t t-if="not disable_database_manager">
+                    <a class="border-right pr-2 mr-1" href="/web/database/manager" style="border-right: none !important;padding-right: 0 !important;margin-right: auto !important;">Manage Databases</a>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="custom_web_frontend_layout" inherit_id="web.frontend_layout">
+        <xpath expr="//t[@t-call='web.brand_promotion']" position="replace">
+            <t t-call="metroerp_customizations.metro_brand_promotion_message"/>
+        </xpath>
+    </template>
+
+    <!-- Inherit and modify the brand_promotion_message template in every portal right footer -->
+    <template id="metro_brand_promotion_message" name="Metro Brand Promotion Message">
+        <t t-set="final_message"><span style="font-weight: bold;font-size:15px;">Powered by</span> <a href="https://www.metrogroup.solutions/solutions/accounting-system" target="_blank" 
+        style="color: #007bff; text-decoration: none; font-weight: bold;">Metro Accounting System</a></t>
+        <t t-raw="final_message"/>
+    </template>
+</odoo>

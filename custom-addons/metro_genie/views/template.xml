@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="assets_backend" name="metro genie backend assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css" href="/metro_genie/static/src/css/metro_suggestion.css"/>
+
+            <script type="text/javascript" src="/metro_genie/static/src/js/discard_dialog_override.js"></script>
+            <script type="text/javascript" src="/metro_genie/static/src/js/genie_suggestion.js"/>
+            <script type="text/javascript" src="/metro_genie/static/src/js/accounting_reports.js"/>
+            <script type="text/javascript" src="/metro_genie/static/src/js/sample_file.js"/>
+
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_service_management_admin,service.management.admin.access,model_service_management,metroerp_service_management.service_management_group_administrator,1,1,1,1
+access_service_management_user_read,service.management.user.read.access,model_service_management,metroerp_service_management.service_management_group_user,1,0,0,0
+access_service_template_admin,service.template.admin.access,model_service_template,metroerp_service_management.service_management_group_administrator,1,1,1,1
+access_service_template_user_read,service.template.user.access,model_service_template,metroerp_service_management.service_management_group_user,1,0,0,0
+access_service_assignment_wizard,service.assignment.wizard,model_service_assignment_wizard,,1,1,1,1
+access_service_management_other_user_read,service.management.other.user.read.access,model_service_management,,1,0,0,0

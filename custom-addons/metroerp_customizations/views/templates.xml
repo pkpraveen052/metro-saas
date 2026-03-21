@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<template id="assets_frontend" inherit_id="web.assets_frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/metroerp_customizations/static/src/scss/metroerp_custom.scss" />
+        </xpath>
+    </template>
+
+    <template id="wk_assets_backend_inherit" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+			<script type="text/javascript" src="/metroerp_customizations/static/src/js/abstract_web_client.js"></script>
+			<script type="text/javascript" src="/metroerp_customizations/static/src/js/dialog.js"></script>
+			<script type="text/javascript" src="/metroerp_customizations/static/src/js/my_widget.js"></script>
+			<script type="text/javascript" src="/metroerp_customizations/static/src/js/notification_request.js"></script>
+			<!-- <script type="text/javascript" src="/metroerp_customizations/static/src/js/fields_sms_widget.js"></script> -->
+			<script type="text/javascript" src="/metroerp_customizations/static/src/js/crash_manager.js"></script>
+			<script type="text/javascript" src="/metroerp_customizations/static/src/js/import_action.js"></script>
+			<script type="text/javascript" src="/metroerp_customizations/static/src/js/abstract_renderer.js"></script>
+			<script type="text/javascript" src="/metroerp_customizations/static/src/js/form_renderer.js"></script>
+			<script type="text/javascript" src="/metroerp_customizations/static/src/js/switch_company_menu.js"></script>
+			<script type="text/javascript" src="/metroerp_customizations/static/src/js/session.js"></script>
+        </xpath>
+    </template>
+</odoo>

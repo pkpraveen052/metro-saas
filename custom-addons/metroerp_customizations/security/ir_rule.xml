@@ -1,0 +1,228 @@
+<odoo>
+	<data>
+<!-- 		
+        Old Code removed on 8/Jan/2024
+        <record id="sale_sub_group_personal_rule" model="ir.rule">
+            <field name="name">ERP Admin: Personal Users</field>
+            <field ref="base.model_res_users" name="model_id"/>
+            <field name="domain_force">['|',('is_admin_flag', '=', False),('company_ids', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('sub_admin_group'))]"/>
+        </record>
+
+		<record id="erpadmin_odoobot_read_rule" model="ir.rule">
+            <field name="name">ERP Admin: System Only Read</field>
+            <field ref="base.model_res_users" name="model_id"/>
+            <field name="domain_force">[('login','=','__system__')]</field>
+            <field name="groups" eval="[(4, ref('sub_admin_group'))]"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">0</field>
+            <field name="perm_create">0</field>
+            <field name="perm_unlink">0</field>
+        </record> -->
+
+        <record id="res_product_category_multicompany" model="ir.rule">
+            <field name="name">Product Category in multi-company - Admin and Super Admin</field>
+            <field name="model_id" ref="model_product_category"/>
+            <field name="groups" eval="[(6,0,[ref('base.group_user'), ref('base.group_system')])]"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+
+    <!--        ir_sequence record rule-->
+    	 <record id="sequence_rule_erp_admin_user" model="ir.rule">
+            <field name="name">ERP Admin see her/his data</field>
+            <field ref="base.model_ir_sequence" name="model_id"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+    	 </record>
+
+         <record id="sequence_rule_erp_admin_user_rule" model="ir.rule">
+            <field name="name">Admin User Rule</field>
+            <field ref="base.model_ir_sequence" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+    	 </record>
+
+    <!--        Contact Tags Record rule-->
+         <record id="contact_tag_rule_company" model="ir.rule">
+            <field name="name">Contact Tag</field>
+            <field ref="base.model_res_partner_category" name="model_id"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+    	 </record>
+
+         <record id="contact_tag_admin_user_rule" model="ir.rule">
+            <field name="name">Contact Tags - Super Admin</field>
+            <field ref="base.model_res_partner_category" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+    	 </record>
+
+    <!--        CRM Tags Record Rule-->
+         <record id="crm_tag_rule_company" model="ir.rule">
+            <field name="name">CRM Tag</field>
+            <field ref="sales_team.model_crm_tag" name="model_id"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+         </record>
+
+         <record id="crm_tag_admin_user_rule" model="ir.rule">
+            <field name="name">CRM Tags - Super Admin</field>
+            <field ref="sales_team.model_crm_tag" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+    	 </record>
+
+    <!--        Account Analytic Tags Record Rule-->
+         <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'analytic'), ('name', '=', 'analytic_tag_comp_rule')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+         <record id="analytic.analytic_tag_comp_rule" model="ir.rule">
+            <field name="name">Analytic line multi company rule</field>
+            <field name="model_id" ref="model_account_analytic_tag"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+        </record>
+
+        <record id="account_analytic_tag_admin_user_rule" model="ir.rule">
+            <field name="name">Account Analytic Tag - Super Admin</field>
+            <field ref="analytic.model_account_analytic_tag" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+
+    <!--        Product attribute multicompany rule-->
+        <record id="product_attribute_rule_company" model="ir.rule">
+            <field name="name">Product Attribute</field>
+            <field ref="product.model_product_attribute" name="model_id"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+         </record>
+
+        <record id="product_attribute_admin_user_rule" model="ir.rule">
+            <field name="name">Product Attribute - Super Admin</field>
+            <field ref="product.model_product_attribute" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+
+        <!-- Product Pricelist Base Rule overidden -->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'product'), ('name', '=', 'product_pricelist_comp_rule')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        <record model="ir.rule" id="product.product_pricelist_comp_rule">
+            <field name="name">product pricelist company rule - Non Super Admins</field>
+            <field name="model_id" ref="product.model_product_pricelist"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+        </record>
+
+        <record id="product_pricelist_admin_user_rule" model="ir.rule">
+            <field name="name">product pricelist - Super Admin</field>
+            <field ref="product.model_product_pricelist" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+
+        <!-- Account Paymenterm Base Rule overidden -->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'account'), ('name', '=','account_payment_term_comp_rule')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+        
+        <record model="ir.rule" id="account.account_payment_term_comp_rule">
+            <field name="name">Account Payment term company rule - Non Super Admins</field>
+            <field name="model_id" ref="account.model_account_payment_term"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+        </record>
+
+        <record id="paymenterm_admin_user_rule" model="ir.rule">
+            <field name="name">Account Payment term - Super Admin</field>
+            <field ref="account.model_account_payment_term" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+
+<!--        Multi-Company Record Rule For Coupons   -->
+        <record id="coupon_program_multi_company_rule" model="ir.rule">
+            <field name="name">Coupon Program Multi Company Rule - Non Super Admins</field>
+            <field ref="coupon.model_coupon_program" name="model_id"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+         </record>
+
+        <record id="coupon_program_admin_rule" model="ir.rule">
+            <field name="name">Coupon Program Multi Company Rule - Super Admin</field>
+            <field ref="coupon.model_coupon_program" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+         </record>
+
+        <!-- Sale order template record rule on multi company-->
+         <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'sale_management'), ('name', '=', 'sale_order_template_rule_company')]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+         <record id="sale_management.sale_order_template_rule_company" model="ir.rule">
+            <field name="name">Quotation Template multi-company</field>
+            <field name="model_id" ref="sale_management.model_sale_order_template"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!--        Cash Rounding ('account.cash.rounding') multicompany rule-->
+        <record id="cash_rounding_rule_company" model="ir.rule">
+            <field name="name">Account Cash Rounding - Internal Users &amp; ERP Admins</field>
+            <field ref="account.model_account_cash_rounding" name="model_id"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+         </record>
+        <record id="cash_rounding_admin_rule_company" model="ir.rule">
+            <field name="name">Account Cash Rounding - Super Admin</field>
+            <field ref="account.model_account_cash_rounding" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+
+<!--        Multi-Company Record Rule For payment Acquirers   -->
+        <record id="payment_acquirers_multi_company_rule" model="ir.rule">
+            <field name="name">Payment Acquirers Multi Company Rule - Non Super Admins</field>
+            <field ref="payment.model_payment_acquirer" name="model_id"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+         </record>
+
+        <record id="payment_acquirers_admin_rule" model="ir.rule">
+            <field name="name">Payment Acquirers Multi Company Rule - Super Admin</field>
+            <field ref="payment.model_payment_acquirer" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+         </record>
+
+         <!--  Product Tags Record rule-->
+         <record id="product_tag_rule_company" model="ir.rule">
+            <field name="name">Product Tag</field>
+            <field ref="metroerp_customizations.model_product_tags" name="model_id"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+    	 </record>
+
+         <!-- <record id="product_tag_admin_user_rule" model="ir.rule">
+            <field name="name">Product Tags - Super Admin</field>
+            <field ref="metroerp_customizations.model_product_tags" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(6,0,[ref('base.group_system')])]"/>
+    	 </record> -->
+	</data>
+</odoo>
+

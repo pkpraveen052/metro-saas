@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+	
+    <t t-name="CustomerFacingDisplayOrder" t-inherit="point_of_sale.CustomerFacingDisplayOrder" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('pos_logo_company')]" position="after">
+        	<div style="padding-top: 10px;text-align: center;" t-if="order and order.paynow_img_str">
+			    <span style="font-size: 10px;">Please make payment via this QR Code.</span><br/>
+				<img style="max-width: 60%;" t-attf-src="data:image/png;base64,{{order.paynow_img_str}}" alt="QR Code"/>
+			    <br/>
+			    <span style="font-size: 10px;">Please inform the Cashier once the payment is done.</span>
+			</div>              
+        </xpath>
+    </t>
+
+    <t t-name="PaymentScreen" t-inherit='point_of_sale.PaymentScreen' t-inherit-mode="extension" owl="1">
+		<xpath expr="//div[hasclass('next')]" position="before">
+
+			<t t-if="env and env.pos and env.pos.config.iface_customer_facing_display_local">
+				<span class='button paynow_qr' t-on-click="send_data_to_cart_screen" style="right:0;background: #a00077;color: white;border: solid 1px #a00077;display:none;">
+					<i class='fa fa-qrcode'></i>
+					Show QR Code
+				</span>
+			</t>
+		</xpath>
+	</t>
+
+</templates>

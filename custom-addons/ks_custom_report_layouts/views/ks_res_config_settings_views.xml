@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--    Adding the res.config.settings for the Sale Report Style Selection-->
+    <record id="ks_res_config_settings_view_form_inherit" model="ir.ui.view">
+        <field name="name">ks.res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" data-key="ks_product_website" position="inside">
+                <div class="app_settings_block" data-string="Configure Document Layout"
+                     data-key="ks_custom_report_layouts" string="Configure Document Layout"
+                     groups="base.group_system,metroerp_customizations.sub_admin_group">
+                    <h2>Configure Advance Document Layout</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box" id="ks_document_layout_sale_preview">
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Configure Advance Document Layout</span>
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."
+                                      aria-label="Values set here are company-specific."
+                                      groups="base.group_multi_company" role="img"/>
+                                <div class="text-muted">
+                                    Configure the advance layout of your documents
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt8">
+                                        <button name="%(ks_custom_report_layouts.ks_report_configuration_action)d"
+                                                string="Advance Settings" type="action" class="oe_link"
+                                                icon="fa-arrow-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Configure Header Tagline &amp; Title</h2>
+                    <div class="row mt16 o_settings_container" name="operations_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="ks_report_header_tagline"/>
+                                <div class="text-muted">
+                                    Header Company Tagline <u>(Recommended: two or three words)</u>
+                                </div>
+                                <field name="ks_report_header_tagline" id="ks_report_header_tagline" placeholder="eg: Just Do It"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="ks_report_company_title"/>
+                                <div class="text-muted">
+                                    Header Company Title <u>(Recommended: two or three words)</u>
+                                </div>
+                                <field name="ks_report_company_title" id="ks_report_company_title" placeholder="eg: THE METRO GROUP"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="plan_no"/>
+                                <div class="text-muted">
+                                    Plan No. <u>(Recommended: two or three words)</u>
+                                </div>
+                                <field name="plan_no" id="plan_no" placeholder="eg: PLAN-001"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="care_of"/>
+                                <div class="text-muted">
+                                    Care Of <u>(Recommended: two or three words)</u>
+                                </div>
+                                <field name="care_of" id="care_of" placeholder="eg: JOHN DOE"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="ks_emailcc_partner_id"/>
+                                <div class="text-muted">
+                                    Email CC partners
+                                </div>
+                                <field name="ks_emailcc_partner_id" widget="many2many_tags" id="ks_emailcc_partner_id"/>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Configure Global Water Mark</h2>
+                    <div class="row mt16 o_settings_container" name="operations_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="ks_watermark_option"/>
+                                <div class="text-muted">
+                                    Select Water Mark Type
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="ks_watermark_option" class="o_light_label" widget="selection"
+                                               id="ks_watermark_option" required="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="ks_report_scale"/>
+                                <div class="text-muted">Scale your Water Mark</div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="ks_report_scale" class="o_light_label" widget="selection" id="ks_report_scale" required="1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o_settings_container" name="operations_setting_container">
+                        <div class="col-12 col-lg-6 o_setting_box" attrs="{'invisible':[('ks_watermark_option','!=', 'backgroundimage')]}">
+                            <div class="o_setting_right_pane">
+                                <label for="ks_upload_image"/>
+                                <div class="text-muted">Upload Image</div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="ks_upload_image" class="o_light_label" attrs="{'required':[('ks_watermark_option','=', 'backgroundimage')]}"
+                                               widget="image" id="ks_upload_image" accept=".png"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" attrs="{'invisible': [('ks_watermark_option','not in', ['name','watermark_text','backgroundimage'])]}">
+                            <div class="o_setting_left_pane">
+                                <field name="ks_rotate_image" id="ks_rotate_image"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="ks_rotate_image"/>
+                                <div class="text-muted">
+                                    Rotate Image
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" attrs="{'invisible': [('ks_watermark_option','not in', ['watermark_text','backgroundimage'])]}">
+                            <div class="o_setting_right_pane">
+                                <label for="ks_mark_text"/>
+                                <div class="text-muted">
+                                    Water-Mark Text
+                                </div>
+                                <field name="ks_mark_text" id="ks_mark_text" attrs="{'required':[('ks_watermark_option','=', 'watermark_text')]}"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" attrs="{'invisible': ['|','|',('ks_rotate_image','!=',True),('ks_watermark_option','=', 'logo'),
+                                    ('ks_watermark_option','not in', ['name','watermark_text','backgroundimage'])]}">
+                            <div class="o_setting_right_pane">
+                                <label for="ks_rotate_angle"/>
+                                <div class="text-muted">
+                                    Rotate Angle
+                                </div>
+                                <field name="ks_rotate_angle" id="ks_rotate_angle" attrs="{'required': [('ks_rotate_image','=',True)]}"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" attrs="{'invisible':[('ks_watermark_option','not in', ['name','watermark_text','backgroundimage'])]}">
+                            <div class="o_setting_right_pane">
+                                <label for="ks_temp_font_size"/>
+                                <div class="text-muted">
+                                    Font Size
+                                </div>
+                                <field name="ks_temp_font_size" id="ks_temp_font_size"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" attrs="{'invisible':[('ks_watermark_option','not in', ['name','watermark_text','backgroundimage'])]}">
+                            <div class="o_setting_left_pane">
+                                <field name="ks_font_color" class="mr-2" widget="color" id="ks_font_color" placeholder="rgb"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="ks_font_color"/>
+                                <div class="text-muted">
+                                    Font Color
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="ks_report_transparency"/>
+                                <div class="text-muted">
+                                    Transparency Of Water-Mark
+                                </div>
+                                <field name="ks_report_transparency" id="ks_report_transparency"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

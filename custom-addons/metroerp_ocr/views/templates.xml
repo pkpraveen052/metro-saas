@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	
+    <template id="metroerp_ocr_assets_backend_inherit" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+			<script type="text/javascript" src="/metroerp_ocr/static/src/js/upload_override.js"></script>
+            <script type="text/javascript" src="/metroerp_ocr/static/src/js/ocr_bill_warning.js"></script>
+        </xpath>
+    </template>
+</odoo>

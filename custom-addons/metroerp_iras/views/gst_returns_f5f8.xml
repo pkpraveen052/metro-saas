@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="gst_returns_signature_f5f8_form" model="ir.ui.view">
+        <field name="name">gst.returns.f5f8.signature.form</field>
+        <field name="model">gst.returns.f5f8</field>
+        <field name="arch" type="xml">
+            <form delete="false">
+                <b>Place your signature and Submit</b>
+                <group>
+                    <field name="manager_signature" widget="signature" nolabel="1"/>
+                </group>
+                <footer>
+                    <button string="Submit" name="action_submit" type="object" default_focus="1" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+     </record>
+
+    <record id="gst_returns_f5f8_form" model="ir.ui.view">
+        <field name="name">gst.returns.f5f8.form</field>
+        <field name="model">gst.returns.f5f8</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form delete="false">                
+                <header>
+                    <button name="fetch_details" string="Fetch" type="object" icon="fa-refresh" attrs="{'invisible': [('state','in',['ready_submit','submitted'])]}"/>
+                    <button name="gst_summary" string="View GST Summary" type="object" attrs="{'invisible': [('is_fetched', '=', False)]}"/>
+                    <button name="action_ready_submit" string="Ready to Submit" type="object"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}" icon="fa-thumbs-o-up" class="oe_highlight"/>
+                    <button name="action_click_me_edit" string="Click Me to Edit" type="object"
+                            attrs="{'invisible': [('state', '!=', 'ready_submit')]}" icon="fa-pencil-square-o"/>
+                    <button name="action_submit" string="Submit" type="object"
+                            attrs="{'invisible': [('state', '!=', 'ready_submit')]}" icon="fa-check-circle-o" class="oe_highlight"/>
+                    <button name="autosubmit_gst_data" string="Force Submit" type="object"
+                            attrs="{'invisible': ['|',('state', '!=', 'ready_submit'),('access_token','=',False)]}" icon="fa-check-circle-o" class="oe_highlight" context="{'force_submit':1}"/>
+                    <button name="action_claim_f7" string=" Claim F7" type="object" icon="fa-file" class="oe_highlight"
+                            attrs="{'invisible': ['|',('state', '!=', 'submitted'),('formType', '!=', 'F5')]}" placeholder="Click here to create a draft F7 form and submission"/>
+                    <button name="action_generate_acknowledgment_report" string="Print Acknowledgement" type="object" class="oe_highlight" 
+                        attrs="{'invisible': [('state', '!=', 'submitted')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,ready_submit,submitted"/>
+                </header>
+                <sheet>
+                    <div class="ribbon ribbon-top-right" style="margin-top:-53px;" attrs="{'invisible': ['|',('online_gst_registered', '=', False),('state','=','submitted')]}">
+                        <span style="font-size: 12px;height:32px;width:278px;text-indent:-94px;padding:24px 44px;left: -15px;top: 30px;transform: rotate(360deg);padding: 0px !important" class="bg-info">GST Registered Online</span>
+                    </div>
+                    <div name="button_box" class="oe_button_box">
+                        <button name="action_open_f7" class="oe_stat_button" icon="fa-file" type="object" attrs="{'invisible': [('gst_f7_id', '=', False)]}" string="Open GST F7" help="Open GST F7 forms">
+                            </button>
+                        <button name="check_gst_registered" class="oe_stat_button" icon="fa-check" type="object" attrs="{'invisible': [('online_gst_registered', '=', True)]}" string="Check GST Registered" help="Check GST Registered Online">
+                        </button>
+                    </div>                    
+                    <group name="grp_main">
+                        <field name="company_id"/>
+                        <separator string="Company Filing Info"/>
+                        <field name="company_name"/>
+                        <field name="taxRefNo" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/>
+                        <field name="formType" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/>
+                        <field name="dtPeriodStart" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/>
+                        <field name="dtPeriodEnd" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/>
+                    </group>
+
+                    <br/>
+                    <separator string="Supplies"/>
+                    <table style="width:70%">
+                        <col width="10%"/>
+                        <col width="78%"/>
+                        <col width="13%"/>
+                        <tr style="border-bottom: 1px solid #dddd;border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 1</td>
+                            <td style="font-weight: bold;">Total value of standard-rated supplies</td>
+                            <td style="vertical-align: text-top;"><field name="totStdSupply" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 2</td>
+                            <td style="font-weight: bold;">Total value of zero-rated supplies</td>
+                            <td style="vertical-align: text-top;"><field name="totZeroSupply" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 3</td>
+                            <td style="font-weight: bold;">Total value of exempt supplies</td>
+                            <td style="vertical-align: text-top;"><field name="totExemptSupply" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 4</td>
+                            <td style="font-weight: bold;">Total value of (1) + (2) + (3)</td>
+                            <td style="vertical-align: text-top;"><field name="totalSupply"/></td>
+                        </tr>
+                        <br/>
+                        <tr>
+                            <td colspan="3">
+                                <separator string="Purchases"/>
+                            </td>                            
+                        </tr>                        
+                        <tr style="border-bottom: 1px solid #dddd;border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 5</td>
+                            <td style="font-weight: bold;">Total value of taxable purchases (exclude purchases where input tax is disallowed)</td>
+                            <td style="vertical-align: text-top;"><field name="totTaxPurchase" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <br/>
+                        <tr>
+                            <td colspan="3">
+                                <separator string="Taxes"/>
+                            </td>                            
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 6</td>
+                            <td style="font-weight: bold;">Output tax due</td>
+                            <td style="vertical-align: text-top;"><field name="outputTaxDue" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 7</td>
+                            <td style="font-weight: bold;">Less: Input tax and refunds claimed (exclude disallowed input tax)</td>
+                            <td style="vertical-align: text-top;"><field name="inputTaxRefund" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>                        
+                        <tr style="border-bottom: 1px solid #dddd;border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 8</td>
+                            <td style="font-weight: bold;">Equals: Net GST to be paid to/claimed from IRAS</td>
+                            <td style="vertical-align: text-top;"><field name="totalTax"/></td>
+                        </tr>
+                        <br/>
+                        <tr>
+                            <td colspan="3">
+                                <separator string="Schemes"/>
+                            </td>                            
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 9</td>
+                            <td style="font-weight: bold;">Total value of goods imported under import GST suspension schemes (e.g. Major Exporter Scheme, Approved 3rd Party Logistics Company)</td>
+                            <td style="vertical-align: text-top;"><field name="totValueScheme" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 10</td>
+                            <td style="font-weight: bold;">Did you claim for GST you had refunded to tourists?</td>
+                            <td style="vertical-align: text-top;"><field name="touristRefundChk" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>                        
+                        <tr style="border-bottom: 1px solid #dddd;"> <!-- attrs="{'invisible': [('touristRefundChk','=',False)]}" --> 
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 10</td>
+                            <td style="font-weight: bold;">Tourist Refund Amount</td>
+                            <td style="vertical-align: text-top;"><field name="touristRefundAmt" attrs="{'required': [('touristRefundChk', '=',True)], 'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 11</td>
+                            <td style="font-weight: bold;">Did you make any bad debt relief claims and/or refund for reverse charge transactions?</td>
+                            <td style="vertical-align: text-top;"><field name="badDebtChk" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;"><!-- attrs="{'invisible': [('badDebtChk','=',False)]}" Commented to perform the testcase FE8 -->
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 11</td>
+                            <td style="font-weight: bold;">Bad Debt Relief Claims and/or refund for reverse charge Amount</td>
+                            <td style="vertical-align: text-top;"><field name="badDebtReliefClaimAmt" attrs="{'required': [('badDebtChk', '=',True)], 'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 12</td>
+                            <td style="font-weight: bold;">Did you make any pre-registration input tax claims?</td>
+                            <td style="vertical-align: text-top;"><field name="preRegistrationChk" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;"> <!-- attrs="{'invisible': [('preRegistrationChk','=',False)]}" -->
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 12</td>
+                            <td style="font-weight: bold;"> Pre-registration Claims Amount</td>
+                            <td style="vertical-align: text-top;"><field name="preRegistrationClaimAmt" attrs="{'required': [('preRegistrationChk', '=',True)], 'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <br/>                        
+                        <tr>
+                            <td colspan="3">
+                                <separator string="Revenue"/>
+                            </td>                            
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;border-top: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 13</td>
+                            <td style="font-weight: bold;">Revenue for the accounting period</td>
+                            <td style="vertical-align: text-top;"><field name="revenue" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <br/>                        
+                        <tr attrs="{'invisible': [('is_before_year','=',False)]}">
+                            <td colspan="3">
+                                <separator string="Reverse Charge"/>
+                            </td>                            
+                        </tr>
+                        <tr attrs="{'invisible': [('is_before_year','=',True)]}">
+                            <td colspan="3">
+                                <separator string="Reverse Charge Low-Value Goods"/>
+                            </td>                            
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;" attrs="{'invisible': [('is_before_year','=',True)]}">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 14</td>
+                            <td style="font-weight: bold;">Did you import services and/or low-value goods subject to GST under Reverse Charge?</td>
+                            <td style="vertical-align: text-top;"><field name="RCLVGChk" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])], 'invisible': [('is_before_year','=',True)]}"/></td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;" attrs="{'invisible': [('is_before_year','=',False)]}">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 14</td>
+                            <td style="font-weight: bold;">Did you import services subject to GST under Reverse Charge?</td>
+                            <td style="vertical-align: text-top;"><field name="RCLVGChk_beforeyear" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])], 'invisible': [('is_before_year','=',False)]}"/></td>
+                        </tr>                       
+                        <tr style="border-bottom: 1px solid #dddd;" attrs="{'invisible': [('RCLVGChk', '!=',True),('RCLVGChk_beforeyear', '!=',True)]}">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 14</td>
+                            <td style="font-weight: bold;">Value of imported services and/ or low-value goods subject to reverse charge</td>
+                            <td style="vertical-align: text-top;"><field name="totImpServLVGAmt" attrs="{'required': ['|',('RCLVGChk', '=',True),('RCLVGChk_beforeyear', '=',True)],'invisible': [('RCLVGChk', '!=',True),('RCLVGChk_beforeyear', '!=',True)], 'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr tyle="border-bottom: 1px solid #dddd;">
+                        </tr>
+                        <br/>
+                        <tr attrs="{'invisible': [('is_before_year','=',False)]}">
+                            <td colspan="3">
+                                <separator string="Electronic Market Place Operator" attrs="{'invisible': [('is_before_year','=',False)]}"/>
+                            </td>                            
+                        </tr>
+                        <tr attrs="{'invisible': [('is_before_year','=',True)]}">
+                            <td colspan="3">
+                                <separator string="Electronic Market Place Operator or Redeliverer" attrs="{'invisible': [('is_before_year','=',True)]}"/>
+                            </td>                            
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;" attrs="{'invisible': [('is_before_year','=',False)]}">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 15</td>
+                            <td style="font-weight: bold;">Did you operate an electronic marketplace to supply digital services subject to GST on behalf of third-party suppliers?</td>
+                            <td style="vertical-align: text-top;"><field name="OVRRSChk_beforeyear" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])], 'invisible': [('is_before_year','=',False)]}"/></td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;" attrs="{'invisible': [('is_before_year','=',True)]}">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 15</td>
+                            <td style="font-weight: bold;">Did you operate an electronic marketplace to supply remote services (includes digital and non-digital services) subject to GST on behalf of third-party suppliers?</td>
+                            <td style="vertical-align: text-top;"><field name="OVRRSChk" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])], 'invisible': [('is_before_year','=',True)]}"/></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;" attrs="{'invisible': [('OVRRSChk', '!=',True),('OVRRSChk_beforeyear', '!=',True)]}">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 15</td>
+                            <td style="font-weight: bold;">Value of remote services supplied by electronic marketplace operator</td>
+                            <td style="vertical-align: text-top;"><field name="totRemServAmt" attrs="{'required': ['|',('OVRRSChk', '=',True),('OVRRSChk_beforeyear', '=',True)],'invisible': [('OVRRSChk', '!=',True),('OVRRSChk_beforeyear', '!=',True)], 'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>                                                
+                        <tr style="border-top: 1px solid #dddd;" attrs="{'invisible': [('is_before_year','=',True)]}">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 16</td>
+                            <td style="font-weight: bold;">Did you operate as a redeliverer, or an electronic marketplace to supply imported low-value goods subject to GST on behalf of third-party suppliers?</td>
+                            <td style="vertical-align: text-top;"><field name="RedlvrMktOprLVGChk" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;" attrs="{'invisible': [('RedlvrMktOprLVGChk','=',False)]}">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 16</td>
+                            <td style="font-weight: bold;">Value of imported low-value goods supplied by electronic marketplace operator/ redeliverer</td>
+                            <td style="vertical-align: text-top;"><field name="totRedlvrMktOprLVGAmt" attrs="{'required': [('RedlvrMktOprLVGChk', '=',True)], 'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <br/>
+                        <tr attrs="{'invisible': [('is_before_year','=',True)]}">
+                            <td colspan="3">
+                                <separator string="Supplier of Imported Low-value Goods" attrs="{'invisible': [('is_before_year','=',True)]}"/>
+                            </td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;" attrs="{'invisible': [('is_before_year','=',True)]}">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 17</td>
+                            <td style="font-weight: bold;">Did you make your own supply of  imported low-value goods that is subject to GST?</td>
+                            <td style="vertical-align: text-top;"><field name="OwnImpLVGChk" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #dddd;" attrs="{'invisible': [('OwnImpLVGChk','=',False)]}">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;">Box 17</td>
+                            <td style="font-weight: bold;">Value of own supply of imported low value goods</td>
+                            <td style="vertical-align: text-top;"><field name="totOwnImpLVGAmt" attrs="{'required': [('OwnImpLVGChk', '=',True)], 'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <br/>
+                        <tr>
+                            <td colspan="3">
+                                <separator string="Import GST Deferment Scheme"/>
+                            </td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;border-bottom: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;" attrs="{'invisible': [('is_before_year','=',False)]}">Box 16</td>
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;" attrs="{'invisible': [('is_before_year','=',True)]}">Box 18</td>
+                            <td style="font-weight: bold;">Net GST per box 8 above</td>
+                            <td style="vertical-align: text-top;"><field name="defNetGst" readonly="1"/></td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;border-bottom: 1px solid #dddd;">
+                             <td style="padding:5px;font-weight: bold;vertical-align: text-top;" attrs="{'invisible': [('is_before_year','=',False)]}">Box 17</td>
+                             <td style="padding:5px;font-weight: bold;vertical-align: text-top;" attrs="{'invisible': [('is_before_year','=',True)]}">Box 19</td>
+                            <td style="font-weight: bold;">Add: Deferred import GST payable</td>
+                            <td style="vertical-align: text-top;"><field name="defImpPayableAmt" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;border-bottom: 1px solid #dddd;">
+                             <td style="padding:5px;font-weight: bold;vertical-align: text-top;" attrs="{'invisible': [('is_before_year','=',False)]}">Box 18</td>
+                             <td style="padding:5px;font-weight: bold;vertical-align: text-top;" attrs="{'invisible': [('is_before_year','=',True)]}">Box 20</td>
+                            <td style="font-weight: bold;">Equals: Total tax to be paid to/claimed from IRAS</td>
+                            <td style="vertical-align: text-top;"><field name="defTotalTaxAmt" readonly="1"/></td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dddd;border-bottom: 1px solid #dddd;">
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;" attrs="{'invisible': [('is_before_year','=',False)]}">Box 19</td>
+                            <td style="padding:5px;font-weight: bold;vertical-align: text-top;" attrs="{'invisible': [('is_before_year','=',True)]}">Box 21</td>
+                            <td style="font-weight: bold;">Total value of goods imported under this scheme</td>
+                            <td style="vertical-align: text-top;"><field name="defTotalGoodsImp" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/></td>
+                        </tr>
+                    </table>
+                    <br/><br/>
+                    <p><strong><center><field name="declaration_label" nolabel="1" force_save="1"/></center></strong>
+                        <strong><center>GOODS AND SERVICES TAX RETURN</center></strong>
+                        <strong><center>GOODS AND SERVICES TAX ACT 1993</center></strong>
+                    </p>
+                    <separator string="Declaration"/>
+                    <div>
+                        <field name="declareTrueCompleteChk" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/>
+                        <label for="declareTrueCompleteChk"/>
+                    </div>
+                    <div>
+                        <field name="declareIncRtnFalseInfoChk" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])]}"/>
+                        <label for="declareIncRtnFalseInfoChk"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="declarantDesgtn" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])], 'required': [('state','!=', 'new')]}"/>
+                            <field name="contactPerson" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])], 'required': [('state','!=', 'new')]}"/>
+                            <field name="contactNumber" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])], 'required': [('state','!=', 'new')]}"/>
+                            <field name="contactEmail" attrs="{'readonly': [('state', 'in', ['ready_submit','submitted'])], 'required': [('state','!=', 'new')]}"/>
+                        </group>
+                    </group>
+
+                    <group attrs="{'invisible': [('state', 'not in', ['ready_submit','submitted'])]}">
+                        <group>
+                            <field name="signed_by" readonly="1"/>
+                            <field name="manager_signature_done" invisible="1"/>
+                            <field name="manager_signature" widget="signature" attrs="{'readonly': [('manager_signature_done', '=', True)]}"/>
+                        </group>
+                    </group>
+
+                    <group attrs="{'invisible': [('state', '!=', 'submitted')]}" string="Response">
+                        <group>
+                            <field name="ackNo"/>
+                        </group>
+                        <group>
+                            <field name="pymtRefNo"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Technical">
+                            <field name="online_gst_registered" invisible="1"/>
+                            <field name="active" invisible="1"/>
+                            <field name="gst_f7_id" invisible="1"/>
+                            <field name="is_before_year" invisible="1"/>
+                            <field name="access_token" invisible="1"/>
+                            <field name="is_fetched" invisible="1"/>
+                            <group>
+                                <separator string="Reasons"/>
+                                <field name="grp1BadDebtRecoveryChk" readonly="1"/>
+                                <field name="grp1PriorToRegChk" readonly="1"/>
+                                <field name="grp1OtherReasonChk" readonly="1"/>
+                                <field name="grp1OtherReasons" attrs="{'required': [('grp1OtherReasonChk', '=',True)],'invisible': [('grp1OtherReasonChk', '!=',True)]}" readonly="1"/><br/>
+                                <field name="grp2TouristRefundChk" readonly="1"/>
+                                <field name="grp2AppvBadDebtReliefChk" readonly="1"/>
+                                <field name="grp2CreditNotesChk" readonly="1"/>
+                                <field name="grp2OtherReasonsChk" readonly="1"/>
+                                <field name="grp2OtherReasons" attrs="{'required': [('grp2OtherReasonsChk', '=',True)],'invisible': [('grp2OtherReasonsChk', '!=',True)]}" readonly="1"/><br/>
+                                <field name="grp3CreditNotesChk" readonly="1"/>
+                                <field name="grp3OtherReasonsChk" readonly="1"/>
+                                <field name="grp3OtherReasons" attrs="{'required': [('grp3OtherReasonsChk', '=',True)],'invisible': [('grp3OtherReasonsChk', '!=',True)]}" readonly="1"/>
+                            </group>
+                            <!-- <group attrs="{'invisible': [('state', '!=', 'submitted')]}">
+                                <separator string="Response"/>
+                                <field name="ackNo"/>
+                            </group> -->
+                            <br/>
+                            <!-- <separator string="Request JSON" attrs="{'invisible': [('state', 'not in', ['ready_submit','submitted'])]}" groups="metroerp_customizations.sub_admin_group,base.group_system"/> 
+                            <button string="Generate JSON Request" type="object" name="generate_json_request" attrs="{'invisible': [('state', 'not in', ['ready_submit','submitted'])]}" groups="metroerp_customizations.sub_admin_group,base.group_system"/><br/>
+                            <div attrs="{'invisible': [('json_iras', '=', False)]}" groups="metroerp_customizations.sub_admin_group,base.group_system">
+                                <field name="json_iras" nolabel="1" readonly="1"/>                            
+                            </div> -->
+                        </page>
+                        <!-- <page string="Declaration" attrs="{'invisible': [('state', 'not in', ['ready_submit','submitted'])]}">
+                            <group>
+                                <field name="signed_by" readonly="1"/>
+                                <field name="manager_signature_done" invisible="1"/>
+                                <field name="manager_signature" widget="signature" attrs="{'readonly': [('manager_signature_done', '=', True)]}"/>
+                            </group>
+                        </page> -->
+                        <!-- <page string="Final JSON Response" attrs="{'invisible': [('state', '!=', 'submitted')]}">
+                            <field name="json_response" nolabel="1"/>
+                        </page> -->
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="gst_returns_f5f8_tree" model="ir.ui.view">
+        <field name="name">gst.returns.f5f8.tree</field>
+        <field name="model">gst.returns.f5f8</field>
+        <field name="arch" type="xml">
+            <tree
+                  decoration-info="state == 'ready_submit'" decoration-muted="state in ('submitted')" delete="false">
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="taxRefNo"/>
+                <field name="formType"/>
+                <field name="dtPeriodStart"/>
+                <field name="dtPeriodEnd"/>
+                <field name="create_date"/>
+                <field name="state"/>
+                <button name="gst_summary" string="View GST Summary" type="object" attrs="{'invisible': [('is_fetched', '=', False)]}"/>    
+                <field name="is_fetched" invisible="1"/>        
+            </tree>
+        </field>
+    </record>
+
+    <record id="gst_returns_f5f8_kanban" model="ir.ui.view">
+            <field name="name">gst.returns.f5f8.kanban</field>
+            <field name="model">gst.returns.f5f8</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" delete="false">
+                    <field name="company_id"/>
+                    <field name="taxRefNo"/>
+                    <field name="formType"/>
+                    <field name="dtPeriodStart"/>
+                    <field name="dtPeriodEnd"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{!selection_mode ? kanban_color(record.company_id) : ''} oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_title">
+                                        <h3><field name="company_id"/></h3>
+                                    </div>
+                                    <div class="o_kanban_record_subtitle">
+                                        <strong>Tax Reference(GST) No:</strong>
+                                        <span><field name="taxRefNo"/></span><br/>
+                                        <strong>Form Type:</strong>
+                                        <span><field name="formType"/></span><br/>
+                                        <strong>GST Start Period Date:</strong>
+                                        <span><field name="dtPeriodStart"/></span><br/>
+                                        <strong>GST End Period Date:</strong>
+                                        <span><field name="dtPeriodEnd"/></span><br/>
+                                        <strong>Status:</strong>
+                                        <span><field name="state"/></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+    </record>
+
+    <record id="gst_returns_f5f8_search_view" model="ir.ui.view">
+        <field name="name">gst.returns.f5f8.search</field>
+        <field name="model">gst.returns.f5f8</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="taxRefNo"/>
+                <filter string="New" name="filter_state_new" domain="[('state', '=', 'new')]"/>
+                <filter string="Draft" name="filter_state_draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Ready to Submit" name="filter_state_ready_submit" domain="[('state', '=', 'ready_submit')]"/>
+                <filter string="Submitted" name="filter_state_submitted" domain="[('state', '=', 'submitted')]"/>
+                <separator/>
+                <filter string="Archived" name="filter_active_false" domain="[('active', '=',False)]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Status" name="Status" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="gst_returns_f5f8_action" model="ir.actions.act_window">
+        <field name="name">GST Returns (F5 and F8)</field>
+        <field name="res_model">gst.returns.f5f8</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <menuitem id="gst_returns_f5f8_menu"
+        action="gst_returns_f5f8_action"
+        parent="menu_iras_root"
+        sequence="1" 
+        groups="account.group_account_manager"/>
+
+</odoo>

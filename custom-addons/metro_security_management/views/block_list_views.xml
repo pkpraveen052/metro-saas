@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="block_list_tree_view" model="ir.ui.view">
+            <field name="name">block.list.list.view</field>
+            <field name="model">block.list</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="location_id"/>
+                    <field name="block_reason"/>
+                    <field name="visitor_company_id"/>
+                    <field name="visitor_vehicle_id"/>
+                    <field name="visitor_ic_num_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="block_list_form_view" model="ir.ui.view">
+            <field name="name">block.list.form.view</field>
+            <field name="model">block.list</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="location_id" options="{'no_create': True}"/>
+                                <field name="block_reason" widget="radio"/>
+                                <field name="visitor_ic_num_id" attrs="{'invisible': [('block_reason', '!=', 'ic_number')]}"/>
+                                <field name="visitor_vehicle_id" attrs="{'invisible': [('block_reason', '!=', 'vehicle')]}"/>
+                                <field name="visitor_company_id" attrs="{'invisible': [('block_reason', '!=', 'company')]}"/>
+                                <field name="is_blocked"/>
+                            </group>
+                            <group>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="block_list_search_view" model="ir.ui.view">
+            <field name="name">block.list.search.view</field>
+            <field name="model">block.list</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="is_blocked_filter" string="Is Blocked" domain="[('is_blocked', '=', True)]"/>
+                    <separator/>
+                    <filter string="Create Date" name="filter_create_date" date="create_date"/>
+                    <field name="location_id" string="Location"/>
+                    <field name="visitor_company_id" string="Visitor Company"/>
+                    <field name="visitor_vehicle_id" string="Visitor Vehicle"/>
+                    <field name="visitor_ic_num_id" string="IC Number"/>
+                    <field name="block_reason" string="Blocked By"/>
+                    <group expand="1" string="Group By">
+                        <filter name="group_location" string="Location" context="{'group_by':'location_id'}"/>
+                        <filter name="group_company" string="Visitor Company" context="{'group_by':'visitor_company_id'}"/>
+                        <filter name="group_vehicle" string="Visitor Vehicle" context="{'group_by':'visitor_vehicle_id'}"/>
+                        <filter name="group_ic_num" string="IC Number" context="{'group_by':'visitor_ic_num_id'}"/>
+                        <filter name="group_block_reason" string="Blocked By" context="{'group_by':'block_reason'}"/>
+                        <filter name="group_is_blocked" string="Is Blocked" context="{'group_by':'is_blocked'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="block_list_action_window" model="ir.actions.act_window">
+            <field name="name">Blocked Visitors</field>
+            <field name="res_model">block.list</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="context">{'search_default_is_blocked_filter': 1}</field>
+        </record>
+        
+        <menuitem id="block_list_menu_root"
+            parent="configuration_menu"
+            action="block_list_action_window"
+            name="Blocked Visitors"/>
+
+        </data>
+</odoo>

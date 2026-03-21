@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="user_guide_tags_account" model="user.guide.tags">
+        <field name="name">Accounting</field>
+    </record>
+
+    <record id="user_guide_tags_sales" model="user.guide.tags">
+        <field name="name">Sales</field>
+    </record>
+
+    <record id="user_guide_tags_purchase" model="user.guide.tags">
+        <field name="name">Purchase</field>
+    </record>
+
+    <record id="user_guide_tags_peppol" model="user.guide.tags">
+        <field name="name">PEPPOL</field>
+    </record>
+
+    <record id="user_guide_tags_inventory" model="user.guide.tags">
+        <field name="name">Inventory</field>
+    </record>
+
+     <record id="user_guide_tags_contacts" model="user.guide.tags">
+        <field name="name">Contacts</field>
+    </record>
+
+    <record id="assign_all_user_on_user_guide_list" model="ir.cron">
+            <field name="name">User Guide</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="active">False</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_user_guide"/>
+            <field name="code">model.assign_user_on_group_user_guide()</field>
+            <field name="state">code</field>
+        </record>
+</odoo>

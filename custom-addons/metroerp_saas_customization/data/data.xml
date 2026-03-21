@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record forcecreate="True" id="default_company_api_key" model="ir.property">
+            <field name="name">Company API KEY</field>
+            <field name="value">keynochnages</field>
+             <field name="fields_id" search="[('model','=','res.company'),('name','=','company_apikey')]"/>
+            <field name="type">char</field>
+            <field name="company_id">1</field>
+        </record>
+
+        <record forcecreate="True" id="default_company_api_secret" model="ir.property">
+            <field name="name">Company API SECRET</field>
+            <field name="value">secretnochnages</field>
+             <field name="fields_id" search="[('model','=','res.company'),('name','=','company_apisecret')]"/>
+            <field name="type">char</field>
+            <field name="company_id">1</field>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <record id="accounting_partner_new_company" model="mail.template">
+            <field name="name">New Company Created by AP - Notification</field>
+            <field name="model_id" ref="base.model_res_company"/>
+            <field name="email_from">${(user.email_formatted) | safe}</field>
+            <field name="email_to">am@metrogroup.solutions</field>
+            <field name="subject">New Company Created: ${object.name}</field>
+            <field name="body_html">
+                <![CDATA[
+                <p>Hello,</p>
+                <p>A new company has been created in the system by the Accounting Partner:</p>
+                <ul>
+                    <li><strong>Company Name:</strong> ${object.name}</li>
+                    <li><strong>Created By:</strong> ${user.name}</li>
+                    <li><strong>User Email:</strong> ${user.email}</li>
+                </ul>
+                <p>Thank you</p>
+                ]]>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

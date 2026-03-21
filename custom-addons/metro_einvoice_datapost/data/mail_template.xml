@@ -1,0 +1,169 @@
+<odoo>
+    <data noupdate="1">
+
+       <!-- Notification to Purchase Representative when a new Invoice received from Peppol -->
+       <record id="incoming_invoice_mapped_notification" model="mail.template">
+           <field name="name">Peppol Incoming Invoice Mapped</field>
+           <field name="model_id" ref="purchase.model_purchase_order"/>
+           <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+           <field name="email_to" >${object.user_id.email}</field>
+           <field name="subject">A new invoice received from Peppol and mapped against PO '${object.name}'</field>
+           <field name="auto_delete" eval="False"/>
+           <field name="lang">${object.user_id.lang}</field>
+           <field name="body_html"><![CDATA[
+                <p>Hello</p>
+                <p>A new Invoice has been received from the Peppol network and mapped against the Purchase Order <b>${object.name}</b>. Please click on the below button to view the document.</p>
+                <div class="footer" style="text-align:center;display:flex;padding-top: 10px;">
+                    % set website_url = object.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                    <div>
+                        <a target="_blank" role="button" class="btn btn-primary" href="${website_url}/web#id=${ctx['document_id']}&action=${ctx['action_id']}&model=peppol.queue.in&view_type=form" style="background-color: #41ac4d;padding: 8px 16px 8px 16px;text-decoration: none;color: #fff;border-radius: 5px;font-size:13px;">View Invoice</a>
+                    </div>
+                </div>
+                 ]]>
+           </field>
+       </record>
+
+	<!-- Notification to Purchase Admin and Account Admin when a new Incoming Invoice received -->
+       <record id="incoming_invoice_document_notification" model="mail.template">
+           <field name="name">Peppol Incoming Invoice Document</field>
+           <field name="model_id" ref="metro_einvoice_datapost.model_peppol_queue_in"/>
+           <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+           <field name="email_to" >${ctx['email_to']}</field>
+           <field name="subject">New e-Invoice '${object.invoice_no}' received</field>
+           <field name="auto_delete" eval="False"/>
+           <field name="lang">${object.company_id.lang}</field>
+           <field name="body_html"><![CDATA[
+                <p>Hi</p><br/>
+                <p>
+                    A new e-Invoice is received with status <b>
+                    % if object.state == 'success':
+                        Mapped
+                    % elif object.state == 'sent_to_process':
+                        Unmapped
+                    % elif object.state == 'error':
+                        Failed
+                    % endif
+                    </b>.
+                </p>
+                % if object.state == 'success':
+                    <p>Invoice Mapped to the PO <b>${object.po_id.name}</b>.</p>
+                % endif
+                <br/>
+                <div class="footer" style="text-align:center;display:flex;padding-top: 10px;">
+                    % set website_url = object.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                    <div>
+                        <a target="_blank" role="button" class="btn btn-primary" href="${website_url}/web#id=${ctx['document_id']}&action=${ctx['action_id']}&model=peppol.queue.in&view_type=form" style="background-color: #41ac4d;padding: 8px 16px 8px 16px;text-decoration: none;color: #fff;border-radius: 5px;font-size:13px;">View Invoice</a>
+                    </div>
+                </div>
+                 ]]>
+           </field>
+       </record>
+
+  <!-- Register in Peppol -->
+       <record id="peppol_business_user_registration" model="mail.template">
+           <field name="name">Peppol Business User Register</field>
+           <field name="model_id" ref="base.model_res_company"/>
+           <field name="email_from">"${object.name | safe}" &lt;${(object.email or user.email) | safe}&gt;</field>
+           <field name="email_to" >test@test.com</field>
+           <field name="email_cc" >dhaval@metrogroup.solutions,ankan@metrogroup.solutions,murtuza@metrogroup.solutions</field>
+           <field name="subject">Register ${object.name} in Peppol</field>
+           <field name="auto_delete" eval="False"/>
+           <field name="lang">${object.lang}</field>
+           <field name="body_html"><![CDATA[
+                <p>Dear Team,</p>
+                <br>
+                <p>Please find the company detais to register in Peppol:</p>
+                <br>
+                <p><b>Company Business Name:</b> ${object.name}</p>
+                <p><b>UEN:</b> ${object.l10n_sg_unique_entity_number}</p>
+                <p>
+                  <b>Address:</b> <br>
+                  % if object.street 
+                    ${object.street},<br>
+                  % endif
+                  % if object.street2
+                    ${object.street2},<br>
+                  % endif
+                  % if object.city
+                    ${object.city},<br>
+                  % endif
+                  % if object.state_id
+                    ${object.state_id.name},
+                  % endif
+                  % if object.zip
+                    ${object.zip}<br>
+                  % endif
+                  % if object.country_id
+                    ${object.country_id.name}<br>
+                  % endif
+                  % if object.phone
+                    <b>Phone:</b> ${object.phone}
+                  % endif
+                  % if object.email
+                    <b>Email:</b> ${object.email}
+                  % endif
+                </p>
+                <br>
+                <p>
+                    Thanks & Regards,
+                </p>
+                <p>${object.name}</p>
+                 ]]>
+           </field>
+       </record>
+
+       <!--Send News Email template -->
+        <record id="email_template_res_partner_news" model="mail.template">
+            <field name="name">Send News</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="email_from">${(user.email_formatted) | safe}</field>
+            <field name="partner_to"></field>
+            <field name="subject">Experience New Advancement with New InvoiceNow Feature!</field>
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding: 0px;">
+                    <p style="padding: 0px; font-size: 13px;">
+                        Dear ${object.name},</p><p style="padding: 0px; font-size: 13px;">
+                        <br/></p><p style="padding: 0px;">We hope this message finds you well.</p><p style="padding: 0px;"><br/></p><p style="padding: 0px;">We are thrilled to share exciting advancements that directly benefit your workflow and efficiency. As a part of digitalisation, we are on InvoiceNow network, we have also recently implemented e-Doc enablement (e-PO &amp; Invoice Responses), bringing forth two pivotal features that we believe will greatly enhance your experience:</p><p style="padding: 0px;"><br/></p><p style="padding: 0px;"><b>Receipt of Purchase Orders via InvoiceNow</b>: We are now equipped to effortlessly receive Purchase Orders directly through the InvoiceNow platform, we request you to send order via InvoiceNow. This integration simplifies the procurement process, ensuring smoother and faster transactions between our systems.</p><p style="padding: 0px;"><br/></p><p style="padding: 0px;"><b>Sending and Receiving Invoice Responses</b>: With our latest update, we can seamlessly send and receive Invoice Responses, fostering a more responsive and interactive invoicing process.</p><p style="padding: 0px;"><br/></p><p style="padding: 0px;"><u>Additionally, we would like to highlight the significant benefits of leveraging InvoiceNow:</u></p><p style="padding: 0px;"><br/></p><p style="padding: 0px;"><b><i>Real-time Interaction</i></b>: InvoiceNow facilitates real-time interaction between systems, enabling swift and accurate document exchange. This immediacy reduces the risk of errors and delays, ensuring a more agile and reliable transactional process.</p><p style="padding: 0px;"><br/></p><p style="padding: 0px;"><b><i>Enhanced Efficiency</i></b>: By harnessing InvoiceNow, you're tapping into a platform that optimizes efficiency, empowering you to manage invoices and purchase orders seamlessly. This efficiency directly translates into saved time and resources, allowing for a more focused approach to your core operations.</p><p style="padding: 0px;"><br/></p><p style="padding: 0px;">If you have any queries or if you need further information regarding InvoiceNow network, kindly do not hesitate to reach out to us.</p><p style="padding: 0px;"><br/></p><p style="padding: 0px;">Thank you for your consideration.<br/><br/>Best Regards,</p><p style="padding: 0px;">${user.name},<br/></p><p style="padding: 0px;">${user.company_id.name}</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+      <record id="email_template_activate_iras_api_for_c5" model="mail.template">
+           <field name="name">Activate IRAS API For C5</field>
+           <field name="model_id" ref="metro_einvoice_datapost.model_c5_activation"/>
+           <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+           <field name="email_to" >peppol@sodainmimd.com</field>
+          <field name="email_cc" >peppol@sodainmimd.com</field>
+           <field name="subject">Activate IRAS API For C5</field>
+           <field name="auto_delete" eval="False"/>
+           <field name="body_html"><![CDATA[
+                <p>Hi</p>
+                <p>Please activate IRAS API for C5</p>
+                <p>Peppol ID: ${object.peppol_id}</p>
+                <p>Name: ${object.signer_name}</p>
+                <p>Email: ${object.signer_email}</p>
+                 ]]>
+           </field>
+       </record>
+
+        <record id="email_template_deactivate_iras_api_for_c5" model="mail.template">
+           <field name="name">Deactivate IRAS API For C5</field>
+           <field name="model_id" ref="metro_einvoice_datapost.model_c5_activation"/>
+           <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+           <field name="email_to" >peppol@sodainmimd.com</field>
+            <field name="email_cc" >peppol@sodainmimd.com</field>
+           <field name="subject">Dctivate IRAS API For C5</field>
+           <field name="auto_delete" eval="False"/>
+           <field name="body_html"><![CDATA[
+                <p>Hi</p>
+                <p>Please Deactivate IRAS API for C5</p>
+                <p>Peppol ID: ${object.peppol_id}</p>
+                <p>Name: ${object.signer_name}</p>
+                <p>Email: ${object.signer_email}</p>
+                 ]]>
+           </field>
+       </record>
+
+    </data>
+</odoo>

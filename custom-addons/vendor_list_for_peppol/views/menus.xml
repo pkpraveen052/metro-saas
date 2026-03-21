@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="main_menu_vendor_list_peppol"
+        name="Vendor List For Peppol"
+        sequence="302"
+        web_icon="vendor_list_for_peppol,static/description/icon.png"/>
+</odoo>

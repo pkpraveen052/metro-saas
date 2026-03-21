@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="director_statement_tree" model="ir.ui.view">
+            <field name="name">director.statement.tree</field>
+            <field name="model">director.statement</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="year"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="create_date"/>
+                    <field name="id" invisible="1"/> 
+                    <field name="current_accounting"/> 
+                    <button name="action_print_report" type="object" string="Print Report" class="btn-primary" attrs="{'invisible': [('id','=',False)]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="director_statement_form" model="ir.ui.view">
+            <field name="name">director.statement.form</field>
+            <field name="model">director.statement</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="fetch" string=" Fetch Accounts" type="object" icon="fa-refresh" attrs="{'invisible': [('current_accounting','=',False)]}"/>
+                        <button name="action_print_report" type="object" string="Print Report" class="btn-primary" attrs="{'invisible': [('id','=',False)]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="year"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                            <group>             
+                                <field name="template_id" placeholder="Select any" required="1" domain="[('company_id','=',company_id)]"/> 
+                                <field name="current_accounting"/> 
+                                <field name="id" invisible="1"/>      
+                                <!-- <field name="fyear_end_date" invisible="1"/>           -->
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="General">
+                                <separator string="Director Statement"/>
+                                <span><b style="font-weight: 900;font-size: 14px;">OPINION OF THE DIRECTOR</b></span>
+                                <field name="director_statement_opinion1" placeholder="eg: Type here" nolabel="1"/><br/>
+                                <field name="director_statement_opinion2" placeholder="eg: Type here" nolabel="1"/>
+                                <br/><br/>
+                                <span><b style="font-weight: 900;font-size: 14px;">ARRANGEMENTS TO ACQUIRE SHARES OR DEBENTURES</b></span>
+                                <field name="director_statement_arrangements" placeholder="eg: Type here" nolabel="1"/>
+                                <br/><br/>
+                                <span><b style="font-weight: 900;font-size: 14px;">INTERESTS IN SHARES OR DEBENTURES</b></span>
+                                <field name="director_statement_interests" placeholder="eg: Type here" nolabel="1"/><br/>
+                                <field name="ordinary_shares_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="director_name"/>
+                                        <field name="beginning_year_amt"/>
+                                        <field name="end_year_amt"/>
+                                    </tree>
+                                </field>
+                                <br/><br/>
+                                <span><b style="font-weight: 900;font-size: 14px;">SHARE OPTIONS</b></span>
+                                <field name="director_statement_share_options" placeholder="eg: Type here" nolabel="1"/>                            
+                            </page>
+                            <page string="Profit &amp; Loss">
+                                <separator string="Statement of Comprehensive Income"/>
+                                <div style="text-align: right;font-size: 15px;border-bottom: 1px solid black;max-width: 100%;">
+                                    <span>Current Year: <b><field name="current_year" readonly="1" nolabel="1"/></b></span><br/>
+                                    <span>Previous Year: <b><field name="previous_year" readonly="1" nolabel="1"/></b></span>
+                                </div>
+                                <field name="pl_ids">
+                                    <tree decoration-bf="no_child" decoration-info="not no_child" limit="9999999">
+                                        <field name="sequence" widget="handle" />
+                                        <field name="name" string=" " invisible="1"/>
+                                        <field name="name_display" string=" "/>
+                                        <field name="note" optional="hide"/>
+                                        <field name="bal_curr_year"/>
+                                        <field name="bal_prev_year"/>
+                                        <field name="is_parent" invisible="1"/>
+                                        <field name="no_child" invisible="1"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="name" placeholder="Enter here"/>
+                                            </group>
+                                            <group>
+                                                <field name="bal_curr_year_temp" placeholder="eg: 3,450.00"/>
+                                                <field name="bal_prev_year_temp" placeholder="eg: 4,600.00"/>
+                                                <field name="bal_curr_year" invisible="1"/>
+                                                <field name="bal_prev_year" invisible="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="level" placeholder="Enter 1 or 2 or 3"/>
+                                            </group>
+                                            <group>
+                                                <field name="note" placeholder="eg: 6"/>
+                                                <field name="no_child" invisible="1"/>
+                                                <field name="sequence" invisible="1"/>
+                                            </group>
+                                        </group>
+                                        <separator string="Extra Notes"/>
+                                        <field name="content" placeholder="Type here..." nolabel="1"/>
+                                        <br/>
+                                        <b><field name="display_name" readonly="1" nolabel="1" invisible="1"/></b>
+                                        <field name="account_ids"> <!--attrs="{'invisible': [('no_child','=',True)]}" -->
+                                            <tree limit="9999999" editable="bottom">
+                                                <field name="sequence" widget="handle" />
+                                                <field name="name"/>
+                                                <field name="bal_curr_year_temp"/>
+                                                <field name="bal_prev_year_temp"/>
+                                            </tree>
+                                        </field>                            
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Balance Sheet">
+                                <separator string="Statement of Financial Position"/>
+                                <div style="text-align: right;font-size: 15px;border-bottom: 1px solid black;max-width: 100%;">
+                                    <span>Current Year: <b><field name="current_year" readonly="1" nolabel="1"/></b></span><br/>
+                                    <span>Previous Year: <b><field name="previous_year" readonly="1" nolabel="1"/></b></span>
+                                </div>
+                                <field name="bs_ids">
+                                    <tree decoration-bf="no_child" decoration-info="not no_child" limit="9999999">
+                                        <field name="sequence" widget="handle" />
+                                        <field name="name" string=" " invisible="1"/>
+                                        <field name="name_display" string=" "/>
+                                        <field name="note" optional="hide"/>
+                                        <field name="bal_curr_year"/>
+                                        <field name="bal_prev_year"/>
+                                        <field name="is_parent" invisible="1"/>
+                                        <field name="no_child" invisible="1"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="name" placeholder="Enter here"/>
+                                            </group>
+                                            <group>
+                                                <field name="bal_curr_year_temp" placeholder="eg: 3,450.00"/>
+                                                <field name="bal_prev_year_temp" placeholder="eg: 4,600.00"/>
+                                                <field name="bal_curr_year" invisible="1"/>
+                                                <field name="bal_prev_year" invisible="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="level" placeholder="Enter 1 or 2 or 3"/>
+                                            </group>
+                                            <group>
+                                                <field name="note" placeholder="eg: 6"/>
+                                                <field name="no_child" invisible="1"/>
+                                                <field name="sequence" invisible="1"/>
+                                            </group>
+                                        </group>
+                                        <separator string="Extra Notes"/>
+                                        <field name="content" placeholder="Type here..." nolabel="1"/>
+                                        <br/>
+                                        <b><field name="display_name" readonly="1" nolabel="1" invisible="1"/></b>
+                                        <field name="account_ids"> <!--attrs="{'invisible': [('no_child','=',True)]}" -->
+                                            <tree limit="9999999" editable="bottom">
+                                                <field name="sequence" widget="handle" />
+                                                <field name="name"/>
+                                                <field name="bal_curr_year_temp"/>
+                                                <field name="bal_prev_year_temp"/>
+                                            </tree>
+                                        </field>                            
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Cash Flow">
+                                <separator string="Statement of Cash Flows"/>
+                                <div style="text-align: right;font-size: 15px;border-bottom: 1px solid black;max-width: 100%;">
+                                    <span>Current Year: <b><field name="current_year" readonly="1" nolabel="1"/></b></span><br/>
+                                    <span>Previous Year: <b><field name="previous_year" readonly="1" nolabel="1"/></b></span>
+                                </div>
+                                <field name="cf_ids">
+                                    <tree decoration-bf="no_child" decoration-info="not no_child" limit="9999999">
+                                        <field name="sequence" widget="handle" />
+                                        <field name="name" string=" " invisible="1"/>
+                                        <field name="name_display" string=" "/>
+                                        <field name="note" optional="hide"/>
+                                        <field name="bal_curr_year"/>
+                                        <field name="bal_prev_year"/>
+                                        <field name="is_parent" invisible="1"/>
+                                        <field name="no_child" invisible="1"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="name" placeholder="Enter here"/>
+                                            </group>
+                                            <group>
+                                                <field name="bal_curr_year_temp" placeholder="eg: 3,450.00"/>
+                                                <field name="bal_prev_year_temp" placeholder="eg: 4,600.00"/>
+                                                <field name="bal_curr_year" invisible="1"/>
+                                                <field name="bal_prev_year" invisible="1"/>
+                                            </group>
+                                            <group>
+                                                <field name="level" placeholder="Enter 1 or 2 or 3"/>
+                                            </group>
+                                            <group>
+                                                <field name="note" placeholder="eg: 6"/>
+                                                <field name="no_child" invisible="1"/>
+                                                <field name="sequence" invisible="1"/>
+                                            </group>
+                                        </group>
+                                        <separator string="Extra Notes"/>
+                                        <field name="content" placeholder="Type here..." nolabel="1"/>
+                                        <br/>
+                                        <b><field name="display_name" readonly="1" nolabel="1" invisible="1"/></b>
+                                        <field name="account_ids"> <!--attrs="{'invisible': [('no_child','=',True)]}" -->
+                                            <tree limit="9999999" editable="bottom">
+                                                <field name="sequence" widget="handle" />
+                                                <field name="name"/>
+                                                <field name="bal_curr_year_temp"/>
+                                                <field name="bal_prev_year_temp"/>
+                                            </tree>
+                                        </field>                            
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Changes in Equity">
+                                <separator string="Statement of Changes in Equity"/>
+                                <br/><br/>
+                                <html lang="en">
+                                    <head>
+                                        <style>
+                                            table {
+                                                width: 100%;
+                                                border-collapse: collapse;
+                                            }
+                                            .th_td {
+                                                border: 0px solid black;
+                                                padding: 4px;
+                                                text-align: left;
+                                            }
+                                            .category {
+                                                font-weight: bold;
+                                                text-align: left;
+                                            }
+                                            .subtotal {
+                                                text-align: left;
+                                            }
+                                            .no-border {
+                                                border: none;
+                                            }
+                                            .note {
+                                                text-align: left;
+                                            }
+                                        </style>
+                                    </head>
+                                    <body style="background: #f9f9f9;">
+                                        <table style="font-size: 15px;background: #fffefe7d;">
+                                            <tr>
+                                                <th class="th_td"></th>
+                                                <th class="th_td">
+                                                    <span>Share Capital ($)</span>
+                                                </th>
+                                                <th class="th_td">
+                                                    <span>Retained earning ($)</span>
+                                                </th>
+                                                <th class="th_td">
+                                                    <span>Total ($)</span>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td class="th_td category"><field name="eq_changes_prev_year_start_date" required="1"/></td>
+                                                <td class="th_td no-border"><field name="eq_changes_prev_year_start_date_share_capital"/></td>
+                                                <td class="th_td no-border"><field name="eq_changes_prev_year_start_date_retained_earning"/></td>
+                                                <td class="th_td no-border"><field name="eq_changes_prev_year_start_date_total"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td class=""><span>Total comprehensive income for the financial year</span></td>
+                                                <td class="th_td no-border"><span> - </span></td>
+                                                <td class="th_td no-border"><field name="eq_changes_tot_compre_income_prev_year_retained_earning"/></td>
+                                                <td class="th_td no-border"><field name="eq_changes_tot_compre_income_prev_year_total"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="th_td category"><field name="eq_changes_prev_year_end_date" required="1"/></td>
+                                                <td class="th_td no-border" style="border-top: 1px solid;border-bottom: 3px solid;"><field name="eq_changes_prev_year_end_date_share_capital"/></td>
+                                                <td class="th_td no-border" style="border-top: 1px solid;border-bottom: 3px solid;"><field name="eq_changes_prev_year_end_date_retained_earning"/></td>
+                                                <td class="th_td no-border" style="border-top: 1px solid;border-bottom: 3px solid;"><field name="eq_changes_prev_year_end_date_total"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="th_td category"><field name="eq_changes_curr_year_start_date" required="1"/></td>
+                                                <td class="th_td no-border"><field name="eq_changes_curr_year_start_date_share_capital"/></td>
+                                                <td class="th_td no-border"><field name="eq_changes_curr_year_start_date_retained_earning"/></td>
+                                                <td class="th_td no-border"><field name="eq_changes_curr_year_start_date_total"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td class=""><span>Total comprehensive income for the financial year</span></td>
+                                                <td class="th_td no-border"><span> - </span></td>
+                                                <td class="th_td no-border"><field name="eq_changes_tot_compre_income_curr_year_retained_earning"/></td>
+                                                <td class="th_td no-border"><field name="eq_changes_tot_compre_income_curr_year_total"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="th_td category"><field name="eq_changes_curr_year_end_date" required="1"/></td>
+                                                <td class="th_td no-border" style="border-top: 1px solid;border-bottom: 3px solid;"><field name="eq_changes_curr_year_end_date_share_capital"/></td>
+                                                <td class="th_td no-border" style="border-top: 1px solid;border-bottom: 3px solid;"><field name="eq_changes_curr_year_end_date_retained_earning"/></td>
+                                                <td class="th_td no-border" style="border-top: 1px solid;border-bottom: 3px solid;"><field name="eq_changes_curr_year_end_date_total"/></td>
+                                            </tr>
+                                        </table>
+                                    </body>
+                                </html>
+                                <br/><br/>
+                            </page>
+<!--                            Property, Plant and Equipment-->
+                            <page string="Property, Plant and Equipment">
+                                <separator string="Cost"/>
+                                <br/><br/>
+                                <field name="plant_equipment_cost_ids">
+                                    <tree editable="bottom">
+                                        <field name="name" widget="char" style="width: 90px;"/>
+                                        <field name="computer_cost"/>
+                                        <field name="furniture_fittings_cost"/>
+                                        <field name="office_equipment_cost"/>
+                                        <field name="renovation_cost"/>
+                                        <field name="motor_vehicle_cost"/>
+                                        <field name="software_cost"/>
+                                        <field name="property_cost"/>
+                                        <field name="leasehold_building_cost"/>
+                                        <field name="machinery_cost"/>
+                                        <field name="it_equipment_cost"/>
+                                        <field name="total_cost"/>
+                                    </tree>
+                                </field>
+                                <br/><br/>
+                                <separator string="Depreciation"/>
+                                <br/><br/>
+                                <field name="plant_equipment_depreciation_ids">
+                                    <tree editable="bottom">
+                                        <field name="name" widget="char" style="width: 90px;"/>
+                                        <field name="computer_depreciation"/>
+                                        <field name="furniture_fittings_depreciation"/>
+                                        <field name="office_equipment_depreciation"/>
+                                        <field name="renovation_depreciation"/>
+                                        <field name="motor_vehicle_depreciation"/>
+                                        <field name="software_depreciation"/>
+                                        <field name="property_depreciation"/>
+                                        <field name="leasehold_building_depreciation"/>
+                                        <field name="machinery_depreciation"/>
+                                        <field name="it_equipment_depreciation"/>
+                                        <field name="total_depreciation"/>
+                                    </tree>
+                                </field>
+                                <br/><br/>
+                                <separator string="Carrying Amount"/>
+                                <br/><br/>
+                                <field name="plant_equipment_carryingamount_ids">
+                                    <tree editable="bottom">
+                                        <field name="name" widget="char" style="width: 90px;"/>
+                                        <field name="computer_carryamount"/>
+                                        <field name="furniture_fittings_carryamount"/>
+                                        <field name="office_equipment_carryamount"/>
+                                        <field name="renovation_carryamount"/>
+                                        <field name="motor_vehicle_carryamount"/>
+                                        <field name="software_carryamount"/>
+                                        <field name="property_carryamount"/>
+                                        <field name="leasehold_building_carryamount"/>
+                                        <field name="machinery_carryamount"/>
+                                        <field name="it_equipment_carryamount"/>
+                                        <field name="total_carryamount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Other">
+                                <group>
+                                    <group>
+                                        <field name="config_id"/>
+                                    </group>
+                                    <group>
+                                        
+                                    </group>
+                                </group>
+                                <br/>
+                                <button string="Generate DocID" type="object" name="generate_docid"/>
+                                <group>
+                                    <group>
+                                        <field name="random_docid" readonly="1"/>                                        
+                                    </group>
+                                    <group>
+                                        
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="director_statement_action">
+            <field name="name">Financial Statement</field>
+            <field name="res_model">director.statement</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id="menu_director_statement"
+              parent="menu_main_director_statement"
+              action="director_statement_action"
+              sequence="0"/>
+
+    </data>
+</odoo>

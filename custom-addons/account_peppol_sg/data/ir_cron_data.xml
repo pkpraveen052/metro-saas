@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="ir_cron_peppol_document_send_confirm" model="ir.cron">
+            <field name="name">PEPPOL: Send Documents and Get Documents Submission Evidence</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_peppol_queue_out"/>
+            <field name="code">model._cron_send_confirm()</field>
+            <field name="state">code</field>
+        </record>
+
+        <record id="webhooks_event_notification" model="ir.cron">
+            <field name="name">PEPPOL: Webhooks Event Listener - For Sending and Receiving</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_peppol_log_sg"/>
+            <field name="code">model._cron_webhook_event_listener()</field>
+            <field name="state">code</field>
+        </record>
+ 
+     </data>
+</odoo>

@@ -1,0 +1,328 @@
+.ks_style_3 {
+  font-family: $font_poppins;
+}
+.ks_header .ks_style_3 {
+  padding: 10px 10px;
+  .ks_invoice_number {
+    h3 {
+      color: $second_text_color;
+      font-size: $font_25;
+      @extend %midium_font;
+      @include company_heading;
+      text-transform: capitalize;
+    }
+    h6 {
+      @extend %theme_text_color;
+      font-size: $font_18;
+      @extend %regular_font;
+    }
+  }
+  .ks_tagline {
+    @extend %text-left;
+    p {
+      @include mb_0;
+      .ks_company_name {
+        @include ks_company_name;
+        @extend %extra_strong_font;
+      }
+      .ks_company_tagline {
+        @include ks_company_tagline;
+        @extend %light_font;
+      }
+    }
+  }
+  .ks_invoice {
+    h3 {
+      color: $second_text_color;
+      font-size: $ks_mid_font;
+      @extend %midium_font;
+    }
+    p {
+      color: $first_text_color;
+      font-size: $ks_extra_small_font;
+      @include mb_0;
+      line-height: 18px;
+    }
+
+    ul {
+      @include horizontal-list;
+      font-size: $ks_extra_small_font;
+      line-height: 18px;
+      margin: 3px 0px;
+      @extend %regular_font;
+
+      li {
+        color: $third_text_color;
+        a {
+          color: $third_text_color;
+          @extend %regular_font;
+        }
+      }
+    }
+  }
+}
+
+.ks_style_3.ks_address {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  .ks_invoice {
+    h3 {
+      color: $second_text_color;
+      font-size: $ks_mid_font;
+      @extend %midium_font;
+    }
+    p {
+      color: $font_text_clr_7;
+      font-size: $ks_extra_small_font;
+      @include mb_0;
+      line-height: 22px;
+      @extend %regular_font;
+    }
+    ul {
+      @include vertical-list;
+      font-size: $very_low_font;
+      @extend %regular_font;
+      line-height: 20px;
+      margin-top: 10px;
+
+      li {
+        color: $third_text_color;
+        a {
+          color: $third_text_color;
+          word-break: break-all;
+        }
+      }
+    }
+  }
+  .ks_details {
+    margin-bottom: 5px;
+    p {
+      @include mb_0;
+    }
+    .font_9 {
+      @extend %regular_font;
+      color: $font_text_clr_7;
+    }
+    .font_10 {
+      @extend %midium_font;
+      color: $font_text_6;
+    }
+    @extend %text-right;
+  }
+  .ks_total {
+    @extend %text-right;
+    p {
+      color: $third_text_color;
+    }
+    h4 {
+      font-size: $ks_mid_font;
+      color: $text_white;
+      position: relative;
+      padding: 10px 0px;
+
+      > span {
+        @extend %pad_8;
+        background: $theme_color3;
+        @extend %strong_font;
+        @extend %border_rad_5;
+        display: inline-block;
+
+        right: 0px;
+      }
+    }
+  }
+}
+
+.ks_style_3.ks_table_section {
+  .custom-container {
+    padding: 10px 10px;
+  }
+  background: $bg_theme_3;
+  table {
+    @extend %ks_table;
+    thead {
+      th {
+        font-size: $font_11;
+        font-weight: 600 !important;
+        padding: 8px 8px;
+        color: $second_text_color;
+      }
+    }
+    tbody {
+      .ks_table_img {
+        span {
+          img {
+            @include ks_table_img;
+          }
+        }
+        text-align: center;
+      }
+      .ks_product_image {
+        text-align: center;
+      }
+      @include border_gray;
+      background: $bg_theme_3;
+      tr {
+        @extend %border-top-1;
+        td {
+          font-size: $font_13;
+          padding: 8px 8px;
+          color: $first_text_color;
+          display: table-cell;
+          vertical-align: middle;
+          p {
+             @include mb_0;
+             @extend %table-description;
+          }
+          strong {
+            @extend %strong-text;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ks_style_3.ks_history_nd_total {
+  background: $bg_theme_3;
+  .custom-container {
+    padding: 10px 10px;
+  }
+  h6 {
+    @include ks_heading;
+  }
+  .ks_total_table {
+    @extend %ks_table;
+    tbody {
+      tr {
+        td {
+          @extend %border_0;
+          @extend %text-right;
+          @extend %pad_8;
+        }
+      }
+      .ks_subtotal {
+        td {
+          @include total_font;
+
+          &:first-child {
+            @extend %regular_font;
+          }
+        }
+      }
+      .ks_text_rate {
+        td {
+          @include total_font;
+          &:first-child {
+            @extend %regular_font;
+          }
+        }
+      }
+      .ks_grnad_total {
+        @include border_gray;
+        td {
+          @extend %semi_bold_font;
+          @include total_font;
+          color: $theme_color3;
+          font-size: $font_11;
+        }
+      }
+      .ks_amount_due {
+        font-size: $font_18;
+        font-weight: 600 !important;
+        td {
+          &:first-child {
+            @extend %regular_font;
+            font-size: $font_11;
+          }
+        }
+      }
+    }
+  }
+  .ks_history_details {
+    background: #f5f5f5;
+    padding: 4px 8px;
+    @extend %border_rad_5;
+
+    .round_shape {
+      background: $theme_color3;
+    }
+    .ks_list_text {
+      font-size: $font_7;
+      color: $third_text_color;
+    }
+    p {
+      font-size: $ks_extra_small_font;
+      @include mb_0;
+      .round_shape {
+        @extend %semi_bold_font;
+      }
+    }
+  }
+  .ks_amount_in_words {
+    p {
+      @include ks_amount_in_words;
+      @include mb_0;
+    }
+  }
+}
+
+.ks_style_3.ks_payment_term_sign {
+  .sign_img {
+    max-height: 60px;
+  }
+  .ks_option_des {
+    h4 {
+      @extend %midium_font;
+      color: $font_text_6;
+      font-size: $font_11;
+    }
+    span {
+      display: block;
+      font-size: $font_10;
+      color: $font_text_clr_7;
+      margin-bottom: 2px;
+      @extend %regular_font;
+    }
+    p {
+      font-size: $font_10;
+      color: $theme_text10;
+      margin-bottom: 6px;
+      @extend %light_font;
+    }
+  }
+  h6 {
+    @include ks_heading;
+    color: $first_text_color;
+    @extend %midium_font;
+  }
+  p {
+    font-size: $font_7;
+    color: $third_text_color;
+  }
+}
+
+.ks_style_3.ks_footer {
+  .custom-container {
+    padding: 4px 10px;
+  }
+  ul {
+    @include horizontal-list;
+    @extend %text-center;
+    li {
+      a {
+        color: $second_text_color;
+        font-size: $very_low_font;
+        font-weight: 500 !important;
+      }
+    }
+  }
+  .ks_custom_footer {
+    color: $second_text_color;
+  }
+  p {
+    @extend %text-center;
+    font-size: $very_low_font;
+  }
+}

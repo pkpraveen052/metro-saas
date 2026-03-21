@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_report_view_graph_peppol" model="ir.ui.view">
+        <field name="name">stock_report_view_graph_peppol</field>
+        <field name="model">report.stock.quantity</field>
+        <field name="inherit_id" ref="stock.stock_report_view_graph"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_qty']" position="after">
+                 <field name="product_cost" type="measure"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

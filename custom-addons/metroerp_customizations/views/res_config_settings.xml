@@ -1,0 +1,1111 @@
+<odoo>
+	<data>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='appstore']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@id='contacts_settings']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='iap_portal']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[hasclass('app_settings_block')]/h2[4]" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@name='integration']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='document_layout_setting']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <!-- <xpath expr="//div[hasclass('app_settings_block')]/h2[5]" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath> -->
+            </field>
+
+        </record>
+
+        
+
+        <record
+			id="res_config_settings_view_form_add_sale_purchase_history_configuration"
+			model="ir.ui.view">
+			<field name="name">res.config.settings.view.form.extends.add.sale.purchase.history.configuration
+			</field>
+			<field name="model">res.config.settings</field>
+			<field name="inherit_id"
+				ref="sale.res_config_settings_view_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//div[@data-key='sale_management']"
+					position="inside">
+					<h2>Sales Price History
+					</h2>
+					<div class="row mt16 o_settings_container">
+						<div class="col-12 col-lg-6 o_setting_box">
+
+							<div class="o_setting_right_pane">
+                                <label string="Record Limit" for="sale_order_line_record_limit"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="sale_order_line_record_limit" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+
+
+						</div>
+						<div class="col-12 col-lg-6 o_setting_box">
+							<div class="o_setting_right_pane">
+                                <label string="Show Price History Based on" for="sale_order_status"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="sale_order_status" class="o_light_label" widget="radio"/>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</xpath>
+                 <!-- <xpath expr="//div[@id='pricing_setting_container']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath> -->
+                <xpath expr="//div[@data-key='sale_management']/h2[2]" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='email_template']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='stock_packaging']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='product_matrix']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='variant_options']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='product_configurator']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='variant_options']//field[@name='group_product_variant']" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </xpath>
+                 <xpath expr="//div[@id='delivery']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='invoice_delivery_addresses']" position="after">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="quotation_auto_sent"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="quotation_auto_sent"/>
+                            <div class="text-muted">
+                                Automatically moves the stage from Quotation to Quotation Sent.
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+			</field>
+		</record>
+
+		<record
+			id="res_config_settings_view_form_purchase_add_sale_purchase_history_configuration"
+			model="ir.ui.view">
+			<field name="name">res.config.settings.view.form.purchase.extends.add.sale.purchase.history.configuration
+			</field>
+			<field name="model">res.config.settings</field>
+			<field name="inherit_id"
+				ref="purchase.res_config_settings_view_form_purchase" />
+			<field name="arch" type="xml">
+				<xpath expr="//div[@data-key='purchase']"
+					position="inside">
+					<h2>Purchase Price History
+					</h2>
+					<div class="row mt16 o_settings_container">
+						<div class="col-12 col-lg-6 o_setting_box">
+
+							<div class="o_setting_right_pane">
+                                <label string="Record Limit" for="purchase_order_line_record_limit"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="purchase_order_line_record_limit" class="o_light_label"/>
+                                    </div>
+                                </div>
+                            </div>
+
+
+						</div>
+						<div class="col-12 col-lg-6 o_setting_box">
+							<div class="o_setting_right_pane">
+                                <label string="Show Price History Based on" for="purchase_order_status"/>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="purchase_order_status" class="o_light_label" widget="radio"/>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</xpath>
+					<xpath expr="//div[@name='matrix_setting_container']" position="attributes">
+          <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+  </xpath>
+			</field>
+		</record>
+
+        <!-- A Complete overidden view from base_setup/ -->
+        <record id="base_setup.res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.base.setup</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="0"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="General Settings" string="General Settings" data-key="general_settings">
+
+                        <div id="invite_users">
+                            <h2>Users</h2>
+                            <div class="row mt16 o_settings_container" name="users_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box" id="active_user_setting">
+                                    <div class="o_setting_right_pane">
+                                        <span class="fa fa-lg fa-users" aria-label="Number of active users"/>
+                                        <field name='active_user_count' class="w-auto pl-3 font-weight-bold"/>
+                                        <span class='o_form_label' attrs="{'invisible':[('active_user_count', '&gt;', '1')]}">
+                                            Active User
+                                        </span>
+                                        <span class='o_form_label' attrs="{'invisible':[('active_user_count', '&lt;=', '1')]}">
+                                            Active Users
+                                        </span>
+                                        <a title="Documentation" class="o_doc_link" target="_blank"></a>
+                                        <br/>
+                                        <button name="%(base.action_res_users)d" icon="fa-arrow-right" type="action" string="Manage Users" class="btn-link o_web_settings_access_rights"/>
+
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box" id="invite_users_setting">
+                                    <div class="o_setting_right_pane">
+                                        <widget name='res_config_invite_users'/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="companies">
+                            <h2>Companies</h2>
+                            <div class="row mt16 o_settings_container" name="companies_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box" id="company_details_settings">
+                                    <div class="o_setting_right_pane">
+                                        <field name="company_name" class="font-weight-bold"/>
+                                        <br/>
+                                        <field name="company_informations" class="text-muted" style="width: 90%;"/>
+                                        <br/>
+                                        <button name="open_company" icon="fa-arrow-right" type="object" string="Update Info" class="btn-link"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box" id="companies_setting">
+                                    <div class="o_setting_right_pane">
+                                        <field name='company_count' class="w-auto pl-1 font-weight-bold"/>
+                                        <span class='o_form_label' attrs="{'invisible':[('company_count', '&gt;', '1')]}">
+                                            Company
+                                        </span>
+                                        <span class='o_form_label' attrs="{'invisible':[('company_count', '&lt;=', '1')]}">
+                                            Companies
+                                        </span>
+                                        <br/>
+                                        <div class="mt8">
+                                            <button name="%(base.action_res_company_form)d" icon="fa-arrow-right" type="action" string="Manage Companies" class="btn-link"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="languages">
+                            <h2>Languages</h2>
+                            <div class='row mt16 o_settings_container' name="languages_setting_container">
+                                <div class='col-xs-12 col-md-6 o_setting_box' id="languages_setting">
+                                    <div class='o_setting_right_pane'>
+                                        <!-- TODO This is not an ideal solution but it looks ok on the interface -->
+                                        <div class="w-50">
+                                            <field name="language_count" class="w-auto pl-1 font-weight-bold"/>
+                                            <span class='o_form_label' attrs="{'invisible':[('language_count', '&gt;', '1')]}">
+                                                Language
+                                            </span>
+                                            <span class='o_form_label' attrs="{'invisible':[('language_count', '&lt;=', '1')]}">
+                                                Languages
+                                            </span>
+                                        </div>
+                                        <div class="mt8">
+                                            <button name="%(base.action_view_base_language_install)d" icon="fa-arrow-right" type="action" string="Add Language" class="btn-link"/>
+                                        </div>
+                                        <div class="mt8" groups="base.group_no_one">
+                                            <button name="%(base.res_lang_act_window)d" icon="fa-arrow-right" type="action" string="Manage Languages" class="btn-link"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="business_documents">
+                            <h2>Business Documents</h2>
+                            <div class="row mt16 o_settings_container" name="business_documents_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box" id="paper_format_setting">
+                                    <div class="o_setting_right_pane">
+                                        <span class="o_form_label">Format</span>
+                                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                                        <div class="text-muted">
+                                            Set the paper format of printed documents
+                                        </div>
+                                        <div class="content-group">
+                                            <div class="mt16 row">
+                                                <label for="paperformat_id" string="Format" class="col-3 col-lg-3 o_light_label"/>
+                                                <field name="paperformat_id" class="oe_inline" required="1"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box" id="document_layout_setting">
+                                    <div class="o_setting_right_pane">
+                                        <span class="o_form_label">Document Layout</span>
+                                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                                        <div class="text-muted">
+                                            Choose the layout of your documents
+                                        </div>
+                                        <div class="content-group">
+                                            <div class="mt16" groups="base.group_no_one">
+                                                <label for="external_report_layout_id" string="Layout" class="col-3 col-lg-3 o_light_label"/>
+                                                <field name="external_report_layout_id" domain="[('type','=', 'qweb')]" class="oe_inline"/>
+                                            </div>
+                                            <div class="mt8">
+                                                <button name="%(web.action_base_document_layout_configurator)d" string="Configure Document Layout" type="action" class="oe_link" icon="fa-arrow-right"/>
+                                                <button name="edit_external_header" string="Edit Layout" type="object" class="oe_link" groups="base.group_no_one"/>
+                                                <button name="%(web.action_report_externalpreview)d" string="Preview Document" type="action" class="oe_link" groups="base.group_no_one"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="contacts_settings" invisible="1">
+                            <h2>Contacts</h2>
+                            <div class="row mt16 o_settings_container" name="contacts_setting_container">
+                                <div class="col-xs-12 col-md-6 o_setting_box" id="sms">
+                                        <div class="o_setting_right_pane" id="sms_settings">
+                                            <div class="o_form_label">
+                                            Send SMS
+                                            <a title="Documentation" class="ml-1 o_doc_link" target="_blank"></a>
+                                            </div>
+                                            <div class="text-muted">
+                                                Send texts to your contacts
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6 o_setting_box" title="When populating your address book, ERP provides a list of matching companies. When selecting one item, the company data and logo are auto-filled." id="partner_autocomplete">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_partner_autocomplete"/>
+                                    </div>
+                                    <div class="o_setting_right_pane" id="partner_autocomplete_settings">
+                                        <label for="module_partner_autocomplete"/>
+                                        <div class="text-muted">
+                                            Automatically enrich your contact base with company data
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div id="emails"/>
+                    <h2>Permissions</h2>
+                    <div class="row mt16 o_settings_container" id="user_default_rights">
+                        <div class="col-12 col-lg-6 o_setting_box"  title="By default, new users get highest access rights for all installed apps." id="access_rights">
+                            <div class="o_setting_left_pane">
+                                <field name="user_default_rights"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label string="Default Access Rights" for="user_default_rights"/>
+                                <div class="text-muted">
+                                    Set custom access rights for new users
+                                </div>
+                                <div class="content-group" attrs="{'invisible': [('user_default_rights','=',False)]}">
+                                    <div class="mt8">
+                                        <button type="object" name="open_default_user" string="Default Access Rights" icon="fa-arrow-right" class="btn-link"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box"
+                             groups="base.group_system">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <button type="action" name="%(base.action_apikeys_admin)d" string="Manage API Keys" icon="fa-arrow-right" class="btn-link"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" groups="base.group_no_one" id="allow_import">
+                            <div class="o_setting_left_pane">
+                                <field name="module_base_import" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label string="Import &amp; Export" for="module_base_import"/>
+                                <a title="Documentation" class="o_doc_link" target="_blank"></a>
+                                <div class="text-muted">
+                                    Allow users to import data from CSV/XLS/XLSX/ODS files
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box" id="feedback_motivate_setting" groups="base.group_no_one">
+                            <div class="o_setting_left_pane">
+                                <field name="show_effect"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="show_effect"/>
+                                <div class="text-muted">
+                                    Add fun feedback and motivate your employees
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div id="multi_company" groups="base.group_multi_company">
+                            <field name="company_id" invisible="1"/>
+                            <h2 invisible="1">Multi-Company</h2>
+                            <div class="row mt16 o_settings_container" name="multicompany_setting_container">
+                                <div class="col-12 col-lg-6 o_setting_box" title="Configure company rules to automatically create SO/PO when one of your company sells/buys to another of your company." id="inter_company">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_account_inter_company_rules" widget="upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label string="Inter-Company Transactions" for="module_account_inter_company_rules"/>
+<!--                                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>-->
+                                        <div class="text-muted">
+                                            Automatically generate counterpart documents for orders/invoices between companies
+                                        </div>
+                                        <div class="content-group" attrs="{'invisible': [('module_account_inter_company_rules','=',False)]}" id="inter_companies_rules">
+                                            <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Integrations</h2>
+                        <div class="row mt16 o_settings_container" name="integration">
+                            <div class="col-12 col-lg-6 o_setting_box" id="external_pads_setting">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_pad"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_pad"/>
+                                    <div class="text-muted">
+                                        Use external pads in ERP Notes
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('module_pad','=',False)]}" id="msg_module_pad">
+                                        <div class="text-warning mt16"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="sync_google_calendar_setting">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_microsoft_calendar" />
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="Outlook Calendar" for="module_microsoft_calendar"/>
+                                    <div class="text-muted">
+                                        Synchronize your calendar with Outlook
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('module_microsoft_calendar', '=', False)]}" id="msg_module_microsoft_calendar">
+                                        <div class="text-warning mt16"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="sync_google_calendar_setting">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_google_calendar" />
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="Google Calendar" for="module_google_calendar"/>
+                                    <a title="Documentation" class="o_doc_link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Synchronize your calendar with Google Calendar
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('module_google_calendar','=',False)]}" id="msg_module_google_calendar">
+                                        <div class="text-warning mt16"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="google_drive_documents_setting">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_google_drive" />
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="Google Drive" for="module_google_drive"/>
+                                    <div class="text-muted">
+                                        Create and attach Google Drive documents to any record
+                                    </div>
+                                    <div class="content-group mt16" attrs="{'invisible': [('module_google_drive','=',False)]}" id="msg_module_google_drive">
+                                        <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="google_spreadsheet_setting">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_google_spreadsheet" />
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_google_spreadsheet"/>
+                                    <div class="text-muted">
+                                        Extract and analyze ERP data from Google Spreadsheet
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('module_google_spreadsheet','=',False)]}" id="msg_module_google_spreadsheet">
+                                        <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="module_auth_oauth">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_auth_oauth" />
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label string="OAuth Authentication" for="module_auth_oauth"/>
+                                    <div class="text-muted">
+                                       Use external accounts to log in (Google, Facebook, etc.)
+                                    </div>
+                                    <div class="content-group mt16" attrs="{'invisible': [('module_auth_oauth','=',False)]}" id="msg_module_auth_oauth">
+                                        <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="oauth">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_auth_ldap"/>
+                                </div>
+                                <div class="o_setting_right_pane" name="auth_ldap_right_pane">
+                                    <label string="LDAP Authentication" for="module_auth_ldap"/>
+                                    <a class="o_doc_link" target="_blank"></a>
+                                    <div class="text-muted">
+                                       Use LDAP credentials to log in
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('module_auth_ldap','=',False)]}" id="auth_ldap_warning">
+                                        <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="unsplash">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_web_unsplash"/>
+                                </div>
+                                <div class="o_setting_right_pane" id="web_unsplash_settings">
+                                    <label for="module_web_unsplash"/>
+                                    <a class="o_doc_link" target="_blank"></a>
+                                    <div class="text-muted">
+                                        Find free high-resolution images from Unsplash
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('module_web_unsplash', '=', False)]}" id="web_unsplash_warning">
+                                        <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="base_geolocalize">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_base_geolocalize"/>
+                                </div>
+                                <div class="o_setting_right_pane" id="web_geolocalize_settings">
+                                    <label string="Geo Localization" for="module_base_geolocalize"/>
+                                    <div class="text-muted">
+                                       GeoLocalize your partners
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('module_base_geolocalize','=', False)]}" name="base_geolocalize_warning">
+                                        <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to choose your Geo Provider.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="recaptcha">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_google_recaptcha"/>
+                                </div>
+                                <div class="o_setting_right_pane" id="website_recaptcha_settings">
+                                    <label for="module_google_recaptcha"/>
+                                    <div class="text-muted">
+                                        Protect your forms from spam and abuse.
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('module_google_recaptcha', '=', False)]}" id="recaptcha_warning">
+                                        <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up reCaptcha.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <widget name='res_config_dev_tool' groups="metroerp_customizations.group_debug_mode_enable"/>
+                        <div id='about' groups="base.group_system,base.group_erp_manager">
+                            <h2>About</h2>
+                            <div class="row mt16 o_settings_container" name="about_setting_container">
+                                <div class='col-12 col-lg-6 o_setting_box' id='appstore'>
+                                    <div class="d-flex">
+                                        <div class="o_setting_right_pane">
+                                            <!-- FIXME Those links are defined directly in the template which means that we will have to
+                                            update the template code is the link ever changes -->
+                                            <a class="d-block mx-auto" href="https://play.google.com/store/apps/details?id=com.odoo.mobile" target="blank">
+                                                <img alt="On Google Play" class="d-block mx-auto img img-fluid" src="/base_setup/static/src/img/google_play.png"/>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a class='d-block mx-auto' href="https://itunes.apple.com/us/app/odoo/id1272543640" target="blank">
+                                                <img alt="On Apple Store" class="d-block mx-auto img img-fluid" src="/base_setup/static/src/img/app_store.png"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <widget name='res_config_edition'/>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- A Complete overidden view from mail/ -->
+        <record id="mail.res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.mail</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <div id="emails" position='replace'>
+                    <h2>Discuss</h2>
+                    <div class="row mt16 o_settings_container" id="emails">
+                        <div class="col-12 col-lg-6 o_setting_box" id="activities_setting">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Activities</span>
+                                <div class="text-muted">
+                                    Configure your activity types
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt8">
+                                        <button name="%(mail.mail_activity_type_action)d" string="Activity Types" type="action" class="oe_link" icon="fa-arrow-right"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box"
+                            id="email_servers_setting"
+                            title="Using your own email server is required to send/receive emails in Community and Enterprise versions. Online users already benefit from a ready-to-use email server (@mycompany.erp.com).">
+                            <div class="o_setting_left_pane">
+                                <field name="external_email_server_default"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="external_email_server_default"/>
+                                <a title="Documentation" class="o_doc_link" target="_blank"></a>
+                                <div class="text-muted" id="external_email_server_default">
+                                    Configure your own email servers
+                                </div>
+                                <div class="content-group"  attrs="{'invisible': [('external_email_server_default', '=', False)]}">
+                                    <div class="row mt16" id="mail_alias_domain">
+                                        <label for="alias_domain" class="col-lg-3 o_light_label"/>
+                                        <field name="alias_domain" placeholder="mycompany.erp.com"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <!-- An inherited View -->
+    	<record id="res_config_settings_view_form_inherited" model="ir.ui.view">
+    	    <field name="name">res_config_settings_view_form.inherited</field>
+    	    <field name="model">res.config.settings</field>
+    	    <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+    	    <field name="priority" eval="2"/>
+    	    <field name="arch" type="xml">
+    			<!-- Debranding Code -->
+    			<xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Debranding Settings" data-key="metroerp_customizations" id="debranding_config1">
+                        <h2>ERP Debranding Settings</h2>
+                        <div class="row mt16 o_settings_container" id="debranding_config">
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        New favicon image.
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row">
+                                            <label for="wk_favicon" string="Favicon Image" class="col-xs-3 col-md-3 o_light_label"/>
+                                            <field name="wk_favicon" widget="image" required="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        New title brand
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <label for="title_brand" string="Title Brand" class="col-xs-3 col-md-3 o_light_label"/>
+                                            <field name="title_brand" required="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16 o_settings_container" id="debranding_config">
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <div class="text-muted">
+                                        New Text Replacement
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row">
+                                            <label for="odoo_text_replacement" string="Replace With?" class="col-xs-3 col-md-3 o_light_label"/>
+                                            <field name="odoo_text_replacement" required="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+    	    </field>
+    	</record>
+
+        <!-- An inherited View  -->
+        <record id="res_config_settings_view_form_iap_inherit" model="ir.ui.view">
+            <field name="name">res_config_settings_view_form.iap.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="iap.res_config_settings_view_form"/>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='iap_credits_setting']/div[hasclass('o_setting_right_pane')]/div[hasclass('o_form_label')]" position="replace">
+                    <div class="o_form_label">
+                    ERP IAP
+                    <a title="Documentation" class="o_doc_link" target="_blank"></a>
+                    <a title="Documentation" class="ml-1 o_doc_link" target="_blank"></a>
+                    </div>
+                </xpath> 
+                <xpath expr="//div[@id='iap_credits_setting']/div[hasclass('o_setting_right_pane')]/div[hasclass('mt8')]/button" position="attributes">
+                    <attribute name="disabled">disabled</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_config_settings_view_form_sales_tc" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.sale.sales_tc</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='quotation_order_setting_container']" position="inside">
+                    <div class="col-12 col-lg-6 o_setting_box" id="use_sales_tc">
+                        <div class="o_setting_left_pane">
+                            <field name="use_sales_tc"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="use_sales_tc"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Show standard terms &amp; conditions on Orders
+                            </div>
+                            <div class="content-group" attrs="{'invisible': [('use_sales_tc','=',False)]}">
+                                <div class="mt16">
+                                    <field name="sales_tc" placeholder="Insert your terms &amp; conditions here..."/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="order_date_quotation_date_configuration">
+                        <div class="o_setting_left_pane">
+                            <field name="order_date_same_as_quotation_date"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="order_date_same_as_quotation_date"/>
+                            <div class="text-muted">
+                                Allows you to configure order date same as quotation date.
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//div[@name='invoicing_setting_container']" position="inside">
+                    <div class="col-12 col-lg-6 o_setting_box" id="use_sales_invoice_tc">
+                        <div class="o_setting_left_pane">
+                            <field name="use_sales_invoice_tc"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="use_sales_invoice_tc"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Show standard terms &amp; conditions on Invoices
+                            </div>
+                            <div class="content-group" attrs="{'invisible': [('use_sales_invoice_tc','=',False)]}">
+                                <div class="mt16">
+                                    <field name="sales_invoice_tc" placeholder="Insert your terms &amp; conditions here..."/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="use_delivery_tc">
+                        <div class="o_setting_left_pane">
+                            <field name="use_delivery_tc"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="use_delivery_tc"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Show standard terms &amp; conditions on Delivery Orders
+                            </div>
+                            <div class="content-group" attrs="{'invisible': [('use_delivery_tc','=',False)]}">
+                                <div class="mt16">
+                                    <field name="deliver_tc" placeholder="Insert your terms &amp; conditions here..."/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='module_delivery']" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </xpath>
+		<xpath expr="//div[@id='variant_options']//field[@name='group_product_variant']" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//div[@id='delivery']//field[@name='module_delivery']" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//div[@data-string='Sales']/h2[6]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+<!--                online payment hide in config setting-->
+                <xpath expr="//div[@id='sale_config_online_confirmation_pay']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_config_settings_view_form_purchase_tc" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.purchase.purchase_tc</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='purchase_setting_container']" position="inside">
+                    <div class="col-12 col-lg-6 o_setting_box" id="use_purchase_tc">
+                        <div class="o_setting_left_pane">
+                            <field name="use_purchase_tc"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="use_purchase_tc"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Show standard terms &amp; conditions on Orders
+                            </div>
+                            <div class="content-group" attrs="{'invisible': [('use_purchase_tc','=',False)]}">
+                                <div class="mt16">
+                                    <field name="purchase_tc" placeholder="Insert your terms &amp; conditions here..."/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="confirmation_date_same_as_order_deadline_configuration">
+                        <div class="o_setting_left_pane">
+                            <field name="confirmation_date_same_as_order_deadline"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="confirmation_date_same_as_order_deadline"/>
+                            <div class="text-muted">
+                                Allows you to configure Confirmation date same as Order Deadline.
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//div[@name='invoicing_settings_container']" position="inside">
+                    <div class="col-12 col-lg-6 o_setting_box" id="use_purchase_invoice_tc">
+                        <div class="o_setting_left_pane">
+                            <field name="use_purchase_invoice_tc"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="use_purchase_invoice_tc"/>
+                            <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                            <div class="text-muted">
+                                Show standard terms &amp; conditions on Invoices
+                            </div>
+                            <div class="content-group" attrs="{'invisible': [('use_purchase_invoice_tc','=',False)]}">
+                                <div class="mt16">
+                                    <field name="purchase_invoice_tc" placeholder="Insert your terms &amp; conditions here..."/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_fiscal_localization_setting" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit</field>
+            <field name="model">res.config.settings</field> 
+            <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='analytic']" position="after">
+                    <h2>Dynamic Reports</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-12 o_setting_box"
+                            title="Allow you to enable the Currency symbol in the Excel Reports">
+                            <div class="o_setting_left_pane">
+                                <field name="ks_enable_currency_symbol_on_dynamic_report"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                              <label for="ks_enable_currency_symbol_on_dynamic_report"/>
+                            </div>
+                        </div>
+                         <div class="col-12 col-lg-12 o_setting_box"
+                            title="Allow you to enable the Customer/Vendor name in the Tax Report">
+                            <div class="o_setting_left_pane">
+                                <field name="display_customer_name_on_tax_report"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                              <label for="display_customer_name_on_tax_report"/>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col-12 col-lg-12 o_setting_box"
+                            title="Allow you to merge the Bank Accounts in BS Reports">
+                            <div class="o_setting_left_pane">
+                                <field name="merge_bank_accounts" readonly='0'/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                              <label for="merge_bank_accounts"/>
+                            </div>
+                     </div>
+                </xpath>    
+		<xpath expr="//div[@name='main_currency_setting_container']" position="replace">
+                    <div class="row mt16 o_settings_container" name="main_currency_setting_container" groups="base.group_system,metroerp_customizations.sub_admin_group">
+                            <div class="col-12 col-lg-6 o_setting_box" id="main_currency">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Main Currency</span>
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." aria-label="Values set here are company-specific." groups="base.group_multi_company" role="img"/>
+                                    <div class="text-muted">
+                                        Main currency of your company
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="row mt16">
+                                            <label for="currency_id" class="col-lg-3 o_light_label"/>
+                                            <field name="currency_id" options="{'no_create_edit': True, 'no_open': True}" context="{'active_test': False}"/>
+                                        </div>
+                                        <div class="mt16">
+                                            <b>Post Exchange difference entries in:</b>
+                                        </div>
+                                        <div class="row mt8">
+                                            <label for="currency_exchange_journal_id" class="col-lg-3 o_light_label" string="Journal" />
+                                            <field name="currency_exchange_journal_id"/>
+                                        </div>
+                                        <div class="row mt8">
+                                            <label for="income_currency_exchange_account_id" class="col-lg-3 o_light_label"/>
+                                            <field name="income_currency_exchange_account_id"/>
+                                        </div>
+                                        <div class="row mt8">
+                                            <label for="expense_currency_exchange_account_id" class="col-lg-3 o_light_label"/>
+                                            <field name="expense_currency_exchange_account_id"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="record_transactions">
+                                <div class="o_setting_left_pane" groups="!metroerp_customizations.sub_admin_group">
+                                    <field name="group_multi_currency"/>
+                                </div>
+                                <div class="o_setting_right_pane" groups="!metroerp_customizations.sub_admin_group">
+                                    <label string="Multi-Currencies" for="group_multi_currency"/>
+                                    <div class="text-muted">
+                                        Record transactions in foreign currencies
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('group_multi_currency', '=', False)]}">
+                                        <div class="mt8">
+                                            <button name="%(base.action_currency_all_form)d" icon="fa-arrow-right" type="action" string="Activate Other Currencies" class="btn-link"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box"
+                                id="update_exchange_rates"
+                                attrs="{'invisible': [('group_multi_currency', '=', False)]}">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_currency_rate_live" widget="upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_currency_rate_live"/>
+                                    <div class="text-muted" id="update_currency_live">
+                                        Update exchange rates automatically
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </xpath>
+                <xpath expr="//div[@name='fiscal_localization_setting_container']//button[@name='%(account.open_account_charts_modules)d']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@name='fiscal_localization_setting_container']//div[@class='row mt16']" position="inside">
+                    <field name="chart_of_accounts_installed" invisible="1"/>
+                    <button name="install_chart_of_account" type="object" string="Install" class="mb-2 ml-2 oe_highlight" 
+                        attrs="{'invisible': [('chart_of_accounts_installed', '=', True)]}"/>
+                </xpath>
+                <xpath expr="//div[@id='eu_service']" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </xpath>
+                <xpath expr="//div[@id='send_invoices_followups']" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </xpath>                
+                <xpath expr="//div[@id='use_invoice_terms']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@id='pay_invoice_online_setting_container']/div[1]" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='account_batch_payment']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='collect_customer_payment']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>                
+                <xpath expr="//div[@id='print_vendor_checks_setting_container']/preceding-sibling::*[1]" position="replace">
+                    <h2 groups="base.group_system">Vendor Bills</h2>
+                </xpath>
+                <xpath expr="//div[@id='print_vendor_checks_setting_container'][1]" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='bank_cash']/preceding-sibling::*[1]" position="replace">
+                    <h2 groups="base.group_system">Bank &amp; Cash</h2>
+                </xpath>
+                <xpath expr="//div[@id='monitor_product_margins']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//field[@name='incoterm_id']" position="attributes">
+                    <attribute name="options">{'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//div[@data-key='account']//t[1]//h2[1]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@id='record_transactions']" position="after">
+                    <div class="col-12 col-lg-6 o_setting_box" id="automatic_currency_rates" 
+                    attrs="{'invisible': [('group_multi_currency', '=', False)]}">
+                        <div class="o_setting_left_pane">
+                            <field name="auto_currency_rate"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="auto_currency_rate" string="Automatic Currency Rates"/>
+                            <div class="text-muted">
+                                Update exchange rates automatically based on the selected service.
+                            </div>
+
+                            <div class="content-group"
+                                attrs="{'invisible': [('auto_currency_rate', '=', False)]}">
+
+                                <div class="row mt16">
+                                    <label for="currency_rate_service"
+                                        class="col-lg-4 o_light_label"
+                                        string="Service"/>
+                                    <field name="currency_rate_service"/>
+                                </div>
+
+                                <div class="text-muted mt8">
+                                    Rates are fetched from MAS (SGD-based) and converted automatically
+                                    according to the company base currency.
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.base.vat</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_vat.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='vies_service_setting']" position="attributes">
+                    <attribute name="groups">base.group_system</attribute>
+                </xpath>
+            </field>
+    	</record>
+
+        <record id="res_config_settings_view_form_inventory_configuration" model="ir.ui.view">
+			<field name="name">res.config.settings.inventory.view.form</field>
+			<field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="stock.res_config_settings_view_form" />
+			<field name="arch" type="xml">
+                <xpath expr="//div[@name='product_setting_container']/div[@id='product_attributes']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@id='manage_product_packaging']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@data-string='Inventory']//div[@id='delivery']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@data-string='Inventory']/h2[4]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                 <xpath expr="//div[@data-string='Inventory']//div[@id='delivery']//field[@name='module_delivery']" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//div[@data-string='Inventory']/h2[2]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@id='product_attributes']//field[@name='group_product_variant']" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//div[@id='expiration_dates_serial_numbers']//field[@name='module_product_expiry']" position="attributes">
+                   <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//div[@id='expiration_dates_serial_numbers']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+                <xpath expr="//div[@name='product_setting_container']/div[@id='product_attributes']" position="before">
+                    <div class="col-12 col-lg-6 o_setting_box" id="product_attributes">
+                        <div class="o_setting_left_pane">
+                            <field name="delivery_product_description"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="delivery_product_description"/>
+                            <div class="text-muted">
+                                Set the product description on the delivery order to be the same as the product description set in the sale order line.
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//div[@id='signature_delivery_orders']/div[2]/div[hasclass('text-muted')]" position="replace">
+                    <div class="text-muted" xpath="//div[@class='text-muted']">
+                        Allow customer signature on delivery orders.
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_config_settings_view_form_from_sale_management" model="ir.ui.view">
+		<field name="name">res.config.settings.inventory.view.form</field>
+		<field name="model">res.config.settings</field>
+		<field name="inherit_id" ref="sale_management.res_config_settings_view_form" />
+		<field name="arch" type="xml">
+		    <xpath expr="//div[@id='design_quotation_template_setting']" position="attributes">
+                         <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                    </xpath>
+                 </field>
+        </record>
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.point_of_sale</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+            <field name="arch" type="xml">                
+                <xpath expr="//div[@id='multicurrencies_setting']" position="attributes">
+                    <attribute name="groups">!metroerp_customizations.sub_admin_group</attribute>
+                </xpath>
+            </field>
+        </record>
+
+	</data>
+        
+    
+</odoo>

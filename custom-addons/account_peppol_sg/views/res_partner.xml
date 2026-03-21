@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_peppolsg_inherit" model="ir.ui.view">
+        <field name="name">view.partner.peppol.sg.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <page name="peppol_identifier" string="e-Invoice">
+                        <group string="Peppol">
+                            <group>
+                                <label for="peppol_identifier" string="Peppol Identifier"/>
+                                <div>
+                                    <field name="peppol_identifier" class="oe_inline" placeholder="eg: sguen201316807h" widget="field_peppol_autocomplete" />
+
+                                    <button style="background: white;pading-left:3px;margin: 3px;font-size:80%;color: black;border-color: #cccccc;" class="btn btn-default oe_inline oe_highlight"
+                                            type="object" string="Verify" name="verify_identifier_registered" attrs="{'invisible':[('peppol_identifier','=', False)]}">
+                                    </button>
+                                </div>
+                                <field name="peppol_scheme" placeholder="eg: 0195" string="Scheme"/>
+                                <field name="peppol_superscheme" readonly="1" string="Superscheme"/>
+                            </group>
+                            <group>
+                                <field name="peppol_registered_date" string="Registered Date"/>
+                            </group>
+                        </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_kanban_peppol_inherit" model="ir.ui.view">
+        <field name="name">res.partner.kanban.peppol.sg.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+          <xpath expr="//kanban" position="attributes">
+              <attribute name="js_class">kanban_res_partner_search_button</attribute>
+          </xpath>
+        </field>
+    </record>
+
+</odoo>

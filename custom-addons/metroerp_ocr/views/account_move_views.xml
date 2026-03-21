@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="invoice_ocr_account_invoice_filter" model="ir.ui.view">
+        <field name="name">invoice.ocr.filter</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <filter name="activities_upcoming_all" position="after">
+                <separator/>
+                <filter string="Created via OCR" name="filter_ocr_created"
+                    domain="[('is_ocr_created', '=', True)]"/>
+            </filter>
+        </field>
+    </record>
+
+<!--    <record id="inherited_account_move_form_view" model="ir.ui.view">-->
+<!--            <field name="name">account.move.inherited.form.view</field>-->
+<!--            <field name="model">account.move</field>-->
+<!--            <field name="inherit_id" ref="account.view_move_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='partner_bank_id'][1]" position="after">-->
+<!--                    <field name="ocr_total_mismatch"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+
+</odoo>

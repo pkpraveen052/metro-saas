@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    Calling new custom header for the quotation report-->
+<template id="custom_external_layout">
+    <t t-if="not o and doc">
+        <t t-set="o" t-value="doc"/>
+    </t>
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"/>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"/>
+    </t>
+    <t t-call="metro_security_management.custom_external_layout_standard">
+       <t t-raw="0"/>
+    </t>
+</template>
+
+<template id="custom_external_layout_standard">
+    <div class="header">
+        <div class="o_boxed_header" style="font-family: sans-serif;color: #495057;font-size:10.0pt;">
+            <div class="row">
+                <div class="col-6 text-left" style="display: flex;justify-content: flex-start;align-items: center;" >
+                    <img t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                </div>
+                <div class="col-1"/>
+                <div class="col-5 text-left">
+                    <table>
+                        <tr>
+                            <div>
+                                <b>
+                                    <span style="font-size: 125%;color:black;" t-field="company.name"/>
+                                </b>
+                                <br/>
+                            </div>
+                            <div>
+                                <t t-if="company.street">
+                                    <span t-field="company.street"/>,
+                                </t>
+                                <t t-if="company.street2">
+                                    <span t-field="company.street2"/>,
+                                </t>
+                            </div>
+                            <div>
+                                <t t-if="company.city">
+                                    <span t-field="company.city"/>,
+                                </t>
+                                <t t-if="company.state_id">
+                                    <span t-field="company.state_id.name"/>,
+                                </t>
+                                <t t-if="company.zip">
+                                    <span t-field="company.zip"/>,
+                                </t>
+                                <t t-if="company.country_id">
+                                    <span>
+                                        <t t-esc="company.country_id.name"/>
+                                        <br/>
+                                    </span>
+                                </t>
+                            </div>
+                        </tr>
+                        <tr>
+                            <t t-if="company.l10n_sg_unique_entity_number">
+                                <td>UEN: <span t-field="company.l10n_sg_unique_entity_number"/>, <span t-if="company.vat" style="display: inline-block;">GST Reg No: </span><span t-field="company.vat"/>
+                                </td>
+                            </t>
+                            <t t-if="not company.l10n_sg_unique_entity_number and company.company_registry">
+                                <td>UEN: <span t-field="company.company_registry"/>, <span t-if="company.vat" style="display: inline-block;">GST Reg No: </span><span t-field="company.vat"/>
+                                </td>
+                            </t>
+                        </tr>
+                        <tr>
+                            <t t-if="company.phone or company.email">
+                                <td>
+                                    <span t-if="company.phone">Phone: <span t-field="company.phone"/>, </span>
+                                    <span t-if="company.email" style="display: inline-block;">Email: <span t-field="company.email"/></span>
+                                </td>
+                            </t>
+                        </tr>
+                    </table>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="article o_report_layout_boxed" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+        <t t-call="web.address_layout"/>
+        <t t-raw="0"/>
+    </div>
+    <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout">
+        <div class="text-center">
+            <div t-if="report_type == 'pdf'">
+                Page:
+                <span class="page"/>
+                /
+                <span class="topage"/>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+
+<template id="report_visitor_details_document">
+    <t t-call="web.html_container">
+        <t t-call="metro_security_management.custom_external_layout">
+            <div class="page">
+                <div class="container" style="width: 80%;padding: 20px; font-family: Arial, sans-serif;">
+                    <div style="text-align: center; padding-bottom: 10px;font-size:25px;">
+                        <b>VISITOR CAR SLIP</b>
+                    </div>
+                    <t t-foreach="docs" t-as="doc">
+                        <div style="text-align:right; padding-bottom: 10px;font-size:25px;">
+                            <div>
+                                <b>NO:</b> <span t-field="doc.visitor_ref" style="color: red;"/>
+                            </div>
+                        </div>
+                        <div class="details-section" style="margin-top: 15px;">
+                            <table style="width: 100%; font-size: 10.5pt; border-collapse: collapse;">
+                                <!-- Visitor Name -->
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px; font-weight: bold; width: 35%; color: #333;">Name:</td>
+                                    <td style="padding: 8px;"><span t-field="doc.name"/></td>
+                                </tr>
+                
+                                <!-- Vehicle Number -->
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px; font-weight: bold; color: #333;">Vehicle No:</td>
+                                    <td style="padding: 8px;"><span t-field="doc.vehicle_number"/></td>
+                                </tr>
+                
+                                <!-- Visit Date -->
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px; font-weight: bold; color: #333;">Date:</td>
+                                    <td style="padding: 8px;"><span t-field="doc.check_in" t-options='{"widget": "date"}'/></td>
+                                </tr>
+                
+                                <!-- Visit Time -->
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px; font-weight: bold; color: #333;">Time:</td>
+                                    <td style="padding: 8px;"><span t-esc="context_timestamp(doc.check_in).strftime('%H:%M:%S')"/></td>
+                                </tr>
+                
+                                <!-- Visitor ID (last 3 digits) -->
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px; font-weight: bold; color: #333;">ID (Last 3 Digits):</td>
+                                    <td style="padding: 8px;"><span t-esc="str(doc.ic_number_id.ic_number)[-3:]"/></td>
+                                </tr>
+                
+                                <!-- Visitor Phone Number -->
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px; font-weight: bold; color: #333;">Phone No:</td>
+                                    <td style="padding: 8px;"><span t-field="doc.phone"/></td>
+                                </tr>
+                
+                                <!-- Unit No Visiting -->
+                                <tr>
+                                    <td style="padding: 8px; font-weight: bold; color: #333;">Unit No:</td>
+                                    <td style="padding: 8px;"><span t-field="doc.unit_location_id.complete_name"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/><br/>
+                        <div class="row">
+                            <div class="col-12">
+                                <t t-if="doc.note">
+                                    <div class="row" style="page-break-inside:avoid;">
+                                        <div class="col-12 text-left">
+                                            <strong style="color: black;">TERMS AND CONDITIONS:</strong><br/>
+                                            <span t-field="doc.note"/>
+                                        </div>
+                                    </div>
+                                </t>       
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </t>
+</template>
+
+
+    <record id="action_report_visitor_details" model="ir.actions.report">
+        <field name="name">Visitor Car Slip</field>
+        <field name="model">visitor.details</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">metro_security_management.report_visitor_details_document</field>
+        <field name="report_file">metro_security_management.report_visitor_details_document</field>
+        <field name="print_report_name">
+            ('Visitor Car Slip- %s' % (object.name))</field>
+        <field name="binding_model_id" ref="model_visitor_details"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_visitor_details"/>
+    </record>
+
+
+</odoo>

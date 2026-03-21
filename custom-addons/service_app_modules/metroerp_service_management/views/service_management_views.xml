@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_service_management_form" model="ir.ui.view">
+        <field name="name">view.service.management</field>
+        <field name="model">service.management</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_print_report" type="object" string="Print Report" class="btn-primary" attrs="{'invisible': [('id','=',False)]}"/>
+                    <!--                    <button name="request_sent"-->
+                    <!--                            string="Send Request" type="object"-->
+                    <!--                            class="oe_highlight" attrs="{'invisible': [('state', 'in', ['done','request_sent','start'])]}"-->
+                    <!--                    />-->
+                    <button name="request_done"
+                            string="Done" type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('state', 'in', ['draft','done','request_sent'])]}"
+                    />
+                    <button name="action_start" type="object" string="Start" states="new" class="btn-primary"
+                            attrs="{'invisible': [('state', 'in', ['draft','done','start'])]}"/>
+
+                    <button name="action_send_by_mail" string="Send by Email" type="object" />
+                    <button name="action_open_sale_order"
+                                type="object"
+                                string="Create/View Quotation"
+                                />
+
+
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="preview_service_request"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-globe icon">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Customer</span>
+                                <span class="o_stat_text">Preview</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="group_name">
+                        <field name="partner_id"/>
+                        <field name="template_id"/>
+                        <field name="assigned_to"/>
+                        <field name="company_id" required="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_service_management_tree" model="ir.ui.view">
+        <field name="name">view_service_management_tree</field>
+        <field name="model">service.management</field>
+        <field name="arch" type="xml">
+            <tree string="Service Management">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="template_id"/>
+                <field name="state"/>
+                <field name="company_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_service_management_button" model="ir.actions.act_window">
+        <field name="name">Service Management</field>
+        <field name="res_model">service.management</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_service_management_tree"/>
+    </record>
+
+    <record id="model_action_share_to_technicial_whatsapp" model="ir.actions.server">
+        <field name="name">Share To Technician</field>
+        <field name="model_id" ref="metroerp_service_management.model_service_management"/>
+        <field name="binding_model_id" ref="metroerp_service_management.model_service_management"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+            action = records.action_share_to_technician()
+        </field>
+    </record>
+
+    <record id="model_action_share_to_customer_whatsapp" model="ir.actions.server">
+        <field name="name">Share To Customer</field>
+        <field name="model_id" ref="metroerp_service_management.model_service_management"/>
+        <field name="binding_model_id" ref="metroerp_service_management.model_service_management"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+            action = records.action_share_to_customer()
+        </field>
+    </record>
+
+    <!--    <record id="model_service_management_tech_action_share" model="ir.actions.server">-->
+    <!--        <field name="name">Share To Technician</field>-->
+    <!--        <field name="model_id" ref="metroerp_service_management.model_service_management"/>-->
+    <!--        <field name="binding_model_id" ref="metroerp_service_management.model_service_management"/>-->
+    <!--        <field name="binding_view_types">form</field>-->
+    <!--        <field name="state">code</field>-->
+    <!--        <field name="code">action = records.action_share()</field>-->
+    <!--    </record>-->
+
+</odoo>

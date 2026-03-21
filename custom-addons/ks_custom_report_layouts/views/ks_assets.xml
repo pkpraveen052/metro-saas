@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="ks_report_assets_common" inherit_id="web.report_assets_common">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/base.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/styles/ks_style_1.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/styles/ks_style_2.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/styles/ks_style_3.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/styles/ks_style_4.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/styles/ks_style_5.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/styles/ks_style_6.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/styles/ks_style_7.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/styles/ks_style_8.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/styles/ks_style_9.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/ks_custom_report_layouts/static/src/scss/styles/ks_style_10.scss"/>
+        </xpath>
+    </template>
+
+    <template id="ks_assets_backend" name="Report Dummy Prv" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/ks_custom_report_layouts/static/src/js/ks_pdf_preview.js"/>
+        </xpath>
+    </template>
+</odoo>

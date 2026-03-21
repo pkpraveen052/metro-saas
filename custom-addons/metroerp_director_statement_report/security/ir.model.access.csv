@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_director_statement_template,director.statement.template,model_director_statement_template,,1,1,1,1
+access_director_statement_config,director.statement.config,model_director_statement_config,,1,1,1,1
+access_director_statement,director.statement,model_director_statement,,1,1,1,1
+access_ordinary_shares_lines,ordinary.shares.lines,model_ordinary_shares_lines,,1,1,1,1
+access_director_pl_lines,director.pl.lines,model_pl_lines,,1,1,1,1
+access_director_pl_account_lines,director.pl.account.lines,model_pl_account_lines,,1,1,1,1
+access_director_bs_lines,director.bs.lines,model_bs_lines,,1,1,1,1
+access_director_bs_account_lines,director.bs.account.lines,model_bs_account_lines,,1,1,1,1
+access_director_cf_lines,director.cf.lines,model_cf_lines,,1,1,1,1
+access_director_cf_account_lines,director.cf.account.lines,model_cf_account_lines,,1,1,1,1
+access_config_director_names,config.director.names,model_config_director_names,,1,1,1,1
+access_cs_document,cs.document,model_cs_document,,1,1,1,1
