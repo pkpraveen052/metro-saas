@@ -88,37 +88,9 @@ class ResUsersInherited(models.Model):
         """
 
         # HARD SECURITY BLOCK (MOST IMPORTANT)
-        if 'groups_id' in vals:
-            system_group = self.env.ref('base.group_system', raise_if_not_found=False)
-
-            if system_group:
-                for cmd in vals.get('groups_id', []):
-                    if (
-                        isinstance(cmd, (list, tuple)) and
-                        system_group.id in cmd
-                    ):
-                        # Allow Odoo internal operations (Settings, install, upgrade)
-                        if self.env.is_superuser():
-                            continue
-
-                        user = self.env.user
-
-                        # Allow System Administrator
-                        if user.has_group('base.group_system'):
-                            continue
-
-                        # Allow ERP Admin (as per your senior's logic)
-                        if (
-                            user.has_group('base.group_erp_manager') or
-                            user.has_group('metroerp_customizations.sub_admin_group')
-                        ):
-                            continue
-
-                        # Block everyone else
-                        raise AccessError(
-                            "Security restriction: You are not allowed to assign "
-                            "System Administrator rights."
-                        )
+        system_group = self.env.ref('base.group_system', raise_if_not_found=False)
+        if system_group and self._contains_system_group_grant(vals, system_group.id):
+            self._check_system_group_assignment_rights()
 
         # 2️⃣ YOUR EXISTING ACCOUNTING LOGIC (UNCHANGED)
         for user_field in list(vals):
@@ -140,6 +112,49 @@ class ResUsersInherited(models.Model):
                     user.partner_id.write({'company_id': vals['company_id']})
 
         return res
+
+    def _contains_system_group_grant(self, vals, system_group_id):
+        """Return True when vals attempts to grant base.group_system."""
+        direct_flag = 'in_group_%s' % system_group_id
+        if vals.get(direct_flag):
+            return True
+
+        commands = vals.get('groups_id') or []
+        for command in commands:
+            if not isinstance(command, (list, tuple)) or not command:
+                continue
+            operation = command[0]
+
+            # link existing group
+            if operation == 4 and len(command) > 1 and command[1] == system_group_id:
+                return True
+
+            # replace all groups
+            if operation == 6 and len(command) > 2 and system_group_id in (command[2] or []):
+                return True
+
+        return False
+
+    def _check_system_group_assignment_rights(self):
+        """
+        Block elevation even when write() is called through sudo().
+        The actor is taken from context uid when present, otherwise env.uid.
+        """
+        actor_uid = self.env.context.get('uid') or self.env.uid
+        actor = self.env['res.users'].sudo().browse(actor_uid)
+
+        if not actor.exists():
+            raise AccessError("Security restriction: Invalid user context for admin role assignment.")
+
+        if actor.has_group('base.group_system'):
+            return
+
+        if actor.has_group('base.group_erp_manager') or actor.has_group('metroerp_customizations.sub_admin_group'):
+            return
+
+        raise AccessError(
+            "Security restriction: You are not allowed to assign System Administrator rights."
+        )
 
 
     @api.model
