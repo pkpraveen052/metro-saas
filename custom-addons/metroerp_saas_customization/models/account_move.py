@@ -91,8 +91,7 @@ class AccountMove(models.Model):
                     'tax_ids': [(5, 0, 0)],
                     'name': brs_product.name or "BRS Deposit",
                 }
-                if brs_account:
-                    brs_vals['account_id'] = brs_account.id
+
                 if in_onchange:
                     existing_brs.update(brs_vals)
                 else:
@@ -105,8 +104,6 @@ class AccountMove(models.Model):
                     'price_unit': total_amount,
                     'tax_ids': [(5, 0, 0)],
                 }
-                if brs_account:
-                    brs_vals['account_id'] = brs_account.id
                 if in_onchange:
                     move.update({'invoice_line_ids': [(0, 0, brs_vals)]})
                 else:
@@ -114,11 +111,9 @@ class AccountMove(models.Model):
 
             if in_onchange and hasattr(move, '_onchange_recompute_dynamic_lines'):
                 move._onchange_recompute_dynamic_lines()
-            elif in_onchange:
-                move._recompute_dynamic_lines(recompute_all_taxes=True)
             else:
                 # keep receivable/payable and tax lines in sync
-                move.with_context(ctx)._recompute_dynamic_lines(recompute_all_taxes=True)
+                move.with_context(ctx)._recompute_dynamic_lines()
 
 
 
@@ -155,3 +150,4 @@ class AccountMoveLine(models.Model):
     #                 vals["tax_ids"] = [(5, 0, 0)]
 
     #     return super().write(vals)
+
