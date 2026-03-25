@@ -6,6 +6,18 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
+    def write(self, vals):
+        res = super().write(vals)
+        if self.env.context.get('skip_brs_update'):
+            return res
+
+        for rec in self:
+            try:
+                rec._update_brs()
+            except Exception:
+                _logger.exception("Error running _update_brs() after write for move %s", rec.id)
+        return res
+
     @api.model
     def create(self, vals):
         if self.env.context.get('skip_brs_update'):
@@ -20,8 +32,13 @@ class AccountMove(models.Model):
                 _logger.exception("Error running _update_brs() after create for move %s", rec.id)
         return move
 
-   
-    def _update_brs(self):
+    @api.onchange('invoice_line_ids', 'invoice_line_ids.product_id', 'invoice_line_ids.quantity')
+    def _onchange_update_brs(self):
+        if self.env.context.get('skip_brs_update'):
+            return
+        self._update_brs(in_onchange=True)
+
+    def _update_brs(self, in_onchange=False):
         if self.env.context.get('skip_brs_update'):
             return
 
@@ -57,29 +74,41 @@ class AccountMove(models.Model):
 
             if abs(total_amount) < 0.0001:
                 if existing_brs:
-                    existing_brs.with_context(ctx).unlink()
+                    if in_onchange:
+                        move.invoice_line_ids -= existing_brs
+                    else:
+                        existing_brs.with_context(ctx).unlink()
                 continue
 
             if existing_brs:
-                existing_brs.with_context(ctx).write({
+                brs_vals = {
                     'quantity': 1.0,
                     'price_unit': total_amount,
                     'tax_ids': [(5, 0, 0)],
                     'name': brs_product.name or "BRS Deposit",
-                })
+                }
+                if in_onchange:
+                    existing_brs.update(brs_vals)
+                else:
+                    existing_brs.with_context(ctx).write(brs_vals)
             else:
-                move.with_context(ctx).write({
-                    'invoice_line_ids': [(0, 0, {
-                        'product_id': brs_product.id,
-                        'name': brs_product.name or "BRS Deposit",
-                        'quantity': 1.0,
-                        'price_unit': total_amount,
-                        'tax_ids': [(5, 0, 0)],
-                    })]
-                })
+                brs_vals = {
+                    'product_id': brs_product.id,
+                    'name': brs_product.name or "BRS Deposit",
+                    'quantity': 1.0,
+                    'price_unit': total_amount,
+                    'tax_ids': [(5, 0, 0)],
+                }
+                if in_onchange:
+                    move.update({'invoice_line_ids': [(0, 0, brs_vals)]})
+                else:
+                    move.with_context(ctx).write({'invoice_line_ids': [(0, 0, brs_vals)]})
 
-            # SAFE recompute only
-            move.with_context(ctx)._recompute_dynamic_lines()
+            if in_onchange and hasattr(move, '_onchange_recompute_dynamic_lines'):
+                move._onchange_recompute_dynamic_lines()
+            else:
+                # keep receivable/payable and tax lines in sync
+                move.with_context(ctx)._recompute_dynamic_lines()
 
 
 
@@ -116,6 +145,4 @@ class AccountMoveLine(models.Model):
     #                 vals["tax_ids"] = [(5, 0, 0)]
 
     #     return super().write(vals)
-
-
 
