@@ -55,6 +55,10 @@ class AccountMove(models.Model):
             brs_product = company.brs_deposit_product_id
             if not brs_product:
                 continue
+            if move.is_sale_document(include_receipts=True):
+                brs_account = brs_product.property_account_income_id or brs_product.categ_id.property_account_income_categ_id
+            else:
+                brs_account = brs_product.property_account_expense_id or brs_product.categ_id.property_account_expense_categ_id
 
             deposit_lines = move.invoice_line_ids.filtered(
                 lambda l: l.product_id and l.product_id.is_brs_deposit
@@ -87,6 +91,7 @@ class AccountMove(models.Model):
                     'tax_ids': [(5, 0, 0)],
                     'name': brs_product.name or "BRS Deposit",
                 }
+
                 if in_onchange:
                     existing_brs.update(brs_vals)
                 else:
